@@ -1,0 +1,143 @@
+---
+layout: post
+title:  "反射"
+date:   2020-03-05 16:57:48 +0800
+categories: java kotlin reflect
+---
+
+
+
+## Java
+
+
+
+核心类`Class`
+
+
+
+```java
+public class RMain {
+    public static void main(String[] args) {
+        try {
+
+            //1.Class.forName("类名字符串") （注意：类名字符串必须是全称，包名+类名）
+            Class c1 = Class.forName("top.yhb123.java.reflect.Hello");
+
+            //2.类名.class
+            Class c2 = Hello.class;
+
+            //3.实例对象.getClass()
+            Class c3 = (new Hello("ken")).getClass();
+
+
+            System.out.println(c1.getName());
+
+            Field f1 = c3.getField("name");
+            System.out.println(f1);
+
+        } catch (ClassNotFoundException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+
+
+[参考](https://juejin.im/post/5be5576ef265da61616e331d#heading-0)
+
+
+
+## Kotlin
+
+
+
+最常见：
+
+类：获取Java中的Class实例：`Hello::class.java`
+
+实例：？
+
+
+
+```kotlin
+package top.yhb123.reflect
+
+import kotlin.reflect.KClass
+
+fun main() {
+    var hello = Hello("ken")
+
+    // 在Kotlin中，字节码对应的类是kotlin.reflect.KClass
+    val k0: KClass<*> = Hello::class
+
+    // Java的Class实例
+    //2.通过类Kclass类的.java属性
+    val c0: Class<*> = Hello::class.java
+
+    println(c0.simpleName)
+//////////////////////////////////////////
+
+    // KClass实例
+    //1.通过类::class的方式获取KClass实例
+    val clazz1: KClass<*> = Hello::class
+
+    //2.通过实例.javaClass.kotlin获取Kclass实例
+    val clazz2: KClass<*> = hello.javaClass.kotlin
+
+}
+```
+
+
+
+[参考](https://juejin.im/post/5be5576ef265da61616e331d#heading-6)
+
+
+
+### 反射的库
+
+Android中需要需要使用反射，需要添加如下的库
+
+```groovy
+implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+```
+
+
+
+### 显示类的名字
+
+直接使用Kotlin的KClass类
+
+```kotlin
+val obj: Double = 5.0
+
+System.out.println(obj.javaClass.name)                 // double
+System.out.println(obj.javaClass.kotlin)               // class kotlin.Double
+System.out.println(obj.javaClass.kotlin.qualifiedName) // kotlin.Double
+```
+
+
+
+
+
+### isAssignableFrom
+
+
+
+isAssignableFrom 是用来判断一个类Class1和另一个类Class2是否相同或是另一个类的超类或接口。  
+ 通常调用格式是
+
+```
+Class1.isAssignableFrom (Class2) 
+```
+
+调用者和参数都是  `java.lang.Class`  类型。  
+
+ 
+
+而  instanceof  是用来判断一个对象实例是否是一个类或接口的或其子类子接口的实例。 
+
+格式是：  oo  instanceof  TypeName   
+
+第一个参数是对象实例名，第二个参数是具体的类名或接口名 
+

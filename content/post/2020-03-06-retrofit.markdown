@@ -1,0 +1,82 @@
+---
+layout: post
+title:  "Retrofit"
+date:   2020-03-06 07:58:58 +0800
+categories: retrofit android
+---
+
+
+
+## Retrofit
+
+
+
+### 版本
+
+版本：[2.7.2](https://mvnrepository.com/artifact/com.squareup.retrofit2/retrofit)
+
+
+
+#### Converter: Gson
+
+当前最新版本：[2.7.2](https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-gson)
+
+
+
+#### OkHttp
+
+最新版本是[4.4.0](https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp)，但不用在依赖文件中添加OkHttp。
+
+
+
+#### OkHttp Logging Interceptor
+
+当前最新版本[4.4.0](https://mvnrepository.com/artifact/com.squareup.okhttp3/logging-interceptor)
+
+
+
+
+
+### JVM版本
+
+```groovy
+compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+}
+```
+
+
+
+### User-Permision
+
+
+
+```xml
+<uses-permission android:name="android.permission.INTERNET"/>
+```
+
+
+
+
+
+## 使用协程
+
+
+
+## 遇到的问题
+
+
+
+### Error: Invoke-customs are only supported starting with Android O (--min-api 26)
+
+
+
+解决办法：build.gradle 添加：
+
+```
+compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+}
+```

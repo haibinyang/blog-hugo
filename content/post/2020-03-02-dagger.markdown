@@ -1,0 +1,836 @@
+---
+layout: post
+title:  "Dagger2与Android"
+date:   2020-03-02 16:57:48 +0800
+categories: dagger2 dagger android
+---
+
+
+
+## 参考
+
+由浅入深
+
+[第1篇](https://www.chenhe.cc/p/186)
+
+[第2篇](https://www.chenhe.cc/p/191)
+
+[第3篇](https://www.chenhe.cc/p/203)
+
+
+
+[系统地入门](https://codelabs.developers.google.com/codelabs/android-dagger/#12)
+
+
+
+这个系列的文章不错
+
+[第1篇](https://www.xiaowujiang.cn/post/cbb172f8.html#Dagger-2-%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8)
+
+[第2篇](https://www.xiaowujiang.cn/post/b74c4b6c.html#%E4%BD%BF%E7%94%A8Module%E6%96%B9%E5%BC%8F)
+
+[第3篇](https://www.xiaowujiang.cn/post/e30bee8a.html)
+
+[第4篇](https://www.xiaowujiang.cn/post/e781e647.html)
+
+
+
+[Daggger-Android官方](https://dagger.dev/android)
+
+
+
+
+
+## Dagger2
+
+
+
+### 版本
+
+最新版本: 2.26
+[链接](https://mvnrepository.com/artifact/com.google.dagger/dagger)
+
+
+
+### 环境&配置
+
+[链接](https://juejin.im/post/5cde05d4e51d456e5977b280#heading-15)
+
+
+
+环境
+
+Intellij + Kotllin + 普通Gradle项目
+
+
+
+插件
+
+```groovy
+apply plugin: 'kotlin-kapt'
+```
+
+
+
+库
+
+```groovy
+    //dagger2，这个可以写在BaseMoudle里
+    api "com.google.dagger:dagger:2.26"
+    //多模块项目，这个必须在使用到dagger2的所有moudle里都配置
+    kapt "com.google.dagger:dagger-compiler:2.26"
+```
+
+
+
+让工程使用自动生成后的代码，在build.gradle中添加
+
+```groovy
+dependencies {
+    kapt 'com.google.dagger:dagger-compiler:2.11'
+}
+
+compileKotlin {}
+compileTestKotlin {}
+
+sourceSets {
+    main {
+        java {
+            srcDir "${buildDir}/generated/source/kapt2/main"
+        }
+    }
+}
+```
+
+
+
+### 范例1-Component+Inject
+
+A使用B
+
+B是依赖（被使用的）
+
+
+
+
+
+标记依赖
+
+```kotlin
+class B @Inject constructor() {
+    val TAG = "B"
+}
+```
+
+
+
+使用依赖的地方：A
+
+```kotlin
+class A {
+    @Inject
+    lateinit var b: B
+}
+```
+
+
+
+使用Component：将哪个Module注入哪个目标
+
+```kotlin
+@Component
+interface AComponent {
+    fun injectA(a: A)
+}
+```
+
+
+
+编译工程，自动生成类：`DaggerAComponent`
+
+
+
+在使用依赖的地方调用injectA完成注入。
+
+```kotlin
+class A {
+    @Inject
+    lateinit var b: B
+
+    init{
+      // 注入
+        DaggerAComponent.create().injectA(this)
+    }
+}
+```
+
+
+
+上面就完成了一个依赖注入，测试下：
+
+```kotlin
+fun main() {
+    println(A().b.TAG)
+}
+```
+
+
+
+### 范例2-Component+Module
+
+
+
+很多情况下，依赖是不是添加`@Inject`的。假设F不能添加`@Inject`。
+
+```kotlin
+class F(val name: String) {}
+```
+
+
+
+E要使用F，使用是相同的，添加@Inject
+
+```kotlin
+class E {
+    @Inject
+    lateinit var f: F
+}
+```
+
+
+
+引进Module，添加F的实例
+
+```kotlin
+@Module
+class EModuel {
+
+    @Provides
+    fun provideB(): F = F("FFFF")
+
+}
+```
+
+
+
+Component也要跟着变化，添加`modules = [EModuel::class]`，其它保持一致。
+
+```kotlin
+@Component(modules = [EModuel::class])
+interface EComponent {
+
+    fun injectF(e: E)
+
+}
+```
+
+
+
+Make Project，生成类，在E的初始化块完成 依赖注入。
+
+```kotlin
+class E {
+    @Inject
+    lateinit var f: F
+
+    init {
+        DaggerEComponent.create().injectF(this)
+    }
+}
+```
+
+
+
+使用也一样。
+
+```kotlin
+fun main() {
+    println(E().f.name)
+}
+```
+
+
+
+### 原理
+
+这里有原理，暂时还没看。
+
+[链接](https://www.xiaowujiang.cn/post/cbb172f8.html#Dagger-2-%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8)
+
+
+
+### 小结
+
+
+
+现在再来看 Dagger 2 最核心的三个部分：
+
+1. 需要注入依赖的目标类，需要注入的实例属性由`@Inject`标注。
+2. 提供依赖对象实例的工厂，用`@Inject`标注构造函数或定义`Module`这两种方式都能提供依赖实例
+3. Dagger 2 的注解处理器会在编译时生成相应的工厂类。**Module的优先级比@Inject标注构造函数的高，意味着 Dagger 2 会先从 Module 寻找依赖实例。这也非常好理解，一般人肯定会选择优先去超市买东西，而不是直接去拜访工厂**。
+4. 把依赖实例工厂创建的实例注入到目标类中的 Component。
+
+
+
+下面再讲述上面提到的在 Dagger 2 种几个注解的用法：
+
+- `@Inject` 一般情况下是标注成员属性和构造函数，标注的成员属性不能是`private`，Dagger 2 还支持方法注入，`@Inject`还可以标注方法。
+- `@Provides` 只能标注方法，必须在 Module 中。
+- `@Module` 用来标注 Module 类
+- `@Component` 只能标注接口或抽象类，声明的注入接口的参数类型必须和目标类一致。
+
+
+
+### Scope
+
+#### 默认
+
+同一个类E，注入两个F
+
+```kotlin
+class E {
+    @Inject
+    lateinit var f0: F
+
+    @Inject
+    lateinit var f1: F
+
+    init {
+        DaggerEComponent.create().injectF(this)
+    }
+
+    fun showF() {
+        println(f0)
+        println(f1)
+    }
+}
+```
+
+
+
+```kotlin
+fun main() {
+    E().showF()
+    E().showF()
+}
+```
+
+
+
+输出
+
+```bash
+provideB()
+provideB()
+top.yhb123.dagger2.demo3.F@24d46ca6
+top.yhb123.dagger2.demo3.F@4517d9a3
+```
+
+
+
+产生不同的实例：F。
+
+
+
+#### 局部单例-Singleton
+
+在provide()函数和Component之前添加
+
+```kotlin
+@Module
+class EModuel {
+
+    @Singleton
+    @Provides
+    fun provideF(): F {
+        println("provideB()")
+        return F("FFFF")
+    }
+
+}
+```
+
+
+
+```kotlin
+@Singleton
+@Component(modules = [EModuel::class])
+interface EComponent {
+
+    fun injectF(e: E)
+
+}
+```
+
+
+
+注入两个F
+
+```kotlin
+class E {
+    @Inject
+    lateinit var f0: F
+
+    @Inject
+    lateinit var f1: F
+
+    init {
+        DaggerEComponent.create().injectF(this)
+    }
+
+    fun showF() {
+        println(f0)
+        println(f1)
+    }
+}
+```
+
+
+
+输出
+
+```bash
+provideB()
+top.yhb123.dagger2.demo3.F@28a418fc
+top.yhb123.dagger2.demo3.F@28a418fc
+provideB()
+top.yhb123.dagger2.demo3.F@5305068a
+top.yhb123.dagger2.demo3.F@5305068a
+```
+
+
+
+同一个E实例中，注入的两个F是相同的实例。
+
+不同的E，里面的F是不同的实例。
+
+
+
+#### 局部单例-自定义Scope
+
+
+
+```kotlin
+package top.yhb123.dagger2.demo3
+
+import javax.inject.Scope
+
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
+annotation class ActivityScope
+```
+
+
+
+```kotlin
+@ActivityScope
+@Component(modules = [EModuel::class])
+interface EComponent {
+    fun injectF(e: E)
+}
+```
+
+
+
+```kotlin
+@Module
+class EModuel {
+    @ActivityScope
+    @Provides
+    fun provideF(): F {
+        println("provideB()")
+        return F("FFFF")
+    }
+}
+```
+
+也可以实现单例。
+
+```bash
+provideB()
+top.yhb123.dagger2.demo3.F@28a418fc
+top.yhb123.dagger2.demo3.F@28a418fc
+provideB()
+top.yhb123.dagger2.demo3.F@5305068a
+top.yhb123.dagger2.demo3.F@5305068a
+```
+
+
+
+**Scope 不能管理生成对象的真正生命周期，只能控制对于同一个 Component 是否是局部单例的**
+
+任何 Provides 都不会因为被 Scope 而自动地变成「全局单例」，@Singleton 亦然。
+
+
+
+### Binding Instances（不理解）
+
+现在我们有两个 Component，分别是 AppComponent 与 ActivityComponent，前者持有一个全局 Context 对象，我们希望后者依赖前者。那么可以这么做：
+
+
+
+```kotlin
+@Module
+class AppModule(private val context: Context) {
+    @Provides
+    fun provideContext(): Context = context
+}
+
+@Component(modules = [AppModule::class])
+interface AppComponent {
+    fun context(): Context // 注意这行
+}
+```
+
+
+
+```kotlin
+@Module
+class ActivityModule {
+    @Provides
+    fun provideSp(context: Context) =
+            context.getSharedPreferences("Cooker", Context.MODE_PRIVATE)
+}
+
+// 声明了依赖关系
+@Component(dependencies = [AppComponent::class], modules = [ActivityModule::class])
+interface ActivityComponent {
+}
+```
+
+
+
+分析一下这段代码：
+
+ActivityModule 定义了一个 Provides 能够返回 SharedPreferences 的实例。但是创建这个实例需要 context，它是哪来的？由于它声明了依赖 AppComponent，而 AppComponent 拥有的 AppModule 中有可以提供 context 的 Provides，因此 ActivityModule 从 AppComponent 那里拿到了 context。
+
+但这不是无条件的，依赖别人的前提是别人愿意被你依赖才行。因此 AppComponent 中必须显示地定义一个能够返回 Context 类型的函数，依赖它的 Component 才能拿到。如果不定义，即使有，也不会给别人的。
+
+注意区分 Component 中的函数与 Module 中 Provides 的区别：前者作用是：① 用于注入 ② 用于给依赖的 Component 提供对象；后者作用仅仅是创建对象。
+
+
+
+
+
+### SubComponent-继承
+
+依赖就像朋友，对方愿意才可以分享。包含就像父母，分享是无条件的。
+
+声明继承需要以下几步
+
+1. 子 Component 用 `@Subcomponent` 注解。
+2. 子 Component 声明一个 Builder 来告诉父 Component 如何创建自己。
+3. 父 Component 对应的 Module 用 `subcomponents` 属性来指明拥有哪些子 Component。
+4. 父 Component 声明一个抽象方法来获取子 Component 的 Builder。
+
+
+
+
+
+<img src="https://www.xiaowujiang.cn/assets/image/1561371949435.png" alt="1561371949435" style="zoom:50%;" />
+
+Parent只有Car
+
+Child既有Car，也有Bike
+
+```kotlin
+class Car @Inject constructor()
+class Bike @Inject constructor()
+
+class Parent {
+    @Inject
+    lateinit var car: Car
+}
+
+class Child {
+    @Inject
+    lateinit var car: Car
+  
+    @Inject
+    lateinit var bike: Bike
+}
+```
+
+
+
+既然是Child，那Component也要使用`Subcomponent`来标识。
+
+同时，要提供一个Builder给Parent调用。
+
+```kotlin
+// 使用Subcomponent标识
+@Subcomponent(modules = [BikeModule::class])
+interface ChildComponent {
+
+    // 创建一个Builder给Parent Component使用
+    @Subcomponent.Builder
+    interface Builder {
+        fun build(): ChildComponent
+    }
+
+    fun inject(child: Child)
+}
+```
+
+
+
+Parent的Component
+
+```kotlin
+@Component(modules = [CarModule::class])
+interface ParentComponent {
+  
+    // 创建一个Child Component的方法
+    fun childComponent(): ChildComponent.Builder
+
+    fun inject(parent: Parent)
+}
+```
+
+
+
+父Module
+
+```kotlin
+// 父 Component 对应的 Module 用 subcomponents 属性来指明拥有哪些子 Component。
+@Module(subcomponents = [ChildComponent::class])
+class CarModule {
+    @Provides
+    fun provideCar() = Car()
+}
+```
+
+
+
+子Module
+
+```kotlin
+@Module
+class BikeModule {
+    @Provides
+    fun provideBike() = Bike()
+}
+```
+
+
+
+Make Project，只生成Parent的DaggerXXX类：DaggerParentComponent。不会生成Childe的Component。
+
+
+
+在使用者中初始化Dagger2：inject
+
+```kotlin
+class Parent {
+    @Inject
+    lateinit var car: Car
+
+    init {
+        DaggerParentComponent.create().inject(this)
+    }
+}
+```
+
+
+
+使用ParentComponent中的childComponent()方法
+
+```kotlin
+class Child {
+    @Inject
+    lateinit var car: Car
+
+    @Inject
+    lateinit var bike: Bike
+
+    init {
+        DaggerParentComponent.create().childComponent().build().inject(this)
+    }
+}
+```
+
+
+
+测试
+
+```kotlin
+fun main() {
+    println(Parent().car)
+
+    val c = Child()
+    println(c.car)
+    println(c.bike)
+}
+```
+
+
+
+输出：
+
+```bash
+top.yhb123.dagger2.subcomponent.Car@5a07e868
+top.yhb123.dagger2.subcomponent.Car@76ed5528
+top.yhb123.dagger2.subcomponent.Bike@2c7b84de
+```
+
+
+
+生成的Car，是不同的实例。
+
+
+
+### Android与Subcomponent(继承)
+
+在 Android 开发中，Activity 是 Application 运行中组件，Fragment 又是 Activity 一部分，这种组件化思想适合继承关系，所以在 Android 中一般使用 SubComponent。
+
+
+
+
+
+## Dagger2-Android
+
+
+
+### 版本
+
+2.26
+
+[链接](https://mvnrepository.com/artifact/com.google.dagger/dagger-android)
+
+
+
+### 简易版本
+
+使用老的版本2.16
+
+```groovy
+		apply plugin: 'kotlin-kapt'
+
+    implementation "com.google.dagger:dagger-android:2.16"
+
+    kapt "com.google.dagger:dagger-compiler:2.16"
+    kapt "com.google.dagger:dagger-android-processor:2.16"
+```
+
+
+
+新建一个依赖类
+
+```kotlin
+class MainActivityViewModel @Inject constructor() {
+    var someData = "MyString"
+}
+```
+
+
+
+Module：将Activity放到Module
+
+```kotlin
+@Module
+abstract class ActivitiesModule {
+
+    @ContributesAndroidInjector
+    abstract fun contributeMainActivity(): MainActivity
+
+}
+```
+
+
+
+Component：Application是Dagger2的使用者。
+
+```kotlin
+@Component(
+    modules = [
+        ActivitiesModule::class
+    ]
+)
+interface AppComponent {
+
+    fun inject(myApplication: MyApplication)
+
+}
+```
+
+
+
+创建Application
+
+```kotlin
+class MyApplication : Application(), HasActivityInjector {
+    @Inject
+    lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+
+    override fun onCreate() {
+        super.onCreate()
+
+        DaggerAppComponent.create().appComponent.inject(this)
+    }
+
+    override fun activityInjector(): AndroidInjector<Activity> {
+        return activityInjector
+    }
+}
+```
+
+
+
+在Activity中使用
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+    @Inject
+    lateinit var viewModel: MainActivityViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
+
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val textView = findViewById<TextView>(R.id.tv)
+        textView.text = viewModel.someData
+    }
+}
+```
+
+
+
+[参考链接](https://developerlife.com/2018/10/21/dagger2-and-kotlin/)
+
+
+
+
+
+
+
+
+
+## 可视化工具-scabbard
+
+
+
+[使用方式](https://arunkumar9t2.github.io/scabbard/)
+
+```
+plugins {
+  id "scabbard.gradle" version "0.2.0"
+}
+```
+
+
+
+```
+scabbard {
+    enabled true
+}
+```
+
+
+
+```
+Java : build/classes/java/$sourceSet/scabbard
+Kotlin : build/tmp/kapt3/classes/$sourceSet/scabbard
+```
+
