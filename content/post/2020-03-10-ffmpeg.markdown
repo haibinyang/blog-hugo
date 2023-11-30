@@ -1,0 +1,187 @@
+---
+layout: post
+title:  "FFMPEG"
+date:   2020-03-10 07:58:58 +0800
+categories: ffmpeg media
+---
+
+
+
+## 安装
+
+
+
+可以通过如下三种方式安装ffmpeg
+
+- 终端安装 (借助[homebrew](https://brew.sh/)): 此方式ffmpeg会保持自动更新.
+- 下载ffmpeg[静态库](https://ffmpeg.org/download.html): 即不用手动编译,我们只需要直接运行下载得到的二进制文件即可.静态生成的一个缺点是必须手动执行更新。此外, 它们可能不包含所需的所有编码器或筛选器。
+- 手动编译: 下载源码, 然后使用所需的标志(可以指定开启需要的功能)运行`./configure`, 最后使用`make`或`make install`。但是, 必须手动设置配置选项, 并且您需要自己安装第三方库。
+
+
+
+
+
+
+### 在Mac安装
+
+#### 使用Brew
+
+[参考](https://zhuanlan.zhihu.com/p/90099862)
+
+[参考](https://juejin.im/post/5cefe31a6fb9a07ea4206298#heading-2)
+
+```bash
+brew install ffmpeg
+brew tap homebrew-ffmpeg/ffmpeg
+// 这一步提示失败
+brew install homebrew-ffmpeg/ffmpeg/ffmpeg
+brew update && brew upgrade ffmpeg
+```
+
+但不影响使用。
+
+
+
+[官网](https://www.ffmpeg.org/download.html)
+
+
+
+## Sample Video
+
+[链接](https://standaloneinstaller.com/blog/big-list-of-sample-videos-for-testers-124.html)
+
+
+
+https://media.w3.org/2010/05/sintel/trailer.mp4
+
+http://www.w3school.com.cn/example/html5/mov_bbb.mp4
+
+https://www.w3schools.com/html/movie.mp4
+
+http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4
+
+http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8
+
+
+
+通过又拍云来上传视频
+
+https://console.upyun.com/services/common1/filemanage/
+
+
+
+## 命令
+
+
+
+### 教程
+
+
+
+[FFmpeg 视频处理入门教程](http://www.ruanyifeng.com/blog/2020/01/ffmpeg.html)
+
+
+
+### 查看文件信息
+
+查看视频文件的元信息，比如编码格式和比特率。
+
+```bash
+$ ffmpeg -i input.mp4 -hide_banner
+```
+
+
+
+### 隐藏冗余信息
+
+命令会输出很多冗余信息，加上`-hide_banner`参数，可以只显示元信息。
+
+```bash
+$ ffmpeg -i input.mp4 -hide_banner
+```
+
+
+
+
+
+## ffmpeg
+
+
+
+### 删除音轨
+
+查看所有轨道
+
+```bash
+ffmpeg -i file.mp4
+```
+
+```bash
+Stream #0:0(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p, 560x320 [SAR 1:1 DAR 7:4], q=2-31, 178 kb/s, 30 fps, 30 tbr, 15360 tbn, 15360 tbc (default)
+Stream #0:1: Audio: vorbis (mp4a / 0x6134706D), 8000 Hz, stereo, fltp, 45 kb/s
+```
+
+
+
+留下视频
+
+```bash
+ffmpeg -i small.mp4 -map 0:0 -vcodec copy only_video.mp4
+```
+
+
+
+### 合并音轨
+
+```bash
+ffmpeg -i only_video.mp4 -i g711_alaw_64p0k.ogg -c copy output_g711.mp4
+```
+
+
+
+
+
+## ffprobe
+
+
+
+查看音视频文件的封装格式
+
+```
+ffprobe -show_format inputFile
+```
+
+
+
+查看音视频文件的流信息
+
+```
+ffprobe -show_streams inputFile
+```
+
+
+
+[参考](https://juejin.im/post/5d5cbb9af265da03f564e757)
+
+
+
+
+
+## ffplay
+
+范例
+
+```bash
+ffplay -f rawvideo -video_size 510x510 output.yuv
+```
+
+
+
+- -f rawvideo ： 经笔者测试这个选项可加可不加
+
+- yuv文件不包涵宽高数据，所以必须用-video_size指定宽和高，格式为：widthxheight
+
+- output.yuv可以是一帧（图片）或者多帧（视频）数据
+
+  
+

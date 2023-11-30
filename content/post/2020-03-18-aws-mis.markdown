@@ -1,0 +1,72 @@
+---
+layout: post
+title:  "AWS基础知识"
+date:   2020-03-18 07:58:58 +0800
+categories: aws cloud
+---
+
+
+
+## 概念
+
+
+
+### Custom endpoint
+
+见“控制台-->[设置](https://ap-southeast-1.console.aws.amazon.com/iot/home?region=ap-southeast-1#/settings)”，形如：
+
+```c++
+xxx-ats.iot.ap-southeast-1.amazonaws.com
+```
+
+
+
+### Endpoints
+
+[参考](https://docs.aws.amazon.com/general/latest/gr/iot-core.html)
+
+| **Region Name**           | **Region**     | **Endpoint**                     |
+| ------------------------- | -------------- | -------------------------------- |
+| Asia  Pacific (Singapore) | ap-southeast-1 | iot.ap-southeast-1.amazonaws.com |
+
+
+
+### ARNs
+
+Amazon Resource Names (ARNs) uniquely identify AWS resources.
+
+格式
+
+```java
+arn:partition:service:region:account-id:resource-id
+arn:partition:service:region:account-id:resource-type/resource-id
+arn:partition:service:region:account-id:resource-type:resource-id
+```
+
+
+
+分区
+
+资源所处的分区。对于标准 AWS 区域，分区是 `aws`。如果资源位于其他分区，则分区是 `aws-partitionname`。例如，位于 中国（北京） 区域的资源的分区为 `aws-cn`。
+
+
+
+service
+
+标识 AWS 产品（例如，Amazon S3、IAM 或 Amazon RDS）的服务命名空间。
+
+
+
+区域
+
+资源所在的区域。一些资源的 ARN 不需要区域，因此，该组成部分可能会被省略。
+
+
+
+account-id
+
+拥有资源的 AWS 账户的 ID（不含连字符）。例如：123456789012。一些资源的 ARN 不需要账号，因此，该组成部分可能会被省略。
+
+
+
+[参考](https://docs.aws.amazon.com/zh_cn/general/latest/gr/aws-arns-and-namespaces.html)

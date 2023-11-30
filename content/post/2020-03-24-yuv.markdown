@@ -1,0 +1,249 @@
+---
+layout: post
+title:  "YUV基础"
+date:   2020-03-24 07:58:58 +0800
+categories: yuv color media
+---
+
+
+
+## 色彩模型
+
+三类：
+
+- RGB
+- YIQ/YUV/YCrCb：电视、视频系统
+- CMYK：彩色打印系统
+
+
+
+## 色彩模型，色彩空间，色域的关系
+
+
+
+- 色彩模型：用一定规则来描述（排列）颜色的方法。
+- 一个色彩模型下，可以有不同的色彩空间。
+- 色域：色彩空间根据排列的条件的不同会有不同的色域。
+
+
+
+### 色彩空间和色彩模型
+
+在一个色彩模型下可以有不同的色彩空间。
+
+Adobe RGB、sRGB、Apple RGB 就是同在 RGB 色彩模型下的不同色彩空间。
+
+
+
+### 色域
+
+只是指某个对象能表示色彩范围。比如，某显示器能显示的色彩范围是 xxx 。
+
+
+
+![img](https://pic1.zhimg.com/80/v2-9bdb22610e74b1b4484bf5e9368d269c_1440w.jpg)
+
+
+
+
+
+
+
+
+
+## 电视广播中色彩调频
+
+- NTSC：北美
+- SECAM：中东和法国
+- PAL：Phase Alternating Line，其它国家
+
+
+
+## YUV
+
+> 也称YCbCr，属于PAL
+
+
+
+Y ：亮度（灰度）
+
+UV：色度（饱和度）
+
+
+
+### UV Panels
+
+
+
+C代表颜色
+
+b代表蓝色
+
+r代表红色
+
+
+
+<img src="https://img-blog.csdn.net/2018060814490518?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzYWhpbm9rYXdh/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述" style="zoom: 50%;" />
+
+
+
+### Y
+
+![这里写图片描述](https://img-blog.csdn.net/20180608145023493?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzYWhpbm9rYXdh/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
+
+
+
+
+## 特点
+
+图像的亮度Y和色度UV是分离的；没有UV分量一样可以显示完整的图像。当只有Y分量的时候，图像表示为灰度图。
+
+> 这样的设计很好地解决了彩色电视机与黑白电视的兼容问题。
+
+优点：人对色度UV的敏感性要小于对亮度Y的敏感性。
+
+应用：通常都会对UV进行压缩。
+
+
+
+## 采样方式
+
+- YUV4:4:4：每一个Y对应一组UV分量
+- YUV4:2:2：每两个Y共用一组UV分量
+- YUV4:2:0：每四个Y共用一组UV分量
+
+本质上，压缩UV。
+
+
+
+## 格式描述
+
+根据对UV压缩的程度不同和YUV的排列方式，提出了多种不同的YUV格式描述。
+
+YUV格式通常有两大类：
+
+- 打包（packed）：将YUV分量存放在同一个数组中，通常是几个相邻的像素组成一个宏像素（macro-pixel）
+- 平面（planar）：使用三个数组分开存放YUV三个分量
+
+
+
+## YUV420P
+
+- 属于Planar。
+- 先存完Y，再存U，最后存放V。
+- YUV数量的比例为4：1：1
+- 4个Y共用一对UV
+
+
+
+
+
+![img](https://img-blog.csdnimg.cn/20181211162041493.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0x1b2hlbllK,size_16,color_FFFFFF,t_70)
+
+
+
+### 占用空间
+
+一张高为h，宽的w图像
+
+yuv420P所需空间大小为w * h * 3 / 2个字节，而RGB空间通常需要w * h * 3个字节。
+
+对于视频流传输YUV只需占用极少的频宽。
+
+
+
+### YV12，YU12格式
+
+属于YUV420P。
+
+YU12和YV12属于YUV420格式，也是一种Plane模式，将Y、U、V分量分别打包，依次存储。
+
+其每一个像素点的YUV数据提取遵循YUV420格式的提取方式，即4个Y分量共用一组UV。
+
+举例：
+
+![这里写图片描述](https://img-blog.csdn.net/20180608152814304?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzYWhpbm9rYXdh/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
+上图中，Y’00、Y’01、Y’10、Y’11共用Cr00、Cb00，其他依次类推。
+
+
+
+## YUV420SP
+
+two-plane模式：
+
+`Y和UV分为两个plane`，但是`UV(CbCr)`为交错存储，而不是分为三个平面。
+
+![img](https://img-blog.csdnimg.cn/201811192258324.png)
+
+
+
+
+
+### NV12和NV21
+
+`NV12和NV21属于YUV420SP`格式。
+
+
+
+### NV12
+
+NV12与NV21类似，也属于`YUV420SP`格式，`NV12`存储顺序是先存`Y值`，再`UV`交替存储：`YYYYUVUVUV`。
+
+
+
+### NV21
+
+`NV21`存储顺序是先存`Y值`，再`VU`交替存储：`YYYYVUVUVU`。
+
+以 `4 X 4` 图片为例子，占用内存为 `4长 X 4宽 X 3个方向 / 2压缩比 = 24` 个字节
+
+
+
+![img](https://img-blog.csdnimg.cn/20181119235116552.png)
+
+
+
+
+
+
+
+### Android平台
+
+Android平台下使用相机默认图像格式是NV21。
+
+
+
+
+
+[参考1](https://blog.csdn.net/asahinokawa/article/details/80596655)
+
+[参考2](https://rumenz.com/rumenbiji/ffmpeg-avframe-yuv420p.html)
+
+[参考3](https://blog.csdn.net/asahinokawa/article/details/80596655)
+
+
+
+## YUV资源下载
+
+[链接一](http://trace.kom.aau.dk/yuv/index.html)
+
+[链接二](https://media.xiph.org/video/derf/)
+
+
+
+## YUV查看软件
+
+
+
+YUV Player Deluxe 
+
+[下载链接](https://yuv-player-deluxe.software.informer.com/download/)
+
+
+
+展示视频akiyo，宽高为352，288，格式为yuv420P。
+
+![img](https://img-blog.csdnimg.cn/20181211162041339.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0x1b2hlbllK,size_16,color_FFFFFF,t_70)
+

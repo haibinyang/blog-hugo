@@ -1,0 +1,244 @@
+---
+layout: post
+title:  "AWS IoT"
+date:   2020-03-18 07:58:58 +0800
+categories: aws cloud iot
+---
+
+
+
+## 总体介绍
+
+
+
+[教程](https://amazonaws-china.com/cn/about-aws/events/webinar/iot-solutions-based-on-aws-iot-platform06062017/)
+
+[视频](https://www.youtube.com/watch?v=I8HvkeEDZhc)
+
+[PDF](https://s3.cn-north-1.amazonaws.com.cn/sides-share/基于AWS%2BIoT平台的物联网解决方案.pdf)
+
+
+
+## 架构
+
+
+
+
+
+<img src="https://docs.amazonaws.cn/iot/latest/developerguide/images/aws_iot_data_services.png" alt="                 AWS IoT 的简要视图             " style="zoom:75%;" />
+
+
+
+
+
+## AWS IoT入门
+
+使用新加坡的节点，进入管理后台
+
+```java
+https://ap-southeast-1.console.aws.amazon.com/iot/home
+```
+
+
+
+1. 进入“入门培训”-->“登记设备”-->“入门”
+2. 选择"Linux"和“Node.js”
+3. 填写名称“C3”
+4. 下载工具包
+5. 解压，添加执行权限，运行
+6. 如果连接成功，会在页面看到设备发来的信息
+7. 在当前页面向设备发信息
+
+
+
+### 示例应用程序
+
+位置： `aws-iot-device-sdk-js/examples` 目录
+
+程序：device-example.js
+
+功能：此示例在两种模式下运行。在模式 1 中，它订阅 MQTT 主题 `topic_1`，并且每 4 秒在 `topic_2` 上发布一条消息。在模式 2 中，它订阅 `topic_2`，并在 `topic_1` 上每 4 秒发布一条消息。
+
+[参考](https://docs.amazonaws.cn/iot/latest/developerguide/iot-device-sdk-node.html)
+
+
+
+### 程序分析
+
+下载AWS的根证书，将pem格式转成crt格式。
+
+```bash
+curl https://www.amazontrust.com/repository/AmazonRootCA1.pem > root-CA.crt
+```
+
+下载依赖：aws-iot的SDK
+
+```bash
+npm install aws-iot-device-sdk
+```
+
+依赖中有范例代码
+
+```
+node_modules/aws-iot-device-sdk/examples/device-example.js
+```
+
+执行代码
+
+```bash
+node device-example.js
+```
+
+输入不同的参数：
+
+```bash
+--host-name=a2x3l15ka37s9p-ats.iot.ap-southeast-1.amazonaws.com 
+--private-key=C2.private.key // 私有密钥
+--client-certificate=C2.cert.pem  // 设备证书
+--ca-certificate=root-CA.crt // Amazon根证书
+--client-id=sdk-nodejs-468d3313-04b6-4188-ae76-34a3fce9ce3b
+```
+
+
+
+
+
+device-example
+
+两个设备，不同的Client-id
+
+```
+node node_modules/aws-iot-device-sdk/examples/device-example.js --host-name=a2x3l15ka37s9p-ats.iot.ap-southeast-1.amazonaws.com --private-key=G1.private.key --client-certificate=G1.cert.pem --ca-certificate=root-CA.crt --client-id=sdk-nodejs-2452e30a-4c30-42d3-9a4a-c23fe244c715 --debug=true --test-mode=2 --thingName=G2
+```
+
+
+
+```
+node node_modules/aws-iot-device-sdk/examples/device-example.js --host-name=a2x3l15ka37s9p-ats.iot.ap-southeast-1.amazonaws.com --private-key=G1.private.key --client-certificate=G1.cert.pem --ca-certificate=root-CA.crt --client-id=sdk-nodejs-2452e30a-4c30-42d3-9a4a-c23fe244c716 --debug=true --test-mode=1 --thingName=G2
+```
+
+
+
+
+
+
+
+## 连接设备安全-认证
+
+### 双向证书认证
+
+通过使用 X.509 证书可保护您的设备与 AWS IoT 之间的通信。
+
+
+
+### 签发方式
+
+有两种：
+
+1. AWS IoT签发证书：AWS IoT 可为您生成一个证书，适合量少的情况，例如开发测试。
+2. 用户自签证书 （在AWS IoT上即时注册设备证书）
+
+无论哪种情况，都必须通过 AWS IoT 注册并激活证书，然后再复制到您的设备上。
+
+当您的设备与 AWS IoT 进行通信时，它会将证书作为凭证提供给 AWS IoT。
+
+
+
+TODO：第二种是怎样的？
+
+
+
+### 证书和密钥 
+
+• 私钥 (authenticate the device) 
+
+• 设备证书(register the device with IoT) 
+
+• 根CA (authenticate IoT)
+
+```bash
+--private-key=C2.private.key // 私有密钥
+--client-certificate=C2.cert.pem  // 设备证书
+--ca-certificate=root-CA.crt // Amazon根证书
+```
+
+
+
+
+
+### 策略
+
+控制物联网设备允许的操作权限: 连接, 发布, 订阅, 接收,影子操作。
+
+
+
+Connect中有
+
+```
+"arn:aws:iot:ap-southeast-1:935656290774:client/sdk-nodejs-*"
+```
+
+里面有sdk-nodejs-*，可能是指client-id。
+
+
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iot:Publish",
+        "iot:Receive"
+      ],
+      "Resource": [
+        "arn:aws:iot:ap-southeast-1:935656290774:topic/sdk/test/java",
+        "arn:aws:iot:ap-southeast-1:935656290774:topic/sdk/test/Python",
+        "arn:aws:iot:ap-southeast-1:935656290774:topic/topic_1",
+        "arn:aws:iot:ap-southeast-1:935656290774:topic/topic_2"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iot:Subscribe"
+      ],
+      "Resource": [
+        "arn:aws:iot:ap-southeast-1:935656290774:topicfilter/sdk/test/java",
+        "arn:aws:iot:ap-southeast-1:935656290774:topicfilter/sdk/test/Python",
+        "arn:aws:iot:ap-southeast-1:935656290774:topicfilter/topic_1",
+        "arn:aws:iot:ap-southeast-1:935656290774:topicfilter/topic_2"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iot:Connect"
+      ],
+      "Resource": [on
+        "arn:aws:iot:ap-southeast-1:935656290774:client/sdk-java",
+        "arn:aws:iot:ap-southeast-1:935656290774:client/basicPubSub",
+        "arn:aws:iot:ap-southeast-1:935656290774:client/sdk-nodejs-*"
+      ]
+    }
+  ]
+}
+```
+
+
+
+## 设备端
+
+### JS SDK
+
+[链接](https://github.com/aws/aws-iot-device-sdk-js)
+
+
+
+### Java SDK
+
+
+
+
+
