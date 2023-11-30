@@ -1,0 +1,283 @@
+---
+title: Java
+date: 2018-09-20 16:57:48
+tags:
+- Java
+---
+
+
+
+
+
+# 自增自减
+
+
+
+## 表示式返回值
+
+```java
+j = 0;
+++j;
+```
+
+- 变量j先递增：j = j +1; // 1
+
+- 表达式返回：新值1
+
+
+
+```java
+j=0;
+j--;
+```
+
+- 变量j先递减j = j - 1; // -1
+
+- 表达式返回：旧值0
+
+
+
+> 以前的理解：基本是正确的，但是，有一点失误。
+>
+> j--是先运算的，产生新值，但是，表达式返回值是旧值。
+
+
+
+题目1：
+
+```java
+j = 0;
+j = j++;
+System.out.println(j); // 0
+```
+
+相当于
+
+```java
+j = 0;
+// 开始
+j = j + 1；// j为1
+j = 表达式返回旧值（0） // j为0
+// 结束
+```
+
+
+
+题目2：
+
+```
+int j = 0;
+j = ++j + j++ + j++ + j++;
+System.out.println(j); // 7
+```
+
+
+
+[参考](https://www.zhihu.com/question/25151746)
+
+[参考](https://blog.csdn.net/u011033906/article/details/53931998)
+
+
+
+# 简单数据类型
+
+
+
+简单数据类型
+
+|        | 数值 |       |             |      |       |                | 字符      | 布尔    |
+| ------ | ---- | ----- | ----------- | ---- | ----- | -------------- | --------- | ------- |
+|        | 整型 |       |             |      | 浮点  |                |           |         |
+|        | byte | short | int（默认） | long | float | double（默认） | char      | boolean |
+| 字节数 | 1    | 2     | 4           | 8    | 4     | 8(双精度)      | 2（注意） | -       |
+| 后缀   | ?    | ?     | -           | L    | F     | D              | ?         | -       |
+| 包装器 | Byte | Short | Integer     | Long | Float | Double         | Character | Boolean |
+
+
+
+byte和Short的后缀见：
+
+```java
+byte foo = (byte)0;
+short bar = (short)0;
+```
+
+
+
+## 转换
+
+从低精度到高精度：自动类型转换
+
+从高精度到低精度：强制类型转换
+
+
+
+更详细的见[这里](https://en.wikibooks.org/wiki/Java_Programming/Primitive_Types)
+
+
+
+## 包装器
+
+```java
+Integer i = new Integer(100);
+System.out.println(i.toString());
+```
+
+
+
+## 简单数据类型与String对象的转换
+
+
+
+简单数据类型 --> String
+
+方法一：变成相应的包装器类，再调用toString()方法
+
+方法二：直接调用`String.valueOf(100)`方法
+
+
+
+String --> 简单数据类型
+
+```java
+String myString = "1234";
+int foo = Integer.parseInt(myString);
+```
+
+
+
+## 查询变量的类型
+
+```java
+int = x;
+Object o = x;
+System.out.println(o.getClass()); // java.lang.Integer
+```
+
+
+
+## BigDecimal
+
+精确计算需要的。
+
+
+
+## 参考
+
+《Java面试宝典》P38
+
+《Java核心技术》P32
+
+《Java编程思想》P23
+
+
+
+# 字符
+
+
+
+| 术语       | 英文                 | 说明                                               |
+| ---------- | -------------------- | -------------------------------------------------- |
+| 字符       |                      |                                                    |
+| 字库表     | character repertoire | 一个相当于所有可读或者可显示字符的数据库           |
+| 码点       | Code Point           | 一个编码表中的某个字符对应的代码值                 |
+| 编码字符集 | coded character set  | 用一个编码值code point来表示一个字符在字库中的位置 |
+| 字符编码   | character encoding   | 将编码字符集和实际存储数值之间的转换关系           |
+
+
+
+常见编码字符集
+
+- ASCII
+- ISO8859_1（扩展ASCII）
+- BIG5（繁体）
+- GB2312（简体）
+- GBK/GB13000（简体中文、繁体中文、日文、韩文等）
+- GB18030
+- Unicode
+- Java中的字符编码
+
+
+
+Unicode
+
+码点采用16进制表示，例如`U+0041`表示A，其中`U+`是前缀。
+
+
+
+Unicode的几种编码方案
+
+- UTF-32
+
+- UTF-16 
+
+- UTF-8 
+
+- Java Modified UTF8
+
+
+
+Unicode遇到的问题：
+
+1、对于一段二进制数，计算机怎么判断这段二进制数表示的是一个多字节的符号 还是 多个单子节的符号？
+
+2、对于英文字母，一个字节表示就行了，如果为了将所有的字符全包含进来，而统一规定每个符号必须要用3或4个字节来表示，那对于英文字母来说，前面的2或3个字节都是0，这样存储时会极大的浪费内存。
+
+
+
+UTF-8编码规则
+
+- 对于单子节的符号，第一位设为0，后面7位为这个符号的unicode码，所以，对于英文字母，utf-8编码与ascii码相同。
+- 对于n字节的符号（n>1),第一个字节的前n位都设为1），第n+1位设为0，后面字节的前两位一律设为10，这n个字节的其余空位填充该字符unicode码，高位用0补足。
+
+
+
+Java中Char类型
+
+相当于UTF-16中的一个代码单元（Code Unit）。
+
+程序禁止使用Char类型。
+
+
+
+Byte Order Mark (BOM) 
+
+- Big-endian，高位在后
+
+- Little-endian，低位在后
+
+
+
+[参考1](http://cenalulu.github.io/linux/character-encoding/)
+
+[参考2](https://www.jianshu.com/p/3a1b374dfc8e)
+
+
+
+
+
+# 字符串
+
+
+
+Java I/O
+
+
+
+# IntelliJ
+
+
+
+Console提示错误Class JavaLaunchHelper is implemented in two places
+
+解决办法见[这里](https://stackoverflow.com/questions/43003012)
+
+
+
+快捷键
+
+type `sout` and press Tab to generate `System.out.println`
+
+[参考](https://www.mkyong.com/intellij/intellij-idea-system-out-println-shortcut/)
+
+[参考2](https://stackoverflow.com/questions/38992114/system-out-println-shortcut-on-intellij-idea)
