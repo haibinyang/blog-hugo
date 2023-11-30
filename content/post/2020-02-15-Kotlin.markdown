@@ -1,0 +1,1072 @@
+---
+layout: post
+title:  "Kotlin"
+date:   2020-02-16 16:57:48 +0800
+categories: kotlin language
+---
+
+
+
+## 其它
+
+
+
+### 运算符
+
+#### 参考
+
+[链接]()
+
+
+
+#### ? 操作符
+
+
+
+- `?` 将类型标记为[可空](https://www.kotlincn.net/docs/reference/null-safety.html#可空类型与非空类型)
+
+- `as?` 用于[安全类型转换](https://www.kotlincn.net/docs/reference/typecasts.html#安全的可空转换操作符)
+
+- `.` 执行[安全调用](https://www.kotlincn.net/docs/reference/null-safety.html#安全的调用)（如果接收者非空，就调用一个方法或访问一个属性）
+- `?:` 如果左侧的值为空，就取右侧的值（[elvis 操作符](https://www.kotlincn.net/docs/reference/null-safety.html#elvis-操作符)）
+
+
+
+```
+val database = database ?: createDataBase(context)
+```
+
+
+
+
+
+### 打印当前的时间
+
+
+
+```kotlin
+DateTimeFormatter.ISO_INSTANT.format(Instant.now())
+```
+
+[参考](https://stackoverflow.com/questions/49862357/how-do-i-get-the-current-time-as-a-timestamp-in-kotlin/56330765)
+
+
+
+## 函数式编程
+
+
+
+### 函数类型
+
+见[链接](https://www.kotlincn.net/docs/reference/lambdas.html#%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B)
+
+
+
+### 函数类型实例化
+
+- 使用函数字面值的代码块，采用以下形式之一：
+
+  - [lambda 表达式](https://www.kotlincn.net/docs/reference/lambdas.html#lambda-表达式与匿名函数): `{ a, b -> a + b }`,
+  - [匿名函数](https://www.kotlincn.net/docs/reference/lambdas.html#匿名函数): `fun(s: String): Int { return s.toIntOrNull() ?: 0 }`
+
+  
+
+- 使用已有声明的可调用引用：
+
+  - 顶层、局部、成员、扩展[函数](https://www.kotlincn.net/docs/reference/reflection.html#函数引用)：`::isOdd`、 `String::toInt`，
+  - [构造函数](https://www.kotlincn.net/docs/reference/reflection.html#构造函数引用)：`::Regex`
+
+
+
+### 高阶函数
+
+高阶函数：将函数用作 参数或返回值 的函数。
+
+```kotlin
+fun isOdd(x: Int): Boolean {
+    return x % 2 == 1
+}
+
+fun main() {
+    val list = listOf(1, 2, 3, 4, 5)
+    println(list.filter(::isOdd))
+}
+```
+
+
+
+### 匿名函数
+
+
+
+```kotlin
+fun main() {
+    val list = listOf(1, 2, 3, 4, 5)
+    
+    println(list.filter(fun(x: Int): Boolean {
+        return x % 2 == 1
+    }))
+}
+```
+
+
+
+### Lambda表达式
+
+> 发音：['læmdə]
+
+`lambda表达式`总是被大括号｛｝括着 。
+
+`Lambda表达式`本质上是`匿名函数`。
+
+
+
+#### 范例
+
+
+
+```kotlin
+fun main() {
+    val list = listOf(1, 2, 3, 4, 5)
+    println(list.filter(::isOdd))
+
+  	// 匿名函数
+    println(list.filter(fun(x: Int): Boolean {
+        return x % 2 == 1
+    }))
+
+  	// Lambda
+    println(list.filter({ x ->
+        x % 2 == 1
+    }))
+
+  	// 拖尾Lambda: 完整格式
+    println(list.filter { x ->
+        x % 2 == 1
+    })
+
+  	// 如果只有一个参数，可以省略
+    println(list.filter {
+        it % 2 == 1
+    })
+}
+```
+
+
+
+#### 传递末尾的 lambda 表达式
+
+在 Kotlin 中有一个约定：如果函数的最后一个参数是函数，那么作为相应参数传入的 lambda 表达式可以放在圆括号之外：
+
+```kotlin
+fun f1(p: Int, f: (p: Int) -> Unit) {
+    println(p)
+    f(p)
+}
+
+fun main() {
+    f1(1) {
+        println("Lamada: $it")
+    }
+}
+```
+
+这种语法也称为*拖尾 lambda 表达式*。
+
+
+
+如果该 lambda 表达式是调用时唯一的参数，那么圆括号可以完全省略：
+
+```kotlin
+fun f2(ff: (p: Int, q: Int) -> Unit) {
+    println("f2()")
+    ff(3,5)
+}
+
+fun main() {
+    f2 { p, q ->
+        println("Lamdad: $p $q")
+    }
+}
+```
+
+
+
+#### 柯里化的 sum 函数
+
+```kotlin
+fun main() {
+    val sum = { x: Int ->
+        { y: Int ->
+            x + y
+        }
+    }
+
+    println(sum(1))
+}
+```
+
+
+
+### 闭包
+
+
+
+各种专业文献上的"闭包"（closure）定义非常抽象，很难看懂。我的理解是，闭包就是能够读取其他函数内部变量的函数。
+
+由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成"定义在一个函数内部的函数"。
+
+所以，在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。
+
+[参考](https://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html)
+
+
+
+范例如下：
+
+```kotlin
+fun sum(items: Iterable<Int>): Int {
+    var s = 0
+    items.filter { it > 3 }.forEach {
+      	// 可以访问Lambda表达式外面的 s 变量
+        s += it
+    }
+    return s
+}
+
+fun main() {
+    println(sum(listOf(1, 2, 3, 4, 5)))
+}
+```
+
+
+
+### 内联函数-TODO
+
+
+
+[白话kotlin：内联函数助你提升运行效率](https://www.jianshu.com/p/be78824ce1c2)
+
+
+
+### 作用域函数
+
+
+
+[官网](https://www.kotlincn.net/docs/reference/scope-functions.html#apply)
+
+共有以下五种：`let`、`run`、`with`、`apply` 以及 `also`。
+
+
+
+#### 区别
+
+由于作用域函数本质上都非常相似，因此了解它们之间的区别很重要。每个作用域函数之间有两个主要区别：
+
+- 引用上下文对象的方式
+- 返回值
+
+
+
+#### 上下文对象：`this` 还是 `it`
+
+如果是想使用它里面的方法，就使用：this
+
+```kotlin
+fun main() {
+    val str = "Hello"
+    // this
+    str.run {
+        println("The receiver string length: $length")
+        //println("The receiver string length: ${this.length}") // 和上句效果相同
+    }
+
+    // it
+    str.let {
+        println("The receiver string's length is ${it.length}")
+    }
+}
+```
+
+如果是想将它当作参数，就使用it
+
+```kotlin
+fun getRandomInt(): Int {
+    return Random.nextInt(100).also { value ->
+        writeToLog("getRandomInt() generated value $value")
+    }
+}
+
+val i = getRandomInt()
+```
+
+
+
+#### 返回值
+
+
+
+根据返回结果，作用域函数可以分为以下两类：
+
+- `apply` 及 `also` 返回上下文对象。
+- `let`、`run` 及 `with` 返回 lambda 表达式结果.
+
+
+
+##### apply和also
+
+应用场景一：调用链
+
+```kotlin
+Retrofit.Builder().apply {
+            client(client)
+            addConverterFactory(GsonConverterFactory.create())
+            baseUrl("https://okfood.vip/")
+        }.build()
+```
+
+#####  return 语句
+
+```kotlin
+fun getRandomInt(): Int {
+    return Random.nextInt(100).also {
+        writeToLog("getRandomInt() generated value $it")
+    }
+}
+
+val i = getRandomInt()
+```
+
+
+
+##### Lambda 表达式结果
+
+在需要使用其结果给一个变量赋值，或者在需要对其结果进行链式操作等情况下，可以使用它们。
+
+```kotlin
+val numbers = mutableListOf("one", "two", "three")
+val countEndsWithE = numbers.run { 
+    add("four")
+    add("five")
+    count { it.endsWith("e") }
+}
+println("There are $countEndsWithE elements that end with e.")
+```
+
+
+
+#### 函数选择
+
+如何记忆：
+
+apply和also，返回值是上下文对象，其它是Lamda表达式结果。
+
+其中，apply的上下文件对象是this，用来调用其中的方法，而also是it，用来当参数。
+
+| 函数    | 对象引用 | 返回值            | 是否是扩展函数             |
+| :------ | :------- | :---------------- | :------------------------- |
+| `let`   | `it`     | Lambda 表达式结果 | 是                         |
+| `run`   | `this`   | Lambda 表达式结果 | 是                         |
+| `run`   | -        | Lambda 表达式结果 | 不是：调用无需上下文对象   |
+| `with`  | `this`   | Lambda 表达式结果 | 不是：把上下文对象当做参数 |
+| `apply` | `this`   | 上下文对象        | 是                         |
+| `also`  | `it`     | 上下文对象        | 是                         |
+
+
+
+#### this
+
+链式调用
+
+```
+retrofit = Retrofit.Builder().apply {
+    client(client)
+    addConverterFactory(GsonConverterFactory.create())
+    baseUrl("https://okfood.vip/")
+}.build()
+```
+
+
+
+对象配置。
+
+```
+val adam = Person("Adam").apply {
+    age = 32
+    city = "London"        
+}
+println(adam)
+```
+
+
+
+#### also
+
+
+
+```
+val numbers = mutableListOf("one", "two", "three")
+numbers
+    .also { println("The list elements before adding new one: $it") }
+    .add("four")
+```
+
+
+
+```
+fun getRandomInt(): Int {
+    return Random.nextInt(100).also {
+        writeToLog("getRandomInt() generated value $it")
+    }
+}
+
+val i = getRandomInt()
+```
+
+
+
+#### let
+
+
+
+`let` 可用于在调用链的结果上调用一个或多个函数。
+
+```kotlin
+val numbers = mutableListOf("one", "two", "three", "four", "five")
+val resultList = numbers.map { it.length }.filter { it > 3 }
+println(resultList)
+```
+
+使用let
+
+```kotlin
+val numbers = mutableListOf("one", "two", "three", "four", "five")
+numbers.map { it.length }.filter { it > 3 }.let { 
+    println(it)
+    // 如果需要可以调用更多函数
+} 
+```
+
+若代码块仅包含以 `it` 作为参数的单个函数，则可以使用方法引用(`::`)代替 lambda 表达式：
+
+```kotlin
+val numbers = mutableListOf("one", "two", "three", "four", "five")
+numbers.map { it.length }.filter { it > 3 }.let(::println)
+```
+
+使用技巧：安全调用符`?.`
+
+```kotlin
+val str: String? = "Hello" 
+//processNonNullString(str)       // 编译错误：str 可能为空
+val length = str?.let { 
+    println("let() called on $it")
+    processNonNullString(it)      // 编译通过：'it' 在 '?.let { }' 中必不为空
+    it.length
+}
+```
+
+
+
+
+
+
+
+## 类
+
+
+
+密封类
+
+
+
+```kotlin
+sealed class Expr
+
+data class Const(val number: Double) : Expr()
+data class Sum(val e1: Expr, val e2: Expr) : Expr()
+object NotANumber : Expr() // 这个是object
+
+fun eval(expr: Expr): Double = when(expr) {
+    is Const -> expr.number
+    is Sum -> eval(expr.e1) + eval(expr.e2)
+    NotANumber -> Double.NaN
+    // 不再需要 `else` 子句，因为我们已经覆盖了所有的情况
+}
+
+fun main() {
+    eval(Const(1.0))
+    eval(Sum(Const(1.0), Const(2.0)))
+    eval(NotANumber)
+}
+```
+
+
+
+[参考](https://www.kotlincn.net/docs/reference/sealed-classes.html)
+
+
+
+第二个实例
+
+```kotlin
+package top.yhb123.`class`.sealed
+
+import top.yhb123.coroutines2.doSomethingUsefulTwo
+
+sealed class Result<out R> {
+
+    data class Success<out T>(val data: T) : Result<T>()
+
+    data class Error(val exception: Exception) : Result<Nothing>()
+    object Loading : Result<Nothing>()
+
+    override fun toString(): String {
+        return when (this) {
+            is Success<*> -> "Success222[data=$data]"
+            is Error -> "Error[exception=$exception]"
+            Loading -> "Loading222" // 只有这个生效
+        }.also {
+            println("111")
+        }
+    }
+}
+
+fun main() {
+    val a = Result.Success<String>("ok")
+    println(a.javaClass)
+    println(a)
+    println(a.toString())
+    println(a.data)
+
+    val b = Result.Error(Exception("e1"))
+    println(b)
+    println(b.toString())
+
+    val c = Result.Loading
+    println(c)
+
+
+    val d: Result<*> = b
+    if (d is Result.Success) {
+        println("d is Result.Success")
+    } else if (d is Result.Error) {
+        println("d is Result.Error")
+    }
+}
+```
+
+
+
+
+
+## 对象
+
+
+
+### object对象
+
+
+
+类似static，直接引用类中的成员和方法。
+
+用途：单例，例如Utils方法
+
+
+
+```kotlin
+object UiUtils {
+
+    fun dp2px(context: Context, dpValue: Float): Int {
+        val scale = context.resources.displayMetrics.density
+        return (dpValue * scale + 0.5f).toInt()
+    }
+
+}
+```
+
+
+
+### 匿名object
+
+
+
+```kotlin
+fun main() {
+    val point = object {
+        val x = 1
+        val y = 2
+    }
+
+    println(point.x)
+}
+```
+
+
+
+
+
+### object表达式
+
+有点像匿名object，但是，继承接口，并覆盖实现。
+
+```kotlin
+val comparator0 = object : Comparator<String> {
+  
+    override fun compare(s1: String?, s2: String?): Int {
+        if (s1 == null)
+            return -1
+        else if (s2 == null)
+            return 1
+        return s1.compareTo(s2)
+    }
+  
+}
+```
+
+
+
+```kotlin
+package top.yhb123.lamda
+
+class Button {
+    interface OnClickListener {
+        fun onClick(view: String)
+    }
+}
+
+fun main() {
+    val a = object : Button.OnClickListener {
+        override fun onClick(view: String) {
+            println(view)
+        }
+    }
+  
+    a.onClick("abc")
+}
+```
+
+
+
+#### 对比lamda表达式
+
+
+
+```kotlin
+val comparator1 = Comparator<String> { s1, s2 ->
+    if (s1 == null)
+        return@Comparator -1
+    else if (s2 == null)
+        return@Comparator 1
+    s1.compareTo(s2)
+}
+```
+
+
+
+
+
+#### 用途（重要）
+
+
+
+有些时候我们定义一个类，可能只是为了实现一个接口(interface没有方法的实现)或者派生自一个类，而实际上我们只需要使用这个类的对象一次，例如Android开发中的Listener。那么我们完全没有必要大费周章去为这一个对象定义一个类，我们可以使用匿名类这个简单的语法。
+
+看一个例子：
+
+```kotlin
+class Button {
+    interface OnClickListener {
+        fun onClick()
+    }
+
+    var mListener: OnClickListener? = null
+
+    fun setOnClickListener(listener: OnClickListener) {
+        mListener = listener
+    }
+
+    fun click() {
+        mListener?.onClick()
+    }
+}
+
+fun main() {
+    var btn = Button()
+    // 使用了 object表达式
+    btn.setOnClickListener(object : Button.OnClickListener {
+        override fun onClick() {
+            println("onclick")
+        }
+    })
+
+    btn.click()
+}
+```
+
+
+
+
+
+
+
+### 静态方法
+
+
+
+```kotlin
+class ConsoleUtils {
+    companion object {
+        @JvmStatic
+        fun debug(debugMessage : String) {
+            println("[DEBUG] $debugMessage")
+        }
+    }
+}
+```
+
+
+
+
+
+### const关键字
+
+
+
+**Test.kt**
+
+```kotlin
+const val topConstValue = "topConstValue"
+val topValue = "topValue"
+
+class Test {
+    // const val cc = "cc"  不可在类中声明
+    companion object {
+        const val compObjConstValue = "compObjConstValue"
+        val compObjValue = "compObjValue"
+    }
+    object obj: A() {
+        const val objConstValue = "objConstValue"
+        val objValue = "objValue"
+    }
+}
+```
+
+上面的代码展示了const使用的场景，作为对比还写了不使用const的变量，下面将展示在其他文件（包括Java和Kotlin）中对这些变量进行访问。
+
+```java
+import com.whx.ktapplication.data.TestKt;
+
+public class JavaTest {
+    public void method() {
+        println(TestKt.topConstValue);              // 1
+        println(TestKt.getTopValue());              // 2
+
+        println(Test.compObjConstValue);            // 3
+        println(Test.Companion.getCompObjValue());  // 4
+
+        println(Test.obj.objConstValue);            // 5
+        println(Test.obj.INSTANCE.getObjValue());   // 6
+
+    }
+}
+```
+
+可以看出，1、2处Test.kt 文件实际被编译成了TestKt这个类，在访问const修饰的变量时，可以像访问static变量那样直接使用“类名.变量名”的形式，而没有const修饰的变量则需要调用get方法。
+
+Test类中有companion object，这个的用法[在这里](https://www.jianshu.com/p/a8d1877143b2)，相当于static的作用，和上面一样，有const修饰的变量可以直接访问，没有const修饰的则通过Test类自动生成的Companion类的get方法访问。
+
+[其它参考](https://www.jianshu.com/p/d610ec44a7fe)
+
+
+
+### 伴生对象
+
+使用关键字`companion object`
+
+
+
+用途：将所有的静态常量和静态方法放在同一个地方。
+
+例如，
+
+```kotlin
+package top.yhb123.`object`
+
+class Prize0(val name: String, val count: Int, val type: Int) {
+    companion object {
+        val TYPE_REDPACK = 0
+        val TYPE_COUPON = 1
+
+        fun isRedpack(prize: Prize0): Boolean {
+            return prize.type == TYPE_REDPACK
+        }
+    }
+}
+
+fun main() {
+    val prize = Prize0("红包", 10, Prize0.TYPE_REDPACK)
+    print(Prize0.isRedpack(prize))
+}
+```
+
+
+
+引用方式：
+
+```kotlin
+class MyClass1 {
+    companion object {
+        val TYPE_NET = "MyClass1"
+    }
+}
+
+class MyClass2 {
+    companion object Named {
+        val TYPE_NET = "MyClass2: named"
+    }
+}
+
+
+fun main() {
+    // 默认名称是：Companion
+    val a = MyClass1.Companion.TYPE_NET
+    val b = MyClass2.Companion // 错误
+    val c = MyClass2.Named.TYPE_NET
+
+    // 也可以忽略 Companion
+    val d = MyClass1.TYPE_NET
+    val e = MyClass2.TYPE_NET
+}
+```
+
+
+
+#### 有返回类型
+
+这个实例，不懂
+
+```kotlin
+package top.yhb123.`object`
+
+interface Factory<T> {
+    fun create(): T
+}
+
+class MyClassA {
+    companion object C1 : Factory<MyClassA> {
+        override fun create(): MyClassA = MyClassA()
+    }
+}
+
+fun main() {
+    val g: Factory<MyClassA> = MyClassA.C1
+    val h: Factory<MyClassA> = MyClassA
+
+    val i = MyClassA()
+}
+```
+
+
+
+[官网](https://www.kotlincn.net/docs/reference/object-declarations.html)
+
+
+
+### 扩展
+
+#### 扩展函数
+
+
+
+```kotlin
+package top.yhb123.extensions
+
+fun MutableList<Int>.swap(index1: Int, index2: Int) {
+    val tmp = this[index1] // “this”对应该列表
+    this[index1] = this[index2]
+    this[index2] = tmp
+}
+```
+
+
+
+```kotlin
+package top.yhb123.extensions
+
+fun main() {
+    val list = mutableListOf(1, 2, 3)
+    println(list)
+    list.swap(0, 2) // “swap()”内部的“this”会保存“list”的值
+    println(list)
+}
+```
+
+
+
+[参考](https://www.kotlincn.net/docs/reference/extensions.html)
+
+
+
+## 委托
+
+### 类的委托
+
+
+
+实例-Java
+
+```java
+ interface I {
+     void f();
+     void g();
+ }
+ 
+ class A implements I {
+     public void f() { System.out.println("A: doing f()"); }
+     public void g() { System.out.println("A: doing g()"); }
+ }
+ 
+ class B implements I {
+     public void f() { System.out.println("B: doing f()"); }
+     public void g() { System.out.println("B: doing g()"); }
+ }
+ 
+ class C implements I {
+     // delegation
+     I i = new A();
+ 
+     public void f() { i.f(); }
+     public void g() { i.g(); }
+ 
+     // normal attributes
+     public void toA() { i = new A(); }
+     public void toB() { i = new B(); }
+ }
+ 
+ 
+ public class Main {
+     public static void main(String[] args) {
+         C c = new C();
+         c.f();     // output: A: doing f()
+         c.g();     // output: A: doing g()
+         c.toB();
+         c.f();     // output: B: doing f()
+         c.g();     // output: B: doing g()
+     }
+ }
+```
+
+[参考](https://www.runoob.com/w3cnote/delegate-mode.html)
+
+
+
+Kotlin的实例和使用
+
+```kotlin
+interface Base {
+    fun print()
+}
+
+class BaseImpl(val x: Int) : Base {
+    override fun print() { print(x) }
+}
+
+class Derived(b: Base) : Base by b
+
+fun main() {
+    val b = BaseImpl(10)
+    Derived(b).print()
+}
+```
+
+输出：10
+
+
+
+[参考](https://www.kotlincn.net/docs/reference/delegation.html)
+
+
+
+### 委托属性
+
+
+
+- 延迟属性（lazy properties）: 其值只在首次访问时计算；
+- 可观察属性（observable properties）: 监听器会收到有关此属性变更的通知；
+- 把多个属性储存在一个映射（map）中，而不是每个存在单独的字段中。
+
+[官网](https://www.kotlincn.net/docs/reference/delegated-properties.html)
+
+
+
+#### 延迟
+
+
+
+```kotlin
+val lazyValue: String by lazy {
+    println("computed!")
+    "Hello"
+}
+
+fun main() {
+    println(lazyValue)
+    println(lazyValue)
+}
+```
+
+
+
+#### 可观察
+
+
+
+```kotlin
+import kotlin.properties.Delegates
+
+class User {
+    var name: String by Delegates.observable("<no name>") {
+        prop, old, new ->
+        println("$old -> $new")
+    }
+}
+
+fun main() {
+    val user = User()
+    user.name = "first"
+    user.name = "second"
+}
+```
+
+输出
+
+```bash
+<no name> -> first
+first -> second
+```
+
+
+
+#### 属性映射
+
+
+
+```kotlin
+class User(val map: Map<String, Any?>) {
+    val name: String by map
+    val age: Int     by map
+}
+
+fun main() {
+    val user = User(mapOf(
+        "name" to "John Doe",
+        "age"  to 25
+    ))
+    println(user.name) // Prints "John Doe"
+    println(user.age)  // Prints 25
+}
+```
+
+
+
