@@ -1,0 +1,17 @@
+---
+layout: post
+title:  "XCode"
+date:   2020-02-12 16:57:48 +0800
+categories: xcode ide
+---
+
+# Playground
+
+
+
+Playground是用于Swift学习和交互简化的工具。
+
+用途
+- 控制台程序
+- UI程序
+- 访问source文件

@@ -1,0 +1,50 @@
+---
+layout: post
+title:  "Jetbrain全家桶教程"
+date:   2021-01-28 16:57:48 +0800
+categories: intellij jetbrain
+---
+
+
+
+Option + CMD + o：查询符号
+双击Shift：显示查询窗口
+
+
+
+
+
+#### 显示可选的快捷键：
+
+`CTRL + J` (Windows)
+
+`Command + J` (Mac)
+
+![img](http://www.mkyong.com/wp-content/uploads/2018/04/ideaj-shortcut-showall.png)
+
+
+
+打`sout`然后再使用`TAB`可以自动打出：
+
+```kotlin
+println()
+```
+
+
+
+```kotlin
+println("<top>.main") // soutp 打印当前的函数名
+println("") // soutf
+println("a = $a") // soutv 打印当前的变量，非常方便
+```
+
+
+
+#### 查询
+
+
+
+查询`类`或`文件`
+
+Use **Ctrl+N** to quickly locate a class in Android Studio. Use **Ctrl+Shift+N** to locate a file by its name.
+On a Mac, locate a class with **Command+O** and a file with **Command+Shift+O**.

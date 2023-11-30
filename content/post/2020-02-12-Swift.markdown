@@ -1,0 +1,30 @@
+---
+layout: post
+title:  "Swift"
+date:   2020-02-12 16:57:48 +0800
+categories: swift language
+---
+
+
+
+
+
+## 最新版本：
+
+- Swift5
+
+- 19年上市
+
+ 
+
+## 编译规范
+
+见[链接](https://shimo.im/docs/jTGCqvVcxp8G9dY6)
+
+
+
+## 指定Swift的版本号
+
+
+
+![1bFtRs.png](https://s2.ax1x.com/2020/02/12/1bFtRs.png)

@@ -1,0 +1,124 @@
+---
+layout: post
+title:  "JNI"
+date:   2020-02-12 16:57:48 +0800
+categories: jni java
+---
+
+# Mac下Java JNI 调C
+
+
+
+#### 简介
+
+JNI的实现步骤如下：
+
+1. 编写带有native声明的方法的Java类
+2. 使用javac命令编译编写的Java类
+3. 使用java -jni className 来生成后缀名为.h的头文件
+4. 使用其他语言（C、C++）实现本地方法
+5. 将本地方法编写的文件生成动态链接库
+6. 我们开始来编写一个简单的Java call C
+
+#### 1、编写含有native方法的Java类
+
+
+
+```java
+public class HelloWorld {
+
+    public native void hello();
+
+    static {
+        // 设置查找路径为当前项目路径
+        System.setProperty("java.library.path", ".");
+        // 加载动态库的名称
+        System.loadLibrary("hello");
+    }
+
+    public static void main(String[] args) {
+        new HelloWorld().hello();
+    }
+}
+```
+
+
+
+
+
+#### 2、编译代码
+
+在终端执行 ：
+
+```bash
+ javac HelloWorld.java
+```
+
+这时会生成HelloWorld.class 文件
+
+
+
+#### 3、使用java -jni className 生成后缀名为.h的头文件
+
+在终端执行 ： 
+
+```bash
+javah HelloWorld
+```
+
+这时会生成HelloWorld.h 头文件. 此文件内容不能修改。
+
+
+
+#### 4、使用C语言实现本地方法
+
+创建 HelloWorldImpl.c 文件
+
+```c
+#include "jni.h"
+#include "HelloWorld.h"
+#include <stdio.h>
+
+JNIEXPORT void JNICALL Java_HelloWorld_hello(JNIEnv *env,jobject obj){
+    printf("Hello World!\n");
+    return;
+}
+```
+
+
+
+#### 5、将本地方法编写的文件生成动态链接库
+
+使用命令生成动态链接库：
+
+```bash
+gcc -dynamiclib -I /Library/Java/JavaVirtualMachines/jdk1.8.0_241.jdk/Contents/Home/include HelloWorldImpl.c -o libhello.jnilib
+```
+
+libhello.jnilib 就是生成的动态链接库。但是运行这个命令报错了 ：
+
+```bash
+In file included from HelloWorldImpl.c:1:
+/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/include/jni.h:45:10: fatal error: 'jni_md.h' file not
+      found
+#include "jni_md.h"
+         ^
+1 error generated.
+```
+
+提示jni_md.h这个文件找不到；我们执行下面的命令拷贝一份：
+
+```bash
+sudo cp /Library/Java/JavaVirtualMachines/jdk1.8.0_241.jdk/Contents/Home/include/darwin/jni_md.h /Library/Java/JavaVirtualMachines/jdk1.8.0_241.jdk/Contents/Home/include
+```
+
+
+
+##### 6、执行可执行文件
+
+终端执行 ： 
+
+```bash
+java HelloWorld
+```
+
