@@ -8,7 +8,10 @@ license:
 hidden: false
 comments: true
 draft: false
-
+categories:
+    - pay
+    - stripe
+    - 出海套件
 ---
 
 
