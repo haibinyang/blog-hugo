@@ -1,0 +1,656 @@
+---
+layout: post
+title:  "泛型"
+date:   2020-03-02 16:57:48 +0800
+categories: generic
+---
+
+
+
+## 动机
+
+泛型的**设计初衷**：是为了**减少类型转换错误产生的安全隐患**，而不是为了实现任意化，一定要记住这个初衷。
+
+
+
+## 类型系统
+
+[参考：非常好的文章](https://www.cnblogs.com/chanshuyi/p/deep_insight_java_generic.html#%E6%B3%9B%E5%9E%8B%E6%96%B9%E6%B3%95)
+
+[参考：也不错](https://www.jianshu.com/p/2bf15c5265c5)
+
+
+
+### 向上转型
+
+
+
+```
+Class Fruit{}
+Class Apple extends Fruit{}
+```
+
+
+
+ Java 允许把一个子类对象（Apple对象）直接赋值给一个父类引用变量（Fruit类变量），一般我们称之为「向上转型」。
+
+```
+Fruit apple = new Apple();
+```
+
+
+
+> 向上：类似瀑布，上面是父亲，下面是孩子。
+>
+> 向上转型：将孩子转成父亲。
+
+
+
+### 向下转型
+
+例如，将Object变成String。
+
+
+
+### 类型转换
+
+概念：
+
+- 类型转换（type transformation）
+- 型变（Variant）
+- 协变（Covariant）
+- 逆变（Contravariant）
+- 不变（Invariant）
+
+
+
+符号定义：
+
+A、B表示类型
+
+≤表示继承关系，比如，A≤B表示A是由B派生出来的子类
+
+f(⋅)表示类型转换，例如数组`int[]` 或 泛型
+
+
+
+定义
+
+- 当A≤B，f(A)≤f(B)成立，f(⋅)是协变（covariant）的，例如数组。
+- 当A≤B，f(B)≤f(A)成立，f(⋅)是逆变（contravariant）的。
+- 当A≤B，上述两个式子均不成立，即f(A)与f(B)相互之间没有继承关系，f(⋅)是不变（invariant）的，例如泛型。
+
+
+
+
+
+### 数组是协变的
+
+
+
+```java
+package top.yhb123.java.generictype.variant;
+
+// CovariantArrays.java
+class Fruit {}
+class Apple extends Fruit {}
+class Orange extends Fruit {}
+
+public class CovariantArrays {
+    public static void main(String[] args) {
+        Fruit[] fruit = new Apple[10];
+        fruit[0] = new Apple();
+
+        try {
+          // 允许向上转型
+            fruit[0] = new Fruit();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        try {
+          // 允许向上转型
+            fruit[0] = new Orange();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
+```
+
+可以编译通过，但输出错误：
+
+```bash
+java.lang.ArrayStoreException: top.yhb123.java.generictype.variant.Fruit
+java.lang.ArrayStoreException: top.yhb123.java.generictype.variant.Orange
+```
+
+原因：
+
+- fruit指向了Apple[]，不能放Fruit[]或Orange[]
+
+- 编译器允许了这样做;
+
+- 运行时的数组机制知道它处理的是Apple[]
+- 因此会在向数组中放置异构类型时抛出异常。
+
+
+
+### 编译时类型和运行时类型
+
+进一步的说明：
+
+Fruit 属性所指向的对象，其在编译时的类型就是 Fruit 类型，而在运行时的类型就是 Apple 类型。
+
+- 因为在编译的时候，JVM 只知道 Fruit 类变量指向了一个对象，并且这个对象是 Fruit 的子类对象或自身对象，其具体的类型并不确定，有可能是 Apple 类型，也有可能是 Orange 类型。而为了安全方面的考虑，JVM 此时将 apple 属性指向的对象定义为 Fruit 类型。因为无论其是 Apple 类型还是 Orange 类型，它们都可以安全转为 Fruit 类型。
+
+- 而在运行时阶段，JVM 通过初始化知道了它指向了一个 Apple 对象，所以其在运行时的类型就是 Apple 类型。
+
+
+
+### 泛型是不变的
+
+
+
+```java
+public class NonCovariantGenerics {
+    List<Fruit> flist = new ArrayList<Apple>(); // 编译错误
+}
+```
+
+直接在编译时报错了。
+
+原因：Java并不支持支持泛型的向上转型
+
+进一步说明：
+
+- 数组在语言中是完全定义的，因此内建了编译期和运行时的检查。
+
+- 使用泛型时，类型信息在编译期被擦除了，运行时也就无从检查，因此，泛型将这种错误检测移入到编译期
+- 泛型没有**内建的协变类型**。
+
+
+
+### 让泛型支持协变：extends通配符
+
+
+
+使用通配符让泛型支持实现协变：在两个类型之间建立某种类型的向上转型关系。
+
+```java
+Plate<? extends Fruit> plate = new Plate<Apple>();
+```
+
+
+
+实例
+
+```java
+package com.company;
+
+import java.util.List;
+
+class Fruit {
+}
+
+class Apple extends Fruit {
+}
+
+class Plate<T> {
+    private List<T> list;
+
+    public Plate() {
+    }
+
+    public void add(T item) {
+        list.add(item);
+    }
+
+    public T get() {
+        return list.get(0);
+    }
+}
+
+public class V5 {
+    public static void main(String[] args) {
+        // 让泛型支持协变：通配符
+        Plate<? extends Fruit> plate = new Plate<Apple>();
+//        plate.add(new Fruit()); //Compile Error
+//        plate.add(new Apple()); //Compile Error
+        plate.get();    // Compile Success
+    }
+}
+
+
+```
+
+
+
+缺点：再也不能往容器里放入任何东西，甚至连Apple都不行。
+
+
+
+原因：
+
+这还得从我们对盘子的定义说起。
+
+```java
+Plate<? extends Fruit> plate = new Plate<XXX>();
+```
+
+上面我们对盘子的定义中，plate 可以指向任何 Fruit 类对象，或者任何 Fruit 的子类对象。也就是说，plate 属性指向的对象其在运行时可以是 Apple 类型，也可以是 Orange 类型，也可以是 Banana 类型，只要它是 Fruit 类，或任何 Fruit 的子类即可。即我们下面几种定义都是正确的：
+
+```java
+Plate<? extends Fruit> plate = new Plate<Apple>();
+Plate<? extends Fruit> plate = new Plate<Orange>();
+Plate<? extends Fruit> plate = new Plate<Banana>();
+```
+
+这样子的话，在我们还未具体运行时，JVM 并不知道我们要往盘子里放的是什么水果，到底是苹果，还是橙子，还是香蕉，完全不知道。既然我们不能确定要往里面放的类型，那 JVM 就干脆什么都不给放，避免出错。
+
+正是出于这种原因，所以**当使用 extends 通配符时，我们无法向其中添加任何东西。**
+
+
+
+### PECS原则
+
+[非常好的文章](https://www.cnblogs.com/chanshuyi/p/deep_insight_java_generic.html#%E6%B3%9B%E5%9E%8B%E6%96%B9%E6%B3%95)
+
+
+
+- 对于 extends 通配符，我们无法向其中加入任何对象，但是我们可以进行正常的取出。
+- 对于 super 通配符，我们可以存入 T 类型对象或 T 类型的子类对象，但是我们取出的时候只能用 Object 类变量指向取出的对象。
+
+从上面的总结可以看出，extends 通配符偏向于内容的获取，而 super 通配符更偏向于内容的存入
+
+
+
+我们有一个 PECS 原则（Producer Extends Consumer Super）很好的解释了这两个通配符的使用场景。
+
+- Producer Extends 说的是当你的情景是生产者类型，需要获取资源以供生产时，我们建议使用 extends 通配符，因为使用了 extends 通配符的类型更适合获取资源。
+
+- Consumer Super 说的是当你的场景是消费者类型，需要存入资源以供消费时，我们建议使用 super 通配符，因为使用 super 通配符的类型更适合存入资源。
+
+
+
+生产者：只能读取数据，extends，get数据，Kotlin对应out
+
+消费者：只能存数据，super，set数据，Kotlin对应in
+
+
+
+```kotlin
+out T 等价于  ? extends T 
+in T 等价于 ? super T 
+此外, 还有 * 等价于 ?
+```
+
+
+
+### 类型擦除
+
+#### 擦除是历史遗留问题
+
+java的泛型不是从jdk1.0就出现的，为了跟以往没有泛型代码的源代码兼容，例如List被擦除为List，而普通的类型变量在未指定边界的时候被擦除为Object，从而实现泛型的功能并且向后兼容。
+
+
+
+如果在使用泛型时没有指明数据类型，那么就会擦除泛型类型，请看下面的代码：
+
+```java
+public class Demo {
+    public static void main(String[] args){
+        Point p = new Point();  // 类型擦除
+        p.setX(10);
+        p.setY(20.8);
+        int x = (Integer)p.getX();  // 向下转型
+        double y = (Double)p.getY();
+        System.out.println("This point is：" + x + ", " + y);
+    }
+}
+
+class Point<T1, T2>{
+    T1 x;
+    T2 y;
+    public T1 getX() {
+        return x;
+    }
+    public void setX(T1 x) {
+        this.x = x;
+    }
+    public T2 getY() {
+        return y;
+    }
+    public void setY(T2 y) {
+        this.y = y;
+    }
+}
+```
+
+
+
+因为在使用泛型时没有指明数据类型，为了不出现错误，编译器会将所有数据向上转型为 Object，所以在取出坐标使用时要向下转型，这与本文一开始不使用泛型没什么两样。
+
+
+
+### 
+
+
+
+
+
+
+
+## Java实现
+
+
+
+### 菱形语法
+
+
+
+Java7：构造器<>必须带类型。
+
+```java
+List<String> strList = new ArrayList<String>();
+```
+
+
+
+java8: 构造器泛型不用带类型。
+
+```java
+List<String> strList = new ArrayList<>();
+```
+
+
+
+### 泛型类
+
+泛型类一般使用字母 T 作为泛型的标志。
+
+
+
+```java
+public class GenericClass<T> {
+    private T object;
+    public T getObject() {
+        return object;
+    }
+    public void setObject(T object) {
+        this.object = object;
+    }
+}
+```
+
+
+
+使用时，指定类型
+
+```java
+    public static void main(String[] args) {
+        GenericClass<Integer> integerGenericClass = new GenericClass<>(100);
+        System.out.println(integerGenericClass.getObject());
+
+        GenericClass<String> stringGenericClass = new GenericClass<>("www.woniuxy");
+        System.out.println(stringGenericClass.getObject());
+    }
+```
+
+
+
+### 泛型集合
+
+需要使用 Map 的类中，通常使用 K V 两个字母表示 Key Value 对应的类型。
+
+```java
+public class GenericMap<K, V> {
+    private K key;
+    private V value;
+    public void put(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
+}
+```
+
+
+
+使用
+
+```java
+public static void main(String[] args) {
+        GenericMap<Integer, String> team = new GenericMap<>();
+        team.put(1, "YaoMin");
+        team.put(2, "Me");
+        GenericMap<String, Integer> score = new GenericMap<>();
+        score.put("YaoMin", 88);
+        score.put("Me", 80);
+    }
+```
+
+
+
+### 泛型接口
+
+```java
+public class Demo {
+    public static void main(String arsg[]) {
+        Info<String> obj = new InfoImp<String>("www.weixueyuan.net");
+        System.out.println("Length Of String: " + obj.getVar().length());
+    }
+}
+//定义泛型接口
+interface Info<T> {
+    public T getVar();
+}
+//实现接口
+class InfoImp<T> implements Info<T> {
+    private T var;
+    // 定义泛型构造方法
+    public InfoImp(T var) {
+        this.setVar(var);
+    }
+    public void setVar(T var) {
+        this.var = var;
+    }
+    public T getVar() {
+        return this.var;
+    }
+}
+```
+
+
+
+### 泛型方法
+
+
+
+语法
+
+```java
+修饰符 <T,S> 返回值类型 方法名(形参列表){\
+    //方法体
+}
+```
+
+<T, S> : 类型参数声明
+
+类型参数：能被用来声明返回值类型，并且能作为泛型方法得到的实际参数类型的占位符。
+
+
+
+例如
+
+```java
+static <T> void copyList(T[] a, javaCollection<T> c){
+    //dosomething
+}
+```
+
+编译器可以**根据实参推断出泛型锁代表的类型**，它通常推断出最直接的类型。
+
+
+
+泛型方法一般使用字母 T 作为泛型的标志。
+
+
+
+
+
+### 有界的类型参数
+
+限制那些被允许传递到一个类型参数的类型种类范围。
+
+> 例如，一个操作数字的方法可能只希望接受Number或者Number子类的实例。这就是有界类型参数的目的。
+
+
+
+```java
+<T extends Number>
+```
+
+要声明一个有界的类型参数，首先列出类型参数的名称，后跟extends关键字，最后紧跟它的上界。
+
+
+
+```java
+public <T extends Number> T getMax(T array[]){
+    T max = null;
+    for(T element : array){
+        max = element.doubleValue() > max.doubleValue() ? element : max;
+    }
+    return max;
+}
+```
+
+<T extends Number> 表示 T 只接受 Number 及其子类，传入其他类型的数据会报错。这里的限定使用关键字 extends，后面可以是类也可以是接口。但这里的 extends 已经不是继承的含义了，应该理解为 T 是继承自 Number 类的类型，或者 T 是实现了 XX 接口的类型。
+
+
+
+
+
+复杂的实例
+
+```java
+package top.yhb123.java.generictype;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+public class Main2 {
+    static <T> void fromArrayToCollection(Collection<? extends T> strList, Collection<T> objList){
+        for (T str : strList){
+            objList.add(str);
+
+            System.out.println(str.getClass().getName());
+        }
+    }
+
+    public static void main(String[] args) {
+        List<String> strList = new ArrayList<>();
+        strList.add("a");
+
+        List<Object> objList = new ArrayList<>();
+
+        //编译器正常工作
+        fromArrayToCollection(strList, objList);
+    }
+}
+
+```
+
+
+
+### 泛型通配符
+
+类型通配符一般是使用`?`代替具体的类型参数。例如 `List<?>` 在逻辑上是List<String>,List<Integer>等所有List<具体类型实参>的父类。
+
+
+
+
+
+
+
+1、如果只指定了<?>，而没有extends，则默认是允许Object及其下的任何Java类了。也就是任意类。
+ 2、通配符泛型不单可以向下限制，如<? extends Collection>，还可以向上限制，如<? super Double>，表示类型只能接受Double及其上层父类类型，如Number、Object类型的实例。
+ 3、泛型类定义可以有多个泛型参数，中间用逗号隔开，还可以定义泛型接口，泛型方法。这些都与泛型类中泛型的使用规则类似。
+
+
+
+
+
+
+
+## Kotlin实现
+
+
+
+### 泛型类
+
+
+
+```kotlin
+class Box<T>(t: T) {
+    var value = t
+}
+```
+
+
+
+```kotlin
+// 提供类型参数
+val box: Box<Int> = Box<Int>(1)
+
+// 但是如果类型参数可以推断出来，例如从构造函数的参数或者从其他途径，允许省略类型参数：
+val box = Box(1)
+```
+
+
+
+### 泛型函数
+
+```kotlin
+package top.yhb123.generics
+
+fun <T> singletonList(item: T) {
+    println(item)
+}
+
+fun main() {
+		// 要调用泛型函数，在调用处函数名**之后**指定类型参数即可：
+    singletonList<Int>(123)
+    
+    // 可以省略能够从上下文中推断出来的类型参数
+    singletonList(123)
+}
+```
+
+
+
+### 型变
+
+Java 类型系统中最棘手的部分之一是通配符类型。
+
+而 Kotlin 中没有。 相反，它有两个其他的东西：声明处型变（declaration-site variance）与类型投影（type projections）。
+
+
+
+
+
+
+
+
+
+
+
+## 参考
+
+
+
+[参考1](https://www.runoob.com/java/java-generics.html)
+
+[参考2](http://www.weixueyuan.net/view/6321.html)
+
+[参考3](https://juejin.im/post/5c825a626fb9a049d61e5602#heading-3)
