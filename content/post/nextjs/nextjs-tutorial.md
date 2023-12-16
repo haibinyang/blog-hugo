@@ -1,5 +1,5 @@
 ---
-title: "Nextjs"
+title: "Nextjs Tutorial"
 description: 
 date: 2023-12-03T06:28:27+08:00
 image: 
