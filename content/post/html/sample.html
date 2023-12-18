@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>我的 HTML5 网页</title>
+    <style>
+        aside {
+            width: 40%;
+            padding-left: 0.5rem;
+            margin-left: 0.5rem;
+            float: right;
+            box-shadow: inset 5px 0 5px -5px #29627e;
+            font-style: italic;
+            color: #29627e;
+        }
+
+        aside>p {
+            margin: 0.5rem;
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <header>
+        <nav>
+            <a href="#">主页</a>
+            <a href="#">文章</a>
+            <a href="#">联系方式</a>
+        </nav>
+    </header>
+
+    <hr>
+
+    <main>
+        <section>
+            <h2>关于我</h2>
+            <p>这里是一些关于我的信息。</p>
+        </section>
+
+        <article>
+            <h3>我的第一篇博客</h3>
+            <p><strong>HTML5</strong> 是当前最流行的网页技术。</p>
+            <blockquote>HTML5 引入了许多新的语义元素和功能。</blockquote>
+        </article>
+
+        
+        <section>
+            <h1>aside</h1>
+            <p>
+                Salamanders are a group of amphibians with a lizard-like appearance, including short legs and a tail in
+                both
+                larval
+                and adult forms.
+            </p>
+
+            <aside>
+                <p>The Rough-skinned Newt defends itself with a deadly neurotoxin.</p>
+            </aside>
+
+            <p>
+                Several species of salamander inhabit the temperate rainforest of the Pacific Northwest, including the
+                Ensatina, the
+                Northwestern Salamander and the Rough-skinned Newt. Most salamanders are nocturnal, and hunt for
+                insects,
+                worms and
+                other small creatures.
+            </p>
+        </section>
+
+        <section>
+            <h2>HTML5 特性</h2>
+            <ul>
+                <li>语义化标签</li>
+                <li>新的表单控件</li>
+            </ul>
+            <ol>
+                <li>更好的跨设备支持</li>
+                <li>增强的多媒体支持</li>
+            </ol>
+            <dl>
+                <dt>HTML</dt>
+                <dd>超文本标记语言</dd>
+                <dt>CSS</dt>
+                <dd>层叠样式表</dd>
+            </dl>
+        </section>
+
+        <form>
+            <label for="name">姓名:</label>
+            <input type="text" id="name" name="name"><br><br>
+            <label for="email">电子邮箱:</label>
+            <input type="email" id="email" name="email"><br><br>
+            <textarea name="message" rows="4" cols="50">在此输入您的消息...</textarea><br><br>
+            <button type="submit">提交</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>版权所有 &copy; 2023 我的网站</p>
+    </footer>
+
+</body>
+
+</html>
