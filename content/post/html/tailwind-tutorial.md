@@ -1,7 +1,7 @@
 ---
-title: "Tailwind Css Tutorial"
+title: "Tailwind Tutorial"
 description: 
-date: 2023-12-18T13:22:03+08:00
+date: 2023-12-18T13:34:19+08:00
 image: 
 math: 
 license: 
