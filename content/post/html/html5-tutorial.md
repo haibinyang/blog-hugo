@@ -1,5 +1,5 @@
 ---
-title: "Html5 Tutorial"
+title: "Html 常见元素"
 description: 
 date: 2023-12-18T13:34:46+08:00
 image: 
@@ -112,6 +112,10 @@ draft: false
 | `<canvas>`   | 用于即时绘制图形                     |
 
 
+
+# form
+
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/button
 
 
 

@@ -45,6 +45,43 @@
             position: relative;
             top: -13px;
         }
+
+        dt {
+            font-weight: bold;
+        }
+
+        dl,
+        dd {
+            font-size: 0.9rem;
+        }
+
+        dd {
+            margin-bottom: 1em;
+        }
+
+        blockquote {
+            margin: 0;
+        }
+
+        blockquote p {
+            padding: 15px;
+            background: #eee;
+            border-radius: 5px;
+        }
+
+        blockquote p::before {
+            content: '\201C';
+        }
+
+        blockquote p::after {
+            content: '\201D';
+        }
+
+        pre {
+            font-size: 0.7rem;
+            margin: 0;
+        }
+
     </style>
 </head>
 
@@ -54,6 +91,7 @@
         <p>这是我的网站的标题</p>
     </header>
 
+    nav
     <nav>
         <ul>
             <li><a href="#home">主页</a></li>
@@ -71,7 +109,6 @@
         <article>
             <h2>另一个文章标题</h2>
             <p>这是另一个文章的内容。</p>
-            <blockquote>这是一个引用。</blockquote>
             <pre>预格式化文本。</pre>
         </article>
     </section>
@@ -102,8 +139,8 @@
     </section>
 
     <hr>
-
-
+    ol和ul
+    
     <ol>
         <li>列表项1</li>
         <li>列表项2</li>
@@ -117,6 +154,7 @@
     </ul>
 
     <hr>
+    dl和dt
 
     <dl>
         <dt>术语1</dt>
@@ -126,7 +164,31 @@
     </dl>
 
     <hr>
+    blockquote
+    <blockquote cite="https://www.huxley.net/bnw/four.html">
+        <p>Words can be like X-rays, if you use them properly—they’ll go through anything. You read and you’re pierced.
+        </p>
+    </blockquote>
 
+    <hr>
+    small
+    <p><small>The content is licensed under a Creative Commons Attribution-ShareAlike 2.5 Generic License.</small></p>
+    <hr>
+    cite
+
+    <figure>
+        <figcaption>
+            First sentence in <cite>Nineteen Eighty-Four</cite>
+            by George
+            Orwell (Part 1, Chapter 1).
+        </figcaption>
+    </figure>
+
+    <hr>
+    code
+    <p>Regular text. <code>This is code.</code> Regular text.</p>
+
+    <hr>
     <form>
         <label for="name">姓名:</label>
         <input type="text" id="name" name="name"><br><br>
