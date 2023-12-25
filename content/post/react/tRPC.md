@@ -257,5 +257,11 @@ export default function IndexPage() {
 
 
 
+参考这篇[文章](https://www.wilchow.com/blog/get-end-to-end-typesafe-apis-with-trpc-and-nextjs-app-router)，写得非常清晰，也附带[示例代码](https://github.com/javajunky/nextjs-trpc-demo)。
+
+
+
+
+
 
 
