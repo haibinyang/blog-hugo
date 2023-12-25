@@ -288,7 +288,48 @@ export default Message;
 
 
 
+# 其它
 
+
+
+## HOC
+
+在React中，高阶组件（Higher-Order Component，简称HOC）是一种高级技术，用于重用组件逻辑。高阶组件是一个函数，它接受一个组件并返回一个新组件。它们通常用于实现跨多个组件的共享行为，比如数据加载、权限管理或表单处理等。
+
+举个例子，如果你有多个组件需要访问相同的数据或行为，你可以创建一个高阶组件来封装这些共享逻辑，然后将它应用到这些组件上。这样，你可以避免重复代码，并在需要时轻松更新共享逻辑。
+
+高阶组件的基本模式如下：
+
+```react
+javascriptCopy code
+function withSharedLogic(WrappedComponent) {
+    return class extends React.Component {
+        // ...共享逻辑...
+
+        render() {
+            // 将共享逻辑和props传递给被包裹的组件
+            return <WrappedComponent {...this.props} {...sharedLogic} />;
+        }
+    };
+}
+```
+
+使用高阶组件时，你可以这样做：
+
+```react
+javascriptCopy code
+class MyComponent extends React.Component {
+    // ...组件逻辑...
+}
+
+const EnhancedComponent = withSharedLogic(MyComponent);
+```
+
+这样，`EnhancedComponent` 就包含了 `MyComponent` 的所有功能，加上 `withSharedLogic` 中定义的共享逻辑。
+
+高阶组件的一个关键特点是它们应该是纯函数，这意味着它们不应该修改输入组件，而应该创建一个新组件并返回。这样可以保持组件的可预测性和可重用性。
+
+总之，高阶组件是React中一个非常有用的模式，能够帮助开发者编写更干净、更可维护的代码。
 
 
 
