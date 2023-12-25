@@ -162,7 +162,9 @@ const user = await trpc.userById.query('1');
 
 # 集成到React
 
-基于React Query。
+基于React Query（可以参考之前写的React Query的教程）。
+
+
 
 ## 客户端
 
