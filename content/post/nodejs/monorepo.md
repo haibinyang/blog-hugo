@@ -50,6 +50,24 @@ draft: false
 
 
 
+## 一个典型的MonoRepo目录
+
+```commonlisp
+├── apps
+|   ├── web
+|   |   ├── package.json
+├── packages
+|   ├── utils
+|   |   ├── package.json
+|   ├── ui
+|   |   ├── package.json
+├── pnpm-workspace.yaml
+├── package.json
+├── turbo.json
+```
+
+
+
 ## 问题和解决方案
 
 
