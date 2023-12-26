@@ -52,7 +52,7 @@ draft: false
 
 ## 一个典型的MonoRepo目录
 
-```commonlisp
+```json
 ├── apps
 |   ├── web
 |   |   ├── package.json
