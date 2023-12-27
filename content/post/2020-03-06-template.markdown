@@ -1,8 +1,0 @@
----
-layout: post
-title:  "技术"
-date:   2020-03-06 07:58:58 +0800
-categories: other
----
-
-## 待补充
