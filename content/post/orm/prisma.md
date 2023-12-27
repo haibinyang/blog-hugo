@@ -29,7 +29,7 @@ draft: false
 
 
 
-# 基本流程
+## 基本流程
 
 1. 安装prisma库
 
@@ -72,7 +72,7 @@ const users = await prisma.user.findMany()
 
 
 
-# Prisma的命令
+## Prisma的命令
 
 
 
@@ -91,10 +91,9 @@ const users = await prisma.user.findMany()
 
 
 
+## Scheme
+
+Relations：参考[官方文档](https://www.prisma.io/docs/orm/prisma-schema/data-model/relations)
 
 
-# Scheme
 
-## Relations
-
-参考[官方文档](https://www.prisma.io/docs/orm/prisma-schema/data-model/relations)
