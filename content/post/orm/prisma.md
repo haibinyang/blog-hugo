@@ -97,3 +97,9 @@ Relations：参考[官方文档](https://www.prisma.io/docs/orm/prisma-schema/da
 
 
 
+## 填充数据库
+
+见[教程](https://www.prisma.io/blog/nestjs-prisma-rest-api-7D056s1BmOL0#seed-the-database)
+
+
+
