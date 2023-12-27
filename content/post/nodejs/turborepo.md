@@ -89,11 +89,21 @@ packages:
 
 ### 安装全局依赖包
 
+格式
+
+```bash
+pnpm add --filter <workspace-name> <package-name>
+```
+
+
+
 ```bash
 pnpm add typescript -D -w
 ```
 
 > `-w` 表示在workspace的根目录下安装而不是当前的目录
+>
+> `-D`表示安装在开发依赖
 
 删除依赖包：`pnpm rm pkgname`
 
@@ -102,7 +112,7 @@ pnpm add typescript -D -w
 ### 安装某个workspace的依赖
 
 ```bash
-pnpm --filter a-workspace add react
+pnpm add --filter <workspace-name> <package-name>
 ```
 
 > `--filter`或`-F`指定命令作用范围
