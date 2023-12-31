@@ -1,9 +1,89 @@
 ---
-layout: post
-title:  "JNI"
-date:   2020-02-12 16:57:48 +0800
-categories: jni java
+title: "JNI"
+description: 
+date: 2023-12-30T13:35:07+08:00
+image: 
+math: 
+license: 
+hidden: false
+comments: true
+draft: false
 ---
+
+
+
+
+
+# NDK
+
+
+
+版本：r25（2022年7月）
+
+[历史版本](https://developer.android.com/ndk/downloads/revision_history?hl=zh-cn)
+
+[历史版本离线安装包](https://github.com/android/ndk/wiki/Unsupported-Downloads)
+
+
+
+**NDK路径**
+
+/Users/yanghaibin/Library/Android/sdk/ndk/17.2.4988734
+
+
+
+**如何下载历史版本**
+
+1. **启动 Android Studio**：打开 Android Studio。
+2. **进入 SDK 管理器**：在 Android Studio 的菜单栏中，点击 “Tools”（工具），然后选择 “SDK Manager”（SDK 管理器）。
+3. **打开 SDK 工具选项卡**：在 SDK 管理器中，切换到 “SDK Tools”（SDK 工具）选项卡。
+4. **显示旧版本**：在 SDK 工具界面中，勾选 “Show Package Details”（显示包详情）。
+5. **选择 NDK 版本**：展开 “NDK (Side by side)”（NDK（并行安装））选项，你会看到不同版本的 NDK。从列表中选择你需要的旧版本。
+
+![](https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/20231230164818.png)
+
+
+
+
+
+
+
+配置环境变量
+
+```bash
+export PATH="$PATH:/Applications/Postgres.app/Contents/Versions/16/bin"
+PATH=${PATH}:${NDK_HOME}
+```
+
+
+
+**Macbook Silicon芯片兼容性问题**
+
+编辑文件`/Users/mac/Library/Android/sdk/ndk/21.4.7075529/ndk-build`
+
+**from**
+
+```
+#!/bin/sh
+DIR="$(cd "$(dirname "$0")" && pwd)"
+$DIR/build/ndk-build "$@"
+```
+
+**to**
+
+```
+#!/bin/sh
+DIR="$(cd "$(dirname "$0")" && pwd)"
+arch -x86_64 /bin/bash $DIR/build/ndk-build "$@"
+```
+
+
+
+[修复方法](https://stackoverflow.com/questions/69541831/unknown-host-cpu-architecture-arm64-android-ndk-siliconm1-apple-macbook-pro)
+
+
+
+
 
 # Mac下Java JNI 调C
 
