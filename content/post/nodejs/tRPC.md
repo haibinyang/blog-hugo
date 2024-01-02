@@ -263,6 +263,84 @@ export default function IndexPage() {
 
 
 
+# 标准的tRPC代码
+
+```ts
+import { initTRPC } from '@trpc/server';
+ 
+// You can use any variable name you like.
+// We use t to keep things simple.
+const t = initTRPC.create();
+ 
+export const router = t.router;
+export const publicProcedure = t.procedure;
+```
+
+# 定义apiRouter
+
+```ts
+import { publicProcedure, router } from './trpc';
+ 
+const appRouter = router({
+  greeting: publicProcedure.query(() => 'hello tRPC v10!'),
+});
+ 
+// Export only the type of a router!
+// This prevents us from importing server code on the client.
+export type AppRouter = typeof appRouter;
+```
+
+
+
+# Context
+
+不同的procedure共享的数据
+
+> 例如可以放database connections或authentication
+
+
+
+```ts
+import { initTRPC } from '@trpc/server';
+import type { CreateNextContextOptions } from '@trpc/server/adapters/next';
+import { getSession } from 'next-auth/react';
+
+// 自定义一个Context，返回session
+export const createContext = async (opts: CreateNextContextOptions) => {
+  const session = await getSession({ req: opts.req });
+ 
+  return {
+    session,
+  };
+};
+ 
+// 在proceures中就可以访问Context中的session
+const t1 = initTRPC.context<typeof createContext>().create();
+t1.procedure.use(({ ctx }) => { ... });
+ 
+type Context = Awaited<ReturnType<typeof createContext>>;
+const t2 = initTRPC.context<Context>().create();
+t2.procedure.use(({ ctx }) => { ... });
+```
+
+[参考](https://trpc.io/docs/server/context)
+
+
+
+# Middleware
+
+定义一个middleware
+
+在procedure中使用middleware
+
+> t.procedure.use()
+
+使用：Auth或Log
+
+
+
+[Middleware官方教程](https://trpc.io/docs/server/middlewares#extending-middlewares)
+
 
 
 
