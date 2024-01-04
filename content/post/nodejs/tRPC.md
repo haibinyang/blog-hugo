@@ -305,7 +305,7 @@ import { initTRPC } from '@trpc/server';
 import type { CreateNextContextOptions } from '@trpc/server/adapters/next';
 import { getSession } from 'next-auth/react';
 
-// 自定义一个Context，返回session
+// 1、自定义一个Context，返回session
 export const createContext = async (opts: CreateNextContextOptions) => {
   const session = await getSession({ req: opts.req });
  
@@ -314,13 +314,22 @@ export const createContext = async (opts: CreateNextContextOptions) => {
   };
 };
  
-// 在proceures中就可以访问Context中的session
+// 2、初始化tRPC时，传入自定义的Context
 const t1 = initTRPC.context<typeof createContext>().create();
+// 3、在proceures中就可以访问Context中的session                          
 t1.procedure.use(({ ctx }) => { ... });
- 
+// (parameter) ctx: {
+//    session: Session | null;
+// }
+
+// 2、初始化tRPC时，传入自定义的Context                             
 type Context = Awaited<ReturnType<typeof createContext>>;
 const t2 = initTRPC.context<Context>().create();
+// 3、在proceures中就可以访问Context中的session
 t2.procedure.use(({ ctx }) => { ... });
+// (parameter) ctx: {
+//    session: Session | null;
+// }
 ```
 
 [参考](https://trpc.io/docs/server/context)

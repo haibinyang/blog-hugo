@@ -467,6 +467,31 @@ await auth.updateKeyPassword("email", "user@example.com", "654321");
 
 
 
+```ts
+import { auth } from "./lucia.js";
+import { LuciaError } from "lucia";
+
+try {
+  // This will reset the session if its idle.
+	const session = await auth.validateSession(sessionId);
+	if (session.fresh) {
+    // You can check if the returned session was just reset with the Session.fresh property. 
+		// 延长过期时间
+		const sessionCookie = auth.createSessionCookie(session);
+		setSessionCookie(session);
+	}
+} catch (e) {
+  // 如果session是dead的，抛出AUTH_INVALID_SESSION_ID错误
+	if (e instanceof LuciaError && e.message === `AUTH_INVALID_SESSION_ID`) {
+		// invalid session
+		deleteSessionCookie();
+	}
+	// unexpected database errors
+}
+```
+
+[参考](https://lucia-auth.com/basics/sessions/)
+
 ### 创建会话
 
 ```ts
@@ -498,7 +523,7 @@ await auth.invalidateSession(sessionId);
 
 
 
-使所有用户会话失效
+使所有某一用户的所有会话失效
 
 ```ts
 import { auth } from "./lucia.js";
@@ -522,9 +547,16 @@ await auth.invalidateAllUserSessions(userId);
 
 
 
-配置Netxt.js
+### Netxt.js
 
-We recommend setting [`sessionCookie.expires`](https://lucia-auth.com/basics/configuration#sessioncookie) configuration to `false` when using this middleware.
+有两个中间件
+
+- [nextjs()](https://lucia-auth.com/reference/lucia/modules/middleware/#nextjs)
+- nextjs_future()
+
+
+
+**使用方法**
 
 ```ts
 import { node } from "lucia/middleware";
@@ -565,6 +597,24 @@ export const middleware = async (request: NextRequest) => {
 
 
 
+支持的函数
+
+```ts
+auth.handleRequest({
+	req: req as IncomingMessage,
+	res: res as OutgoingMessage | undefined
+});
+
+auth.handleRequest({
+	request: request as NextRequest | null,
+	cookies: cookies as Cookies
+});
+```
+
+
+
+
+
 ## 使用Cookies
 
 ### Cookie expiration
@@ -573,7 +623,11 @@ export const middleware = async (request: NextRequest) => {
 - 如果在延长会话过期时间后无法始终设置 cookie，则此行为可能更不可取。
 - 您可以通过将 configuration 设置为 `sessionCookie.expires` `false` 来将会话 cookie 设置为无限期持续。启用此选项不会更改会话过期时间，而只会更改 cookie。
 
-### 创建Session
+### 
+
+
+
+
 
 
 
