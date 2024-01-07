@@ -12,6 +12,133 @@ draft: false
 
 
 
+# 集成到Next.js
+
+> [参考](https://tailwindcss.com/docs/guides/nextjs)
+
+创建Next.js项目
+
+```bash
+npx create-next-app
+```
+
+安装postcss、autoprefixer和tailwindcss库
+
+```bash
+npm install -D tailwindcss postcss autoprefixer
+```
+
+> 1. **PostCSS**: Tailwind CSS 是基于 PostCSS 构建的，这是一个用于转换 CSS 的工具。它允许你使用 JavaScript 插件来处理 CSS。Tailwind CSS 利用 PostCSS 来实现其功能，如应用实用类和响应式设计。
+> 2. **Autoprefixer**: Autoprefixer 是一个 PostCSS 插件，用于自动添加浏览器特定的前缀到 CSS 规则中。这意味着你不需要手动添加这些前缀，Autoprefixer 会根据你的浏览器目标自动处理它们。这对于确保跨浏览器兼容性非常重要。
+
+初始化
+
+```bash
+npx tailwindcss init -p
+```
+
+生成2个配置文件
+
+- 关键是postcss引进两个插件：tailwind和autoprefixer
+
+![image-20240107085950440](https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/image-20240107085950440.png)
+
+配置tailwind
+
+```ts
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+ 
+    // Or if using `src` directory:
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
+
+配置`globals.css`：添加自定义的Directive。
+
+```
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+使用tailwind
+
+> index.tsx
+
+```tsx
+export default function Home() {
+  return (
+    <h1 className="text-3xl font-bold underline">
+      Hello world!
+    </h1>
+  )
+}
+```
+
+
+
+## Autoprefixer
+
+Autoprefixer 的作用是自动为 CSS 规则添加浏览器特定的前缀，以确保跨浏览器的兼容性。例如，考虑以下 CSS 规则：
+
+```
+cssCopy code
+.example {
+    display: flex;
+    transition: transform 1s;
+    user-select: none;
+}
+```
+
+在不使用 Autoprefixer 的情况下，这些规则可能不会在所有浏览器中正常工作。但是当使用 Autoprefixer 时，它会自动添加必要的前缀，以确保更广泛的浏览器兼容性。处理后的 CSS 可能会看起来像这样：
+
+```css
+cssCopy code
+.example {
+    display: -webkit-box;  /* 旧版 iOS Safari */
+    display: -ms-flexbox;  /* IE 10 */
+    display: flex;         /* 现代浏览器 */
+    -webkit-transition: -webkit-transform 1s;
+    transition: -ms-transform 1s; /* IE 9 */
+    transition: transform 1s;
+    -webkit-user-select: none; /* Safari 和 Chrome */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* IE 10+ 和 Edge */
+    user-select: none;         /* 规范语法 */
+}
+```
+
+这里，Autoprefixer 根据当前的浏览器支持和使用情况，为 `display: flex;`, `transition`, 和 `user-select` 等属性添加了适当的前缀。这样，你的 CSS 就能在更多的浏览器上正常运行，而无需手动添加这些前缀。
+
+## 添加Geist字体
+
+见链接
+
+
+
+
+
+# 分层
+
+Tailwind CSS 使用多个层（layers）来组织其样式规则。这些层包括：
+
+1. **基础层（Base）**: 这是最底层，包括浏览器样式重置和基础元素样式。例如，它会重置标准的 HTML 元素样式，确保在不同浏览器中具有一致性。
+2. **组件层（Components）**: 在这一层，Tailwind 提供了一系列预构建的组件样式。这些样式是针对常见的 UI 元素，如按钮、表单和卡片。通过使用这些组件，开发者可以快速搭建界面而无需从零开始。
+3. **实用工具层（Utilities）**: 实用工具层是 Tailwind 的核心特性之一，提供了大量的实用工具类，允许开发者快速应用样式，如边距、颜色、字体大小和布局等。这些类通常是原子性的，意味着每个类只做一件事。
+4. **自定义层（Custom）**: 虽然 Tailwind 提供了大量的实用工具类和组件样式，但在某些情况下，开发者可能需要更具体的样式。在这种情况下，可以创建自定义层，添加特定的 CSS 规则来满足特定的需求。
+
+使用这些层，Tailwind CSS 为开发者提供了既灵活又高效的方式来构建和管理样式。通过层的概念，可以轻松地覆盖和扩展样式，确保样式表的可维护性和可扩展性。
+
 
 
 # Layout
@@ -396,7 +523,38 @@ draft: false
 
 # Font
 
-待补充
+## 字体大小
+
+| Class     | Properties                                                   |
+| --------- | ------------------------------------------------------------ |
+| text-xs   | font-size: 0.75rem; /* 12px */ line-height: 1rem; /* 16px */ |
+| text-sm   | font-size: 0.875rem; /* 14px */ line-height: 1.25rem; /* 20px */ |
+|           |                                                              |
+| text-base | font-size: 1rem; /* 16px */ line-height: 1.5rem; /* 24px */  |
+| text-lg   | font-size: 1.125rem; /* 18px */ line-height: 1.75rem; /* 28px */ |
+|           |                                                              |
+| text-xl   | font-size: 1.25rem; /* 20px */ line-height: 1.75rem; /* 28px */ |
+| text-2xl  | font-size: 1.5rem; /* 24px */ line-height: 2rem; /* 32px */  |
+| ...       |                                                              |
+| text-9xl  | font-size: 8rem; /* 128px */ line-height: 1;                 |
+
+![image-20240107090708033](https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/image-20240107090708033.png)
+
+## 字体
+
+| Class      | Properties                                                   |
+| ---------- | ------------------------------------------------------------ |
+| font-sans  | font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; |
+| font-serif | font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif; |
+| font-mono  | font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; |
+
+![image-20240107090900024](https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/image-20240107090900024.png)
+
+
+
+### 添加自定义字体
+
+[参考](https://tailwindui.com/documentation)
 
 
 

@@ -125,3 +125,52 @@ https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/button
 
 https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/a
 
+
+
+# lang属性
+
+[参考](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
+
+```html
+<p>This paragraph is English, but the language is not specifically defined.</p>
+
+<p lang="en-GB">This paragraph is defined as British English.</p>
+
+<p lang="fr">Ce paragraphe est défini en français.</p>
+```
+
+
+
+```css
+p::before {
+  padding-right: 5px;
+}
+
+[lang='en-GB']::before {
+  content: '(In British English) ';
+}
+
+[lang='fr']::before {
+  content: '(In French) ';
+}
+```
+
+
+
+使用[BCP-47标准](https://datatracker.ietf.org/doc/html/rfc5646)
+
+
+
+## 中文
+
+> zh 现在不是语言code了，而是macrolang
+>
+> 能作为语言code的是cmn（国语）、yue（粤语）、wuu（吴语）等
+
+```bash
+1. 简体中文页面：html lang=zh-cmn-Hans
+2. 繁体中文页面：html lang=zh-cmn-Hant
+3. 英语页面：html lang=en
+```
+
+[参考](https://www.zhihu.com/question/20797118)

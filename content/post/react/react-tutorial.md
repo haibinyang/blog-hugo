@@ -333,6 +333,16 @@ const EnhancedComponent = withSharedLogic(MyComponent);
 
 
 
+## 服务端组件
+
+两种类型
+
+- 异步组件（Async Components）
+- 非异步的常规组件（Non-async, Regular Components）
+  - 不支持在组件内进行异步操作
+
+总的来说，异步组件在处理需要等待数据或执行异步逻辑的场景中更有优势，而非异步的常规组件更适合于那些不依赖于外部数据或异步操作的渲染任务。
+
 
 
 # 参考

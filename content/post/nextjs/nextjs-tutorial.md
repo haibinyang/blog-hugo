@@ -20,6 +20,60 @@ draft: false
 
 
 
+# 动态路由
+
+**Dynamic Segment**
+
+`[segmentName]`
+
+例如 `[id]` or `[slug]`.
+
+
+
+## 举例
+
+> pages/blog/[slug].js
+
+```ts
+import { useRouter } from 'next/router'
+ 
+export default function Page() {
+  const router = useRouter()
+  return <p>Post: {router.query.slug}</p>
+}
+```
+
+| Route                  | Example URL | `params`        |
+| ---------------------- | ----------- | --------------- |
+| `pages/blog/[slug].js` | `/blog/a`   | `{ slug: 'a' }` |
+| `pages/blog/[slug].js` | `/blog/b`   | `{ slug: 'b' }` |
+| `pages/blog/[slug].js` | `/blog/c`   | `{ slug: 'c' }` |
+
+## Catch-all Segments
+
+`[...segmentName]`
+
+| Route                     | Example URL   | `params`                    |
+| ------------------------- | ------------- | --------------------------- |
+| `pages/shop/[...slug].js` | `/shop/a`     | `{ slug: ['a'] }`           |
+| `pages/shop/[...slug].js` | `/shop/a/b`   | `{ slug: ['a', 'b'] }`      |
+| `pages/shop/[...slug].js` | `/shop/a/b/c` | `{ slug: ['a', 'b', 'c'] }` |
+
+
+
+## 可选的Catch-all Segments
+
+`[[...segmentName]]`
+
+| Route                       | Example URL            | `params`                    |
+| --------------------------- | ---------------------- | --------------------------- |
+| `pages/shop/[[...slug]].js` | `/shop`<br/>区别在这里 | `{ slug: [] }`              |
+| `pages/shop/[[...slug]].js` | `/shop/a`              | `{ slug: ['a'] }`           |
+| `pages/shop/[[...slug]].js` | `/shop/a/b`            | `{ slug: ['a', 'b'] }`      |
+| `pages/shop/[[...slug]].js` | `/shop/a/b/c`          | `{ slug: ['a', 'b', 'c'] }` |
+
+
+
 # Middleware
 
 ## 作用
@@ -54,3 +108,41 @@ export const config = {
 
 [参考](https://nextjs.org/docs/app/building-your-application/routing/middleware)
 
+
+
+# Metadata
+
+**静态**
+
+> layout.tsx | page.tsx
+
+```ts
+import type { Metadata } from 'next'
+ 
+export const metadata: Metadata = {
+  title: '...',
+  description: '...',
+}
+ 
+export default function Page() {}
+```
+
+**动态**
+
+使用 `generateMetadata` 函数
+
+> 是一个async函数
+
+```tsx
+// app/products/[id]/page.tsx
+
+export async function generateMetadata() {
+  return {
+    title: "blog.title",
+  };
+}
+ 
+export default function Page({ params, searchParams }: Props) {}
+```
+
+[参考](https://nextjs.org/docs/app/building-your-application/optimizing/metadata)

@@ -213,5 +213,43 @@ align-items
 
 
 
+# Directeive
+
+在CSS中，"指令"（Directive）通常指的是在样式表中用于指定特殊行为的规则。一个常见的例子是`@import`指令，它用于在CSS文件中导入其他CSS文件。这使得你可以将样式分散到多个文件中，以便更好地组织和维护。
+
+例如，如果你有一个名为 "reset.css" 的文件，它包含了一些基础样式规则，你可以在另一个CSS文件中使用`@import`指令来导入这个文件，如下所示：
+
+```css
+@import url('reset.css');
+
+body {
+  font-family: Arial, sans-serif;
+}
+```
+
+在这个例子中，`reset.css`文件中的所有样式规则将被导入，并应用于当前的CSS文件。这使得你可以轻松地共享样式规则，而无需在每个文件中重复相同的代码。
+
+### 自定义Directive
+
+### Sass中的自定义指令
+
+在Sass（一种CSS预处理器）中，你可以使用`@mixin`和`@function`来创建自定义的“指令”。`@mixin`允许你创建可重用的样式代码块，而`@function`用于定义返回值的函数。
+
+```css
+@mixin box-shadow($shadow) {
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
+.box {
+  @include box-shadow(0 0 10px black);
+}
+```
+
+这里，`@mixin box-shadow`定义了一个可以重复使用的阴影样式。在`.box`类中，使用`@include`调用这个mixin，并传递了一个阴影值。
+
+
+
 
 
