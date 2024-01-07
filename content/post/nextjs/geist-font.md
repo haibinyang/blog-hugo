@@ -43,7 +43,7 @@ draft: false
 npm install geist
 ```
 
-2、在`app/layout.js`:
+2、导入className，在`app/layout.js`:
 
 ```tsx
 import { GeistSans } from 'geist/font/sans'
@@ -60,7 +60,7 @@ export default function RootLayout({
 }
 ```
 
-3、`tailwind.config.js`:
+3、配置`tailwind.config.js`:
 
 ```js
 module.exports = {
