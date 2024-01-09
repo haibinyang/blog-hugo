@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>示例网页</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        aside {
+            width: 40%;
+            padding-left: 0.5rem;
+            margin-left: 0.5rem;
+            float: right;
+            box-shadow: inset 5px 0 5px -5px #29627e;
+            font-style: italic;
+            color: #29627e;
+        }
+
+        aside>p {
+            margin: 0.5rem;
+        }
+
+        footer {
+            display: flex;
+            justify-content: center;
+            padding: 5px;
+            background-color: #45a1ff;
+            color: #fff;
+        }
+
+        hr {
+            border: none;
+            border-top: 3px double #333;
+            color: #333;
+            overflow: visible;
+            text-align: center;
+            height: 5px;
+        }
+
+        hr:after {
+            background: #fff;
+            content: '§';
+            padding: 0 4px;
+            position: relative;
+            top: -13px;
+        }
+
+        dt {
+            font-weight: bold;
+        }
+
+        dl,
+        dd {
+            font-size: 0.9rem;
+        }
+
+        dd {
+            margin-bottom: 1em;
+        }
+
+        blockquote {
+            margin: 0;
+        }
+
+        blockquote p {
+            padding: 15px;
+            background: #eee;
+            border-radius: 5px;
+        }
+
+        blockquote p::before {
+            content: '\201C';
+        }
+
+        blockquote p::after {
+            content: '\201D';
+        }
+
+        pre {
+            font-size: 0.7rem;
+            margin: 0;
+        }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>我的网站</h1>
+        <p>这是我的网站的标题</p>
+    </header>
+
+    nav
+    <nav>
+        <ul>
+            <li><a href="#home">主页</a></li>
+            <li><a href="#news">新闻</a></li>
+            <li><a href="#contact">联系我们</a></li>
+            <li><a href="#about">关于我们</a></li>
+        </ul>
+    </nav>
+
+    <section>
+        <article>
+            <h2>文章标题</h2>
+            <p>这是文章的内容。</p>
+        </article>
+        <article>
+            <h2>另一个文章标题</h2>
+            <p>这是另一个文章的内容。</p>
+            <pre>预格式化文本。</pre>
+        </article>
+    </section>
+    <hr>
+
+    <section>
+        <h1>aside</h1>
+        <p>
+            Salamanders are a group of amphibians with a lizard-like appearance, including short legs and a tail in
+            both
+            larval
+            and adult forms.
+        </p>
+
+        <aside>
+            <h3>侧边栏标题</h3>
+            <p>这是侧边栏的内容。</p>
+        </aside>
+
+        <p>
+            Several species of salamander inhabit the temperate rainforest of the Pacific Northwest, including the
+            Ensatina, the
+            Northwestern Salamander and the Rough-skinned Newt. Most salamanders are nocturnal, and hunt for
+            insects,
+            worms and
+            other small creatures.
+        </p>
+    </section>
+
+    <hr>
+    ol和ul
+    
+    <ol>
+        <li>列表项1</li>
+        <li>列表项2</li>
+        <li>列表项3</li>
+    </ol>
+
+    <ul>
+        <li>无序列表项1</li>
+        <li>无序列表项2</li>
+        <li>无序列表项3</li>
+    </ul>
+
+    <hr>
+    dl和dt
+
+    <dl>
+        <dt>术语1</dt>
+        <dd>描述1</dd>
+        <dt>术语2</dt>
+        <dd>描述2</dd>
+    </dl>
+
+    <hr>
+    blockquote
+    <blockquote cite="https://www.huxley.net/bnw/four.html">
+        <p>Words can be like X-rays, if you use them properly—they’ll go through anything. You read and you’re pierced.
+        </p>
+    </blockquote>
+
+    <hr>
+    small
+    <p><small>The content is licensed under a Creative Commons Attribution-ShareAlike 2.5 Generic License.</small></p>
+    <hr>
+    cite
+
+    <figure>
+        <figcaption>
+            First sentence in <cite>Nineteen Eighty-Four</cite>
+            by George
+            Orwell (Part 1, Chapter 1).
+        </figcaption>
+    </figure>
+
+    <hr>
+    code
+    <p>Regular text. <code>This is code.</code> Regular text.</p>
+
+    <hr>
+    <form>
+        <label for="name">姓名:</label>
+        <input type="text" id="name" name="name"><br><br>
+        <label for="email">电子邮箱:</label>
+        <input type="email" id="email" name="email"><br><br>
+        <textarea name="message" rows="4" cols="50">在此输入您的消息...</textarea><br><br>
+        <button type="submit">提交</button>
+    </form>
+
+
+    <footer>
+        <p>版权 © 2023 我的网站</p>
+    </footer>
+</body>
+
+</html>

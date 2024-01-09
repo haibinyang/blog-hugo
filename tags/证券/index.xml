@@ -1,0 +1,967 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>证券 on 量子跳跃者</title><link>https://blog.ververv.com/tags/%E8%AF%81%E5%88%B8/</link><description>Recent content in 证券 on 量子跳跃者</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 16 Feb 2018 23:23:05 +0000</lastBuildDate><atom:link href="https://blog.ververv.com/tags/%E8%AF%81%E5%88%B8/index.xml" rel="self" type="application/rss+xml"/><item><title>炒股软件入门</title><link>https://blog.ververv.com/p/%E7%82%92%E8%82%A1%E8%BD%AF%E4%BB%B6%E5%85%A5%E9%97%A8/</link><pubDate>Fri, 16 Feb 2018 23:23:05 +0000</pubDate><guid>https://blog.ververv.com/p/%E7%82%92%E8%82%A1%E8%BD%AF%E4%BB%B6%E5%85%A5%E9%97%A8/</guid><description>&lt;h1 id="大盘">大盘&lt;/h1>
+&lt;h2 id="上证指数窗口">上证指数窗口&lt;/h2>
+&lt;p>快捷键：&lt;kbd>03&lt;/kbd>&lt;/p>
+&lt;ul>
+&lt;li>白线：大盘股&lt;/li>
+&lt;li>黄线：小盘股&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://blog.ververv.com/images/tdx_tutorial/01.png"
+loading="lazy"
+>&lt;/p>
+&lt;p>右边参数含义&lt;/p>
+&lt;p>&lt;img src="https://blog.ververv.com/images/tdx_tutorial/02.png"
+loading="lazy"
+>&lt;/p>
+&lt;p>&lt;a class="link" href="https://baike.baidu.com/item/%E7%9B%98%E5%8F%A3/14681650" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p>
+&lt;h1 id="个股">个股&lt;/h1>
+&lt;h2 id="历史分时图">历史分时图&lt;/h2>
+&lt;ol>
+&lt;li>可进入该股票K线图界面&lt;/li>
+&lt;li>按键盘上“左右方向键”或双击行情空白处即可出现十字光标，移动到想要查看的日期后&lt;/li>
+&lt;li>点击回车或双击，即可显示当天的分时图。&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="http://www.sohu.com/a/203010773_276450" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="十大股东">十大股东&lt;/h2>
+&lt;ul>
+&lt;li>持有股票的流通股十大股东情况不会每天公布&lt;/li>
+&lt;li>一般每季度公布一次前十大流通股东名单和相关资料。&lt;/li>
+&lt;li>查询方法: 股票软件中，按&lt;kbd>F10&lt;/kbd>查看详情，然后在*“股东研究”*栏中看出十大流通股东。&lt;/li>
+&lt;/ul></description></item><item><title>证券入门</title><link>https://blog.ververv.com/p/%E8%AF%81%E5%88%B8%E5%85%A5%E9%97%A8/</link><pubDate>Thu, 15 Feb 2018 21:32:20 +0000</pubDate><guid>https://blog.ververv.com/p/%E8%AF%81%E5%88%B8%E5%85%A5%E9%97%A8/</guid><description>&lt;h1 id="证券">证券&lt;/h1>
+&lt;blockquote>
+&lt;p>Security&lt;/p>
+&lt;/blockquote>
+&lt;p>所谓证券，就是用来证明你享有某种权益的一个凭证。&lt;/p>
+&lt;ul>
+&lt;li>有价
+&lt;ul>
+&lt;li>存款单&lt;/li>
+&lt;li>借据&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>无价
+&lt;ul>
+&lt;li>股票（Stock）&lt;/li>
+&lt;li>债券（Bond）&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="证券市场">证券市场&lt;/h1>
+&lt;blockquote>
+&lt;p>Stock Market&lt;/p>
+&lt;p>“华尔街”在1792年5月17日，24名经纪人商订了“梧桐树协议”后，也开始了证券交易，并订出了交易佣金的最低标准以及其他交易条款。而且这些经济人还在1817年成立了“纽约证券交易会”，即“纽约所证券交易所”的前身。&lt;/p>
+&lt;/blockquote>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>分类&lt;/th>
+&lt;th style="text-align:center">英文&lt;/th>
+&lt;th style="text-align:right">&lt;/th>
+&lt;th style="text-align:right">作用&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>证券发行市场&lt;/td>
+&lt;td style="text-align:center">issuing market&lt;/td>
+&lt;td style="text-align:right">一级市场(primary)&lt;/td>
+&lt;td style="text-align:right">筹资，按照合理合法的程序，向投资者出售证券所形成的市场&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>证券交易市场&lt;/td>
+&lt;td style="text-align:center">trading market&lt;/td>
+&lt;td style="text-align:right">二级市场(secondary)&lt;/td>
+&lt;td style="text-align:right">已经发行出去的证券买卖交易，流通转让的市场。&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/52512" target="_blank" rel="noopener"
+>证券市场-视频&lt;/a>&lt;/p>
+&lt;h1 id="证券交易所">证券交易所&lt;/h1>
+&lt;ul>
+&lt;li>1817年，在纽约证券交易所，首次实行集合竞价交易；&lt;/li>
+&lt;li>1871年，纽交所开始为股票设专家经纪人，负责一种或几种股票的交易，这就是做市商的雏形。&lt;/li>
+&lt;li>1969年，Institutional Network公司成立，它的目的是把一些大的机构通过计算机网络联到一起，在一个普通人看不到的地方交易股票，这便开启了利用计算机系统自动交易的先河。&lt;/li>
+&lt;/ul>
+&lt;h2 id="类别">类别&lt;/h2>
+&lt;ul>
+&lt;li>公司制：美国和香港&lt;/li>
+&lt;li>会员制：中国&lt;/li>
+&lt;/ul>
+&lt;h2 id="中国的证券交易所">中国的证券交易所&lt;/h2>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>证券交易所&lt;/th>
+&lt;th style="text-align:center">上市公司数量&lt;/th>
+&lt;th style="text-align:right">股票市价总值&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>上海证券交易所&lt;/td>
+&lt;td style="text-align:center">1253&lt;/td>
+&lt;td style="text-align:right">310141亿&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>深圳证券交易所&lt;/td>
+&lt;td style="text-align:center">1945&lt;/td>
+&lt;td style="text-align:right">237803亿&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;blockquote>
+&lt;p>截至2017年4月&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/52606" target="_blank" rel="noopener"
+>证券交易所-视频&lt;/a>&lt;/p>
+&lt;h1 id="四大市场">四大市场&lt;/h1>
+&lt;p>上证综合指数，深证成份股指数，中小板指数和创业板指数，分别对应四个主要市场，上证主板，深证主板，中小板和创业板。&lt;/p>
+&lt;h2 id="主板与中小板">主板与中小板&lt;/h2>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>证券交易所&lt;/th>
+&lt;th style="text-align:center">上市公司总股本&lt;/th>
+&lt;th style="text-align:right">股票代码&lt;/th>
+&lt;th style="text-align:right">开始时间&lt;/th>
+&lt;th style="text-align:right">市值&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>主板（Main board）&lt;/td>
+&lt;td style="text-align:center">4亿&lt;/td>
+&lt;td style="text-align:right">上交所：600&lt;br/>深交所：000和200&lt;/td>
+&lt;td style="text-align:right">1991年&lt;/td>
+&lt;td style="text-align:right">32万亿&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>中小板（Small board）&lt;/td>
+&lt;td style="text-align:center">1亿&lt;/td>
+&lt;td style="text-align:right">002开头&lt;/td>
+&lt;td style="text-align:right">2006年&lt;/td>
+&lt;td style="text-align:right">8.7万亿&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;blockquote>
+&lt;p>32万亿 = 国家15年GDP的1/2&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="主板">主板&lt;/h2>
+&lt;h2 id="中小板">中小板&lt;/h2>
+&lt;p>中国首创&lt;/p>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/52513" target="_blank" rel="noopener"
+>主板与中小板&lt;/a>&lt;/p>
+&lt;h2 id="创业板">创业板&lt;/h2>
+&lt;h2 id="纳斯达克">纳斯达克&lt;/h2>
+&lt;p>1971年2月，全球最早的创业板“纳斯达克”（NASDAQ）在美国正式成立&lt;/p>
+&lt;h2 id="中国">中国&lt;/h2>
+&lt;ul>
+&lt;li>2009年诞生&lt;/li>
+&lt;li>截止至2015年，5.3万亿市值&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/52514" target="_blank" rel="noopener"
+>创业板&lt;/a>&lt;/p>
+&lt;h2 id="新三板">新三板&lt;/h2>
+&lt;p>与上交所和深交所平级的交易所&lt;/p>
+&lt;p>老三板：2001年（接收A股退市）
+新三版：2013年&lt;/p>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/52515" target="_blank" rel="noopener"
+>新三板&lt;/a>&lt;/p>
+&lt;h1 id="股票代码">股票代码&lt;/h1>
+&lt;h2 id="国内外">国内外&lt;/h2>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>证券交易所&lt;/th>
+&lt;th style="text-align:center">股票代码&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>沪深&lt;/td>
+&lt;td style="text-align:center">6位数字&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>港股&lt;/td>
+&lt;td style="text-align:center">5位数字&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>美股&lt;/td>
+&lt;td style="text-align:center">大写英文字母&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="沪市">沪市&lt;/h2>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>类别&lt;/th>
+&lt;th style="text-align:center">前三位&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>A股&lt;/td>
+&lt;td style="text-align:center">600、601、603&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>B股&lt;/td>
+&lt;td style="text-align:center">900&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>新股申购&lt;/td>
+&lt;td style="text-align:center">730&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>配股&lt;/td>
+&lt;td style="text-align:center">700&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>权证&lt;/td>
+&lt;td style="text-align:center">580&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="深市">深市&lt;/h2>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>类别&lt;/th>
+&lt;th style="text-align:center">前三位&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>A股&lt;/td>
+&lt;td style="text-align:center">000&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>B股&lt;/td>
+&lt;td style="text-align:center">200&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>中小板&lt;/td>
+&lt;td style="text-align:center">002&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>创业板&lt;/td>
+&lt;td style="text-align:center">300&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>新股申购&lt;/td>
+&lt;td style="text-align:center">与买卖代码一致&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>配股&lt;/td>
+&lt;td style="text-align:center">080&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>权证&lt;/td>
+&lt;td style="text-align:center">031&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="新三板-1">新三板&lt;/h2>
+&lt;p>430和830&lt;/p>
+&lt;h2 id="名字中的a和b">名字中的A和B&lt;/h2>
+&lt;p>如果某公司同时在A股和B股上市，则用字母表示区别，如万科A，万科B。&lt;/p>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/52608" target="_blank" rel="noopener"
+>股票名称和代码-视频&lt;/a>&lt;/p>
+&lt;h2 id="前缀">前缀&lt;/h2>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>前缀&lt;/th>
+&lt;th style="text-align:center">含义&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>XR&lt;/td>
+&lt;td style="text-align:center">除权&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>XD&lt;/td>
+&lt;td style="text-align:center">除息&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>DR&lt;/td>
+&lt;td style="text-align:center">除权除息&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>ST&lt;/td>
+&lt;td style="text-align:center">亏损&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>*ST&lt;/td>
+&lt;td style="text-align:center">退市风险&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>**ST&lt;/td>
+&lt;td style="text-align:center">退市预警&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;blockquote>
+&lt;p>ST: Special Treament&lt;/p>
+&lt;/blockquote>
+&lt;h1 id="股票指数">股票指数&lt;/h1>
+&lt;blockquote>
+&lt;p>Stock index&lt;/p>
+&lt;/blockquote>
+&lt;h1 id="含义">含义&lt;/h1>
+&lt;p>又称股票价格指数，是由证券交易所或者金融服务机构编制的一种参考数据。它反映了股市上各种股票价格的总体水平，以及它们的变动情况。&lt;/p>
+&lt;h2 id="常见指数">常见指数&lt;/h2>
+&lt;ul>
+&lt;li>道琼斯指数：始于1884年，历史最悠久&lt;/li>
+&lt;li>标准·普尔股票指数&lt;/li>
+&lt;li>FT指数&lt;/li>
+&lt;li>恒生指数&lt;/li>
+&lt;li>日经指数&lt;/li>
+&lt;/ul>
+&lt;h2 id="我国的股票指数">我国的股票指数&lt;/h2>
+&lt;ul>
+&lt;li>上证综指&lt;/li>
+&lt;li>深圳综指&lt;/li>
+&lt;li>深证成分指数&lt;/li>
+&lt;li>沪深300指数&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/52558" target="_blank" rel="noopener"
+>股票指数-视频&lt;/a>&lt;/p>
+&lt;h2 id="上证指数">上证指数&lt;/h2>
+&lt;h3 id="计算公式">计算公式&lt;/h3>
+&lt;p>每日指数数值 = 本日股票市价总值／基期股票市价总值×100&lt;/p>
+&lt;p>1990年为基准：100点
+2007年为高峰：6124点&lt;/p>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/55045" target="_blank" rel="noopener"
+>上证指数-视频&lt;/a>&lt;/p>
+&lt;h2 id="深成指">深成指&lt;/h2>
+&lt;p>1994年为基准：1000点
+2007年为高峰：待定&lt;/p>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/54765" target="_blank" rel="noopener"
+>深成指-视频&lt;/a>&lt;/p>
+&lt;h2 id="沪深300指数">沪深300指数&lt;/h2>
+&lt;p>2004年为基准：1000点
+2007年为高峰：待定&lt;/p>
+&lt;p>影响最大的四只股票&lt;/p>
+&lt;ul>
+&lt;li>中国平安&lt;/li>
+&lt;li>中国民生银行&lt;/li>
+&lt;li>兴业银行&lt;/li>
+&lt;li>万科&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/54631" target="_blank" rel="noopener"
+>沪深300指数-视频&lt;/a>&lt;/p>
+&lt;h2 id="中证500指数">中证500指数&lt;/h2>
+&lt;p>反映小市值公司股票整体行情的重要指标&lt;/p>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/54919" target="_blank" rel="noopener"
+>中证500指数-视频&lt;/a>&lt;/p>
+&lt;h2 id="创业板指">创业板指&lt;/h2>
+&lt;p>2016年开始&lt;/p>
+&lt;p>价格指数和收益指数&lt;/p>
+&lt;p>代码为399006&lt;/p>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/52870" target="_blank" rel="noopener"
+>创业板指-视频&lt;/a>&lt;/p>
+&lt;h1 id="龙虎榜">龙虎榜&lt;/h1>
+&lt;h2 id="数量">数量&lt;/h2>
+&lt;p>几十只&lt;/p>
+&lt;h2 id="要求">要求&lt;/h2>
+&lt;ul>
+&lt;li>第一类：日常交易。这一类要求该股票每日价格涨跌幅度达到7%、每日换手率达到20%，或者每日价格波动幅度达到15%。&lt;/li>
+&lt;li>第二类：异常波动。是指连续三个交易日内，累计涨跌幅达到20%，或者连续3个交易日累计换手率达到20%，且日均换手率与前5个交易日日均换手率的比值达到30倍。&lt;/li>
+&lt;/ul>
+&lt;h2 id="作用">作用&lt;/h2>
+&lt;p>为股民们研究机构的买卖行为，提供了一个窗口。&lt;/p>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/52888" target="_blank" rel="noopener"
+>龙虎榜-视频&lt;/a>&lt;/p>
+&lt;h2 id="席位">席位&lt;/h2>
+&lt;ul>
+&lt;li>机构席位：指基金专用席位、券商自营专用席位、社保专用席位、券商理财专用席位、保险机构专用席位、保险机构租用席位、QFII专用席位 　　&lt;/li>
+&lt;li>营业部席位：普通股民&lt;/li>
+&lt;/ul>
+&lt;h1 id="股票分类">股票分类&lt;/h1>
+&lt;h2 id="优先级股">优先级股&lt;/h2>
+&lt;p>优先股：无决策权，不参与管理；每年获得固定股息
+普通股：有决策权&lt;/p>
+&lt;h3 id="为什么要引进优先股">为什么要引进优先股&lt;/h3>
+&lt;ul>
+&lt;li>普通股不仅会削弱大股东的控制权，而且盈利好的时候，分红比贷款的利息还多&lt;/li>
+&lt;li>企业只付利息，不还本金&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/52555" target="_blank" rel="noopener"
+>优先股-视频&lt;/a>&lt;/p>
+&lt;h2 id="绩优股">绩优股&lt;/h2>
+&lt;blockquote>
+&lt;p>High Quality Stock&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>排名前10%&lt;/li>
+&lt;li>使用ROE来评估&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/53394" target="_blank" rel="noopener"
+>绩优股-视频&lt;/a>&lt;/p>
+&lt;h2 id="蓝筹股">蓝筹股&lt;/h2>
+&lt;blockquote>
+&lt;p>Blue Chip
+在西方赌场中，筹码分为蓝、红、白三种颜色，其中蓝色筹码最为值钱。&lt;/p>
+&lt;/blockquote>
+&lt;p>指某一行业中处于重要支配地位，业绩优良、红利优厚的大公司股票。&lt;/p>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/51830" target="_blank" rel="noopener"
+>蓝筹股-视频&lt;/a>&lt;/p>
+&lt;h2 id="红筹股">红筹股&lt;/h2>
+&lt;p>注册地在中国境外、在中国香港上市的、带有中国大陆概念的股票。&lt;/p>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/56795" target="_blank" rel="noopener"
+>红筹股-视频&lt;/a>&lt;/p>
+&lt;h2 id="权重股与小盘股">权重股与小盘股&lt;/h2>
+&lt;blockquote>
+&lt;p>Barometer stock and Small-cap stock
+Barometer: 晴雨表&lt;/p>
+&lt;/blockquote>
+&lt;p>影响力，类似大国和小国。&lt;/p>
+&lt;p>四行三保两桶油&lt;/p>
+&lt;ul>
+&lt;li>四行：工商银行、建设银行、农业银行、中国银行&lt;/li>
+&lt;li>三保：中国平安、中国人寿、中国太保&lt;/li>
+&lt;li>两桶油：中国石油，中国石化&lt;/li>
+&lt;/ul>
+&lt;p>这9个股票都是大盘权重股&lt;/p>
+&lt;p>小盘股小于1亿。&lt;/p>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/53405" target="_blank" rel="noopener"
+>权重股与小盘股-视频&lt;/a>&lt;/p>
+&lt;h2 id="行业龙头股">行业龙头股&lt;/h2>
+&lt;blockquote>
+&lt;p>Bellwether stock
+领导者&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>价格不高&lt;/li>
+&lt;li>升幅大&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/53391" target="_blank" rel="noopener"
+>行业龙头股视频&lt;/a>&lt;/p>
+&lt;h2 id="成长股">成长股&lt;/h2>
+&lt;blockquote>
+&lt;p>Growth stocks&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>规模小&lt;/li>
+&lt;li>管理层优秀&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/54630" target="_blank" rel="noopener"
+>成长股-视频&lt;/a>&lt;/p>
+&lt;h2 id="st">ST&lt;/h2>
+&lt;p>什么是ST和*ST股票?&lt;/p>
+&lt;p>&lt;a class="link" href="http://www.csrc.gov.cn/xinjiang/xxfw/tzzsyd/200711/t20071115_88780.htm" target="_blank" rel="noopener"
+>视频&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://q.stock.sohu.com/cn/bk_2024.html" target="_blank" rel="noopener"
+>ST板块&lt;/a>&lt;/p>
+&lt;h1 id="股利">股利&lt;/h1>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>两种方式&lt;/th>
+&lt;th>股票类型&lt;/th>
+&lt;th>&lt;/th>
+&lt;th>&lt;/th>
+&lt;th>保持总市值的操作&lt;/th>
+&lt;th>股票名前加&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>股息&lt;/td>
+&lt;td>优先股&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>红利&lt;/td>
+&lt;td>普通股&lt;/td>
+&lt;td>股票股利&lt;/td>
+&lt;td>派股票&lt;br/>送红股&lt;br/>分红&lt;/td>
+&lt;td>除权&lt;br/>Ex-Rights&lt;/td>
+&lt;td>XR&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>现金股利&lt;/td>
+&lt;td>送现金&lt;br/>派现&lt;br/>派息&lt;/td>
+&lt;td>除息&lt;br/>Dividend&lt;/td>
+&lt;td>XD&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>除权和除息都是下调股价。&lt;/p>
+&lt;h2 id="复权">复权&lt;/h2>
+&lt;p>向前复权&lt;/p>
+&lt;h2 id="填权与贴权">填权与贴权&lt;/h2>
+&lt;blockquote>
+&lt;p>Fill advantageous position 和 stick advantageous position&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>填权：高于除权除息当日价&lt;/li>
+&lt;li>填满权：相等&lt;/li>
+&lt;li>贴权：低于&lt;/li>
+&lt;/ul>
+&lt;h1 id="参考">参考&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a class="link" href="http://www.xijinfa.com/play/51829" target="_blank" rel="noopener"
+>股利-视频&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="http://www.xijinfa.com/play/52479" target="_blank" rel="noopener"
+>除权除息-视频&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="http://www.xijinfa.com/play/51799" target="_blank" rel="noopener"
+>复权-视频&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="http://www.xijinfa.com/play/51806" target="_blank" rel="noopener"
+>填权与贴权-视频&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h1 id="做多做空">做多做空&lt;/h1>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>&lt;/th>
+&lt;th>&lt;/th>
+&lt;th>&lt;/th>
+&lt;th>&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>利多（Good News)&lt;br/>利好&lt;/td>
+&lt;td>多头&lt;br/> Bull Position&lt;/td>
+&lt;td>做多&lt;/td>
+&lt;td>多方&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>利空（Bad News）&lt;/td>
+&lt;td>空头&lt;br/> short-position&lt;/td>
+&lt;td>做空 Short Selling&lt;/td>
+&lt;td>空方&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/55207" target="_blank" rel="noopener"
+>利多与利空&lt;/a>
+&lt;a class="link" href="http://www.xijinfa.com/play/53397" target="_blank" rel="noopener"
+>做多做空&lt;/a>&lt;/p>
+&lt;h1 id="仓位">仓位&lt;/h1>
+&lt;blockquote>
+&lt;p>Position
+公式=已用资金/全部奖金的比例&lt;/p>
+&lt;/blockquote>
+&lt;p>比喻&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>股市&lt;/th>
+&lt;th>比喻&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>股票&lt;/td>
+&lt;td>猎物&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>资金&lt;/td>
+&lt;td>弹药数量&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>动作&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>动作&lt;/th>
+&lt;th>英文&lt;/th>
+&lt;th>分类&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>建仓&lt;/td>
+&lt;td>Take position&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>平仓&lt;/td>
+&lt;td>Close position&lt;/td>
+&lt;td>对冲平仓,强行平仓&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>仓位幅度&lt;/p>
+&lt;ul>
+&lt;li>满仓&lt;/li>
+&lt;li>半仓&lt;/li>
+&lt;li>空仓&lt;/li>
+&lt;/ul>
+&lt;p>其它&lt;/p>
+&lt;ul>
+&lt;li>重仓&lt;/li>
+&lt;li>轻仓&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/53398" target="_blank" rel="noopener"
+>建仓与平仓&lt;/a>
+&lt;a class="link" href="http://www.xijinfa.com/play/52960" target="_blank" rel="noopener"
+>仓位&lt;/a>&lt;/p>
+&lt;h1 id="财务">财务&lt;/h1>
+&lt;h2 id="市盈率">市盈率&lt;/h2>
+&lt;p>市盈率（Price earnings ratio，即P/E ratio），也称“本益比”。&lt;/p>
+&lt;p>公式：&lt;/p>
+&lt;p>PE = 市价/去年分红&lt;/p>
+&lt;p>英文很直白地表明&lt;/p>
+&lt;p>Price/Earning&lt;/p>
+&lt;p>例如，&lt;/p>
+&lt;p>ROE = 市价25元/去年分红5元=5年&lt;/p>
+&lt;p>不同行业不行，传统行业偏低，互联网行业偏高，同行业比较才有意义。&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>牛市&lt;/th>
+&lt;th>50&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>熊市&lt;/td>
+&lt;td>20&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/52524" target="_blank" rel="noopener"
+>视频&lt;/a>&lt;/p>
+&lt;h2 id="市净率">市净率&lt;/h2>
+&lt;p>Price to book ratio，简称P/B&lt;/p>
+&lt;p>$P/B=每股股价/每股净资产$&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>P/B&lt;/th>
+&lt;th>投资价值&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>越低&lt;/td>
+&lt;td>高&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>越高&lt;/td>
+&lt;td>低&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;blockquote>
+&lt;p>股神巴菲特的宠儿&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="市盈和市净是互补关系">市盈和市净是互补关系&lt;/h3>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>分类&lt;/th>
+&lt;th>指标&lt;/th>
+&lt;th>备注&lt;/th>
+&lt;th>&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>牛市&lt;/td>
+&lt;td>看市盈&lt;/td>
+&lt;td>普遍有信心&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>熊市&lt;/td>
+&lt;td>看市净&lt;/td>
+&lt;td>不能亏本，看拿回多少钱&lt;/td>
+&lt;td>传统产业&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;blockquote>
+&lt;p>钢铁股价格大都低于净资产，也就是我们通常说的“破净”。&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="市销率">市销率&lt;/h2>
+&lt;p>市销率( Price-to-sales,PS),&lt;/p>
+&lt;p>PS = 总市值 除以主营业务收入或者 PS=股价 除以每股销售额。&lt;/p>
+&lt;p>市销率越低，说明该公司股票目前的投资价值越大。&lt;/p>
+&lt;h2 id="净资产收益率">净资产收益率&lt;/h2>
+&lt;p>ROE(Rate of Return on Common Stockholders’ Equity)&lt;/p>
+&lt;p>利润除以净资产得到的百分比率&lt;/p>
+&lt;p>$ROE=净利润/净资产$&lt;/p>
+&lt;blockquote>
+&lt;p>例如，净资产10万，赚了2万（净利润），ROE=20%&lt;/p>
+&lt;p>如果之前存在负债，要先减去负债，ROE=2/(10-2)=25%&lt;/p>
+&lt;/blockquote>
+&lt;p>该指标反映股东权益的&lt;a class="link" href="https://baike.baidu.com/item/%E6%94%B6%E7%9B%8A%E6%B0%B4%E5%B9%B3" target="_blank" rel="noopener"
+>收益水平&lt;/a>，用以衡量公司运用&lt;a class="link" href="https://baike.baidu.com/item/%E8%87%AA%E6%9C%89%E8%B5%84%E6%9C%AC" target="_blank" rel="noopener"
+>自有资本&lt;/a>的效率。&lt;/p>
+&lt;p>指标值越高，说明投资带来的收益越高。&lt;/p>
+&lt;p>这个值要考虑行业差别，企业发展阶段。&lt;/p>
+&lt;p>互联网行业的ROE一直很高。&lt;/p>
+&lt;p>成长阶段：初创期，成长期，成熟期，衰落期。成熟期是ROE最高的阶段。&lt;/p>
+&lt;h1 id="技术指标">技术指标&lt;/h1>
+&lt;h2 id="移动平均线">移动平均线&lt;/h2>
+&lt;blockquote>
+&lt;p>Moving Average，简称MA&lt;/p>
+&lt;/blockquote>
+&lt;p>提出人：Granville&lt;/p>
+&lt;p>有稳定的优点，但是又有滞后的缺点&lt;/p>
+&lt;p>缺点：只包含近期几个交易日的价格因素&lt;/p>
+&lt;p>取差值可以解决滞后的问题，相对来说又比较稳定&lt;/p>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/51707" target="_blank" rel="noopener"
+>视频&lt;/a>&lt;/p>
+&lt;h2 id="ema">EMA&lt;/h2>
+&lt;blockquote>
+&lt;p>Exponential Moving Average，指数平均数指标&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>是一种复杂的均线。&lt;/li>
+&lt;/ul>
+&lt;p>更好的代表市场的平均成本&lt;/p>
+&lt;blockquote>
+&lt;p>EMA指标包含了从前所有的价格因素，而MA这个指标只包含近期几个交易日的价格因素。&lt;/p>
+&lt;/blockquote>
+&lt;p>EMA(n)= 前一日EMA(n)×(n-1)/(n+1) +今日收盘价×2/(n+1)&lt;/p>
+&lt;blockquote>
+&lt;p>例如，EMA(12)=前一日EMA(12)×11/13 +今日收盘价×2/13&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>时间越靠近当今时刻，它的权重越大&lt;/li>
+&lt;li>n值越小，越代表短期的市场平均成本，而n值越大，越代表长期的市场平均成本&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a class="link" href="https://xueqiu.com/5694946869/72535880" target="_blank" rel="noopener"
+>参考文档&lt;/a>&lt;/p>
+&lt;h2 id="macd">MACD&lt;/h2>
+&lt;blockquote>
+&lt;p>Moving Average Convergence（会聚） and Divergence（分叉） , 指数平滑移动平均线&lt;/p>
+&lt;p>趋势指标&lt;/p>
+&lt;/blockquote>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>线条&lt;/th>
+&lt;th>&lt;/th>
+&lt;th>说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>DIF&lt;/td>
+&lt;td>白线&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>DEA&lt;/td>
+&lt;td>黄线&lt;/td>
+&lt;td>DIF的均线&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>BAR&lt;/td>
+&lt;td>柱状图&lt;/td>
+&lt;td>DIF和DEA的差值&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>白线DIF=EMA(12)-EMA(26)&lt;/p>
+&lt;p>黄线DEA =白线DIF的EMA(9)。&lt;/p>
+&lt;p>bar = (DIF-DEA)×2&lt;/p>
+&lt;p>白线DIF&lt;/p>
+&lt;ul>
+&lt;li>代表了短期市场成本与长期市场成本之间的差值&lt;/li>
+&lt;li>DIF上升意味着什么？意味着短期成本的涨速高于长期成本，也就是说，市场上短期内资金买入的意愿更强。&lt;/li>
+&lt;/ul>
+&lt;p>黄线DEA&lt;/p>
+&lt;ul>
+&lt;li>短期成本与长期成本差值的均值&lt;/li>
+&lt;li>买入力度的均值&lt;/li>
+&lt;/ul>
+&lt;p>Bar&lt;/p>
+&lt;ul>
+&lt;li>短期买入力度与长期买入力度的差值&lt;/li>
+&lt;/ul>
+&lt;p>比喻：&lt;/p>
+&lt;p>白线DIF：EMA(1)&lt;/p>
+&lt;p>黄线DEA：EMA(9)&lt;/p>
+&lt;p>最常用的MACD(12,26,9)指标。&lt;/p>
+&lt;p>三种用法：&lt;/p>
+&lt;p>1、两个都高于（低于）0，意味着股价上涨（下跌）&lt;/p>
+&lt;p>2、买入（金叉）或卖出信号&lt;/p>
+&lt;p>3、看Bar，如果大于0，说明近期趋势向上&lt;/p>
+&lt;p>买卖点位&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>类型&lt;/th>
+&lt;th>&lt;/th>
+&lt;th>信号&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>金叉&lt;/td>
+&lt;td>DIF向上通过DEA&lt;/td>
+&lt;td>买入信号&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>死叉&lt;/td>
+&lt;td>DIF向下通过DEA&lt;/td>
+&lt;td>卖出信号&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>缺点：&lt;/p>
+&lt;p>股市疲软，价格变化不大，买卖信号则失灵。&lt;/p>
+&lt;p>MACD与KDJ是好搭档&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>分类&lt;/th>
+&lt;th>&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>短期指标&lt;/td>
+&lt;td>KDJ&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>中长期技术指标&lt;/td>
+&lt;td>MACD&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>&lt;a class="link" href="http://www.xijinfa.com/play/51711" target="_blank" rel="noopener"
+>视频&lt;/a>&lt;/p>
+&lt;h2 id="超买超卖">超买超卖&lt;/h2>
+&lt;blockquote>
+&lt;p>Overbought/Oversold&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>股市上，经常会出现因某种消息的传播而使投资者对大盘或个股作出强烈的反应，以致引起股市或个股出现过分的上升或下跌，于是便产生了超买超卖现象。&lt;/li>
+&lt;li>当投资者的情绪平静下来以后，超买超卖所造成的影响会逐渐得到适当的调整。&lt;/li>
+&lt;li>因此，超买之后就会是股价出现一段回落；超卖之后，则会出现相当程度的反弹。&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>一个股票的合理价位应在12-15元之间；&lt;/p>
+&lt;p>如果人们把它炒到了16、7元还有人在大量买进，则把这种现象称为“超买”；&lt;/p>
+&lt;p>如果这只股票跌到了10元，甚至10元以下，还有人在盲目地抛售，这样现象又被除数称为“超卖”。&lt;/p>
+&lt;/blockquote>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>&lt;/th>
+&lt;th>&lt;/th>
+&lt;th>后期&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>超买&lt;/td>
+&lt;td>大部分人只愿意买 ，推到高点&lt;/td>
+&lt;td>后期看跌&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>超卖&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>后期看涨&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>检测方法&lt;/p>
+&lt;ul>
+&lt;li>相对强弱指数(RSI)&lt;/li>
+&lt;li>摆动指数(OSC)&lt;/li>
+&lt;li>随机指数(KDJ)&lt;/li>
+&lt;li>百分比&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a class="link" href="https://baike.baidu.com/item/%E8%B6%85%E4%B9%B0%E8%B6%85%E5%8D%96" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="http://blog.9666.cn/html/17073.html" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p>
+&lt;h2 id="kdj">KDJ&lt;/h2>
+&lt;blockquote>
+&lt;p>Stochastic Oscillator ，随机指标&lt;/p>
+&lt;p>超买超卖摆动型指标的一种&lt;/p>
+&lt;/blockquote>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>类型&lt;/th>
+&lt;th>颜色&lt;/th>
+&lt;th>&lt;/th>
+&lt;th>&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>K&lt;/td>
+&lt;td>白色&lt;/td>
+&lt;td>股价的位置&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>D&lt;/td>
+&lt;td>黄色&lt;/td>
+&lt;td>股价的平均位置&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>J&lt;/td>
+&lt;td>粉色&lt;/td>
+&lt;td>KD两线间的距离&lt;/td>
+&lt;td>最快&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>KDJ三者&lt;/th>
+&lt;th>&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>大于80&lt;/td>
+&lt;td>超买&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>小于20&lt;/td>
+&lt;td>超卖&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>这个指标更大的意义，并不在于提示买卖，而是告诉你目前运行的位置。&lt;/p>
+&lt;h3 id="判断买卖点位">判断买卖点位&lt;/h3>
+&lt;ul>
+&lt;li>KD的交叉位置&lt;/li>
+&lt;li>但进入超买（或超卖）后，KDJ进入钝化，判断不了买卖位置。&lt;/li>
+&lt;/ul>
+&lt;p>这个指标的随机性哪怕在日线图级别，仍然是很大的，金死叉的效果也并不是那么好。&lt;/p>
+&lt;p>&lt;img src="https://pic3.zhimg.com/80/v2-5d331bb35720ef894ee827d2f85aecee_hd.jpg"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/38082763" target="_blank" rel="noopener"
+>教程&lt;/a>&lt;/p>
+&lt;h1 id="其它">其它&lt;/h1>
+&lt;h2 id="盘口">盘口&lt;/h2>
+&lt;blockquote>
+&lt;p>Handicap&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>看盘口&lt;/li>
+&lt;li>盘中: 盘中放量是指开盘交易中。&lt;/li>
+&lt;/ul>
+&lt;h2 id="基民">基民&lt;/h2>
+&lt;p>基金持有人被人形象的称为&lt;em>基民&lt;/em>。&lt;/p></description></item></channel></rss>

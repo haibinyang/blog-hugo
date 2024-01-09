@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Demo with REM</title>
+    <style>
+        /* Set the base font size for the document */
+        html {
+            font-size: 16px; /* This is typically the default size */
+        }
+
+        /* Responsive font sizes */
+        body {
+            font-size: 1rem; /* 16px */
+        }
+
+        h1 {
+            font-size: 2rem; /* 32px */
+        }
+
+        /* Responsive layout using REM */
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 2rem; /* Padding around the container */
+        }
+
+        /* Responsive design for smaller screens */
+        @media screen and (max-width: 600px) {
+            html {
+                font-size: 14px; /* Reduce the base font size */
+            }
+
+            .container {
+                padding: 1rem; /* Smaller padding on smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Responsive Demo</h1>
+        <p>This is an example of a responsive design using REM units.</p>
+    </div>
+</body>
+</html>
