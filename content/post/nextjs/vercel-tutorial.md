@@ -105,6 +105,26 @@ Vercel does not support connecting your Personal Account's Projects to Git repos
 
 
 
+# 基础
+
+## 编译
+
+Build and Development Settings
+
+![image-20240109172817859](https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/image-20240109172817859.png)
+
+## Root Directory
+
+ For example, your repository might have a `front-end` directory containing a stand-alone [Next.js](https://nextjs.org/) app.
+
+
+
+[参考](https://vercel.com/docs/deployments/configure-a-build)
+
+
+
+
+
 # 基础设施
 
 # Vercel基础设施架构
@@ -384,7 +404,36 @@ Vercel提供了两种类型的缓存：Edge Cache（边缘缓存）和Data Cache
 
 ## Cron Jobs
 
+### Quick Start
 
+配置vercel.json文件执行哪个函数。
 
+```json
+{
+  "crons": [
+    {
+      "path": "/api/cron",
+      "schedule": "0 5 * * *"
+    }
+  ]
+}
+```
 
+创建函数
+
+> app/api/cron/route.ts
+
+```tsx
+export async function GET() {
+  const result = await fetch(
+    'http://worldtimeapi.org/api/timezone/America/Chicago',
+    {
+      cache: 'no-store',
+    },
+  );
+  const data = await result.json();
+ 
+  return Response.json({ datetime: data.datetime });
+}
+```
 
