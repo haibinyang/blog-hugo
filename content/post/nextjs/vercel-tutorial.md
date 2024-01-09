@@ -186,7 +186,7 @@ Vercel does not support connecting your Personal Account's Projects to Git repos
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
  
-export const runtime = 'edge'; // 'nodejs' is the default
+export const runtime = 'edge'; // 关键点，默认是node.js
  
 export function GET(request: NextRequest) {
   return NextResponse.json(
@@ -230,13 +230,89 @@ https://vercel-edge-function-two.vercel.app/api/edge?key=123
 
 ## Edge Middleware
 
+位置
+
+处理请求之前执行的代码
+
+本质
+
+运行在Edge Runtime，本质上与Edge Functions一样。
+
+![Edge Middleware location within Vercel infrastructure.](https://vercel.com/_next/image?url=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Fv1689795055%2Fdocs-assets%2Fstatic%2Fdocs%2Fconcepts%2Ffunctions%2Fedge-middleware-light.png&w=3840&q=75&dpl=dpl_2umL2AnS38YL619aBdkbfBU7b3WX)
+
+作用
+
+返回响应之前执行自定义逻辑、重写、重定向、添加标头等。
+
+### 创建Edge Middleware
+
+创建Next.js项目
+
+创建 `middleware.ts` ，放在与 `app` 目录处于同一级。
+
 
 
 ## Image Optimization
 
+N/A
+
+
+
 ## Incremental Static Regeneration
 
+1. **传统静态网站生成的限制**：
+   - 传统的SSG在构建时会生成网站的所有页面，这对于大型网站来说可能非常耗时。
+   - 每次内容更新都需要重新构建整个站点，这可能导致长时间的部署和潜在的服务中断。
+2. **ISR的工作原理**：
+   - 使用ISR时，你只需在构建时生成一部分页面。
+   - 当用户访问尚未生成的页面时，Vercel会在后台生成这些页面，并将它们作为静态内容提供给用户。
+   - 一旦页面被生成，它就会被缓存并用于后续的请求，直到下一次预定的再生（regeneration）。
+3. **再生策略**：
+   - 你可以设置一个时间间隔，告诉Vercel多久重新生成页面。这意味着内容可以定期更新，而不需要手动触发整个站点的重新构建。
+   - 这种策略非常适合内容经常变化的网站，如新闻网站或博客。
+4. **好处**：
+   - **性能优化**：ISR可以显著提高大型网站的构建速度。
+     - **实时内容更新**：网站内容可以更频繁且自动地更新，而无需完整的站点重建。
+   - **缩短部署时间**：只需生成一部分页面，减少了部署的时间和资源消耗。
+
+### Quick Start
+
+> app/blog-posts/page.tsx
+
+```tsx
+interface Post {
+    title: string;
+    id: number;
+}
+
+export default async function Page() {
+    const res = await fetch('https://api.vercel.app/blog', {
+        next: { revalidate: 10 },
+    });
+    const posts = (await res.json()) as Post[];
+    return (
+        <ul>
+            {posts.map((post: Post) => {
+                return <li key={post.id}>{post.title}</li>;
+            })}
+        </ul>
+    );
+}
+```
+
+[参考](https://vercel.com/docs/incremental-static-regeneration)
+
+
+
 ## Edge Cache
+
+原理：通过HTTP头部来控制客户端和CDN服务器的缓存行为。
+
+
+
+
+
+
 
 ## Data Cache
 
