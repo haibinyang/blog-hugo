@@ -318,12 +318,18 @@ export async function GET() {
     status: 200,
     headers: {
       'Cache-Control': 'max-age=10', // 浏览器只缓存10秒
-      'CDN-Cache-Control': 'max-age=60', // 中间的CDN厂商只缓存60秒
-      'Vercel-CDN-Cache-Control': 'max-age=3600', // Vercel的CDN服务器缓存1小时
+      'CDN-Cache-Control': 'max-age=30', // 中间的CDN厂商只缓存60秒
+      'Vercel-CDN-Cache-Control': 'max-age=30', // Vercel的CDN服务器缓存1小时
     },
   });
 }
 ```
+
+在Log中，真正执行/api/cache-control-headers的两次间隔是30秒，说明在Vercel CDN Network中返回了缓存数据。
+
+![image-20240109162849732](https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/image-20240109162849732.png)
+
+
 
 **默认的配置**
 
@@ -340,6 +346,10 @@ export async function GET() {
 [Vercel的Cache-Control的定义](https://vercel.com/docs/edge-network/headers#cache-control-header)
 
 [CloudFlare也有类似的Header](https://developers.cloudflare.com/cache/concepts/cdn-cache-control/)
+
+
+
+
 
 
 
