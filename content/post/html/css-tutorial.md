@@ -251,5 +251,42 @@ body {
 
 
 
+# :root
+
+在 CSS 中，`:root` 是一个伪类，它匹配文档树的根元素。在 HTML 中，根元素通常是 `<html>` 标签。使用 `:root` 是定义全局 CSS 变量的常见方法，因为在文档的根级别定义的样式可以在整个文档中访问。
+
+
+
+**例子**
+
+假设你在 `:root` 中定义了一些基本颜色和字体样式：
+
+```css
+:root {
+  --main-bg-color: #333;
+  --main-text-color: #fff;
+  --primary-font: 'Helvetica Neue', sans-serif;
+}
+```
+
+然后，你可以在文档的其他地方使用这些变量：
+
+```css
+body {
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+  font-family: var(--primary-font);
+}
+
+button {
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+}
+```
+
+> `var` 是 CSS 的一个功能，用于引用 CSS 变量。
+
+这种方法使得样式的修改变得更加集中和简单。例如，如果你决定改变整个网站的背景色和文本色，只需更改 `:root` 中的变量值即可。
+
 
 

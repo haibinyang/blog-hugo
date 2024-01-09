@@ -146,3 +146,64 @@ export default function Page({ params, searchParams }: Props) {}
 ```
 
 [参考](https://nextjs.org/docs/app/building-your-application/optimizing/metadata)
+
+
+
+
+
+# Route Segment Config
+
+The Route Segment options allows you to configure the behavior of a [Page](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts), [Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts), or [Route Handler](https://nextjs.org/docs/app/building-your-application/routing/route-handlers) by directly exporting the following variables:
+
+> layout.tsx | page.tsx | route.ts
+
+```ts
+export const dynamic = 'auto'
+export const dynamicParams = true
+export const revalidate = false
+export const fetchCache = 'auto'
+export const runtime = 'nodejs' // 'edge' | 'nodejs'
+export const preferredRegion = 'auto'
+export const maxDuration = 5
+ 
+export default function MyComponent() {}
+```
+
+
+
+| Option                                                       | Type                                                         | Default                    |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | -------------------------- |
+| [`dynamic`](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamic) | `'auto' | 'force-dynamic' | 'error' | 'force-static'`        | `'auto'`                   |
+| [`dynamicParams`](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamicparams) | `boolean`                                                    | `true`                     |
+| [`revalidate`](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#revalidate) | `false | 0 | number`                                         | `false`                    |
+| [`fetchCache`](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#fetchcache) | `'auto' | 'default-cache' | 'only-cache' | 'force-cache' | 'force-no-store' | 'default-no-store' | 'only-no-store'` | `'auto'`                   |
+| [`runtime`](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#runtime) | `'nodejs' | 'edge'`                                          | `'nodejs'`                 |
+| [`preferredRegion`](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#preferredregion) | `'auto' | 'global' | 'home' | string | string[]`             | `'auto'`                   |
+| [`maxDuration`](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#maxduration) | `number`                                                     | Set by deployment platform |
+
+
+
+### [`dynamic`](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamic)
+
+Change the dynamic behavior of a layout or page to fully static or fully dynamic.
+
+- **`'force-dynamic'`**: Force [dynamic rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering), which will result in routes being rendered for each user at request time. 
+
+- **`'force-static'`**: Force static rendering and cache the data of a layout or page by forcing [`cookies()`](https://nextjs.org/docs/app/api-reference/functions/cookies), [`headers()`](https://nextjs.org/docs/app/api-reference/functions/headers) and [`useSearchParams()`](https://nextjs.org/docs/app/api-reference/functions/use-search-params) to return empty values.
+
+### [`revalidate`](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#revalidate)
+
+Set the default revalidation time for a layout or page. This option does not override the `revalidate` value set by individual `fetch` requests.
+
+```ts
+export const revalidate = false
+// false | 0 | number
+```
+
+**`false`**: (default) The default heuristic to cache any `fetch` requests that set their `cache` option to `'force-cache'` or are discovered before a [dynamic function](https://nextjs.org/docs/app/building-your-application/rendering/server-components#server-rendering-strategies#dynamic-functions) is used. 
+
+**`0`**: Ensure a layout or page is always [dynamically rendered](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering) even if no dynamic functions or uncached data fetches are discovered. 
+
+
+
+[参考](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config)

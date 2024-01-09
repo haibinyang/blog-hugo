@@ -122,7 +122,7 @@ cssCopy code
 
 ## 添加Geist字体
 
-见链接
+见[链接](https://blog.ververv.com/p/geist%E5%AD%97%E4%BD%93/)
 
 
 
@@ -138,6 +138,42 @@ Tailwind CSS 使用多个层（layers）来组织其样式规则。这些层包�
 4. **自定义层（Custom）**: 虽然 Tailwind 提供了大量的实用工具类和组件样式，但在某些情况下，开发者可能需要更具体的样式。在这种情况下，可以创建自定义层，添加特定的 CSS 规则来满足特定的需求。
 
 使用这些层，Tailwind CSS 为开发者提供了既灵活又高效的方式来构建和管理样式。通过层的概念，可以轻松地覆盖和扩展样式，确保样式表的可维护性和可扩展性。
+
+
+
+# 配置文件
+
+可以配置的内容：
+
+```ts
+interface OptionalConfig {
+  important: Partial<ImportantConfig>
+  prefix: Partial<PrefixConfig>
+  separator: Partial<SeparatorConfig>
+  safelist: Array<SafelistConfig>
+  blocklist: Array<BlocklistConfig>
+  presets: Array<PresetsConfig>
+  future: Partial<FutureConfig>
+  experimental: Partial<ExperimentalConfig>
+  darkMode: Partial<DarkModeConfig>
+  theme: Partial<CustomThemeConfig & { extend: Partial<CustomThemeConfig> }>
+  corePlugins: Partial<CorePluginsConfig>
+  plugins: Partial<PluginsConfig>
+  // Custom
+  [key: string]: any
+}
+```
+
+主要用过：
+
+```ts
+interface OptionalConfig {
+  presets: Array<PresetsConfig>
+  theme: Partial<CustomThemeConfig & { extend: Partial<CustomThemeConfig> }>
+}
+```
+
+
 
 
 
@@ -568,3 +604,83 @@ Tailwind CSS 使用多个层（layers）来组织其样式规则。这些层包�
 
 
 
+# 指令
+
+## @layer
+
+在Tailwind CSS中，`@layer` 指令用于组织你的自定义样式。你可以将自定义样式放入不同的层（如`base`、`components`、或`utilities`），这有助于控制样式的加载顺序和覆盖默认的Tailwind样式。以下是一些例子：
+
+### 示例 1: 基础层（Base Layer）
+
+在基础层中，你可以设置全局的HTML元素样式。例如，你可以为所有`<h1>`标签设置默认样式：
+
+```
+cssCopy code
+@layer base {
+  h1 {
+    @apply text-2xl font-semibold;
+  }
+}
+```
+
+这个例子中，所有`<h1>`标签将应用`text-2xl`（字体大小）和`font-semibold`（字体加粗）的样式。
+
+### 示例 2: 组件层（Components Layer）
+
+在组件层中，你可以定义特定的UI组件样式。例如，创建一个自定义按钮样式：
+
+```
+cssCopy code
+@layer components {
+  .btn-primary {
+    @apply bg-blue-500 text-white py-2 px-4 rounded;
+  }
+}
+```
+
+在这里，`.btn-primary` 类将应用蓝色背景、白色文本、内边距和圆角边框的样式。
+
+### 示例 3: 工具层（Utilities Layer）
+
+工具层用于添加自定义的实用工具类。例如，创建一个用于管理容器宽度的工具类：
+
+```
+cssCopy code
+@layer utilities {
+  .container-max {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+```
+
+这个`.container-max` 类将设置一个容器的最大宽度，并使其在页面中居中。
+
+### 使用 @layer 的好处
+
+1. **组织性**: `@layer` 指令帮助你组织CSS代码，使其更加清晰和易于管理。
+2. **避免冲突**: 将自定义样式放入相应的层可以确保它们按预期顺序加载，避免与Tailwind的默认样式发生冲突。
+3. **优化**: Tailwind使用PurgeCSS来移除未使用的CSS，`@layer` 指令有助于这个过程，确保最终的CSS文件尽可能小。
+
+通过使用`@layer`，你可以充分利用Tailwind的强大功能，同时保持代码的组织性和高效性。
+
+
+
+[参考](https://tailwindcss.com/docs/functions-and-directives#layer)
+
+# 暗黑主题
+
+如果您希望支持手动切换暗模式，而不是依赖于操作系统首选项，请使用 `class` 策略而不是 `media` 策略。
+
+> tailwind.config.js
+
+```ts
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: 'class',
+  // ...
+}
+```
+
+[参考](https://tailwindcss.com/docs/dark-mode#toggling-dark-mode-manually)
