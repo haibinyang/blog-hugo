@@ -308,9 +308,38 @@ export default async function Page() {
 
 原理：通过HTTP头部来控制客户端和CDN服务器的缓存行为。
 
+> HTTP标准的Cache-Control见[这里](https://blog.ververv.com/p/http/#Header)
 
+```ts
+// app/api/cache-control-headers/route.ts
 
+export async function GET() {
+  return new Response('Cache Control example', {
+    status: 200,
+    headers: {
+      'Cache-Control': 'max-age=10', // 浏览器只缓存10秒
+      'CDN-Cache-Control': 'max-age=60', // 中间的CDN厂商只缓存60秒
+      'Vercel-CDN-Cache-Control': 'max-age=3600', // Vercel的CDN服务器缓存1小时
+    },
+  });
+}
+```
 
+**默认的配置**
+
+ `cache-control: public, max-age=0, must-revalidate` 
+
+边缘网络和浏览器不缓存。
+
+**建议的配置**
+
+ `max-age=0, s-maxage=86400` 
+
+此配置告诉浏览器不要缓存，允许 Vercel 的边缘网络缓存响应并在部署更新时使它们失效。
+
+[Vercel的Cache-Control的定义](https://vercel.com/docs/edge-network/headers#cache-control-header)
+
+[CloudFlare也有类似的Header](https://developers.cloudflare.com/cache/concepts/cdn-cache-control/)
 
 
 
