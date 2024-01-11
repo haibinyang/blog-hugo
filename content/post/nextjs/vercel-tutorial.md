@@ -113,13 +113,25 @@ Build and Development Settings
 
 ![image-20240109172817859](https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/image-20240109172817859.png)
 
-## Root Directory
+### Root Directory
 
  For example, your repository might have a `front-end` directory containing a stand-alone [Next.js](https://nextjs.org/) app.
 
 
 
 [参考](https://vercel.com/docs/deployments/configure-a-build)
+
+
+
+## 部署
+
+
+
+### 预览
+
+没有触发成功
+
+[教程](https://vercel.com/docs/deployments/preview-deployments)
 
 
 
