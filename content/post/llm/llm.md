@@ -106,6 +106,15 @@ Summarize the text delimited by triple quotes in 2 paragraphs.
 Summarize the text delimited by triple quotes in about 50 words. // 3 个要点
 ```
 
+## 限制范围
+
+> 非常好
+
+```
+Draft a company memo to be distributed to all employees. The memo should cover the following specific points without deviating from the topics mentioned and not writing any fact which is not present here:
+xxxx
+```
+
 
 
 ## 分类
@@ -192,6 +201,16 @@ Provide your answer in bullet point form.
 - High quality and durability
 - Difficult to transport
 - Difficult to store
+
+
+
+有序的列表
+
+a numbered list
+
+```
+create a numbered list of turn-by-turn directions from it.
+```
 
 
 
@@ -415,17 +434,17 @@ Black-on-black ware is a 20th- and 21st-century pottery tradition developed by t
 
 
 
-| itle                      | Description                                               |      |
-| ------------------------- | --------------------------------------------------------- | ---- |
-| Grammar Correction        | Convert ungrammatical statements into standard English.   | Y    |
-| Emoji Translation         | Translate regular text into emoji text.                   |      |
-| Calculate Time Complexity | Find the time complexity of a function.                   |      |
-| Python Bug Fixer          | Find and fix bugs in source code.                         |      |
-| Airport Code Extractor    | Extract airport codes from text.                          |      |
-| Turn by Turn Directions   | Convert natural language to turn-by-turn directions.      |      |
-| Improve Code Efficiency   | Provide ideas for efficiency improvements to Python code. |      |
-| Memo Writer               | Generate a company memo based on provided points.         |      |
-| Translation               | Translate natural language text.                          |      |
+| itle                      | Description                                               |                    |
+| ------------------------- | --------------------------------------------------------- | ------------------ |
+| Grammar Correction        | Convert ungrammatical statements into standard English.   | Y                  |
+| Emoji Translation         | Translate regular text into emoji text.                   |                    |
+| Calculate Time Complexity | Find the time complexity of a function.                   |                    |
+| Python Bug Fixer          | Find and fix bugs in source code.                         |                    |
+| Airport Code Extractor    | Extract airport codes from text.                          | 获取机场代码       |
+| Turn by Turn Directions   | Convert natural language to turn-by-turn directions.      | 转成有一步步的指引 |
+| Improve Code Efficiency   | Provide ideas for efficiency improvements to Python code. |                    |
+| Memo Writer               | Generate a company memo based on provided points.         |                    |
+| Translation               | Translate natural language text.                          |                    |
 
 
 
@@ -445,7 +464,7 @@ She did not go to the market.
 
 
 
-Emoji
+**Emoji**
 
 ```
 You will be provided with text, and your task is to translate it into emojis. Do not use any regular text. Do your best with emojis only.
@@ -457,5 +476,70 @@ Artificial intelligence is a technology with great promise.
 
 ```
 🤖💡🔮✨🚀
+```
+
+
+
+**Airport Code Extractor**
+
+```
+You will be provided with a text, and your task is to extract the airport codes from it.
+----
+I want to fly from Orlando to Boston
+```
+
+输出
+
+```
+Based on your text, the airport codes you are looking for are:
+
+Orlando: MCO (Orlando International Airport)
+Boston: BOS (Logan International Airport)
+```
+
+
+
+**Turn by turn directions**
+
+```
+You will be provided with a text, and your task is to create a numbered list of turn-by-turn directions from it.
+----
+Go south on 95 until you hit Sunrise boulevard then take it east to us 1 and head south. Tom Jenkins bbq will be on the left after several miles.
+```
+
+输出
+
+```
+Sure, here's a numbered list of turn-by-turn directions based on the provided text:
+
+Start by going south on Interstate 95 (I-95).
+Continue on I-95 until you reach Sunrise Boulevard.
+Exit onto Sunrise Boulevard and take it eastward.
+Follow Sunrise Boulevard to US Route 1 (US 1).
+Once you reach US 1, turn and head south.
+Continue south on US 1 for several miles.
+Look for Tom Jenkins BBQ on the left side of the road.
+```
+
+
+
+**Generate a company memo based on provided points**
+
+```
+Draft a company memo to be distributed to all employees. The memo should cover the following specific points without deviating from the topics mentioned and not writing any fact which is not present here:
+    
+    Introduction: Remind employees about the upcoming quarterly review scheduled for the last week of April.
+    
+    Performance Metrics: Clearly state the three key performance indicators (KPIs) that will be assessed during the review: sales targets, customer satisfaction (measured by net promoter score), and process efficiency (measured by average project completion time).
+    
+    Project Updates: Provide a brief update on the status of the three ongoing company projects:
+    
+    a. Project Alpha: 75% complete, expected completion by May 30th.
+    b. Project Beta: 50% complete, expected completion by June 15th.
+    c. Project Gamma: 30% complete, expected completion by July 31st.
+    
+    Team Recognition: Announce that the Sales Team was the top-performing team of the past quarter and congratulate them for achieving 120% of their target.
+    
+    Training Opportunities: Inform employees about the upcoming training workshops that will be held in May, including "Advanced Customer Service" on May 10th and "Project Management Essentials" on May 25th.
 ```
 
