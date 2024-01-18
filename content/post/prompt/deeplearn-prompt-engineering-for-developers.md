@@ -1067,34 +1067,3 @@ continued exploring with delight.```
 
 
 
-OpenAI [Prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering/prompt-engineering)
-
-
-
-Guide to Anthropic's prompt engineering resources
-
-https://docs.anthropic.com/claude/docs/guide-to-anthropics-prompt-engineering-resources
-
-
-
-Effective Prompt: 编写高质量Prompt的14个有效方法
-
-https://zhuanlan.zhihu.com/p/660369244
-
-
-
-Prompt Engineering: A Practical Example
-
-https://realpython.com/practical-prompt-engineering/
-
-
-
-
-
-
-
-一种非常新颖的提示词 (Prompt) 结构：Format + Reference + Request + Framing
-
-https://www.nngroup.com/articles/ai-prompt-structure/
-
-![](https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/20240117143913.png)
