@@ -1,11 +1,12 @@
----
-title: Python入门
-date: 2018-04-28 10:09:09
-tags:
-- Python
-- 教程
-- 入门
----
+title: "Python教程"
+description: 
+date: 2024-01-26T13:17:07+08:00
+image: 
+math: 
+license: 
+hidden: false
+comments: true
+draft: false
 
 
 
