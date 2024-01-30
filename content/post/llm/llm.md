@@ -290,8 +290,6 @@ create a numbered list of turn-by-turn directions from it.
 
 
 
-
-
 | 一级分类 | 二级分类     | 三级分类           |
 | -------- | ------------ | ------------------ |
 | 基础研究 | 语法分析     | 中文分词           |
@@ -336,7 +334,7 @@ create a numbered list of turn-by-turn directions from it.
 
 
 
-## 基础研究
+## 基础研究的实例
 
 | 二级分类           | 三级分类           | 简要解释                                                 | 实例                                                         | 实例结果                                                     |
 | ------------------ | ------------------ | -------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -360,7 +358,7 @@ create a numbered list of turn-by-turn directions from it.
 
 
 
-## 应用研究
+## 应用研究的实例
 
 
 
@@ -391,9 +389,9 @@ create a numbered list of turn-by-turn directions from it.
 
 
 
-# OpenAI官方实例
 
 
+# OpenAI Prompt官方实例
 
 ## 提取
 
@@ -616,4 +614,89 @@ Draft a company memo to be distributed to all employees. The memo should cover t
     
     Training Opportunities: Inform employees about the upcoming training workshops that will be held in May, including "Advanced Customer Service" on May 10th and "Project Management Essentials" on May 25th.
 ```
+
+
+
+## 按NL研究领域：分类
+
+
+
+| 二级分类       | 三级分类       |                                                              |
+| -------------- | -------------- | ------------------------------------------------------------ |
+| 文本分类与聚类 | 文本表示       |                                                              |
+|                | 文本分类模型   | Review classifier<br/>Pro and con discusser                  |
+|                | 文本聚类模型   |                                                              |
+| 信息提取       | 关系提取       | Parse unstructured data<br/>Keywords<br/>Spreadsheet creator<br/>Airport code extractor<br/>Natural language to SQL |
+|                | 事件提取       |                                                              |
+| 情感分析       | 情感分类       | Tweet classifier                                             |
+|                | 情感信息提取   |                                                              |
+|                | 多模态情感分析 |                                                              |
+| 自动文摘       | 抽取式摘要     | Meeting notes summarizer                                     |
+|                | 生成式摘要     | Summarize for a 2nd grader<br/>Product name generator<br/>VR fitness idea generator<br/>Interview questions<br/>Rap battle writer<br/>Memo writer<br/>Lesson plan writer |
+| 信息检索       | 信息需求理解   |                                                              |
+|                | 结果匹配排序   |                                                              |
+|                | 信息检索评价   |                                                              |
+| 信息推荐与过滤 | 信息推荐       |                                                              |
+|                | 信息过滤       |                                                              |
+| 智能问答       | 检索式问答     |                                                              |
+|                | 社区问答       |                                                              |
+|                | 知识库问答     |                                                              |
+| 机器翻译       |                | Emoji Translation<br/>Turn by turn directions<br/>Translation |
+| 语音技术       |                |                                                              |
+| 文字识别       |                |                                                              |
+| 多模态信息处理 |                |                                                              |
+
+
+
+| title                       | description                                                  | 二级分类       | 三级分类     |
+| --------------------------- | ------------------------------------------------------------ | -------------- | ------------ |
+| Grammar correction          | Convert ungrammatical statements into standard English.      |                |              |
+| Summarize for a 2nd grader  | Simplify text to a level appropriate for a second-grade student. | 自动文摘       | 生成式摘要   |
+| Parse unstructured data     | Create tables from unstructured text.                        | 信息提取       | 关系提取     |
+| Emoji Translation           | Translate regular text into emoji text.                      | 机器翻译       | -            |
+| Calculate time complexity   | Find the time complexity of a function.                      |                |              |
+| Explain code                | Explain a complicated piece of code.                         |                |              |
+| Keywords                    | Extract keywords from a block of text.                       | 信息提取       | 关系提取     |
+| Product name generator      | Generate product names from a description and seed words.    | 自动文摘       | 生成式摘要   |
+| Python bug fixer            | Find and fix bugs in source code.                            |                |              |
+| Spreadsheet creator         | Create spreadsheets of various kinds of data.                | 信息提取       | 关系提取     |
+| Tweet classifier            | Detect sentiment in a tweet.                                 | 情感分析       | 情感分类     |
+| Airport code extractor      | Extract airport codes from text.                             | 信息提取       | 关系提取     |
+| Mood to color               | Turn a text description into a color.                        |                |              |
+| VR fitness idea generator   | Generate ideas for fitness promoting virtual reality games.  | 自动文摘       | 生成式摘要   |
+| Marv the sarcastic chat bot | A factual chatbot that is also sarcastic.                    | 智能对话       | 社区问答     |
+| Turn by turn directions     | Convert natural language to turn-by-turn directions.         | 机器翻译       | -            |
+| Interview questions         | Create interview questions.                                  | 自动文摘       | 生成式摘要   |
+| Function from specification | Create a Python function from a specification.               |                |              |
+| Improve code efficiency     | Provide ideas for efficiency improvements to Python code.    |                |              |
+| Single page website creator | Create a single page website.                                |                |              |
+| Rap battle writer           | Generate a rap battle between two characters.                | 自动文摘       | 生成式摘要   |
+| Memo writer                 | Generate a company memo based on provided points.            | 自动文摘       | 生成式摘要   |
+| Emoji chatbot               | Generate conversational replies using emojis only.           | 智能问答       | 社区问答     |
+| Translation                 | Translate natural language text.                             | 机器翻译       | -            |
+| Socratic tutor              | Generate responses as a Socratic tutor.                      | 智能问答       | 社区问答     |
+| Natural language to SQL     | Convert natural language into SQL queries.                   | 信息提取       | 关系提取     |
+| Meeting notes summarizer    | Summarize meeting notes including overall discussion, action items, and future topics. | 自动文摘       | 抽取式摘要   |
+| Review classifier           | Classify user reviews based on a set of tags.                | 文本分类与聚类 | 文本分类     |
+| Pro and con discusser       | Analyze the pros and cons of a given topic.                  | 文本分类与聚类 | 文本分类模型 |
+| Lesson plan writer          | Generate a lesson plan for a specific topic.                 | 自动文摘       | 生成式摘要   |
+
+
+
+## 我的分类
+
+
+
+
+
+| 类别          | 应用场景                                                     |
+| ------------- | ------------------------------------------------------------ |
+| 分类          | Review classifier<br/>Pro and con discusser                  |
+| 情感分析      | Tweet classifier                                             |
+| 提取          | Keywords<br/>Parse unstructured data<br/>Spreadsheet creator<br/>Airport code extractor<br/>Turn by turn directions<br/> |
+| 摘要/总结     | Meeting notes summarizer<br/>Summarize for a 2nd grader<br/>解释代码 |
+| 生成/写作     | Product name generator<br/>VR fitness idea generator<br/>Interview questions<br/>Rap battle writer<br/>Memo writer<br/>Lesson plan writer |
+| 转换/机器翻译 | Translation<br/>Emoji Translation<br/>Mood to color<br/>Natural language to SQL |
+| 转换/校对     | Grammar Correction<br/>Python bug fixer                      |
+| 代码          |                                                              |
 
