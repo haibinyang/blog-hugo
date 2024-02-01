@@ -16,7 +16,7 @@ draft: false
 
 
 
-Python版本的文档更完善，ts比较差
+Python版本的文档更完善，ts比较差？
 
 
 
@@ -33,7 +33,15 @@ conda create --name llamaindex python=3.12
 conda activate llamaindex
 ```
 
-## 安装
+
+
+**在VSCode中设置**
+
+Python: Select Interpreter
+
+
+
+## 安装库
 
 ```bash
 pip install llama-index
@@ -58,6 +66,12 @@ export OPENAI_API_KEY="sk-xxxx"
 ```bash
 echo $OPENAI_API_KEY
 ```
+
+
+
+**可达性**
+
+在命令行配置: goproxy
 
 
 
@@ -165,6 +179,14 @@ Answer:
 
 
 
+# Deeplearn教程
+
+> Building and Evaluating Advanced RAG Applications：[链接](https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/) [Bilibili](https://www.bilibili.com/video/BV1494y1E7H9?p=2&vd_source=a77fcba61aa907ebeb43a374b034f3b3)
+
+
+
+
+
 
 
 
@@ -182,4 +204,26 @@ This video covers the tools built into LlamaIndex for combining SQL and semantic
 # Response Modes
 
 [参考](https://docs.llamaindex.ai/en/stable/module_guides/deploying/query_engine/response_modes.html)
+
+
+
+# TruLens
+
+> [官网](https://www.trulens.org/)
+
+
+
+## 评测标准
+
+Query与Answer：Answer Relevance
+
+Query与Context：Context Relevance
+
+Answer与Context：Groundedness
+
+> grounded：脚踏实地的；groundedness：有根性
+
+
+
+![image-20240201110046813](https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/image-20240201110046813.png)
 
