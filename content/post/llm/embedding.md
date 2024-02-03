@@ -28,6 +28,20 @@ draft: false
 
 
 
+# OpenAI的模型
+
+
+
+| 模型名称               | 描述                               | 向量大小 | 价格          |
+| :--------------------- | :--------------------------------- | :------- | ------------- |
+| text-embedding-3-large | 适合非英文的任务。                 | 3,072    | 比ada稍微多点 |
+| text-embedding-3-small | text-embedding-ada-002的升级版本。 | 1,536    | 是ada的1/5    |
+| text-embedding-ada-002 |                                    | 1,536    |               |
+
+
+
+
+
 
 
 # 中文：智源的BGE模型
@@ -47,4 +61,24 @@ BGE模型将任意文本映射为低维稠密向量，以用于检索、分类�
 # MTEB榜单
 
 > Massive Text Embedding BenchMark（[链接](https://huggingface.co/spaces/mteb/leaderboard?spm=a2c6h.12873639.article-detail.9.93e62bb5aKKpaZ)）
+
+
+
+## OpenAI对比BGE
+
+| 模型名称                | 英文  | 中文  |
+| :---------------------- | :---- | :---- |
+| text-embedding-3-large  | 64.59 |       |
+| text-embedding-3-small  | 62.26 |       |
+| text-embedding-ada-002  | 60.99 | 53.73 |
+| bge-base-en-v1.5        | 63.55 |       |
+|                         |       |       |
+| bge-base-zh-v1.5        |       | 63.13 |
+| baichuan-text-embedding |       | 68.34 |
+
+
+
+
+
+
 
