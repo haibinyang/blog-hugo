@@ -75,6 +75,12 @@ RAG 中的传统或关键字搜索解决方案对知识密集型任务产生的�
 
 # RAG脑图
 
+> [原文](https://mp.weixin.qq.com/s/FqyaTK2Mb4VJolK81P5_1g)
+
+这张图，非常地详细！
+
+
+
 ![image-20240125161624484](https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/image-20240125161624484.png)
 
 
@@ -119,6 +125,29 @@ RAG 中的传统或关键字搜索解决方案对知识密集型任务产生的�
 
 
 [参考1](https://mp.weixin.qq.com/s/FqyaTK2Mb4VJolK81P5_1g)
+
+
+
+## 混合检索
+
+双路查询：
+
+- 语义检索（Vector Search）
+- 关键字检索（Keyword Search）
+
+
+
+![image-20240204140848656](https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/image-20240204140848656.png)
+
+
+
+[Youtube教程](https://www.youtube.com/watch?v=hsEWohYtg0I&ab_channel=LlamaIndex)
+
+
+
+[关键词&语义的混合检索实现](https://mp.weixin.qq.com/s/QptJn4cjd8arEGweW_mEVg)
+
+
 
 
 
@@ -245,9 +274,15 @@ Milvus：topk检索+bge-base-zh+段落相似聚合模型
 
 
 
+# RAG的痛点和解决方案
 
+[链接](https://blog.llamaindex.ai/a-cheat-sheet-and-some-recipes-for-building-advanced-rag-803a9d94c41b)
 
+非常不错的文章
 
+还没有时间看！！
+
+![](https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/rag-cheat-sheet-final.svg)
 
 
 

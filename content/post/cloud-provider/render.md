@@ -33,7 +33,71 @@ draft: false
 
 
 
+计算：
+
+存储：1GB=2元人民币/月
+
+
+
+
+
+# 支持的Python的版本
+
+
+
+**默认支持的版本**
+
+3.11
+
+| Service Creation Date       | Default Python Version |
+| :-------------------------- | :--------------------- |
+| `2024-01-02` and later      | `3.11.7`               |
+| `2023-12-04` - `2024-01-01` | `3.11.6`               |
+| Before `2023-11-01`         | `3.7.10`               |
+
+
+
+**可以指定版本**
+
+在环境变量中指定版本。
+
+Specify a different Python version by setting your service’s `PYTHON_VERSION` [environment variable](https://docs.render.com/configure-environment-variables) to a valid Python version (e.g., `3.9.13`). You can specify any released version from `3.7.0` onward.
+
+
+
+# blueprint: render.yaml
+
+[blueprint-spec](https://docs.render.com/blueprint-spec#type)
+
+
+
+**Type**
+
+- `web` for a web service
+- `worker` for a background worker
+- `pserv` for a private service
+- `cron` for a cron job
+
+
+
+
+
 # 部署FastAPI
 
 https://docs.render.com/deploy-fastapi
 
+
+
+
+
+开源的项目
+
+dokku
+
+https://dokku.com/
+
+
+
+caprover
+
+https://github.com/caprover/caprover

@@ -14,11 +14,11 @@ draft: false
 
 # 时间线
 
-Vespa 是最早在主流的基于 BM25 关键字搜索算法旁边加入向量相似性搜索的厂商之一（有趣的是，Vespa 的 GitHub 仓库 现在已经有近 75000 次提交 🤯）。
+Vespa 是最早在主流的基于 BM25 关键字搜索算法旁边加入向量相似性搜索的厂商之一。
 
 Weaviate 随后在2018年底推出了一个专门的开源向量搜索数据库产品。
 
-到2019年，我们开始在这个领域看到更多的竞争，包括 Milvus（也是开源的）。需要注意的是，在时间线中也显示了 Zilliz，但没有单独列出，因为它是 Milvus 的（商业）母公司，提供了基于 Milvus 构建的完全托管的云解决方案。
+到2019年，我们开始在这个领域看到更多的竞争，包括 Milvus（也是开源的）。Zilliz是 Milvus 的母公司。
 
 在2021年，又有三家新的供应商加入了竞争：Vald、Qdrant 和 Pinecone。
 
@@ -34,10 +34,6 @@ Weaviate 随后在2018年底推出了一个专门的开源向量搜索数据库�
 
 - pgvector
 - Redis Stack
-
-
-
-
 
 ![image-20240125145550416](https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/image-20240125145550416.png)
 
@@ -60,6 +56,104 @@ Weaviate 随后在2018年底推出了一个专门的开源向量搜索数据库�
 - **Timescale Vector优化了基于时间的向量搜索查询：**利用Timescale的超级表的自动基于时间的分区和索引，有效地找到最近的Embeddings，通过时间范围或文档存在年份约束向量搜索，并轻松存储和检索大型语言模型(LLM)响应和聊天历史。基于时间的语义搜索还使您能够使用**检索增强生成**(Retrieval Augmented Generation, **RAG**)和基于时间的上下文检索，从而为用户提供更有用的LLM响应。
 - **简化的AI基础设施堆栈：**通过将**向量Embeddings**，**关系型数据**和**时间序列数据**组合在一个PostgreSQL数据库中，Timescale vector消除了大规模管理多个数据库系统所带来的操作复杂性。
 - **简化元数据处理和多属性过滤：**开发人员可以利用所有PostgreSQL数据类型来存储和过滤元数据，并将向量搜索结果与关系数据连接起来，以获得更多上下文相关的响应。在未来的版本中，Timescale Vector将进一步优化丰富的多属性过滤，在过滤元数据时实现更快的相似性搜索。
+
+
+
+# LlamaIndex整理的向量数据库
+
+[链接](https://docs.llamaindex.ai/en/stable/module_guides/storing/vector_stores.html)
+
+
+
+**Vector Store Options & Feature Support**
+
+| Vector Store             | Type                | Metadata Filtering | Hybrid Search | Delete | Store Documents | Async |
+| ------------------------ | ------------------- | ------------------ | ------------- | ------ | --------------- | ----- |
+| Apache Cassandra®        | self-hosted / cloud | ✓                  |               | ✓      | ✓               |       |
+| Astra DB                 | cloud               | ✓                  |               | ✓      | ✓               |       |
+| Azure Cognitive Search   | cloud               |                    | ✓             | ✓      | ✓               |       |
+| Azure CosmosDB MongoDB   | cloud               |                    |               | ✓      | ✓               |       |
+| ChatGPT Retrieval Plugin | aggregator          |                    |               | ✓      | ✓               |       |
+| Chroma                   | self-hosted         | ✓                  |               | ✓      | ✓               |       |
+| DashVector               | cloud               | ✓                  | ✓             | ✓      | ✓               |       |
+| Deeplake                 | self-hosted / cloud | ✓                  |               | ✓      | ✓               |       |
+| DocArray                 | aggregator          | ✓                  |               | ✓      | ✓               |       |
+| DynamoDB                 | cloud               |                    |               | ✓      |                 |       |
+| Elasticsearch            | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               | ✓     |
+| FAISS                    | in-memory           |                    |               |        |                 |       |
+| txtai                    | in-memory           |                    |               |        |                 |       |
+| Jaguar                   | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               |       |
+| LanceDB                  | cloud               | ✓                  |               | ✓      | ✓               |       |
+| Lantern                  | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               | ✓     |
+| Metal                    | cloud               | ✓                  |               | ✓      | ✓               |       |
+| MongoDB Atlas            | self-hosted / cloud | ✓                  |               | ✓      | ✓               |       |
+| MyScale                  | cloud               | ✓                  | ✓             | ✓      | ✓               |       |
+| Milvus / Zilliz          | self-hosted / cloud | ✓                  |               | ✓      | ✓               |       |
+| Neo4jVector              | self-hosted / cloud |                    |               | ✓      | ✓               |       |
+| OpenSearch               | self-hosted / cloud | ✓                  |               | ✓      | ✓               |       |
+| Pinecone                 | cloud               | ✓                  | ✓             | ✓      | ✓               |       |
+| Postgres                 | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               | ✓     |
+| pgvecto.rs               | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               |       |
+| Qdrant                   | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               | ✓     |
+| Redis                    | self-hosted / cloud | ✓                  |               | ✓      | ✓               |       |
+| Simple                   | in-memory           | ✓                  |               | ✓      |                 |       |
+| SingleStore              | self-hosted / cloud | ✓                  |               | ✓      | ✓               |       |
+| Supabase                 | self-hosted / cloud | ✓                  |               | ✓      | ✓               |       |
+| Tair                     | cloud               | ✓                  |               | ✓      | ✓               |       |
+| TencentVectorDB          | cloud               | ✓                  | ✓             | ✓      | ✓               |       |
+| Timescale                |                     | ✓                  |               | ✓      | ✓               | ✓     |
+| Typesense                | self-hosted / cloud | ✓                  |               | ✓      | ✓               |       |
+| Weaviate                 | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               |       |
+
+
+
+大部分支持的数据库
+
+| ector Store     | Type                | Metadata Filtering | Hybrid Search | Delete | Store Documents | Async |
+| --------------- | ------------------- | ------------------ | ------------- | ------ | --------------- | ----- |
+| DashVector      | cloud               | ✓                  | ✓             | ✓      | ✓               |       |
+| Elasticsearch   | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               | ✓     |
+| Jaguar          | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               |       |
+| Lantern         | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               | ✓     |
+| MyScale         | cloud               | ✓                  | ✓             | ✓      | ✓               |       |
+| Pinecone        | cloud               | ✓                  | ✓             | ✓      | ✓               |       |
+| Postgres        | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               | ✓     |
+| pgvecto.rs      | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               |       |
+| Qdrant          | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               | ✓     |
+| TencentVectorDB | cloud               | ✓                  | ✓             | ✓      | ✓               |       |
+| Weaviate        | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               |       |
+
+
+
+[Elasticsearch](https://docs.llamaindex.ai/en/stable/examples/vector_stores/ElasticsearchIndexDemo.html)：总觉得比较重
+
+[Postgress](https://docs.llamaindex.ai/en/stable/examples/vector_stores/postgres.html#hybrid-search)：先从最简单的开始吧。
+
+[Qdrant](https://docs.llamaindex.ai/en/stable/examples/vector_stores/qdrant_hybrid.html)：创始人好像出走了。
+
+
+
+# 不同数据库的对比
+
+
+
+[开源向量数据库对比](https://zilliz.com.cn/comparison)
+
+
+
+# RAG选型
+
+
+
+
+
+[Elasticsearch](https://docs.llamaindex.ai/en/stable/examples/vector_stores/ElasticsearchIndexDemo.html)
+
+[Qdrant](https://docs.llamaindex.ai/en/stable/examples/vector_stores/qdrant_hybrid.html)
+
+[Postgress](https://docs.llamaindex.ai/en/stable/examples/vector_stores/postgres.html#hybrid-search)
+
+
 
 
 

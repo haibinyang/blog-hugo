@@ -261,6 +261,51 @@ TextNode：使用NodeParser将document切成多个Node
 
 
 
+## 保存document和index
+
+两种方式
+
+- 保存到本地磁盘
+- 存储到向量数据库
+
+
+
+**保存到本地磁盘**
+
+```python
+import os.path
+from llama_index import (
+    VectorStoreIndex,
+    SimpleDirectoryReader,
+    StorageContext,
+    load_index_from_storage,
+)
+import sys
+
+# check if storage already exists
+PERSIST_DIR = "./storage"
+if not os.path.exists(PERSIST_DIR):
+    # 保存数据: Load the documents and create the index
+    documents = SimpleDirectoryReader("data").load_data()
+    index = VectorStoreIndex.from_documents(documents)
+    # store it for later
+    index.storage_context.persist(persist_dir=PERSIST_DIR)
+else:
+    # 从磁盘加载回数据： load the existing index
+    storage_context = StorageContext.from_defaults(persist_dir=PERSIST_DIR)
+    index = load_index_from_storage(storage_context)
+
+query_engine = index.as_query_engine()
+response = query_engine.query("What did the author do growing up?")
+print(response)
+```
+
+
+
+
+
+
+
 ## 建立索引
 
 为每个Node创建Embedding
@@ -295,7 +340,54 @@ TextNode：使用NodeParser将document切成多个Node
 
 
 
-# 官方文档
+
+
+```python
+from llama_index import (
+    VectorStoreIndex,
+    get_response_synthesizer,
+)
+from llama_index.retrievers import VectorIndexRetriever
+from llama_index.query_engine import RetrieverQueryEngine
+from llama_index.postprocessor import SimilarityPostprocessor
+
+from llama_index import StorageContext, load_index_from_storage
+
+# rebuild storage context
+storage_context = StorageContext.from_defaults(persist_dir="storage")
+# load index
+index = load_index_from_storage(storage_context)
+
+# configure retriever
+retriever = VectorIndexRetriever(
+    index=index,
+    similarity_top_k=10,
+)
+
+# configure response synthesizer
+response_synthesizer = get_response_synthesizer()
+
+# assemble query engine
+query_engine = RetrieverQueryEngine(
+    retriever=retriever,
+    response_synthesizer=response_synthesizer,
+    node_postprocessors=[SimilarityPostprocessor(similarity_cutoff=0.7)],
+)
+
+# query
+response = query_engine.query("What did the author do growing up?")
+print(response)
+```
+
+
+
+
+
+
+
+
+
+# 官方文档：Understanding
 
 
 
@@ -473,9 +565,70 @@ index = VectorStoreIndex([node1, node2])
 
 
 
+## 索引
+
+> [官方文档](https://docs.llamaindex.ai/en/stable/module_guides/indexing/index_guide.html) [中文翻译](https://mp.weixin.qq.com/s/fSssn9uHhbBMCxn0NIuC6g)
+
+**索引分类**
+
+- [Vector Stores](https://docs.llamaindex.ai/en/stable/module_guides/storing/vector_stores.html)
+- [Document Stores](https://docs.llamaindex.ai/en/stable/module_guides/storing/docstores.html)
+- [Index Stores](https://docs.llamaindex.ai/en/stable/module_guides/storing/index_stores.html)
+- [Key-Value Stores](https://docs.llamaindex.ai/en/stable/module_guides/storing/kv_stores.html)
+- [Using Graph Stores](https://docs.llamaindex.ai/en/stable/community/integrations/graph_stores.html)
+- [Chat Stores](
 
 
 
+**常见的索引**
+
+- Summary Index (formerly List Index)
+- Vector Store Index（最常见）
+- Tree Index
+- Keyword Table Index
+
+
+
+**Summary Index (formerly List Index)**
+
+<img src="https://docs.llamaindex.ai/en/stable/_images/list.png" alt="img" style="zoom:25%;" />
+
+**Vector Store Index**
+
+
+
+<img src="https://docs.llamaindex.ai/en/stable/_images/vector_store.png" alt="img" style="zoom:50%;" />
+
+**Tree Index**
+
+![img](https://docs.llamaindex.ai/en/stable/_images/tree.png)
+
+**Keyword Table Index**
+
+
+
+<img src="https://docs.llamaindex.ai/en/stable/_images/keyword.png" alt="img" style="zoom:50%;" />
+
+[其它索引](https://docs.llamaindex.ai/en/stable/module_guides/indexing/indexing.html)
+
+- [VectorStoreIndex](https://docs.llamaindex.ai/en/stable/module_guides/indexing/vector_store_index.html)
+- [Summary Index](https://docs.llamaindex.ai/en/stable/module_guides/indexing/index_guide.html)
+- [Tree Index](https://docs.llamaindex.ai/en/stable/module_guides/indexing/index_guide.html)
+- [Keyword Table Index](https://docs.llamaindex.ai/en/stable/module_guides/indexing/index_guide.html)
+- [Knowledge Graph Index](https://docs.llamaindex.ai/en/stable/examples/index_structs/knowledge_graph/KnowledgeGraphDemo.html)
+- [Custom Retriever combining KG Index and VectorStore Index](https://docs.llamaindex.ai/en/stable/examples/index_structs/knowledge_graph/KnowledgeGraphIndex_vs_VectorStoreIndex_vs_CustomIndex_combined.html)
+- [Knowledge Graph Query Engine](https://docs.llamaindex.ai/en/stable/examples/query_engine/knowledge_graph_query_engine.html)
+- [Knowledge Graph RAG Query Engine](https://docs.llamaindex.ai/en/stable/examples/query_engine/knowledge_graph_rag_query_engine.html)
+- [REBEL + Knowledge Graph Index](https://colab.research.google.com/drive/1G6pcR0pXvSkdMQlAK_P-IrYgo-_staxd?usp=sharing)
+- [REBEL + Wikipedia Filtering](https://docs.llamaindex.ai/en/stable/examples/index_structs/knowledge_graph/knowledge_graph2.html)
+- [SQL Index](https://docs.llamaindex.ai/en/stable/examples/index_structs/struct_indices/SQLIndexDemo.html)
+- [SQL Query Engine with LlamaIndex + DuckDB](https://docs.llamaindex.ai/en/stable/examples/index_structs/struct_indices/duckdb_sql_query.html)
+- [Document Summary Index](https://docs.llamaindex.ai/en/stable/examples/index_structs/doc_summary/DocSummary.html)
+- [The `ObjectIndex` Class](https://docs.llamaindex.ai/en/stable/examples/objects/object_index.html)
+
+
+
+- https://docs.llamaindex.ai/en/stable/module_guides/storing/chat_stores.html)
 
 
 
