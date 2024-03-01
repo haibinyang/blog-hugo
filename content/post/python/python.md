@@ -38,6 +38,29 @@ conda activate llamaindex
 
 
 
+# 安装/升级/查看安装包
+
+安装
+
+```bash
+pip install langchain
+```
+
+升级
+
+```bash
+pip install --upgrade langchain
+```
+
+查看版本号
+
+键入Python进入交互界面
+
+```python
+import langchain
+print(langchain.__version__)
+```
+
 
 
 # VSCode格式化Python

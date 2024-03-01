@@ -12,6 +12,27 @@ draft: false
 
 
 
+# npm基础知识
+
+配置文件路径
+
+```
+~/.npmrc
+```
+
+
+
+配置镜像（不建议）
+
+```
+registry=https://registry.npmjs.org/
+disturl=https://npm.taobao.org/dist
+```
+
+> `disturl` 项被设置为了淘宝的 Node.js 镜像（`https://npm.taobao.org/dist`），这是 Node.js 二进制分发的镜像地址，用于加速 Node.js 版本的下载。
+
+
+
 # 最受欢迎的NPM包
 
 | 名称                                                         | 创建时间 | 最近的版本 | 最近发布时间 | 受欢迎程度 |
