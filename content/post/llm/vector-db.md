@@ -109,19 +109,19 @@ Weaviate 随后在2018年底推出了一个专门的开源向量搜索数据库�
 
 大部分支持的数据库
 
-| ector Store     | Type                | Metadata Filtering | Hybrid Search | Delete | Store Documents | Async |
-| --------------- | ------------------- | ------------------ | ------------- | ------ | --------------- | ----- |
-| DashVector      | cloud               | ✓                  | ✓             | ✓      | ✓               |       |
-| Elasticsearch   | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               | ✓     |
-| Jaguar          | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               |       |
-| Lantern         | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               | ✓     |
-| MyScale         | cloud               | ✓                  | ✓             | ✓      | ✓               |       |
-| Pinecone        | cloud               | ✓                  | ✓             | ✓      | ✓               |       |
-| Postgres        | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               | ✓     |
-| pgvecto.rs      | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               |       |
-| Qdrant          | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               | ✓     |
-| TencentVectorDB | cloud               | ✓                  | ✓             | ✓      | ✓               |       |
-| Weaviate        | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               |       |
+| ector Store     | Type                | Metadata Filtering | Hybrid Search | Delete | Store Documents | Async |                  |
+| --------------- | ------------------- | ------------------ | ------------- | ------ | --------------- | ----- | ---------------- |
+| DashVector      | cloud               | ✓                  | ✓             | ✓      | ✓               |       |                  |
+| Elasticsearch   | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               | ✓     | 总觉得比较重     |
+| Jaguar          | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               |       |                  |
+| Lantern         | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               | ✓     |                  |
+| MyScale         | cloud               | ✓                  | ✓             | ✓      | ✓               |       |                  |
+| Pinecone        | cloud               | ✓                  | ✓             | ✓      | ✓               |       |                  |
+| Postgres        | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               | ✓     |                  |
+| pgvecto.rs      | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               |       |                  |
+| Qdrant          | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               | ✓     | 创始人好像出走了 |
+| TencentVectorDB | cloud               | ✓                  | ✓             | ✓      | ✓               |       |                  |
+| Weaviate        | self-hosted / cloud | ✓                  | ✓             | ✓      | ✓               |       |                  |
 
 
 
@@ -130,6 +130,28 @@ Weaviate 随后在2018年底推出了一个专门的开源向量搜索数据库�
 [Postgress](https://docs.llamaindex.ai/en/stable/examples/vector_stores/postgres.html#hybrid-search)：先从最简单的开始吧。
 
 [Qdrant](https://docs.llamaindex.ai/en/stable/examples/vector_stores/qdrant_hybrid.html)：创始人好像出走了。
+
+
+
+# LangChain对数据库的对比
+
+[原文](https://js.langchain.com/docs/modules/data_connection/vectorstores/#which-one-to-pick)
+
+| 数据库名称                           | 应用场景                                                     |
+| ------------------------------------ | ------------------------------------------------------------ |
+| HNSWLib, Faiss, LanceDB, CloseVector | 如果你需要一个可以在你的Node.js应用程序中运行的内存数据库，无需其他服务器 |
+| MemoryVectorStore, CloseVector       | 如果你在寻找一个可以在类似浏览器的环境中内存中运行的东西     |
+| HNSWLib, Faiss                       | 如果你来自Python，并且你在寻找类似于FAISS的东西              |
+| Chroma                               | 如果你在寻找一个开源的、功能全面的向量数据库，可以在docker容器中本地运行 |
+| Zep                                  | 如果你在寻找一个开源的向量数据库，提供低延迟、本地嵌入文档支持，并且支持边缘上的应用 |
+| Weaviate                             | 如果你在寻找一个开源的、生产就绪的向量数据库，可以在docker容器中本地运行或在云中托管 |
+| Supabase vector store                | 如果你已经在使用Supabase，看看Supabase向量存储，使用同一个Postgres数据库来存储你的嵌入 |
+| Pinecone                             | 如果你在寻找一个生产就绪的向量存储，你不必担心自己托管       |
+| SingleStore vector store             | 如果你已经在使用SingleStore，或者你需要一个分布式、高性能的数据库，你可能会考虑SingleStore向量存储 |
+| AnalyticDB vector store              | 如果你在寻找一个在线MPP（大规模并行处理）数据仓库服务，你可能会考虑AnalyticDB向量存储 |
+| MyScale                              | 如果你在寻找一个性价比高的向量数据库，允许使用SQL进行向量搜索 |
+| CloseVector                          | 如果你在寻找一个可以从浏览器和服务器端加载的向量数据库，看看CloseVector。它是一个旨在跨平台的向量数据库 |
+| ClickHouse                           | 如果你在寻找一个可扩展的、开源的列式数据库，对于分析查询有着出色的性能 |
 
 
 
@@ -142,8 +164,6 @@ Weaviate 随后在2018年底推出了一个专门的开源向量搜索数据库�
 
 
 # RAG选型
-
-
 
 
 
