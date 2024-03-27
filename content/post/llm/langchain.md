@@ -7,7 +7,7 @@ math:
 license: 
 hidden: false
 comments: true
-draft: true
+draft: false
 ---
 
 
@@ -123,15 +123,75 @@ main();
 
 
 
-## Function Call
+## 配置（代理）
+
+[文档](https://js.langchain.com/docs/integrations/llms/openai)
+
+```typescript
+import { OpenAI } from "@langchain/openai";
+
+const model = new OpenAI({
+    modelName: "gpt-3.5-turbo", 
+    temperature: 0.9,
+    openAIApiKey: "YOUR-API-KEY",
+    configuration: {
+    baseURL: "https://your_custom_url.com",
+    },
+});
+```
+
+
+
+## Function Call/Tools
+
+### 第一种：tools
+
+[官方文档](https://js.langchain.com/docs/modules/model_io/output_parsers/types/openai_tools)
+
+使用最新的tools接口
+
+
+
+```js
+const llm = new ChatOpenAI();
+
+const llmWithTools = llm.bind({
+  tools: [tool],
+  tool_choice: tool,
+});
+
+const prompt = ChatPromptTemplate.fromMessages([
+  ["system", "You are the funniest comedian, tell the user a joke about their topic."],
+  ["human", "Topic: {topic}"]
+])
+
+const chain = prompt.pipe(llmWithTools);
+const result = await chain.invoke({ topic: "Large Language Models" });
+```
+
+
+
+#### 指定Parser
+
+[文档](https://js.langchain.com/docs/modules/model_io/output_parsers/types/openai_tools#jsonoutputtoolsparser)
+
+```js
+import { JsonOutputToolsParser } from "langchain/output_parsers";
+
+const outputParser = new JsonOutputToolsParser();
+```
+
+
+
+### 第二种：function call
 
 > [官方文档](https://js.langchain.com/docs/modules/model_io/chat/function_calling)
 
-**两种方式**
+有两种方式：
 
 
 
-调用时传入函数
+**调用时传入函数**
 
 ```js
 const result = await model.invoke([new HumanMessage("What a beautiful day!")], {
@@ -142,7 +202,7 @@ const result = await model.invoke([new HumanMessage("What a beautiful day!")], {
 
 
 
-绑定函数到模型
+**绑定函数到模型**
 
 可以不断复用同一个模型
 
@@ -155,9 +215,9 @@ const model = new ChatOpenAI({ modelName: "gpt-4" }).bind({
 
 
 
-定义函数有两种方式
+### 定义API
 
-
+有两种方法
 
 ```js
 const extractionFunctionSchema = {
@@ -216,7 +276,124 @@ const extractionFunctionSchema = {
 
 
 
+
+
 ## Model I/O
+
+### Loader
+
+[CSV-TS](https://js.langchain.com/docs/integrations/document_loaders/file_loaders/csv)
+
+
+
+### Retriever（重要）
+
+[官方](https://js.langchain.com/docs/modules/data_connection/retrievers/)
+
+分成两类
+
+- 自带
+- [第三方集成](https://js.langchain.com/docs/integrations/retrievers/)
+
+
+
+| Retriever                          | 说明 |
+| ---------------------------------- | ---- |
+| Knowledge Bases for Amazon Bedrock |      |
+| Chaindesk Retriever                |      |
+| ChatGPT Plugin Retriever           |      |
+| Dria Retriever                     |      |
+| Exa Search                         |      |
+| HyDE Retriever                     |      |
+| Amazon Kendra Retriever            |      |
+| Metal Retriever                    |      |
+| Supabase Hybrid Search             |      |
+| Tavily Search API                  |      |
+| Time-Weighted Retriever            |      |
+| Vector Store                       |      |
+| Vespa Retriever                    |      |
+| Zep Retriever                      |      |
+
+
+
+#### 相似度：ScoreThreshold
+
+[文档](https://js.langchain.com/docs/modules/data_connection/retrievers/similarity-score-threshold-retriever)
+
+ScoreThreshold是一个百分比。
+
+- 1.0是完整匹配
+- 0.95可能差不多
+
+
+
+```js
+import { MemoryVectorStore } from "langchain/vectorstores/memory";
+import { OpenAIEmbeddings } from "@langchain/openai";
+import { ScoreThresholdRetriever } from "langchain/retrievers/score_threshold";
+
+async function main() {
+  const vectorStore = await MemoryVectorStore.fromTexts(
+    [
+      "Buildings are made out of brick",
+      "Buildings are made out of wood",
+      "Buildings are made out of stone",
+      "Buildings are made out of atoms",
+      "Buildings are made out of building materials",
+      "Cars are made out of metal",
+      "Cars are made out of plastic",
+    ],
+    [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
+    new OpenAIEmbeddings()
+  );
+
+  const retriever = ScoreThresholdRetriever.fromVectorStore(vectorStore, {
+    minSimilarityScore: 0.95, // Finds results with at least this similarity score
+    maxK: 100, // The maximum K value to use. Use it based to your chunk size to make sure you don't run out of tokens
+    kIncrement: 2, // How much to increase K by each time. It'll fetch N results, then N + kIncrement, then N + kIncrement * 2, etc.
+  });
+
+  const result = await retriever.getRelevantDocuments(
+    "building is made out of atom"
+  );
+
+  console.log(result);
+};
+
+main();
+
+// [
+//   Document {
+//     pageContent: 'Buildings are made out of atoms',
+//     metadata: { id: 4 }
+//   }
+// ]
+
+```
+
+
+
+
+
+
+
+**Self-Querying（很不错，适合查询结构化的数据）**
+
+[文档](https://js.langchain.com/docs/modules/data_connection/retrievers/self_query/)
+
+
+
+
+
+### Supabase
+
+[Quick Start](https://js.langchain.com/docs/integrations/vectorstores/supabase)
+
+[混合检索](https://js.langchain.com/docs/integrations/retrievers/supabase-hybrid)
+
+[Supabase官方文档](https://supabase.com/docs/guides/ai/langchain)
+
+
 
 ### Parser
 
@@ -235,11 +412,11 @@ const extractionFunctionSchema = {
 
 
 
-多种Chain
+
 
 ## 多个Chain
 
-### 组合/串行
+### 串行
 
 两种方式
 
@@ -273,7 +450,10 @@ const promptTemplate = PromptTemplate.fromTemplate(
   "Tell me a joke about {topic}"
 );
 
-const chain = RunnableSequence.from([promptTemplate, model]);
+const chain = RunnableSequence.from([
+  promptTemplate, 
+  model
+]);
 const result = await chain.invoke({ topic: "bears" });
 ```
 
@@ -297,6 +477,7 @@ const model = new ChatAnthropic({});
 const jokeChain = PromptTemplate.fromTemplate(
   "Tell me a joke about {topic}"
 ).pipe(model);
+
 const poemChain = PromptTemplate.fromTemplate(
   "write a 2-line poem about {topic}"
 ).pipe(model);
@@ -317,10 +498,12 @@ const result = await mapChain.invoke({ topic: "bear" });
 
 ### 分支
 
+> [官方文档](https://js.langchain.com/docs/expression_language/how_to/routing#using-a-runnablebranch)
+
 两种方式
 
 - RunnableBranch
-- custom factory function
+- Custom factory function
 
 
 
@@ -383,6 +566,35 @@ main();
 
 
 
+## RAG
+
+> [官方文档](https://js.langchain.com/docs/use_cases/question_answering/)
+
+
+
+### 加载/Loader/ETL
+
+[文档](https://js.langchain.com/docs/integrations/document_loaders/file_loaders/unstructured)
+
+| 分类     | 项目                                                         |      |
+| -------- | ------------------------------------------------------------ | ---- |
+| 本地资源 | Folders with multiple files<br/>ChatGPT files<br/>CSV files<br/>Docx files<br/>EPUB files<br/>JSON files<br/>JSONLines files<br/>Notion markdown export<br/>Open AI Whisper Audio<br/>PDF files<br/>PPTX files<br/>Subtitles<br/>Text files<br/>Unstructured |      |
+| Web资源  | Cheerio<br/>Puppeteer<br/>Playwright<br/>Apify Dataset<br/>AssemblyAI Audio Transcript<br/>Azure Blob Storage Container<br/>Azure Blob Storage File<br/>College Confidential<br/>Confluence<br/>Couchbase<br/>Figma<br/>GitBook<br/>GitHub<br/>Hacker News<br/>IMSDB<br/>Notion API<br/>PDF files<br/>Recursive URL Loader<br/>S3 File<br/>SearchApi Loader<br/>SerpAPI Loader<br/>Sitemap Loader<br/>Sonix Audio<br/>Blockchain Data<br/>YouTube transcripts |      |
+
+更通用的ELT工具：[unstructured](https://unstructured.io/)
+
+
+
+### 拆分
+
+[官网](https://js.langchain.com/docs/modules/data_connection/document_transformers/code_splitter)
+
+
+
+
+
+
+
 # Python版本
 
 安装[LangChain](https://python.langchain.com/docs/get_started/installation#official-release)全家桶
@@ -394,4 +606,58 @@ pip install langchain langchain-community langchain-core "langserve[all]" langch
 > 最新版本号：[0.1.9](https://pypi.org/project/langchain/)（截止到2024年2月28日）
 
 
+
+# Hub
+
+LangSmith上有一个Hub，类似Github。
+
+例如[RLM](https://smith.langchain.com/hub/rlm?organizationId=c2f9dc8f-529d-57a4-93e4-8c0271b6184e)
+
+
+
+```js
+import { UnstructuredDirectoryLoader } from "langchain/document_loaders/fs/unstructured";
+
+import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import { MemoryVectorStore } from "langchain/vectorstores/memory"
+import { OpenAIEmbeddings, ChatOpenAI } from "@langchain/openai";
+import { pull } from "langchain/hub";
+import { ChatPromptTemplate } from "@langchain/core/prompts";
+import { StringOutputParser } from "@langchain/core/output_parsers";
+import { createStuffDocumentsChain } from "langchain/chains/combine_documents";
+
+async function main() {
+    const options = {
+        apiUrl: "http://localhost:8000/general/v0/general",
+    };
+
+    const loader = new UnstructuredDirectoryLoader(
+        "sample-docs",
+        options
+    );
+    const docs = await loader.load();
+    // console.log(docs);
+
+    const vectorStore = await MemoryVectorStore.fromDocuments(docs, new OpenAIEmbeddings());
+
+    const retriever = vectorStore.asRetriever();
+    const prompt = await pull<ChatPromptTemplate>("rlm/rag-prompt");
+    const llm = new ChatOpenAI({ modelName: "gpt-3.5-turbo", temperature: 0 });
+
+    const ragChain = await createStuffDocumentsChain({
+        llm,
+        prompt,
+        outputParser: new StringOutputParser(),
+    })
+    const retrievedDocs = await retriever.getRelevantDocuments("what is task decomposition")
+
+    const r = await ragChain.invoke({
+        question: "列出名字和联系方式",
+        context: retrievedDocs,
+    })
+    console.log(r);
+}
+
+main();
+```
 

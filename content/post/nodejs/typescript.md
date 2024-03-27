@@ -14,36 +14,34 @@ draft: false
 
 # 脚手架
 
+1. 安装Node.js
 
-
-安装Node.js
-
-安装TS
+2. 安装TS
 
 ```bash
 npm install -g typescript
 ```
 
-在一个空文件夹
+3. 在一个空文件夹
 
 ```bash
 npm init -y
 ```
 
-创建Git
+3. 创建Git
 
 ```bash
 git init
 echo "node_modules" > .gitignore 
 ```
 
-创建ts配置文件
+4. 创建ts配置文件
 
 ```bash
 tsc --init
 ```
 
-安装ts-node
+5. 安装ts-node
 
 ```bash
 npm install ts-node typescript --save-dev

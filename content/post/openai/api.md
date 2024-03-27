@@ -12,6 +12,63 @@ draft: true
 
 
 
+# 测试
+
+
+
+```bash
+curl https://api.openai.com/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -d '{
+    "model": "gpt-3.5-turbo",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a helpful assistant."
+      },
+      {
+        "role": "user",
+        "content": "Hello!"
+      }
+    ]
+  }'
+```
+
+
+
+# 代理接口
+
+使用CloudFlare
+
+[官方教程](https://developers.cloudflare.com/ai-gateway/get-started/connecting-applications/)
+
+
+
+将Base URL
+
+```
+https://api.openai.com/v1
+```
+
+替换成
+
+```
+https://gateway.ai.cloudflare.com/v1/[xxx]/[yyy]/openai
+```
+
+
+
+例如
+
+```bash
+curl https://gateway.ai.cloudflare.com/v1/45a93dd9034ce3d27b263a074d05f09a/ververv/openai/chat/completions \
+```
+
+
+
+
+
 # Chat接口定义
 
 > [官网](https://platform.openai.com/docs/api-reference/chat/create)
@@ -54,6 +111,10 @@ function：name，description，parameters
 
 名字，参数类型，描述，可选值，哪些参数是required
 
+## 范例
+
+**请求**
+
 ```bash
 curl https://api.openai.com/v1/chat/completions \
 -H "Content-Type: application/json" \
@@ -94,7 +155,7 @@ curl https://api.openai.com/v1/chat/completions \
 
 ```
 
-响应范例
+**响应**
 
 ```json
 {
@@ -128,6 +189,59 @@ curl https://api.openai.com/v1/chat/completions \
     "completion_tokens": 17,
     "total_tokens": 99
   }
+}
+```
+
+
+
+## 大的框架
+
+
+
+```json
+{
+  "model": "gpt-3.5-turbo",
+  "messages": [
+    {
+      "role": "user",
+      "content": "What is the weather like in Boston?"
+    }
+  ],
+  "tools": [ // tool列表，与model同级
+    { // 具体某个tool
+      "type": "function", // 类型：暂时只支持function
+      "function": {
+        "name": "get_current_weather",
+        "description": "Get the current weather in a given location",
+        "parameters": {
+          // 更具体定义
+        }
+      }
+    }
+  ],
+  "tool_choice": "auto" // 选择哪个tool，与model同级
+}
+```
+
+### parameters
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "location": {
+      "type": "string",
+      "description": "The city and state, e.g. San Francisco, CA"
+    },
+    "unit": {
+      "type": "string",
+      "enum": [
+        "celsius",
+        "fahrenheit"
+      ]
+    }
+  },
+  "required": ["location"],
 }
 ```
 
