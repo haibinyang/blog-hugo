@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Yuv Color Media on 量子跳跃者</title><link>https://blog.ververv.com/categories/yuv-color-media/</link><description>Recent content in Yuv Color Media on 量子跳跃者</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 24 Mar 2020 07:58:58 +0800</lastBuildDate><atom:link href="https://blog.ververv.com/categories/yuv-color-media/index.xml" rel="self" type="application/rss+xml"/><item><title>YUV基础</title><link>https://blog.ververv.com/p/yuv%E5%9F%BA%E7%A1%80/</link><pubDate>Tue, 24 Mar 2020 07:58:58 +0800</pubDate><guid>https://blog.ververv.com/p/yuv%E5%9F%BA%E7%A1%80/</guid><description>&lt;h2 id="色彩模型">色彩模型&lt;/h2>
+&lt;p>三类：&lt;/p>
+&lt;ul>
+&lt;li>RGB&lt;/li>
+&lt;li>YIQ/YUV/YCrCb：电视、视频系统&lt;/li>
+&lt;li>CMYK：彩色打印系统&lt;/li>
+&lt;/ul>
+&lt;h2 id="色彩模型色彩空间色域的关系">色彩模型，色彩空间，色域的关系&lt;/h2>
+&lt;ul>
+&lt;li>色彩模型：用一定规则来描述（排列）颜色的方法。&lt;/li>
+&lt;li>一个色彩模型下，可以有不同的色彩空间。&lt;/li>
+&lt;li>色域：色彩空间根据排列的条件的不同会有不同的色域。&lt;/li>
+&lt;/ul>
+&lt;h3 id="色彩空间和色彩模型">色彩空间和色彩模型&lt;/h3>
+&lt;p>在一个色彩模型下可以有不同的色彩空间。&lt;/p>
+&lt;p>Adobe RGB、sRGB、Apple RGB 就是同在 RGB 色彩模型下的不同色彩空间。&lt;/p>
+&lt;h3 id="色域">色域&lt;/h3>
+&lt;p>只是指某个对象能表示色彩范围。比如，某显示器能显示的色彩范围是 xxx 。&lt;/p>
+&lt;p>&lt;img src="https://pic1.zhimg.com/80/v2-9bdb22610e74b1b4484bf5e9368d269c_1440w.jpg"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h2 id="电视广播中色彩调频">电视广播中色彩调频&lt;/h2>
+&lt;ul>
+&lt;li>NTSC：北美&lt;/li>
+&lt;li>SECAM：中东和法国&lt;/li>
+&lt;li>PAL：Phase Alternating Line，其它国家&lt;/li>
+&lt;/ul>
+&lt;h2 id="yuv">YUV&lt;/h2>
+&lt;blockquote>
+&lt;p>也称YCbCr，属于PAL&lt;/p>
+&lt;/blockquote>
+&lt;p>Y ：亮度（灰度）&lt;/p>
+&lt;p>UV：色度（饱和度）&lt;/p>
+&lt;h3 id="uv-panels">UV Panels&lt;/h3>
+&lt;p>C代表颜色&lt;/p>
+&lt;p>b代表蓝色&lt;/p>
+&lt;p>r代表红色&lt;/p>
+&lt;img src="https://img-blog.csdn.net/2018060814490518?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzYWhpbm9rYXdh/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述" style="zoom: 50%;" />
+&lt;h3 id="y">Y&lt;/h3>
+&lt;p>&lt;img src="https://img-blog.csdn.net/20180608145023493?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzYWhpbm9rYXdh/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"
+loading="lazy"
+alt="这里写图片描述"
+>&lt;/p>
+&lt;h2 id="特点">特点&lt;/h2>
+&lt;p>图像的亮度Y和色度UV是分离的；没有UV分量一样可以显示完整的图像。当只有Y分量的时候，图像表示为灰度图。&lt;/p>
+&lt;blockquote>
+&lt;p>这样的设计很好地解决了彩色电视机与黑白电视的兼容问题。&lt;/p>
+&lt;/blockquote>
+&lt;p>优点：人对色度UV的敏感性要小于对亮度Y的敏感性。&lt;/p>
+&lt;p>应用：通常都会对UV进行压缩。&lt;/p>
+&lt;h2 id="采样方式">采样方式&lt;/h2>
+&lt;ul>
+&lt;li>YUV4:4:4：每一个Y对应一组UV分量&lt;/li>
+&lt;li>YUV4:2:2：每两个Y共用一组UV分量&lt;/li>
+&lt;li>YUV4:2:0：每四个Y共用一组UV分量&lt;/li>
+&lt;/ul>
+&lt;p>本质上，压缩UV。&lt;/p>
+&lt;h2 id="格式描述">格式描述&lt;/h2>
+&lt;p>根据对UV压缩的程度不同和YUV的排列方式，提出了多种不同的YUV格式描述。&lt;/p>
+&lt;p>YUV格式通常有两大类：&lt;/p>
+&lt;ul>
+&lt;li>打包（packed）：将YUV分量存放在同一个数组中，通常是几个相邻的像素组成一个宏像素（macro-pixel）&lt;/li>
+&lt;li>平面（planar）：使用三个数组分开存放YUV三个分量&lt;/li>
+&lt;/ul>
+&lt;h2 id="yuv420p">YUV420P&lt;/h2>
+&lt;ul>
+&lt;li>属于Planar。&lt;/li>
+&lt;li>先存完Y，再存U，最后存放V。&lt;/li>
+&lt;li>YUV数量的比例为4：1：1&lt;/li>
+&lt;li>4个Y共用一对UV&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://img-blog.csdnimg.cn/20181211162041493.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0x1b2hlbllK,size_16,color_FFFFFF,t_70"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h3 id="占用空间">占用空间&lt;/h3>
+&lt;p>一张高为h，宽的w图像&lt;/p>
+&lt;p>yuv420P所需空间大小为w * h * 3 / 2个字节，而RGB空间通常需要w * h * 3个字节。&lt;/p>
+&lt;p>对于视频流传输YUV只需占用极少的频宽。&lt;/p>
+&lt;h3 id="yv12yu12格式">YV12，YU12格式&lt;/h3>
+&lt;p>属于YUV420P。&lt;/p>
+&lt;p>YU12和YV12属于YUV420格式，也是一种Plane模式，将Y、U、V分量分别打包，依次存储。&lt;/p>
+&lt;p>其每一个像素点的YUV数据提取遵循YUV420格式的提取方式，即4个Y分量共用一组UV。&lt;/p>
+&lt;p>举例：&lt;/p>
+&lt;p>&lt;img src="https://img-blog.csdn.net/20180608152814304?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzYWhpbm9rYXdh/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"
+loading="lazy"
+alt="这里写图片描述"
+>&lt;/p>
+&lt;p>上图中，Y’00、Y’01、Y’10、Y’11共用Cr00、Cb00，其他依次类推。&lt;/p>
+&lt;h2 id="yuv420sp">YUV420SP&lt;/h2>
+&lt;p>two-plane模式：&lt;/p>
+&lt;p>&lt;code>Y和UV分为两个plane&lt;/code>，但是&lt;code>UV(CbCr)&lt;/code>为交错存储，而不是分为三个平面。&lt;/p>
+&lt;p>&lt;img src="https://img-blog.csdnimg.cn/201811192258324.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h3 id="nv12和nv21">NV12和NV21&lt;/h3>
+&lt;p>&lt;code>NV12和NV21属于YUV420SP&lt;/code>格式。&lt;/p>
+&lt;h3 id="nv12">NV12&lt;/h3>
+&lt;p>NV12与NV21类似，也属于&lt;code>YUV420SP&lt;/code>格式，&lt;code>NV12&lt;/code>存储顺序是先存&lt;code>Y值&lt;/code>，再&lt;code>UV&lt;/code>交替存储：&lt;code>YYYYUVUVUV&lt;/code>。&lt;/p>
+&lt;h3 id="nv21">NV21&lt;/h3>
+&lt;p>&lt;code>NV21&lt;/code>存储顺序是先存&lt;code>Y值&lt;/code>，再&lt;code>VU&lt;/code>交替存储：&lt;code>YYYYVUVUVU&lt;/code>。&lt;/p>
+&lt;p>以 &lt;code>4 X 4&lt;/code> 图片为例子，占用内存为 &lt;code>4长 X 4宽 X 3个方向 / 2压缩比 = 24&lt;/code> 个字节&lt;/p>
+&lt;p>&lt;img src="https://img-blog.csdnimg.cn/20181119235116552.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h3 id="android平台">Android平台&lt;/h3>
+&lt;p>Android平台下使用相机默认图像格式是NV21。&lt;/p>
+&lt;p>&lt;a class="link" href="https://blog.csdn.net/asahinokawa/article/details/80596655" target="_blank" rel="noopener"
+>参考1&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://rumenz.com/rumenbiji/ffmpeg-avframe-yuv420p.html" target="_blank" rel="noopener"
+>参考2&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://blog.csdn.net/asahinokawa/article/details/80596655" target="_blank" rel="noopener"
+>参考3&lt;/a>&lt;/p>
+&lt;h2 id="yuv资源下载">YUV资源下载&lt;/h2>
+&lt;p>&lt;a class="link" href="http://trace.kom.aau.dk/yuv/index.html" target="_blank" rel="noopener"
+>链接一&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://media.xiph.org/video/derf/" target="_blank" rel="noopener"
+>链接二&lt;/a>&lt;/p>
+&lt;h2 id="yuv查看软件">YUV查看软件&lt;/h2>
+&lt;p>YUV Player Deluxe&lt;/p>
+&lt;p>&lt;a class="link" href="https://yuv-player-deluxe.software.informer.com/download/" target="_blank" rel="noopener"
+>下载链接&lt;/a>&lt;/p>
+&lt;p>展示视频akiyo，宽高为352，288，格式为yuv420P。&lt;/p>
+&lt;p>&lt;img src="https://img-blog.csdnimg.cn/20181211162041339.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0x1b2hlbllK,size_16,color_FFFFFF,t_70"
+loading="lazy"
+alt="img"
+>&lt;/p></description></item></channel></rss>

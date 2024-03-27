@@ -1,0 +1,661 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="参考 由浅入深 第1篇 第2篇 第3篇 系统地入门 这个系列的文章不错 第1篇 第2篇 第3篇 第4篇 Daggger-Android官方 Dagger2 版本 最新版本: 2.26 链接 环"><title>Dagger2与Android</title>
+<link rel=canonical href=https://blog.ververv.com/p/dagger2%E4%B8%8Eandroid/><link rel=stylesheet href=/scss/style.min.d8118f156935b64eca93aca758476adca858d2c47354971654d9bd2933a0e45f.css><meta property='og:title' content="Dagger2与Android"><meta property='og:description' content="参考 由浅入深 第1篇 第2篇 第3篇 系统地入门 这个系列的文章不错 第1篇 第2篇 第3篇 第4篇 Daggger-Android官方 Dagger2 版本 最新版本: 2.26 链接 环"><meta property='og:url' content='https://blog.ververv.com/p/dagger2%E4%B8%8Eandroid/'><meta property='og:site_name' content='量子跳跃者'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:published_time' content='2020-03-02T16:57:48+08:00'><meta property='article:modified_time' content='2020-03-02T16:57:48+08:00'><meta name=twitter:title content="Dagger2与Android"><meta name=twitter:description content="参考 由浅入深 第1篇 第2篇 第3篇 系统地入门 这个系列的文章不错 第1篇 第2篇 第3篇 第4篇 Daggger-Android官方 Dagger2 版本 最新版本: 2.26 链接 环"><link rel="shortcut icon" href=/favicon.png><script defer src=https://analytics.ververv.com/pixel/tABAb34VvSTV05V2></script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky compact"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><div class=site-meta><h1 class=site-name><a href=/>量子跳跃者</a></h1><h2 class=site-description></h2></div></header><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/ target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#参考>参考</a></li><li><a href=#dagger2>Dagger2</a><ol><li><a href=#版本>版本</a></li><li><a href=#环境配置>环境&配置</a></li><li><a href=#范例1-componentinject>范例1-Component+Inject</a></li><li><a href=#范例2-componentmodule>范例2-Component+Module</a></li><li><a href=#原理>原理</a></li><li><a href=#小结>小结</a></li><li><a href=#scope>Scope</a><ol><li><a href=#默认>默认</a></li><li><a href=#局部单例-singleton>局部单例-Singleton</a></li><li><a href=#局部单例-自定义scope>局部单例-自定义Scope</a></li></ol></li><li><a href=#binding-instances不理解>Binding Instances（不理解）</a></li><li><a href=#subcomponent-继承>SubComponent-继承</a></li><li><a href=#android与subcomponent继承>Android与Subcomponent(继承)</a></li></ol></li><li><a href=#dagger2-android>Dagger2-Android</a><ol><li><a href=#版本-1>版本</a></li><li><a href=#简易版本>简易版本</a></li></ol></li><li><a href=#可视化工具-scabbard>可视化工具-scabbard</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/dagger2-dagger-android/>Dagger2 Dagger Android</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/dagger2%E4%B8%8Eandroid/>Dagger2与Android</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Mar 02, 2020</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 7 分钟</time></div></footer></div></header><section class=article-content><h2 id=参考>参考</h2><p>由浅入深</p><p><a class=link href=https://www.chenhe.cc/p/186 target=_blank rel=noopener>第1篇</a></p><p><a class=link href=https://www.chenhe.cc/p/191 target=_blank rel=noopener>第2篇</a></p><p><a class=link href=https://www.chenhe.cc/p/203 target=_blank rel=noopener>第3篇</a></p><p><a class=link href=https://codelabs.developers.google.com/codelabs/android-dagger/#12 target=_blank rel=noopener>系统地入门</a></p><p>这个系列的文章不错</p><p><a class=link href=https://www.xiaowujiang.cn/post/cbb172f8.html#Dagger-2-%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8 target=_blank rel=noopener>第1篇</a></p><p><a class=link href=https://www.xiaowujiang.cn/post/b74c4b6c.html#%E4%BD%BF%E7%94%A8Module%E6%96%B9%E5%BC%8F target=_blank rel=noopener>第2篇</a></p><p><a class=link href=https://www.xiaowujiang.cn/post/e30bee8a.html target=_blank rel=noopener>第3篇</a></p><p><a class=link href=https://www.xiaowujiang.cn/post/e781e647.html target=_blank rel=noopener>第4篇</a></p><p><a class=link href=https://dagger.dev/android target=_blank rel=noopener>Daggger-Android官方</a></p><h2 id=dagger2>Dagger2</h2><h3 id=版本>版本</h3><p>最新版本: 2.26
+<a class=link href=https://mvnrepository.com/artifact/com.google.dagger/dagger target=_blank rel=noopener>链接</a></p><h3 id=环境配置>环境&配置</h3><p><a class=link href=https://juejin.im/post/5cde05d4e51d456e5977b280#heading-15 target=_blank rel=noopener>链接</a></p><p>环境</p><p>Intellij + Kotllin + 普通Gradle项目</p><p>插件</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-groovy data-lang=groovy><span class=line><span class=cl><span class=n>apply</span> <span class=nl>plugin:</span> <span class=s1>&#39;kotlin-kapt&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><p>库</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-groovy data-lang=groovy><span class=line><span class=cl>    <span class=c1>//dagger2，这个可以写在BaseMoudle里
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>api</span> <span class=s2>&#34;com.google.dagger:dagger:2.26&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=c1>//多模块项目，这个必须在使用到dagger2的所有moudle里都配置
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>kapt</span> <span class=s2>&#34;com.google.dagger:dagger-compiler:2.26&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>让工程使用自动生成后的代码，在build.gradle中添加</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-groovy data-lang=groovy><span class=line><span class=cl><span class=n>dependencies</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>kapt</span> <span class=s1>&#39;com.google.dagger:dagger-compiler:2.11&#39;</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>compileKotlin</span> <span class=o>{}</span>
+</span></span><span class=line><span class=cl><span class=n>compileTestKotlin</span> <span class=o>{}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>sourceSets</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>main</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>java</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>srcDir</span> <span class=s2>&#34;${buildDir}/generated/source/kapt2/main&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=o>}</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=范例1-componentinject>范例1-Component+Inject</h3><p>A使用B</p><p>B是依赖（被使用的）</p><p>标记依赖</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>B</span> <span class=nd>@Inject</span> <span class=k>constructor</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>TAG</span> <span class=p>=</span> <span class=s2>&#34;B&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用依赖的地方：A</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>A</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Inject</span>
+</span></span><span class=line><span class=cl>    <span class=k>lateinit</span> <span class=k>var</span> <span class=py>b</span><span class=p>:</span> <span class=n>B</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用Component：将哪个Module注入哪个目标</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=nd>@Component</span>
+</span></span><span class=line><span class=cl><span class=k>interface</span> <span class=nc>AComponent</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>injectA</span><span class=p>(</span><span class=n>a</span><span class=p>:</span> <span class=n>A</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>编译工程，自动生成类：<code>DaggerAComponent</code></p><p>在使用依赖的地方调用injectA完成注入。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>A</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Inject</span>
+</span></span><span class=line><span class=cl>    <span class=k>lateinit</span> <span class=k>var</span> <span class=py>b</span><span class=p>:</span> <span class=n>B</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>init</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=c1>// 注入
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=nc>DaggerAComponent</span><span class=p>.</span><span class=n>create</span><span class=p>().</span><span class=n>injectA</span><span class=p>(</span><span class=k>this</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>上面就完成了一个依赖注入，测试下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>A</span><span class=p>().</span><span class=n>b</span><span class=p>.</span><span class=n>TAG</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=范例2-componentmodule>范例2-Component+Module</h3><p>很多情况下，依赖是不是添加<code>@Inject</code>的。假设F不能添加<code>@Inject</code>。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>F</span><span class=p>(</span><span class=k>val</span> <span class=py>name</span><span class=p>:</span> <span class=n>String</span><span class=p>)</span> <span class=p>{}</span>
+</span></span></code></pre></td></tr></table></div></div><p>E要使用F，使用是相同的，添加@Inject</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>E</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Inject</span>
+</span></span><span class=line><span class=cl>    <span class=k>lateinit</span> <span class=k>var</span> <span class=py>f</span><span class=p>:</span> <span class=n>F</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>引进Module，添加F的实例</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=nd>@Module</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>EModuel</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nd>@Provides</span>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>provideB</span><span class=p>():</span> <span class=n>F</span> <span class=p>=</span> <span class=n>F</span><span class=p>(</span><span class=s2>&#34;FFFF&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>Component也要跟着变化，添加<code>modules = [EModuel::class]</code>，其它保持一致。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=nd>@Component</span><span class=p>(</span><span class=n>modules</span> <span class=p>=</span> <span class=p>[</span><span class=n>EModuel</span><span class=o>::</span><span class=k>class</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=k>interface</span> <span class=nc>EComponent</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>injectF</span><span class=p>(</span><span class=n>e</span><span class=p>:</span> <span class=n>E</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>Make Project，生成类，在E的初始化块完成 依赖注入。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>E</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Inject</span>
+</span></span><span class=line><span class=cl>    <span class=k>lateinit</span> <span class=k>var</span> <span class=py>f</span><span class=p>:</span> <span class=n>F</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>init</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nc>DaggerEComponent</span><span class=p>.</span><span class=n>create</span><span class=p>().</span><span class=n>injectF</span><span class=p>(</span><span class=k>this</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用也一样。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>E</span><span class=p>().</span><span class=n>f</span><span class=p>.</span><span class=n>name</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=原理>原理</h3><p>这里有原理，暂时还没看。</p><p><a class=link href=https://www.xiaowujiang.cn/post/cbb172f8.html#Dagger-2-%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8 target=_blank rel=noopener>链接</a></p><h3 id=小结>小结</h3><p>现在再来看 Dagger 2 最核心的三个部分：</p><ol><li>需要注入依赖的目标类，需要注入的实例属性由<code>@Inject</code>标注。</li><li>提供依赖对象实例的工厂，用<code>@Inject</code>标注构造函数或定义<code>Module</code>这两种方式都能提供依赖实例</li><li>Dagger 2 的注解处理器会在编译时生成相应的工厂类。<strong>Module的优先级比@Inject标注构造函数的高，意味着 Dagger 2 会先从 Module 寻找依赖实例。这也非常好理解，一般人肯定会选择优先去超市买东西，而不是直接去拜访工厂</strong>。</li><li>把依赖实例工厂创建的实例注入到目标类中的 Component。</li></ol><p>下面再讲述上面提到的在 Dagger 2 种几个注解的用法：</p><ul><li><code>@Inject</code> 一般情况下是标注成员属性和构造函数，标注的成员属性不能是<code>private</code>，Dagger 2 还支持方法注入，<code>@Inject</code>还可以标注方法。</li><li><code>@Provides</code> 只能标注方法，必须在 Module 中。</li><li><code>@Module</code> 用来标注 Module 类</li><li><code>@Component</code> 只能标注接口或抽象类，声明的注入接口的参数类型必须和目标类一致。</li></ul><h3 id=scope>Scope</h3><h4 id=默认>默认</h4><p>同一个类E，注入两个F</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>E</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Inject</span>
+</span></span><span class=line><span class=cl>    <span class=k>lateinit</span> <span class=k>var</span> <span class=py>f0</span><span class=p>:</span> <span class=n>F</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nd>@Inject</span>
+</span></span><span class=line><span class=cl>    <span class=k>lateinit</span> <span class=k>var</span> <span class=py>f1</span><span class=p>:</span> <span class=n>F</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>init</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nc>DaggerEComponent</span><span class=p>.</span><span class=n>create</span><span class=p>().</span><span class=n>injectF</span><span class=p>(</span><span class=k>this</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>showF</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>println</span><span class=p>(</span><span class=n>f0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>println</span><span class=p>(</span><span class=n>f1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>E</span><span class=p>().</span><span class=n>showF</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=n>E</span><span class=p>().</span><span class=n>showF</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>输出</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>provideB<span class=o>()</span>
+</span></span><span class=line><span class=cl>provideB<span class=o>()</span>
+</span></span><span class=line><span class=cl>top.yhb123.dagger2.demo3.F@24d46ca6
+</span></span><span class=line><span class=cl>top.yhb123.dagger2.demo3.F@4517d9a3
+</span></span></code></pre></td></tr></table></div></div><p>产生不同的实例：F。</p><h4 id=局部单例-singleton>局部单例-Singleton</h4><p>在provide()函数和Component之前添加</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=nd>@Module</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>EModuel</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nd>@Singleton</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Provides</span>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>provideF</span><span class=p>():</span> <span class=n>F</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>println</span><span class=p>(</span><span class=s2>&#34;provideB()&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>F</span><span class=p>(</span><span class=s2>&#34;FFFF&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=nd>@Singleton</span>
+</span></span><span class=line><span class=cl><span class=nd>@Component</span><span class=p>(</span><span class=n>modules</span> <span class=p>=</span> <span class=p>[</span><span class=n>EModuel</span><span class=o>::</span><span class=k>class</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=k>interface</span> <span class=nc>EComponent</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>injectF</span><span class=p>(</span><span class=n>e</span><span class=p>:</span> <span class=n>E</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>注入两个F</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>E</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Inject</span>
+</span></span><span class=line><span class=cl>    <span class=k>lateinit</span> <span class=k>var</span> <span class=py>f0</span><span class=p>:</span> <span class=n>F</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nd>@Inject</span>
+</span></span><span class=line><span class=cl>    <span class=k>lateinit</span> <span class=k>var</span> <span class=py>f1</span><span class=p>:</span> <span class=n>F</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>init</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nc>DaggerEComponent</span><span class=p>.</span><span class=n>create</span><span class=p>().</span><span class=n>injectF</span><span class=p>(</span><span class=k>this</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>showF</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>println</span><span class=p>(</span><span class=n>f0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>println</span><span class=p>(</span><span class=n>f1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>输出</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>provideB<span class=o>()</span>
+</span></span><span class=line><span class=cl>top.yhb123.dagger2.demo3.F@28a418fc
+</span></span><span class=line><span class=cl>top.yhb123.dagger2.demo3.F@28a418fc
+</span></span><span class=line><span class=cl>provideB<span class=o>()</span>
+</span></span><span class=line><span class=cl>top.yhb123.dagger2.demo3.F@5305068a
+</span></span><span class=line><span class=cl>top.yhb123.dagger2.demo3.F@5305068a
+</span></span></code></pre></td></tr></table></div></div><p>同一个E实例中，注入的两个F是相同的实例。</p><p>不同的E，里面的F是不同的实例。</p><h4 id=局部单例-自定义scope>局部单例-自定义Scope</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>package</span> <span class=nn>top.yhb123.dagger2.demo3</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>import</span> <span class=nn>javax.inject.Scope</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nd>@Scope</span>
+</span></span><span class=line><span class=cl><span class=nd>@Retention</span><span class=p>(</span><span class=nc>AnnotationRetention</span><span class=p>.</span><span class=n>RUNTIME</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>annotation</span> <span class=k>class</span> <span class=nc>ActivityScope</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=nd>@ActivityScope</span>
+</span></span><span class=line><span class=cl><span class=nd>@Component</span><span class=p>(</span><span class=n>modules</span> <span class=p>=</span> <span class=p>[</span><span class=n>EModuel</span><span class=o>::</span><span class=k>class</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=k>interface</span> <span class=nc>EComponent</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>injectF</span><span class=p>(</span><span class=n>e</span><span class=p>:</span> <span class=n>E</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=nd>@Module</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>EModuel</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@ActivityScope</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Provides</span>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>provideF</span><span class=p>():</span> <span class=n>F</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>println</span><span class=p>(</span><span class=s2>&#34;provideB()&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>F</span><span class=p>(</span><span class=s2>&#34;FFFF&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>也可以实现单例。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>provideB<span class=o>()</span>
+</span></span><span class=line><span class=cl>top.yhb123.dagger2.demo3.F@28a418fc
+</span></span><span class=line><span class=cl>top.yhb123.dagger2.demo3.F@28a418fc
+</span></span><span class=line><span class=cl>provideB<span class=o>()</span>
+</span></span><span class=line><span class=cl>top.yhb123.dagger2.demo3.F@5305068a
+</span></span><span class=line><span class=cl>top.yhb123.dagger2.demo3.F@5305068a
+</span></span></code></pre></td></tr></table></div></div><p><strong>Scope 不能管理生成对象的真正生命周期，只能控制对于同一个 Component 是否是局部单例的</strong></p><p>任何 Provides 都不会因为被 Scope 而自动地变成「全局单例」，@Singleton 亦然。</p><h3 id=binding-instances不理解>Binding Instances（不理解）</h3><p>现在我们有两个 Component，分别是 AppComponent 与 ActivityComponent，前者持有一个全局 Context 对象，我们希望后者依赖前者。那么可以这么做：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=nd>@Module</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>AppModule</span><span class=p>(</span><span class=k>private</span> <span class=k>val</span> <span class=py>context</span><span class=p>:</span> <span class=n>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Provides</span>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>provideContext</span><span class=p>():</span> <span class=n>Context</span> <span class=p>=</span> <span class=n>context</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nd>@Component</span><span class=p>(</span><span class=n>modules</span> <span class=p>=</span> <span class=p>[</span><span class=n>AppModule</span><span class=o>::</span><span class=k>class</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=k>interface</span> <span class=nc>AppComponent</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>context</span><span class=p>():</span> <span class=n>Context</span> <span class=c1>// 注意这行
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=nd>@Module</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>ActivityModule</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Provides</span>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>provideSp</span><span class=p>(</span><span class=n>context</span><span class=p>:</span> <span class=n>Context</span><span class=p>)</span> <span class=p>=</span>
+</span></span><span class=line><span class=cl>            <span class=n>context</span><span class=p>.</span><span class=n>getSharedPreferences</span><span class=p>(</span><span class=s2>&#34;Cooker&#34;</span><span class=p>,</span> <span class=nc>Context</span><span class=p>.</span><span class=n>MODE_PRIVATE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 声明了依赖关系
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nd>@Component</span><span class=p>(</span><span class=n>dependencies</span> <span class=p>=</span> <span class=p>[</span><span class=n>AppComponent</span><span class=o>::</span><span class=k>class</span><span class=p>],</span> <span class=n>modules</span> <span class=p>=</span> <span class=p>[</span><span class=n>ActivityModule</span><span class=o>::</span><span class=k>class</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=k>interface</span> <span class=nc>ActivityComponent</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>分析一下这段代码：</p><p>ActivityModule 定义了一个 Provides 能够返回 SharedPreferences 的实例。但是创建这个实例需要 context，它是哪来的？由于它声明了依赖 AppComponent，而 AppComponent 拥有的 AppModule 中有可以提供 context 的 Provides，因此 ActivityModule 从 AppComponent 那里拿到了 context。</p><p>但这不是无条件的，依赖别人的前提是别人愿意被你依赖才行。因此 AppComponent 中必须显示地定义一个能够返回 Context 类型的函数，依赖它的 Component 才能拿到。如果不定义，即使有，也不会给别人的。</p><p>注意区分 Component 中的函数与 Module 中 Provides 的区别：前者作用是：① 用于注入 ② 用于给依赖的 Component 提供对象；后者作用仅仅是创建对象。</p><h3 id=subcomponent-继承>SubComponent-继承</h3><p>依赖就像朋友，对方愿意才可以分享。包含就像父母，分享是无条件的。</p><p>声明继承需要以下几步</p><ol><li>子 Component 用 <code>@Subcomponent</code> 注解。</li><li>子 Component 声明一个 Builder 来告诉父 Component 如何创建自己。</li><li>父 Component 对应的 Module 用 <code>subcomponents</code> 属性来指明拥有哪些子 Component。</li><li>父 Component 声明一个抽象方法来获取子 Component 的 Builder。</li></ol><img src=https://www.xiaowujiang.cn/assets/image/1561371949435.png alt=1561371949435 style=zoom:50%><p>Parent只有Car</p><p>Child既有Car，也有Bike</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>Car</span> <span class=nd>@Inject</span> <span class=k>constructor</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Bike</span> <span class=nd>@Inject</span> <span class=k>constructor</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Parent</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Inject</span>
+</span></span><span class=line><span class=cl>    <span class=k>lateinit</span> <span class=k>var</span> <span class=py>car</span><span class=p>:</span> <span class=n>Car</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Child</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Inject</span>
+</span></span><span class=line><span class=cl>    <span class=k>lateinit</span> <span class=k>var</span> <span class=py>car</span><span class=p>:</span> <span class=n>Car</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>    <span class=nd>@Inject</span>
+</span></span><span class=line><span class=cl>    <span class=k>lateinit</span> <span class=k>var</span> <span class=py>bike</span><span class=p>:</span> <span class=n>Bike</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>既然是Child，那Component也要使用<code>Subcomponent</code>来标识。</p><p>同时，要提供一个Builder给Parent调用。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=c1>// 使用Subcomponent标识
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nd>@Subcomponent</span><span class=p>(</span><span class=n>modules</span> <span class=p>=</span> <span class=p>[</span><span class=n>BikeModule</span><span class=o>::</span><span class=k>class</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=k>interface</span> <span class=nc>ChildComponent</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 创建一个Builder给Parent Component使用
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nd>@Subcomponent</span><span class=p>.</span><span class=n>Builder</span>
+</span></span><span class=line><span class=cl>    <span class=k>interface</span> <span class=nc>Builder</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>fun</span> <span class=nf>build</span><span class=p>():</span> <span class=n>ChildComponent</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>inject</span><span class=p>(</span><span class=n>child</span><span class=p>:</span> <span class=n>Child</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>Parent的Component</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=nd>@Component</span><span class=p>(</span><span class=n>modules</span> <span class=p>=</span> <span class=p>[</span><span class=n>CarModule</span><span class=o>::</span><span class=k>class</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=k>interface</span> <span class=nc>ParentComponent</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>    <span class=c1>// 创建一个Child Component的方法
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>fun</span> <span class=nf>childComponent</span><span class=p>():</span> <span class=nc>ChildComponent</span><span class=p>.</span><span class=n>Builder</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>inject</span><span class=p>(</span><span class=n>parent</span><span class=p>:</span> <span class=n>Parent</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>父Module</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=c1>// 父 Component 对应的 Module 用 subcomponents 属性来指明拥有哪些子 Component。
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nd>@Module</span><span class=p>(</span><span class=n>subcomponents</span> <span class=p>=</span> <span class=p>[</span><span class=n>ChildComponent</span><span class=o>::</span><span class=k>class</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>CarModule</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Provides</span>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>provideCar</span><span class=p>()</span> <span class=p>=</span> <span class=n>Car</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>子Module</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=nd>@Module</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>BikeModule</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Provides</span>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>provideBike</span><span class=p>()</span> <span class=p>=</span> <span class=n>Bike</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>Make Project，只生成Parent的DaggerXXX类：DaggerParentComponent。不会生成Childe的Component。</p><p>在使用者中初始化Dagger2：inject</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>Parent</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Inject</span>
+</span></span><span class=line><span class=cl>    <span class=k>lateinit</span> <span class=k>var</span> <span class=py>car</span><span class=p>:</span> <span class=n>Car</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>init</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nc>DaggerParentComponent</span><span class=p>.</span><span class=n>create</span><span class=p>().</span><span class=n>inject</span><span class=p>(</span><span class=k>this</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用ParentComponent中的childComponent()方法</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>Child</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Inject</span>
+</span></span><span class=line><span class=cl>    <span class=k>lateinit</span> <span class=k>var</span> <span class=py>car</span><span class=p>:</span> <span class=n>Car</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nd>@Inject</span>
+</span></span><span class=line><span class=cl>    <span class=k>lateinit</span> <span class=k>var</span> <span class=py>bike</span><span class=p>:</span> <span class=n>Bike</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>init</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nc>DaggerParentComponent</span><span class=p>.</span><span class=n>create</span><span class=p>().</span><span class=n>childComponent</span><span class=p>().</span><span class=n>build</span><span class=p>().</span><span class=n>inject</span><span class=p>(</span><span class=k>this</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>测试</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>Parent</span><span class=p>().</span><span class=n>car</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>c</span> <span class=p>=</span> <span class=n>Child</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>c</span><span class=p>.</span><span class=n>car</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>c</span><span class=p>.</span><span class=n>bike</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>top.yhb123.dagger2.subcomponent.Car@5a07e868
+</span></span><span class=line><span class=cl>top.yhb123.dagger2.subcomponent.Car@76ed5528
+</span></span><span class=line><span class=cl>top.yhb123.dagger2.subcomponent.Bike@2c7b84de
+</span></span></code></pre></td></tr></table></div></div><p>生成的Car，是不同的实例。</p><h3 id=android与subcomponent继承>Android与Subcomponent(继承)</h3><p>在 Android 开发中，Activity 是 Application 运行中组件，Fragment 又是 Activity 一部分，这种组件化思想适合继承关系，所以在 Android 中一般使用 SubComponent。</p><h2 id=dagger2-android>Dagger2-Android</h2><h3 id=版本-1>版本</h3><p>2.26</p><p><a class=link href=https://mvnrepository.com/artifact/com.google.dagger/dagger-android target=_blank rel=noopener>链接</a></p><h3 id=简易版本>简易版本</h3><p>使用老的版本2.16</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-groovy data-lang=groovy><span class=line><span class=cl>		<span class=n>apply</span> <span class=nl>plugin:</span> <span class=s1>&#39;kotlin-kapt&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>implementation</span> <span class=s2>&#34;com.google.dagger:dagger-android:2.16&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>kapt</span> <span class=s2>&#34;com.google.dagger:dagger-compiler:2.16&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>kapt</span> <span class=s2>&#34;com.google.dagger:dagger-android-processor:2.16&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>新建一个依赖类</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>MainActivityViewModel</span> <span class=nd>@Inject</span> <span class=k>constructor</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>var</span> <span class=py>someData</span> <span class=p>=</span> <span class=s2>&#34;MyString&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>Module：将Activity放到Module</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=nd>@Module</span>
+</span></span><span class=line><span class=cl><span class=k>abstract</span> <span class=k>class</span> <span class=nc>ActivitiesModule</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nd>@ContributesAndroidInjector</span>
+</span></span><span class=line><span class=cl>    <span class=k>abstract</span> <span class=k>fun</span> <span class=nf>contributeMainActivity</span><span class=p>():</span> <span class=n>MainActivity</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>Component：Application是Dagger2的使用者。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=nd>@Component</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>modules</span> <span class=p>=</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=n>ActivitiesModule</span><span class=o>::</span><span class=k>class</span>
+</span></span><span class=line><span class=cl>    <span class=err>]</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>interface</span> <span class=nc>AppComponent</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>inject</span><span class=p>(</span><span class=n>myApplication</span><span class=p>:</span> <span class=n>MyApplication</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>创建Application</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyApplication</span> <span class=p>:</span> <span class=n>Application</span><span class=p>(),</span> <span class=n>HasActivityInjector</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Inject</span>
+</span></span><span class=line><span class=cl>    <span class=k>lateinit</span> <span class=k>var</span> <span class=py>activityInjector</span><span class=p>:</span> <span class=n>DispatchingAndroidInjector</span><span class=p>&lt;</span><span class=n>Activity</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>override</span> <span class=k>fun</span> <span class=nf>onCreate</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>super</span><span class=p>.</span><span class=n>onCreate</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=nc>DaggerAppComponent</span><span class=p>.</span><span class=n>create</span><span class=p>().</span><span class=n>appComponent</span><span class=p>.</span><span class=n>inject</span><span class=p>(</span><span class=k>this</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>override</span> <span class=k>fun</span> <span class=nf>activityInjector</span><span class=p>():</span> <span class=n>AndroidInjector</span><span class=p>&lt;</span><span class=n>Activity</span><span class=p>&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>activityInjector</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在Activity中使用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>MainActivity</span> <span class=p>:</span> <span class=n>AppCompatActivity</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@Inject</span>
+</span></span><span class=line><span class=cl>    <span class=k>lateinit</span> <span class=k>var</span> <span class=py>viewModel</span><span class=p>:</span> <span class=n>MainActivityViewModel</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>override</span> <span class=k>fun</span> <span class=nf>onCreate</span><span class=p>(</span><span class=n>savedInstanceState</span><span class=p>:</span> <span class=n>Bundle</span><span class=p>?)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nc>AndroidInjection</span><span class=p>.</span><span class=n>inject</span><span class=p>(</span><span class=k>this</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>super</span><span class=p>.</span><span class=n>onCreate</span><span class=p>(</span><span class=n>savedInstanceState</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>setContentView</span><span class=p>(</span><span class=nc>R</span><span class=p>.</span><span class=n>layout</span><span class=p>.</span><span class=n>activity_main</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>val</span> <span class=py>textView</span> <span class=p>=</span> <span class=n>findViewById</span><span class=p>&lt;</span><span class=n>TextView</span><span class=p>&gt;(</span><span class=nc>R</span><span class=p>.</span><span class=n>id</span><span class=p>.</span><span class=n>tv</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>textView</span><span class=p>.</span><span class=n>text</span> <span class=p>=</span> <span class=n>viewModel</span><span class=p>.</span><span class=n>someData</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://developerlife.com/2018/10/21/dagger2-and-kotlin/ target=_blank rel=noopener>参考链接</a></p><h2 id=可视化工具-scabbard>可视化工具-scabbard</h2><p><a class=link href=https://arunkumar9t2.github.io/scabbard/ target=_blank rel=noopener>使用方式</a></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>plugins {
+</span></span><span class=line><span class=cl>  id &#34;scabbard.gradle&#34; version &#34;0.2.0&#34;
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>scabbard {
+</span></span><span class=line><span class=cl>    enabled true
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Java : build/classes/java/$sourceSet/scabbard
+</span></span><span class=line><span class=cl>Kotlin : build/tmp/kapt3/classes/$sourceSet/scabbard
+</span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><div id=cusdis_thread data-host=https://cusdis.com data-app-id=287ed0fd-6a12-4302-a1ad-d2fd382e1199 data-page-id=5edf7a594548de379b3b8217f27fde09 data-page-url=https://blog.ververv.com/p/dagger2%E4%B8%8Eandroid/ data-page-title=Dagger2与Android></div><script async defer src=https://cusdis.com/js/cusdis.es.js></script><script>function setCusdisTheme(e){let t=document.querySelector("#cusdis_thread iframe");t&&window.CUSDIS.setTheme(e)}window.addEventListener("onColorSchemeChange",e=>{setCusdisTheme(e.detail)})</script><footer class=site-footer><section class=copyright>&copy;
+2023 -
+2024 量子跳跃者</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.24.2>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

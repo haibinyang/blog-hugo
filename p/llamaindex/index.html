@@ -1,0 +1,800 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="Python和Typescript版本 Python版本的文档更完善，ts比较差？ 入门 官方教程 创建环境 1 2 conda create --name llamaindex python=3.12 conda activate llamaindex 在VSCode中设置"><title>LlamaIndex</title>
+<link rel=canonical href=https://blog.ververv.com/p/llamaindex/><link rel=stylesheet href=/scss/style.min.d8118f156935b64eca93aca758476adca858d2c47354971654d9bd2933a0e45f.css><meta property='og:title' content="LlamaIndex"><meta property='og:description' content="Python和Typescript版本 Python版本的文档更完善，ts比较差？ 入门 官方教程 创建环境 1 2 conda create --name llamaindex python=3.12 conda activate llamaindex 在VSCode中设置"><meta property='og:url' content='https://blog.ververv.com/p/llamaindex/'><meta property='og:site_name' content='量子跳跃者'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:published_time' content='2024-01-26T09:08:40+08:00'><meta property='article:modified_time' content='2024-01-26T09:08:40+08:00'><meta name=twitter:title content="LlamaIndex"><meta name=twitter:description content="Python和Typescript版本 Python版本的文档更完善，ts比较差？ 入门 官方教程 创建环境 1 2 conda create --name llamaindex python=3.12 conda activate llamaindex 在VSCode中设置"><link rel="shortcut icon" href=/favicon.png><script defer src=https://analytics.ververv.com/pixel/tABAb34VvSTV05V2></script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky compact"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><div class=site-meta><h1 class=site-name><a href=/>量子跳跃者</a></h1><h2 class=site-description></h2></div></header><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/ target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#创建环境>创建环境</a></li><li><a href=#安装库>安装库</a></li><li><a href=#配置openai>配置OpenAI</a></li><li><a href=#quick-start>Quick Start</a></li></ol><ol><li><a href=#基本流程>基本流程</a></li><li><a href=#chunking和node>Chunking和Node</a></li><li><a href=#保存document和index>保存document和index</a></li><li><a href=#建立索引>建立索引</a></li><li><a href=#查询索引>查询索引</a></li></ol><ol><li><a href=#加载数据ingestion>加载数据(Ingestion)</a></li><li><a href=#转换数据transformations>转换数据（Transformations）</a><ol><li><a href=#封装后的api>封装后的API</a></li><li><a href=#原子api>原子API</a><ol><li><a href=#标准使用模式>标准使用模式</a></li><li><a href=#分片>分片</a></li></ol></li><li><a href=#添加元数据>添加元数据</a></li><li><a href=#直接创建node对象>直接创建Node对象</a></li></ol></li><li><a href=#索引>索引</a></li></ol><ol><li><a href=#document>Document</a><ol><li><a href=#创建document的几种方法>创建document的几种方法</a></li><li><a href=#自定义meta>自定义Meta</a></li><li><a href=#metadata-extraction-usage-pattern不明白>Metadata Extraction Usage Pattern（不明白）</a></li></ol></li><li><a href=#node>Node</a></li><li><a href=#nodeparser>NodeParser</a><ol><li><a href=#常见的具体实现>常见的具体实现</a></li><li><a href=#典型用法>典型用法</a></li></ol></li><li><a href=#transformations>Transformations</a></li><li><a href=#servicecontext>ServiceContext</a></li><li><a href=#storagecontext>StorageContext</a></li></ol><ol><li><a href=#评测标准>评测标准</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/llamaindex/>LlamaIndex</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Jan 26, 2024</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 9 分钟</time></div></footer></div></header><section class=article-content><h1 id=python和typescript版本>Python和Typescript版本</h1><p>Python版本的文档更完善，ts比较差？</p><h1 id=入门>入门</h1><p><a class=link href=https://docs.llamaindex.ai/en/stable/getting_started/starter_example.html target=_blank rel=noopener>官方教程</a></p><h2 id=创建环境>创建环境</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>conda create --name llamaindex <span class=nv>python</span><span class=o>=</span>3.12
+</span></span><span class=line><span class=cl>conda activate llamaindex
+</span></span></code></pre></td></tr></table></div></div><p><strong>在VSCode中设置</strong></p><p>Python: Select Interpreter</p><h2 id=安装库>安装库</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>pip install llama-index pypdf sentence_transformers
+</span></span></code></pre></td></tr></table></div></div><h2 id=配置openai>配置OpenAI</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>vim ~/.bashrc
+</span></span></code></pre></td></tr></table></div></div><p>添加环境变量</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>export</span> <span class=nv>OPENAI_API_KEY</span><span class=o>=</span><span class=s2>&#34;sk-xxxx&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>验证</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> <span class=nv>$OPENAI_API_KEY</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>可达性</strong></p><p>在命令行配置: goproxy</p><h2 id=quick-start>Quick Start</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>os.path</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>VectorStoreIndex</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>SimpleDirectoryReader</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>StorageContext</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>load_index_from_storage</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>logging</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>sys</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>logging</span><span class=o>.</span><span class=n>basicConfig</span><span class=p>(</span><span class=n>stream</span><span class=o>=</span><span class=n>sys</span><span class=o>.</span><span class=n>stdout</span><span class=p>,</span> <span class=n>level</span><span class=o>=</span><span class=n>logging</span><span class=o>.</span><span class=n>DEBUG</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>()</span><span class=o>.</span><span class=n>addHandler</span><span class=p>(</span><span class=n>logging</span><span class=o>.</span><span class=n>StreamHandler</span><span class=p>(</span><span class=n>stream</span><span class=o>=</span><span class=n>sys</span><span class=o>.</span><span class=n>stdout</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># check if storage already exists</span>
+</span></span><span class=line><span class=cl><span class=n>PERSIST_DIR</span> <span class=o>=</span> <span class=s2>&#34;./storage&#34;</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=ow>not</span> <span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>exists</span><span class=p>(</span><span class=n>PERSIST_DIR</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=c1># load the documents and create the index</span>
+</span></span><span class=line><span class=cl>    <span class=n>documents</span> <span class=o>=</span> <span class=n>SimpleDirectoryReader</span><span class=p>(</span><span class=s2>&#34;data&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>load_data</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=n>index</span> <span class=o>=</span> <span class=n>VectorStoreIndex</span><span class=o>.</span><span class=n>from_documents</span><span class=p>(</span><span class=n>documents</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=c1># store it for later</span>
+</span></span><span class=line><span class=cl>    <span class=n>index</span><span class=o>.</span><span class=n>storage_context</span><span class=o>.</span><span class=n>persist</span><span class=p>(</span><span class=n>persist_dir</span><span class=o>=</span><span class=n>PERSIST_DIR</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=c1># load the existing index</span>
+</span></span><span class=line><span class=cl>    <span class=n>storage_context</span> <span class=o>=</span> <span class=n>StorageContext</span><span class=o>.</span><span class=n>from_defaults</span><span class=p>(</span><span class=n>persist_dir</span><span class=o>=</span><span class=n>PERSIST_DIR</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>index</span> <span class=o>=</span> <span class=n>load_index_from_storage</span><span class=p>(</span><span class=n>storage_context</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># either way we can now query the index</span>
+</span></span><span class=line><span class=cl><span class=n>query_engine</span> <span class=o>=</span> <span class=n>index</span><span class=o>.</span><span class=n>as_query_engine</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>response</span> <span class=o>=</span> <span class=n>query_engine</span><span class=o>.</span><span class=n>query</span><span class=p>(</span><span class=s2>&#34;What did the author do growing up?&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>response</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>使用的completions方法</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/chat/completions
+</span></span></code></pre></td></tr></table></div></div><p><strong>查询的参数</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;messages&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;role&#34;</span><span class=p>:</span> <span class=s2>&#34;system&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;content&#34;</span><span class=p>:</span> <span class=s2>&#34;You are an expert Q&amp;A system that is trusted around the world.\nAlways answer the query using the provided context information, and not prior knowledge.\nSome rules to follow:\n1. Never directly reference the given context in your answer.\n2. Avoid statements like \&#34;Based on the context, ...\&#34; or \&#34;The context information ...\&#34; or anything along those lines.&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;role&#34;</span><span class=p>:</span> <span class=s2>&#34;user&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;content&#34;</span><span class=p>:</span> <span class=s2>&#34;xxx&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>],</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;model&#34;</span><span class=p>:</span> <span class=s2>&#34;gpt-3.5-turbo&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;stream&#34;</span><span class=p>:</span> <span class=kc>false</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;temperature&#34;</span><span class=p>:</span> <span class=mf>0.1</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>System Prompt</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>You are an expert Q<span class=p>&amp;</span>A system that is trusted around the world.
+</span></span><span class=line><span class=cl>Always answer the query using the provided context information, and not prior knowledge.
+</span></span><span class=line><span class=cl>Some rules to follow:
+</span></span><span class=line><span class=cl>1. Never directly reference the given context in your answer.
+</span></span><span class=line><span class=cl>2. Avoid statements like <span class=s2>&#34;Based on the context, ...&#34;</span> or <span class=s2>&#34;The context information ...&#34;</span> or anything along those lines.
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>您是一个受到全世界信赖的专家问答系统。 在回答问题时，始终使用所提供的背景信息，而不是先前的知识。 需要遵循的一些规则：</p><ol><li>永远不要在答案中直接引用给定的背景信息。</li><li>避免使用“根据背景信息，…”或“背景信息表明，…”或任何类似的表述。</li></ol></blockquote><p><strong>User Prompt</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>Context information is below.
+</span></span><span class=line><span class=cl>---------------------
+</span></span><span class=line><span class=cl>file_path: data/paul_graham_essay.txt
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>xxx
+</span></span><span class=line><span class=cl>---------------------
+</span></span><span class=line><span class=cl>Given the context information and not prior knowledge, answer the query.
+</span></span><span class=line><span class=cl>Query: What did the author <span class=k>do</span> growing up?
+</span></span><span class=line><span class=cl>Answer:  
+</span></span></code></pre></td></tr></table></div></div><h1 id=应用场景>应用场景</h1><div class=table-wrapper><table><thead><tr><th>应用场</th><th>说明</th></tr></thead><tbody><tr><td>Q&amp;A</td><td>最重要</td></tr><tr><td>Chatbots</td><td></td></tr><tr><td>Agents</td><td>高级</td></tr><tr><td>Structured Data Extraction</td><td>有用，整理聊天记录等</td></tr><tr><td>Multi-modal</td><td></td></tr></tbody></table></div><h1 id=基本原理>基本原理</h1><blockquote><p>[参考</p><p><a class=link href=https://mp.weixin.qq.com/s/hY40b0lzOP8sG6tqoVG2VQ target=_blank rel=noopener></a></p></blockquote><h2 id=基本流程>基本流程</h2><img src=https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/image-20240202092819328.png alt=image-20240202092819328 style=zoom:50%><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=n>VectorStoreIndex</span><span class=p>,</span> <span class=n>SimpleDirectoryReader</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Load in data as Document objects</span>
+</span></span><span class=line><span class=cl><span class=n>documents</span> <span class=o>=</span> <span class=n>SimpleDirectoryReader</span><span class=p>(</span><span class=s1>&#39;data&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>load_data</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 切片，转成Node</span>
+</span></span><span class=line><span class=cl><span class=c1># Parse Document objects into Node objects to represent chunks of data</span>
+</span></span><span class=line><span class=cl><span class=n>index</span> <span class=o>=</span> <span class=n>VectorStoreIndex</span><span class=o>.</span><span class=n>from_documents</span><span class=p>(</span><span class=n>documents</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Index Construction：创建索引</span>
+</span></span><span class=line><span class=cl><span class=c1># Build an index over the Documents or Nodes</span>
+</span></span><span class=line><span class=cl><span class=n>query_engine</span> <span class=o>=</span> <span class=n>index</span><span class=o>.</span><span class=n>as_query_engine</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># The response is a Response object containing the text response and source Nodes</span>
+</span></span><span class=line><span class=cl><span class=n>summary</span> <span class=o>=</span> <span class=n>query_engine</span><span class=o>.</span><span class=n>query</span><span class=p>(</span><span class=s2>&#34;What is the text about&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;What is the data about:&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>summary</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=chunking和node>Chunking和Node</h2><p>源数据&mdash;>documents&ndash;>Nodes</p><p>documents：包含正文和meta信息</p><blockquote><p>Document ID</p><p>document其实是Node的子类</p><p>很奇怪，一个文件会切成很多个document。</p></blockquote><p>TextNode：使用NodeParser将document切成多个Node</p><blockquote><p>包含Document ID</p><p>Node与Node之前有连接关系</p></blockquote><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/N5aX12H1SicleMJicgbRab22aW7JBTyJUrFHfldmGCicLL5rf9EWezhLSebkF8RX3qK34txwdSaCtib7K9HSKqQOiaQ/640?wx_fmt=png&from=appmsg&wxfrom=5&wx_lazy=1&wx_co=1" alt=img style=zoom:67%><blockquote><ol><li>NodeParser接收一个Document对象列表；</li><li>使用spaCy的句子分割将每个文档的文本分割成句子；</li><li>每个句子都包装在一个TextNode对象中，该对象表示一个节点；</li><li>TextNode包含句子文本，以及元数据，如文档ID、文档中的位置等；</li><li>返回TextNode对象的列表。</li></ol></blockquote><h2 id=保存document和index>保存document和index</h2><p>两种方式</p><ul><li>保存到本地磁盘</li><li>存储到向量数据库</li></ul><p><strong>保存到本地磁盘</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>os.path</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>VectorStoreIndex</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>SimpleDirectoryReader</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>StorageContext</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>load_index_from_storage</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>sys</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># check if storage already exists</span>
+</span></span><span class=line><span class=cl><span class=n>PERSIST_DIR</span> <span class=o>=</span> <span class=s2>&#34;./storage&#34;</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=ow>not</span> <span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>exists</span><span class=p>(</span><span class=n>PERSIST_DIR</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 保存数据: Load the documents and create the index</span>
+</span></span><span class=line><span class=cl>    <span class=n>documents</span> <span class=o>=</span> <span class=n>SimpleDirectoryReader</span><span class=p>(</span><span class=s2>&#34;data&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>load_data</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=n>index</span> <span class=o>=</span> <span class=n>VectorStoreIndex</span><span class=o>.</span><span class=n>from_documents</span><span class=p>(</span><span class=n>documents</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=c1># store it for later</span>
+</span></span><span class=line><span class=cl>    <span class=n>index</span><span class=o>.</span><span class=n>storage_context</span><span class=o>.</span><span class=n>persist</span><span class=p>(</span><span class=n>persist_dir</span><span class=o>=</span><span class=n>PERSIST_DIR</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 从磁盘加载回数据： load the existing index</span>
+</span></span><span class=line><span class=cl>    <span class=n>storage_context</span> <span class=o>=</span> <span class=n>StorageContext</span><span class=o>.</span><span class=n>from_defaults</span><span class=p>(</span><span class=n>persist_dir</span><span class=o>=</span><span class=n>PERSIST_DIR</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>index</span> <span class=o>=</span> <span class=n>load_index_from_storage</span><span class=p>(</span><span class=n>storage_context</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>query_engine</span> <span class=o>=</span> <span class=n>index</span><span class=o>.</span><span class=n>as_query_engine</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>response</span> <span class=o>=</span> <span class=n>query_engine</span><span class=o>.</span><span class=n>query</span><span class=p>(</span><span class=s2>&#34;What did the author do growing up?&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>response</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=建立索引>建立索引</h2><p>为每个Node创建Embedding</p><p>在VectorStroreIndex创建索引</p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/N5aX12H1SicleMJicgbRab22aW7JBTyJUrGSNfu6heBskEFibJGKvvFm8tNJMiaarvCER1c6iaCMTOmqvdUuCw0rIlg/640?wx_fmt=png&from=appmsg&wxfrom=5&wx_lazy=1&wx_co=1" alt=图片 style=zoom:50%><blockquote><ol><li>对于VectorStoreIndex，节点上的文本embedding会存储在FAISS索引中，可以节点上快速进行相似性搜索；</li><li>索引还存储每个节点上的元数据，如document ID、位置等；</li><li>节点可以检索某个文档的内容，也可以检索特定文档。</li></ol></blockquote><h2 id=查询索引>查询索引</h2><img src=https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/640-20240203092747212.png alt=图片 style=zoom:67%><blockquote><p>要查询索引，将使用QueryEngine。</p><ol><li>Retriever从查询的索引中获取相关节点。例如，VectorIndexRetriever检索embedding与查询embedding最相似的节点；</li><li>检索到的节点列表被传递给ResponseSynthesizer以生成最终输出；</li><li>默认情况下，ResponseSynthesizer按顺序处理每个节点，每个节点都会调用一次LLM API；</li><li>LLM输入查询和节点文本来得到最终的输出；</li><li>这些每个节点的响应被聚合到最终的输出字符串中。</li></ol></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>VectorStoreIndex</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>get_response_synthesizer</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.retrievers</span> <span class=kn>import</span> <span class=n>VectorIndexRetriever</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.query_engine</span> <span class=kn>import</span> <span class=n>RetrieverQueryEngine</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.postprocessor</span> <span class=kn>import</span> <span class=n>SimilarityPostprocessor</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=n>StorageContext</span><span class=p>,</span> <span class=n>load_index_from_storage</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># rebuild storage context</span>
+</span></span><span class=line><span class=cl><span class=n>storage_context</span> <span class=o>=</span> <span class=n>StorageContext</span><span class=o>.</span><span class=n>from_defaults</span><span class=p>(</span><span class=n>persist_dir</span><span class=o>=</span><span class=s2>&#34;storage&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># load index</span>
+</span></span><span class=line><span class=cl><span class=n>index</span> <span class=o>=</span> <span class=n>load_index_from_storage</span><span class=p>(</span><span class=n>storage_context</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># configure retriever</span>
+</span></span><span class=line><span class=cl><span class=n>retriever</span> <span class=o>=</span> <span class=n>VectorIndexRetriever</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>index</span><span class=o>=</span><span class=n>index</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>similarity_top_k</span><span class=o>=</span><span class=mi>10</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># configure response synthesizer</span>
+</span></span><span class=line><span class=cl><span class=n>response_synthesizer</span> <span class=o>=</span> <span class=n>get_response_synthesizer</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># assemble query engine</span>
+</span></span><span class=line><span class=cl><span class=n>query_engine</span> <span class=o>=</span> <span class=n>RetrieverQueryEngine</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>retriever</span><span class=o>=</span><span class=n>retriever</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>response_synthesizer</span><span class=o>=</span><span class=n>response_synthesizer</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>node_postprocessors</span><span class=o>=</span><span class=p>[</span><span class=n>SimilarityPostprocessor</span><span class=p>(</span><span class=n>similarity_cutoff</span><span class=o>=</span><span class=mf>0.7</span><span class=p>)],</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># query</span>
+</span></span><span class=line><span class=cl><span class=n>response</span> <span class=o>=</span> <span class=n>query_engine</span><span class=o>.</span><span class=n>query</span><span class=p>(</span><span class=s2>&#34;What did the author do growing up?&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>response</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h1 id=官方文档understanding>官方文档：Understanding</h1><p><strong>数据处理的三个流程</strong></p><p>data cleaning/feature engineering pipelines in the ML world, or ETL pipelines in the traditional data setting.</p><p>This ingestion pipeline typically consists of three main stages:</p><ol><li>Load the data</li><li>Transform the data</li><li>Index and store the data</li></ol><h2 id=加载数据ingestion>加载数据(Ingestion)</h2><blockquote><p><a class=link href=https://docs.llamaindex.ai/en/stable/understanding/loading/loading.html target=_blank rel=noopener>参考</a></p></blockquote><p>**目标：**将各种类型的数据格式化成<code>document</code>对象。</p><p>**输入：**各种类型的数据</p><p><strong>输出：</strong><code>document</code>对象</p><p><strong>3种方式</strong></p><ul><li>使用<code>SimpleDirectoryReader</code>类：最方便</li><li><code>LlamaHub</code>中的<code>Reader</code>：各种已经写好的工具</li><li>直接创建<code>document</code></li></ul><p><strong><code>SimpleDirectoryReader</code>类</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=n>SimpleDirectoryReader</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>documents</span> <span class=o>=</span> <span class=n>SimpleDirectoryReader</span><span class=p>(</span><span class=s2>&#34;./data&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>load_data</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>支持Markdown, PDFs, Word documents(.docx), PowerPoint decks, images(.jpg, .png), audio and video</p></blockquote><p><strong>Llamahub</strong></p><p><a class=link href=https://llamahub.ai/ target=_blank rel=noopener>LlamaHub</a></p><ul><li><a class=link href=https://developers.notion.com/ target=_blank rel=noopener>Notion</a> (<code>NotionPageReader</code>)</li><li><a class=link href=https://developers.google.com/docs/api target=_blank rel=noopener>Google Docs</a> (<code>GoogleDocsReader</code>)</li><li><a class=link href=https://api.slack.com/ target=_blank rel=noopener>Slack</a> (<code>SlackReader</code>)</li><li><a class=link href=https://discord.com/developers/docs/intro target=_blank rel=noopener>Discord</a> (<code>DiscordReader</code>)</li><li><a class=link href=https://llamahub.ai/l/apify-actor target=_blank rel=noopener>Apify Actors</a> (<code>ApifyActor</code>). Can crawl the web, scrape webpages, extract text content, download files including <code>.pdf</code>, <code>.jpg</code>, <code>.png</code>, <code>.docx</code>, etc.这个可以爬虫</li></ul><p><strong>直接创建document</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.schema</span> <span class=kn>import</span> <span class=n>Document</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>doc</span> <span class=o>=</span> <span class=n>Document</span><span class=p>(</span><span class=n>text</span><span class=o>=</span><span class=s2>&#34;text&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=转换数据transformations>转换数据（Transformations）</h2><p>**原因：**方便检索和LLM高效使用</p><p><strong>具体操作：</strong></p><ul><li>将<code>document</code>分片（chunking）</li><li>提取元数据（extracting metadata）</li><li>Embedding</li></ul><p><strong>输入：</strong><code>Node</code></p><p><strong>输出：</strong><code>Node</code></p><h3 id=封装后的api>封装后的API</h3><p>使用<code>VectorStoreIndex</code>的<code>from_documents</code>()方法</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=n>VectorStoreIndex</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>vector_index</span> <span class=o>=</span> <span class=n>VectorStoreIndex</span><span class=o>.</span><span class=n>from_documents</span><span class=p>(</span><span class=n>documents</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>vector_index</span><span class=o>.</span><span class=n>as_query_engine</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>如何定制参数</strong></p><p>思路：使用<code>ServiceContext</code>来定制</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>text_splitter</span> <span class=o>=</span> <span class=n>SentenceSplitter</span><span class=p>(</span><span class=n>chunk_size</span><span class=o>=</span><span class=mi>512</span><span class=p>,</span> <span class=n>chunk_overlap</span><span class=o>=</span><span class=mi>10</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>service_context</span> <span class=o>=</span> <span class=n>ServiceContext</span><span class=o>.</span><span class=n>from_defaults</span><span class=p>(</span><span class=n>text_splitter</span><span class=o>=</span><span class=n>text_splitter</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>index</span> <span class=o>=</span> <span class=n>VectorStoreIndex</span><span class=o>.</span><span class=n>from_documents</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>documents</span><span class=p>,</span> <span class=n>service_context</span><span class=o>=</span><span class=n>service_context</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=原子api>原子API</h3><h4 id=标准使用模式>标准使用模式</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=n>Document</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.embeddings</span> <span class=kn>import</span> <span class=n>OpenAIEmbedding</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.text_splitter</span> <span class=kn>import</span> <span class=n>SentenceSplitter</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.extractors</span> <span class=kn>import</span> <span class=n>TitleExtractor</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.ingestion</span> <span class=kn>import</span> <span class=n>IngestionPipeline</span><span class=p>,</span> <span class=n>IngestionCache</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 加载数据源</span>
+</span></span><span class=line><span class=cl><span class=n>documents</span> <span class=o>=</span> <span class=n>SimpleDirectoryReader</span><span class=p>(</span><span class=s2>&#34;./data&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>load_data</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 创建转换数据的工作流</span>
+</span></span><span class=line><span class=cl><span class=c1># create the pipeline with transformations</span>
+</span></span><span class=line><span class=cl><span class=n>pipeline</span> <span class=o>=</span> <span class=n>IngestionPipeline</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>transformations</span><span class=o>=</span><span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=n>SentenceSplitter</span><span class=p>(</span><span class=n>chunk_size</span><span class=o>=</span><span class=mi>25</span><span class=p>,</span> <span class=n>chunk_overlap</span><span class=o>=</span><span class=mi>0</span><span class=p>),</span> <span class=c1># 分片</span>
+</span></span><span class=line><span class=cl>        <span class=n>TitleExtractor</span><span class=p>(),</span> <span class=c1># 提取Meta信息</span>
+</span></span><span class=line><span class=cl>        <span class=n>OpenAIEmbedding</span><span class=p>(),</span> <span class=c1># Embedding</span>
+</span></span><span class=line><span class=cl>    <span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 执行流程，生成节点</span>
+</span></span><span class=line><span class=cl><span class=c1># run the pipeline</span>
+</span></span><span class=line><span class=cl><span class=n>nodes</span> <span class=o>=</span> <span class=n>pipeline</span><span class=o>.</span><span class=n>run</span><span class=p>(</span><span class=n>documents</span><span class=o>=</span><span class=n>documents</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><img src=https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/640.png alt=img style=zoom:50%><h4 id=分片>分片</h4><p>有很多策略，具体见Node Parser模块。</p><h3 id=添加元数据>添加元数据</h3><p>可以自定义document和Node，添加元数据。</p><h3 id=直接创建node对象>直接创建Node对象</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.schema</span> <span class=kn>import</span> <span class=n>TextNode</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>node1</span> <span class=o>=</span> <span class=n>TextNode</span><span class=p>(</span><span class=n>text</span><span class=o>=</span><span class=s2>&#34;&lt;text_chunk&gt;&#34;</span><span class=p>,</span> <span class=n>id_</span><span class=o>=</span><span class=s2>&#34;&lt;node_id&gt;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>node2</span> <span class=o>=</span> <span class=n>TextNode</span><span class=p>(</span><span class=n>text</span><span class=o>=</span><span class=s2>&#34;&lt;text_chunk&gt;&#34;</span><span class=p>,</span> <span class=n>id_</span><span class=o>=</span><span class=s2>&#34;&lt;node_id&gt;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>index</span> <span class=o>=</span> <span class=n>VectorStoreIndex</span><span class=p>([</span><span class=n>node1</span><span class=p>,</span> <span class=n>node2</span><span class=p>])</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=索引>索引</h2><blockquote><p><a class=link href=https://docs.llamaindex.ai/en/stable/module_guides/indexing/index_guide.html target=_blank rel=noopener>官方文档</a> <a class=link href=https://mp.weixin.qq.com/s/fSssn9uHhbBMCxn0NIuC6g target=_blank rel=noopener>中文翻译</a></p></blockquote><p><strong>索引分类</strong></p><ul><li><a class=link href=https://docs.llamaindex.ai/en/stable/module_guides/storing/vector_stores.html target=_blank rel=noopener>Vector Stores</a></li><li><a class=link href=https://docs.llamaindex.ai/en/stable/module_guides/storing/docstores.html target=_blank rel=noopener>Document Stores</a></li><li><a class=link href=https://docs.llamaindex.ai/en/stable/module_guides/storing/index_stores.html target=_blank rel=noopener>Index Stores</a></li><li><a class=link href=https://docs.llamaindex.ai/en/stable/module_guides/storing/kv_stores.html target=_blank rel=noopener>Key-Value Stores</a></li><li><a class=link href=https://docs.llamaindex.ai/en/stable/community/integrations/graph_stores.html target=_blank rel=noopener>Using Graph Stores</a></li><li>[Chat Stores](</li></ul><p><strong>常见的索引</strong></p><ul><li>Summary Index (formerly List Index)</li><li>Vector Store Index（最常见）</li><li>Tree Index</li><li>Keyword Table Index</li></ul><p><strong>Summary Index (formerly List Index)</strong></p><img src=https://docs.llamaindex.ai/en/stable/_images/list.png alt=img style=zoom:25%><p><strong>Vector Store Index</strong></p><img src=https://docs.llamaindex.ai/en/stable/_images/vector_store.png alt=img style=zoom:50%><p><strong>Tree Index</strong></p><p><img src=https://docs.llamaindex.ai/en/stable/_images/tree.png loading=lazy alt=img></p><p><strong>Keyword Table Index</strong></p><img src=https://docs.llamaindex.ai/en/stable/_images/keyword.png alt=img style=zoom:50%><p><a class=link href=https://docs.llamaindex.ai/en/stable/module_guides/indexing/indexing.html target=_blank rel=noopener>其它索引</a></p><ul><li><p><a class=link href=https://docs.llamaindex.ai/en/stable/module_guides/indexing/vector_store_index.html target=_blank rel=noopener>VectorStoreIndex</a></p></li><li><p><a class=link href=https://docs.llamaindex.ai/en/stable/module_guides/indexing/index_guide.html target=_blank rel=noopener>Summary Index</a></p></li><li><p><a class=link href=https://docs.llamaindex.ai/en/stable/module_guides/indexing/index_guide.html target=_blank rel=noopener>Tree Index</a></p></li><li><p><a class=link href=https://docs.llamaindex.ai/en/stable/module_guides/indexing/index_guide.html target=_blank rel=noopener>Keyword Table Index</a></p></li><li><p><a class=link href=https://docs.llamaindex.ai/en/stable/examples/index_structs/knowledge_graph/KnowledgeGraphDemo.html target=_blank rel=noopener>Knowledge Graph Index</a></p></li><li><p><a class=link href=https://docs.llamaindex.ai/en/stable/examples/index_structs/knowledge_graph/KnowledgeGraphIndex_vs_VectorStoreIndex_vs_CustomIndex_combined.html target=_blank rel=noopener>Custom Retriever combining KG Index and VectorStore Index</a></p></li><li><p><a class=link href=https://docs.llamaindex.ai/en/stable/examples/query_engine/knowledge_graph_query_engine.html target=_blank rel=noopener>Knowledge Graph Query Engine</a></p></li><li><p><a class=link href=https://docs.llamaindex.ai/en/stable/examples/query_engine/knowledge_graph_rag_query_engine.html target=_blank rel=noopener>Knowledge Graph RAG Query Engine</a></p></li><li><p><a class=link href="https://colab.research.google.com/drive/1G6pcR0pXvSkdMQlAK_P-IrYgo-_staxd?usp=sharing" target=_blank rel=noopener>REBEL + Knowledge Graph Index</a></p></li><li><p><a class=link href=https://docs.llamaindex.ai/en/stable/examples/index_structs/knowledge_graph/knowledge_graph2.html target=_blank rel=noopener>REBEL + Wikipedia Filtering</a></p></li><li><p><a class=link href=https://docs.llamaindex.ai/en/stable/examples/index_structs/struct_indices/SQLIndexDemo.html target=_blank rel=noopener>SQL Index</a></p></li><li><p><a class=link href=https://docs.llamaindex.ai/en/stable/examples/index_structs/struct_indices/duckdb_sql_query.html target=_blank rel=noopener>SQL Query Engine with LlamaIndex + DuckDB</a></p></li><li><p><a class=link href=https://docs.llamaindex.ai/en/stable/examples/index_structs/doc_summary/DocSummary.html target=_blank rel=noopener>Document Summary Index</a></p></li><li><p><a class=link href=https://docs.llamaindex.ai/en/stable/examples/objects/object_index.html target=_blank rel=noopener>The <code>ObjectIndex</code> Class</a></p></li><li><p><a class=link href=https://docs.llamaindex.ai/en/stable/module_guides/storing/chat_stores.html target=_blank rel=noopener>https://docs.llamaindex.ai/en/stable/module_guides/storing/chat_stores.html</a>)</p></li></ul><h1 id=源码>源码</h1><p><a class=link href=https://docs.llamaindex.ai/en/stable/getting_started/customization.html target=_blank rel=noopener>定制</a></p><h2 id=document>Document</h2><blockquote><p>a <code>Document</code> is a subclass of a <code>Node</code>)</p><p><a class=link href=https://docs.llamaindex.ai/en/stable/module_guides/loading/documents_and_nodes/usage_documents.html target=_blank rel=noopener>链接</a></p></blockquote><p>包含：</p><ul><li><p>text</p></li><li><p><code>metadata</code></p></li><li><p><code>relationships</code> ：与其它 Documents/Nodes的关系</p></li></ul><p><strong>原子使用流程</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=n>Document</span><span class=p>,</span> <span class=n>VectorStoreIndex</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 数据源</span>
+</span></span><span class=line><span class=cl><span class=n>text_list</span> <span class=o>=</span> <span class=p>[</span><span class=n>text1</span><span class=p>,</span> <span class=n>text2</span><span class=p>,</span> <span class=o>...</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 手动创建documents</span>
+</span></span><span class=line><span class=cl><span class=n>documents</span> <span class=o>=</span> <span class=p>[</span><span class=n>Document</span><span class=p>(</span><span class=n>text</span><span class=o>=</span><span class=n>t</span><span class=p>)</span> <span class=k>for</span> <span class=n>t</span> <span class=ow>in</span> <span class=n>text_list</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 建立索引: 传入document，在VectorStoreIndex再转换：分片转成Node，Embedding等</span>
+</span></span><span class=line><span class=cl><span class=n>index</span> <span class=o>=</span> <span class=n>VectorStoreIndex</span><span class=o>.</span><span class=n>from_documents</span><span class=p>(</span><span class=n>documents</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=创建document的几种方法>创建document的几种方法</h3><p><strong>手动创建</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=n>Document</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>text_list</span> <span class=o>=</span> <span class=p>[</span><span class=n>text1</span><span class=p>,</span> <span class=n>text2</span><span class=p>,</span> <span class=o>...</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=n>documents</span> <span class=o>=</span> <span class=p>[</span><span class=n>Document</span><span class=p>(</span><span class=n>text</span><span class=o>=</span><span class=n>t</span><span class=p>)</span> <span class=k>for</span> <span class=n>t</span> <span class=ow>in</span> <span class=n>text_list</span><span class=p>]</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>使用data loader（connector)</strong></p><p>它们都有一个方法load_data()</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=n>SimpleDirectoryReader</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>documents</span> <span class=o>=</span> <span class=n>SimpleDirectoryReader</span><span class=p>(</span><span class=s2>&#34;./data&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>load_data</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>自动生成的范例数据</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>document</span> <span class=o>=</span> <span class=n>Document</span><span class=o>.</span><span class=n>example</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=自定义meta>自定义Meta</h3><p><a class=link href=https://docs.llamaindex.ai/en/stable/module_guides/loading/documents_and_nodes/usage_documents.html target=_blank rel=noopener>自定义</a></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=n>Document</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.schema</span> <span class=kn>import</span> <span class=n>MetadataMode</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>document</span> <span class=o>=</span> <span class=n>Document</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>text</span><span class=o>=</span><span class=s2>&#34;This is a super-customized document&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>metadata</span><span class=o>=</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;file_name&#34;</span><span class=p>:</span> <span class=s2>&#34;super_secret_document.txt&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;category&#34;</span><span class=p>:</span> <span class=s2>&#34;finance&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;author&#34;</span><span class=p>:</span> <span class=s2>&#34;LlamaIndex&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=n>excluded_llm_metadata_keys</span><span class=o>=</span><span class=p>[</span><span class=s2>&#34;file_name&#34;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=n>metadata_seperator</span><span class=o>=</span><span class=s2>&#34;::&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>metadata_template</span><span class=o>=</span><span class=s2>&#34;</span><span class=si>{key}</span><span class=s2>=&gt;</span><span class=si>{value}</span><span class=s2>&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>text_template</span><span class=o>=</span><span class=s2>&#34;Metadata: </span><span class=si>{metadata_str}</span><span class=se>\n</span><span class=s2>-----</span><span class=se>\n</span><span class=s2>Content: </span><span class=si>{content}</span><span class=s2>&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;The LLM sees this: </span><span class=se>\n</span><span class=s2>&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>document</span><span class=o>.</span><span class=n>get_content</span><span class=p>(</span><span class=n>metadata_mode</span><span class=o>=</span><span class=n>MetadataMode</span><span class=o>.</span><span class=n>LLM</span><span class=p>),</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;The Embedding model sees this: </span><span class=se>\n</span><span class=s2>&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>document</span><span class=o>.</span><span class=n>get_content</span><span class=p>(</span><span class=n>metadata_mode</span><span class=o>=</span><span class=n>MetadataMode</span><span class=o>.</span><span class=n>EMBED</span><span class=p>),</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>输出</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>The LLM sees this: 
+</span></span><span class=line><span class=cl> Metadata: <span class=nv>category</span><span class=o>=</span>&gt;finance::author<span class=o>=</span>&gt;LlamaIndex
+</span></span><span class=line><span class=cl>-----
+</span></span><span class=line><span class=cl>Content: This is a super-customized document
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>The Embedding model sees this: 
+</span></span><span class=line><span class=cl> Metadata: <span class=nv>file_name</span><span class=o>=</span>&gt;super_secret_document.txt::category<span class=o>=</span>&gt;finance::author<span class=o>=</span>&gt;LlamaIndex
+</span></span><span class=line><span class=cl>-----
+</span></span><span class=line><span class=cl>Content: This is a super-customized document
+</span></span></code></pre></td></tr></table></div></div><h3 id=metadata-extraction-usage-pattern不明白>Metadata Extraction Usage Pattern（不明白）</h3><p><a class=link href=https://docs.llamaindex.ai/en/stable/module_guides/loading/documents_and_nodes/usage_nodes.html target=_blank rel=noopener>自定义</a></p><p><img src=https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/image-20240203103217016.png loading=lazy alt=image-20240203103217016></p><h2 id=node>Node</h2><blockquote><p><a class=link href=https://docs.llamaindex.ai/en/stable/module_guides/loading/documents_and_nodes/usage_nodes.html target=_blank rel=noopener>链接</a></p></blockquote><p>本质：document的分片</p><p>如何得到：</p><ul><li>使用NodeParser类将document转成Node</li><li>手动创建</li></ul><p>与document一样，有：</p><ul><li><p>text</p></li><li><p><code>metadata</code></p></li><li><p><code>relationships</code> ：与其它 Documents/Nodes的关系</p></li></ul><p>从document转换成Node时，会继承metadata等信息。</p><p>Node是LlamaIndex中的一等公民。</p><p><strong>原子使用流程</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.node_parser</span> <span class=kn>import</span> <span class=n>SentenceSplitter</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># load documents</span>
+</span></span><span class=line><span class=cl><span class=o>...</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 手动转换：切片，转成Node</span>
+</span></span><span class=line><span class=cl><span class=c1># parse nodes</span>
+</span></span><span class=line><span class=cl><span class=n>parser</span> <span class=o>=</span> <span class=n>SentenceSplitter</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>nodes</span> <span class=o>=</span> <span class=n>parser</span><span class=o>.</span><span class=n>get_nodes_from_documents</span><span class=p>(</span><span class=n>documents</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># build index</span>
+</span></span><span class=line><span class=cl><span class=n>index</span> <span class=o>=</span> <span class=n>VectorStoreIndex</span><span class=p>(</span><span class=n>nodes</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>设置关系</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.schema</span> <span class=kn>import</span> <span class=n>TextNode</span><span class=p>,</span> <span class=n>NodeRelationship</span><span class=p>,</span> <span class=n>RelatedNodeInfo</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>node1</span> <span class=o>=</span> <span class=n>TextNode</span><span class=p>(</span><span class=n>text</span><span class=o>=</span><span class=s2>&#34;text_chunk1&#34;</span><span class=p>,</span> <span class=n>id_</span><span class=o>=</span><span class=s2>&#34;node_id1&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>node2</span> <span class=o>=</span> <span class=n>TextNode</span><span class=p>(</span><span class=n>text</span><span class=o>=</span><span class=s2>&#34;text_chunk2&#34;</span><span class=p>,</span> <span class=n>id_</span><span class=o>=</span><span class=s2>&#34;node_id2&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>node3</span> <span class=o>=</span> <span class=n>TextNode</span><span class=p>(</span><span class=n>text</span><span class=o>=</span><span class=s2>&#34;text_chunk3&#34;</span><span class=p>,</span> <span class=n>id_</span><span class=o>=</span><span class=s2>&#34;node_id3&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># set relationships</span>
+</span></span><span class=line><span class=cl><span class=n>node1</span><span class=o>.</span><span class=n>relationships</span><span class=p>[</span><span class=n>NodeRelationship</span><span class=o>.</span><span class=n>NEXT</span><span class=p>]</span> <span class=o>=</span> <span class=n>RelatedNodeInfo</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>node_id</span><span class=o>=</span><span class=n>node2</span><span class=o>.</span><span class=n>node_id</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>node2</span><span class=o>.</span><span class=n>relationships</span><span class=p>[</span><span class=n>NodeRelationship</span><span class=o>.</span><span class=n>PREVIOUS</span><span class=p>]</span> <span class=o>=</span> <span class=n>RelatedNodeInfo</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>node_id</span><span class=o>=</span><span class=n>node1</span><span class=o>.</span><span class=n>node_id</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>node2</span><span class=o>.</span><span class=n>relationships</span><span class=p>[</span><span class=n>NodeRelationship</span><span class=o>.</span><span class=n>PARENT</span><span class=p>]</span> <span class=o>=</span> <span class=n>RelatedNodeInfo</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>node_id</span><span class=o>=</span><span class=n>node3</span><span class=o>.</span><span class=n>node_id</span><span class=p>,</span> <span class=n>metadata</span><span class=o>=</span><span class=p>{</span><span class=s2>&#34;key&#34;</span><span class=p>:</span> <span class=s2>&#34;val&#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>node2</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=nodeparser>NodeParser</h2><blockquote><p><a class=link href=https://docs.llamaindex.ai/en/stable/module_guides/loading/node_parsers/modules.html#relation-based-node-parsers target=_blank rel=noopener>链接</a></p></blockquote><p>用途：将数据源转成Node对象</p><p>具体：将一组document对象分片成多个Node对象</p><h3 id=常见的具体实现>常见的具体实现</h3><p>NodeParser是一个抽象类，具体实现有：</p><p><strong>按文件类型</strong></p><ul><li>SimpleFileNodeParser</li><li>HTMLNodeParser</li><li>JSONNodeParser</li><li>MarkdownNodeParser</li></ul><p><strong>文本分割</strong></p><ul><li>CodeSplitter</li><li>LangchainNodeParser</li><li>SentenceSplitter</li><li>SentenceWindowNodeParser（不明白）</li><li>SemanticSplitterNodeParser（不明白，感觉比较高级）</li><li>TokenTextSplitter</li></ul><p><strong>父子关系</strong></p><ul><li>HierarchicalNodeParser：在AutoMergingRetriever中使用</li></ul><h3 id=典型用法>典型用法</h3><p><strong>原子使用</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=n>Document</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.node_parser</span> <span class=kn>import</span> <span class=n>SentenceSplitter</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 创建NodeParser</span>
+</span></span><span class=line><span class=cl><span class=n>node_parser</span> <span class=o>=</span> <span class=n>SentenceSplitter</span><span class=p>(</span><span class=n>chunk_size</span><span class=o>=</span><span class=mi>1024</span><span class=p>,</span> <span class=n>chunk_overlap</span><span class=o>=</span><span class=mi>20</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 调用 get_nodes_from_documents() 方法</span>
+</span></span><span class=line><span class=cl><span class=c1># show_progress 可以显示进度</span>
+</span></span><span class=line><span class=cl><span class=n>nodes</span> <span class=o>=</span> <span class=n>node_parser</span><span class=o>.</span><span class=n>get_nodes_from_documents</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=n>Document</span><span class=o>.</span><span class=n>example</span><span class=p>(),</span> <span class=n>Document</span><span class=o>.</span><span class=n>example</span><span class=p>()],</span> <span class=n>show_progress</span><span class=o>=</span><span class=kc>True</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=nb>len</span><span class=p>(</span><span class=n>nodes</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>nodes</span><span class=p>[</span><span class=mi>0</span><span class=p>])</span>
+</span></span></code></pre></td></tr></table></div></div><p>输出</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=m>2</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Node ID: eaeb6e44-6828-4e36-b7a3-69342de4dc7c
+</span></span><span class=line><span class=cl>Text: Context LLMs are a phenomenal piece of technology <span class=k>for</span> knowledge
+</span></span><span class=line><span class=cl>generation and reasoning. They are pre-trained on large amounts of
+</span></span><span class=line><span class=cl>publicly available data. How <span class=k>do</span> we best augment LLMs with our own
+</span></span><span class=line><span class=cl>private data? We need a comprehensive toolkit to <span class=nb>help</span> perform this
+</span></span><span class=line><span class=cl>data augmentation <span class=k>for</span> LLMs.  Proposed Solution That<span class=err>&#39;</span>s where LlamaIndex
+</span></span><span class=line><span class=cl>comes in. Ll...
+</span></span></code></pre></td></tr></table></div></div><p><strong>Pipline中的Transformations</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=n>Document</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.node_parser</span> <span class=kn>import</span> <span class=n>SentenceSplitter</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.ingestion</span> <span class=kn>import</span> <span class=n>IngestionPipeline</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.node_parser</span> <span class=kn>import</span> <span class=n>TokenTextSplitter</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>documents</span> <span class=o>=</span> <span class=p>[</span><span class=n>Document</span><span class=o>.</span><span class=n>example</span><span class=p>(),</span> <span class=n>Document</span><span class=o>.</span><span class=n>example</span><span class=p>()]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 创建NodeParser</span>
+</span></span><span class=line><span class=cl><span class=n>node_parser</span> <span class=o>=</span> <span class=n>SentenceSplitter</span><span class=p>(</span><span class=n>chunk_size</span><span class=o>=</span><span class=mi>1024</span><span class=p>,</span> <span class=n>chunk_overlap</span><span class=o>=</span><span class=mi>20</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 将NodeParser放到Pipeline中的transformations列表</span>
+</span></span><span class=line><span class=cl><span class=n>pipeline</span> <span class=o>=</span> <span class=n>IngestionPipeline</span><span class=p>(</span><span class=n>transformations</span><span class=o>=</span><span class=p>[</span><span class=n>node_parser</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=n>nodes</span> <span class=o>=</span> <span class=n>pipeline</span><span class=o>.</span><span class=n>run</span><span class=p>(</span><span class=n>documents</span><span class=o>=</span><span class=n>documents</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=nb>len</span><span class=p>(</span><span class=n>nodes</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>nodes</span><span class=p>[</span><span class=mi>0</span><span class=p>])</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>使用ServiceContext</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=n>Document</span><span class=p>,</span> <span class=n>ServiceContext</span><span class=p>,</span> <span class=n>VectorStoreIndex</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.node_parser</span> <span class=kn>import</span> <span class=n>SentenceSplitter</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.ingestion</span> <span class=kn>import</span> <span class=n>IngestionPipeline</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.node_parser</span> <span class=kn>import</span> <span class=n>TokenTextSplitter</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>documents</span> <span class=o>=</span> <span class=p>[</span><span class=n>Document</span><span class=o>.</span><span class=n>example</span><span class=p>(),</span> <span class=n>Document</span><span class=o>.</span><span class=n>example</span><span class=p>()]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>node_parser</span> <span class=o>=</span> <span class=n>SentenceSplitter</span><span class=p>(</span><span class=n>chunk_size</span><span class=o>=</span><span class=mi>1024</span><span class=p>,</span> <span class=n>chunk_overlap</span><span class=o>=</span><span class=mi>20</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>service_context</span> <span class=o>=</span> <span class=n>ServiceContext</span><span class=o>.</span><span class=n>from_defaults</span><span class=p>(</span><span class=n>text_splitter</span><span class=o>=</span><span class=n>node_parser</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>index</span> <span class=o>=</span> <span class=n>VectorStoreIndex</span><span class=o>.</span><span class=n>from_documents</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>documents</span><span class=p>,</span> <span class=n>service_context</span><span class=o>=</span><span class=n>service_context</span><span class=p>,</span> <span class=n>show_progress</span><span class=o>=</span><span class=kc>True</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=transformations>Transformations</h2><p>输入：一组Node</p><p>输出：一组Node</p><p>有两个公共的方法：</p><ul><li><code>__call__()</code>：同步</li><li><code>acall()</code> ：异步</li></ul><p>NodeParser和<code>MetadataExtractor</code>属于Transformations</p><p><strong>使用模式</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.text_splitter</span> <span class=kn>import</span> <span class=n>SentenceSplitter</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.extractors</span> <span class=kn>import</span> <span class=n>TitleExtractor</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>node_parser</span> <span class=o>=</span> <span class=n>SentenceSplitter</span><span class=p>(</span><span class=n>chunk_size</span><span class=o>=</span><span class=mi>512</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>extractor</span> <span class=o>=</span> <span class=n>TitleExtractor</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># use transforms directly</span>
+</span></span><span class=line><span class=cl><span class=n>nodes</span> <span class=o>=</span> <span class=n>node_parser</span><span class=p>(</span><span class=n>documents</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># or use a transformation in async</span>
+</span></span><span class=line><span class=cl><span class=n>nodes</span> <span class=o>=</span> <span class=k>await</span> <span class=n>extractor</span><span class=o>.</span><span class=n>acall</span><span class=p>(</span><span class=n>nodes</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>与ServiceContext组合使用</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=n>ServiceContext</span><span class=p>,</span> <span class=n>VectorStoreIndex</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.extractors</span> <span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>TitleExtractor</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>QuestionsAnsweredExtractor</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.ingestion</span> <span class=kn>import</span> <span class=n>IngestionPipeline</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.text_splitter</span> <span class=kn>import</span> <span class=n>TokenTextSplitter</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>transformations</span> <span class=o>=</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=n>TokenTextSplitter</span><span class=p>(</span><span class=n>chunk_size</span><span class=o>=</span><span class=mi>512</span><span class=p>,</span> <span class=n>chunk_overlap</span><span class=o>=</span><span class=mi>128</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=n>TitleExtractor</span><span class=p>(</span><span class=n>nodes</span><span class=o>=</span><span class=mi>5</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=n>QuestionsAnsweredExtractor</span><span class=p>(</span><span class=n>questions</span><span class=o>=</span><span class=mi>3</span><span class=p>),</span>
+</span></span><span class=line><span class=cl><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 创建ServiceContext，传入Transfrmation</span>
+</span></span><span class=line><span class=cl><span class=n>service_context</span> <span class=o>=</span> <span class=n>ServiceContext</span><span class=o>.</span><span class=n>from_defaults</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>transformations</span><span class=o>=</span><span class=p>[</span><span class=n>text_splitter</span><span class=p>,</span> <span class=n>title_extractor</span><span class=p>,</span> <span class=n>qa_extractor</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 传入VectorStoreIndex的from_documents()或insert()方法</span>
+</span></span><span class=line><span class=cl><span class=n>index</span> <span class=o>=</span> <span class=n>VectorStoreIndex</span><span class=o>.</span><span class=n>from_documents</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>documents</span><span class=p>,</span> <span class=n>service_context</span><span class=o>=</span><span class=n>service_context</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=servicecontext>ServiceContext</h2><blockquote><p>a bundle of services and configurations used across a LlamaIndex pipeline.</p></blockquote><p><strong>可以配置</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>ServiceContext</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>OpenAIEmbedding</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>PromptHelper</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.llms</span> <span class=kn>import</span> <span class=n>OpenAI</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index.text_splitter</span> <span class=kn>import</span> <span class=n>SentenceSplitter</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 设置LLM</span>
+</span></span><span class=line><span class=cl><span class=n>llm</span> <span class=o>=</span> <span class=n>OpenAI</span><span class=p>(</span><span class=n>model</span><span class=o>=</span><span class=s2>&#34;text-davinci-003&#34;</span><span class=p>,</span> <span class=n>temperature</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span> <span class=n>max_tokens</span><span class=o>=</span><span class=mi>256</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 设置Embedding模型</span>
+</span></span><span class=line><span class=cl><span class=n>embed_model</span> <span class=o>=</span> <span class=n>OpenAIEmbedding</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 设置Chunk的大小</span>
+</span></span><span class=line><span class=cl><span class=n>text_splitter</span> <span class=o>=</span> <span class=n>SentenceSplitter</span><span class=p>(</span><span class=n>chunk_size</span><span class=o>=</span><span class=mi>1024</span><span class=p>,</span> <span class=n>chunk_overlap</span><span class=o>=</span><span class=mi>20</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>prompt_helper</span> <span class=o>=</span> <span class=n>PromptHelper</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>context_window</span><span class=o>=</span><span class=mi>4096</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>num_output</span><span class=o>=</span><span class=mi>256</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>chunk_overlap_ratio</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>chunk_size_limit</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>service_context</span> <span class=o>=</span> <span class=n>ServiceContext</span><span class=o>.</span><span class=n>from_defaults</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>llm</span><span class=o>=</span><span class=n>llm</span><span class=p>,</span> <span class=c1># 设置LLM</span>
+</span></span><span class=line><span class=cl>    <span class=n>embed_model</span><span class=o>=</span><span class=n>embed_model</span><span class=p>,</span> <span class=c1># 设置Embedding模型</span>
+</span></span><span class=line><span class=cl>    <span class=n>text_splitter</span><span class=o>=</span><span class=n>text_splitter</span><span class=p>,</span> <span class=c1># 设置Chunk的大小</span>
+</span></span><span class=line><span class=cl>    <span class=n>prompt_helper</span><span class=o>=</span><span class=n>prompt_helper</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>构造函数传参</strong>（更方便）</p><p><strong>Kwargs for node parser</strong>:</p><ul><li><code>chunk_size</code></li><li>`chunk_overlap</li></ul><p><strong>Kwargs for prompt helper</strong>:</p><ul><li><code>context_window</code>:</li><li><code>num_output</code></li></ul><p>例如</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>service_context</span> <span class=o>=</span> <span class=n>ServiceContext</span><span class=o>.</span><span class=n>from_defaults</span><span class=p>(</span><span class=n>chunk_size</span><span class=o>=</span><span class=mi>1000</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>全局配置</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>llama_index</span> <span class=kn>import</span> <span class=n>set_global_service_context</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set_global_service_context</span><span class=p>(</span><span class=n>service_context</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>本地配置</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>query_engine</span> <span class=o>=</span> <span class=n>index</span><span class=o>.</span><span class=n>as_query_engine</span><span class=p>(</span><span class=n>service_context</span><span class=o>=</span><span class=n>service_context</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=storagecontext>StorageContext</h2><blockquote><p>defines the storage backend for where the documents, embeddings, and indexes are stored.</p></blockquote><h1 id=deeplearn教程>Deeplearn教程</h1><blockquote><p>Building and Evaluating Advanced RAG Applications：<a class=link href=https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/ target=_blank rel=noopener>链接</a> <a class=link href="https://www.bilibili.com/video/BV1494y1E7H9?p=2&amp;vd_source=a77fcba61aa907ebeb43a374b034f3b3" target=_blank rel=noopener>Bilibili</a></p></blockquote><p><strong>Joint Text to SQL and Semantic Search</strong></p><p>This video covers the tools built into LlamaIndex for combining SQL and semantic search into a single unified query interface.</p><p><a class=link href="https://www.youtube.com/watch?v=ZIvcVJGtCrY" target=_blank rel=noopener>Youtube</a></p><p><a class=link href=https://docs.llamaindex.ai/en/stable/getting_started/discover_llamaindex.html#../../examples/query_engine/SQLAutoVectorQueryEngine.ipynb target=_blank rel=noopener>Notebook</a></p><h1 id=response-modes>Response Modes</h1><p><a class=link href=https://docs.llamaindex.ai/en/stable/module_guides/deploying/query_engine/response_modes.html target=_blank rel=noopener>参考</a></p><h1 id=trulens>TruLens</h1><blockquote><p><a class=link href=https://www.trulens.org/ target=_blank rel=noopener>官网</a></p></blockquote><h2 id=评测标准>评测标准</h2><p>Query与Answer：Answer Relevance</p><p>Query与Context：Context Relevance</p><p>Answer与Context：Groundedness</p><blockquote><p>grounded：脚踏实地的；groundedness：有根性</p></blockquote><p><img src=https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/image-20240201110046813.png loading=lazy alt=image-20240201110046813></p></section><footer class=article-footer><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><div id=cusdis_thread data-host=https://cusdis.com data-app-id=287ed0fd-6a12-4302-a1ad-d2fd382e1199 data-page-id=31d660f7b618b267eb07778ab3c0e39f data-page-url=https://blog.ververv.com/p/llamaindex/ data-page-title=LlamaIndex></div><script async defer src=https://cusdis.com/js/cusdis.es.js></script><script>function setCusdisTheme(e){let t=document.querySelector("#cusdis_thread iframe");t&&window.CUSDIS.setTheme(e)}window.addEventListener("onColorSchemeChange",e=>{setCusdisTheme(e.detail)})</script><footer class=site-footer><section class=copyright>&copy;
+2023 -
+2024 量子跳跃者</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.24.2>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

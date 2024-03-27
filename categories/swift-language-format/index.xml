@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Swift Language Format on 量子跳跃者</title><link>https://blog.ververv.com/categories/swift-language-format/</link><description>Recent content in Swift Language Format on 量子跳跃者</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 14 Feb 2020 16:57:48 +0800</lastBuildDate><atom:link href="https://blog.ververv.com/categories/swift-language-format/index.xml" rel="self" type="application/rss+xml"/><item><title>代码规范-Swift</title><link>https://blog.ververv.com/p/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83-swift/</link><pubDate>Fri, 14 Feb 2020 16:57:48 +0800</pubDate><guid>https://blog.ververv.com/p/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83-swift/</guid><description>&lt;h4 id="前言">前言&lt;/h4>
+&lt;p>&lt;a class="link" href="https://www.jianshu.com/p/d9f1373f4ea7?tdsourcetag=s_pctim_aiomsg" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p>
+&lt;h4 id="格式规范">格式规范&lt;/h4>
+&lt;h5 id="代码结尾不要使用分号">代码结尾不要使用分号;&lt;/h5>
+&lt;p>&lt;code>推荐&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-swift" data-lang="swift">&lt;span class="line">&lt;span class="cl">&lt;span class="bp">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Hello World&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>不推荐&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-swift" data-lang="swift">&lt;span class="line">&lt;span class="cl">&lt;span class="bp">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Hello World&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>

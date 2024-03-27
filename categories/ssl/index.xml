@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ssl on 量子跳跃者</title><link>https://blog.ververv.com/categories/ssl/</link><description>Recent content in Ssl on 量子跳跃者</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 06 Mar 2020 07:58:58 +0800</lastBuildDate><atom:link href="https://blog.ververv.com/categories/ssl/index.xml" rel="self" type="application/rss+xml"/><item><title>SSL基础知识</title><link>https://blog.ververv.com/p/ssl%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link><pubDate>Fri, 06 Mar 2020 07:58:58 +0800</pubDate><guid>https://blog.ververv.com/p/ssl%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid><description>&lt;h2 id="加密知识">加密知识&lt;/h2>
+&lt;h2 id="教程">教程&lt;/h2>
+&lt;p>&lt;a class="link" href="https://www.cnblogs.com/liyulong1982/p/6106132.html" target="_blank" rel="noopener"
+>数字证书及CA的扫盲&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/36832100" target="_blank" rel="noopener"
+>非常好的入门材料&lt;/a>&lt;/p>
+&lt;p>还有实战，非常地好。&lt;/p>
+&lt;p>必须看。&lt;/p>
+&lt;h3 id="根证书">根证书&lt;/h3>
+&lt;p>Root Certificate&lt;/p>
+&lt;h3 id="x509">X.509&lt;/h3>
+&lt;p>X.509是密码学里&lt;a class="link" href="https://zh.wikipedia.org/wiki/%e5%85%ac%e9%92%a5%e8%af%81%e4%b9%a6" target="_blank" rel="noopener"
+>公钥证书&lt;/a>的格式标准。&lt;/p>
+&lt;p>&lt;a class="link" href="https://zh.wikipedia.org/wiki/X.509" target="_blank" rel="noopener"
+>Wiki&lt;/a>&lt;/p>
+&lt;h3 id="ca证书">CA证书&lt;/h3>
+&lt;p>包含公钥及其他一些信息。&lt;/p>
+&lt;h3 id="ssl证书格式">SSL证书格式&lt;/h3>
+&lt;p>常见公钥后缀：pem crt key
+常见私钥后缀：pfx p12 pem key&lt;/p>
+&lt;p>根据不同的服务器以及服务器的版本，我们需要用到不同的证书格式：&lt;/p>
+&lt;ul>
+&lt;li>.DER .CER，文件是二进制格式，只保存证书，不保存私钥。&lt;/li>
+&lt;li>.PEM，一般是文本格式，可保存证书，可保存私钥。&lt;/li>
+&lt;li>.CRT，可以是二进制格式，可以是文本格式，与 .DER 格式相同，不保存私钥。&lt;/li>
+&lt;li>.PFX .P12，二进制格式，同时包含证书和私钥，一般有密码保护。&lt;/li>
+&lt;li>.JKS，二进制格式，同时包含证书和私钥，一般有密码保护。&lt;/li>
+&lt;/ul></description></item></channel></rss>

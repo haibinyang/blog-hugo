@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>正则表示式 on 量子跳跃者</title><link>https://blog.ververv.com/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E7%A4%BA%E5%BC%8F/</link><description>Recent content in 正则表示式 on 量子跳跃者</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 15 May 2018 15:36:14 +0000</lastBuildDate><atom:link href="https://blog.ververv.com/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E7%A4%BA%E5%BC%8F/index.xml" rel="self" type="application/rss+xml"/><item><title>正则表示式</title><link>https://blog.ververv.com/p/%E6%AD%A3%E5%88%99%E8%A1%A8%E7%A4%BA%E5%BC%8F/</link><pubDate>Tue, 15 May 2018 15:36:14 +0000</pubDate><guid>https://blog.ververv.com/p/%E6%AD%A3%E5%88%99%E8%A1%A8%E7%A4%BA%E5%BC%8F/</guid><description>&lt;h1 id="工具">工具&lt;/h1>
+&lt;p>&lt;a class="link" href="https://regex101.com/" target="_blank" rel="noopener"
+>https://regex101.com/&lt;/a>&lt;/p>
+&lt;p>非常好的一个学习正则表示式的工具&lt;/p>
+&lt;h1 id="开头和结尾">开头和结尾&lt;/h1>
+&lt;p>开头：^&lt;/p>
+&lt;p>结尾：$&lt;/p>
+&lt;h1 id="转义">转义&lt;/h1>
+&lt;p>.是特殊字符，需要转义&lt;/p>
+&lt;h1 id="b表示单词的结尾">\b表示单词的结尾&lt;/h1>
+&lt;p>正则公式：&lt;/p>
+&lt;p>\babc\b&lt;/p>
+&lt;p>测试的字符串：&lt;/p>
+&lt;p>peter abc KKabc&lt;/p>
+&lt;p>KKabc中的abc匹配不到&lt;/p>
+&lt;h1 id="可选单词列表">可选单词列表&lt;/h1>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-basic" data-lang="basic">&lt;span class="line">&lt;span class="cl">&lt;span class="p">(&lt;/span>&lt;span class="o">?:&lt;/span>&lt;span class="vg">XSHE&lt;/span>&lt;span class="o">|&lt;/span>&lt;span class="vg">XSHG&lt;/span>&lt;span class="o">|&lt;/span>&lt;span class="vg">INDX&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h1 id="negative-lookahead">Negative Lookahead&lt;/h1>
+&lt;p>&lt;code>(?!...)&lt;/code>：这是一个负向前瞻断言（negative lookahead assertion），用于指定一个不期望出现的模式。&lt;/p>
+&lt;p>例如&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="o">(&lt;/span>?!api&lt;span class="p">|&lt;/span>favicon.ico&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>例如&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">/((?!api|_next/static|_next/image|favicon.ico).*)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>&lt;code>/&lt;/code>: 正则表达式的开始和结束标志&lt;/li>
+&lt;li>&lt;code>.*&lt;/code>：这表示匹配任何字符（&lt;code>.&lt;/code>）出现任意次数（&lt;code>*&lt;/code>），也就是说，匹配除了特定模式外的任何字符串。&lt;/li>
+&lt;/ul>
+&lt;h1 id="转义-1">转义&lt;/h1>
+&lt;p>&lt;code>\\.&lt;/code> 用于转义点&lt;code>.&lt;/code>（因为点在正则表达式中意味着任何字符）&lt;/p>
+&lt;p>例如：&lt;/p>
+&lt;p>&lt;strong>&lt;code>.\*\\..\*&lt;/code>&lt;/strong> - 这个模式用于避免匹配看起来具有文件扩展名的 URL（例如，&lt;code>.js&lt;/code>、&lt;code>.css&lt;/code>、&lt;code>.html&lt;/code>）。&lt;/p></description></item></channel></rss>

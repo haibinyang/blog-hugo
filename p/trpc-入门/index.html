@@ -1,0 +1,332 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="RPC Remote Procedure Call 不用关注传输层（HTTP+JSON）的实现，客户端像函数一样直接调用。 1 2 3 4 5 6 // HTTP/REST const res = await fetch('/api/users/1'); const user = await res.json(); // RPC const user = await api.users.getById({ id: 1 }); tRPC tR"><title>tRPC 入门</title>
+<link rel=canonical href=https://blog.ververv.com/p/trpc-%E5%85%A5%E9%97%A8/><link rel=stylesheet href=/scss/style.min.d8118f156935b64eca93aca758476adca858d2c47354971654d9bd2933a0e45f.css><meta property='og:title' content="tRPC 入门"><meta property='og:description' content="RPC Remote Procedure Call 不用关注传输层（HTTP+JSON）的实现，客户端像函数一样直接调用。 1 2 3 4 5 6 // HTTP/REST const res = await fetch('/api/users/1'); const user = await res.json(); // RPC const user = await api.users.getById({ id: 1 }); tRPC tR"><meta property='og:url' content='https://blog.ververv.com/p/trpc-%E5%85%A5%E9%97%A8/'><meta property='og:site_name' content='量子跳跃者'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:published_time' content='2023-12-25T16:15:41+08:00'><meta property='article:modified_time' content='2023-12-25T16:15:41+08:00'><meta name=twitter:title content="tRPC 入门"><meta name=twitter:description content="RPC Remote Procedure Call 不用关注传输层（HTTP+JSON）的实现，客户端像函数一样直接调用。 1 2 3 4 5 6 // HTTP/REST const res = await fetch('/api/users/1'); const user = await res.json(); // RPC const user = await api.users.getById({ id: 1 }); tRPC tR"><link rel="shortcut icon" href=/favicon.png><script defer src=https://analytics.ververv.com/pixel/tABAb34VvSTV05V2></script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky compact"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><div class=site-meta><h1 class=site-name><a href=/>量子跳跃者</a></h1><h2 class=site-description></h2></div></header><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/ target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#服务端>服务端</a></li><li><a href=#客户端>客户端</a></li></ol><ol><li><a href=#客户端-1>客户端</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/trpc-%E5%85%A5%E9%97%A8/>tRPC 入门</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Dec 25, 2023</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 3 分钟</time></div></footer></div></header><section class=article-content><h1 id=rpc>RPC</h1><blockquote><p>Remote Procedure Call</p></blockquote><p>不用关注传输层（HTTP+JSON）的实现，客户端像函数一样直接调用。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-typescript data-lang=typescript><span class=line><span class=cl><span class=c1>// HTTP/REST
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>const</span> <span class=nx>res</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>fetch</span><span class=p>(</span><span class=s1>&#39;/api/users/1&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>user</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>res</span><span class=p>.</span><span class=nx>json</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// RPC
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>const</span> <span class=nx>user</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>api</span><span class=p>.</span><span class=nx>users</span><span class=p>.</span><span class=nx>getById</span><span class=p>({</span> <span class=nx>id</span>: <span class=kt>1</span> <span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h1 id=trpc>tRPC</h1><blockquote><p>tRPC是RPC的其中一种实现</p></blockquote><h1 id=概念>概念</h1><div class=table-wrapper><table><thead><tr><th>术语</th><th>说明</th></tr></thead><tbody><tr><td><a class=link href=https://trpc.io/docs/server/procedures target=_blank rel=noopener><strong>Procedure</strong></a></td><td>API EndPoint</td></tr><tr><td>- <strong>Query</strong></td><td>类似HTTP GET</td></tr><tr><td>- <strong>Mutation</strong></td><td>类似HTTP POST/UPDATE/DELETE</td></tr><tr><td>- <a class=link href=https://trpc.io/docs/subscriptions target=_blank rel=noopener><strong>Subscription</strong></a></td><td>类似Websocket</td></tr><tr><td><a class=link href=https://trpc.io/docs/server/routers target=_blank rel=noopener><strong>Router</strong></a></td><td>Procedure的集合</td></tr><tr><td><a class=link href=https://trpc.io/docs/server/context target=_blank rel=noopener><strong>Context</strong></a></td><td>多个Procedure共享的变量</td></tr><tr><td><a class=link href=https://trpc.io/docs/server/middlewares target=_blank rel=noopener><strong>Middleware</strong></a></td><td>调用Procedure前后时，可以使用的钩子</td></tr><tr><td><a class=link href=https://trpc.io/docs/server/procedures#input-validation target=_blank rel=noopener>**Validation **</a></td><td></td></tr></tbody></table></div><h1 id=最小的实例>最小的实例</h1><h2 id=服务端>服务端</h2><p><code>server/trpc.ts</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-typescript data-lang=typescript><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>initTRPC</span> <span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;@trpc/server&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * Initialization of tRPC backend
+</span></span></span><span class=line><span class=cl><span class=cm> * Should be done only once per backend!
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>t</span> <span class=o>=</span> <span class=nx>initTRPC</span><span class=p>.</span><span class=nx>create</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * Export reusable router and procedure helpers
+</span></span></span><span class=line><span class=cl><span class=cm> * that can be used throughout the router
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>router</span> <span class=o>=</span> <span class=nx>t</span><span class=p>.</span><span class=nx>router</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>publicProcedure</span> <span class=o>=</span> <span class=nx>t</span><span class=p>.</span><span class=nx>procedure</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>定义Procedure</strong></p><p><code>server/index.ts</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-typescript data-lang=typescript><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>db</span> <span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;./db&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>publicProcedure</span><span class=p>,</span> <span class=nx>router</span> <span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;./trpc&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>appRouter</span> <span class=o>=</span> <span class=nx>router</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>  <span class=nx>userList</span>: <span class=kt>publicProcedure</span>
+</span></span><span class=line><span class=cl>    <span class=p>.</span><span class=nx>query</span><span class=p>(</span><span class=kr>async</span> <span class=p>()</span> <span class=o>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=c1>// Retrieve users from a datasource, this is an imaginary database
+</span></span></span><span class=line><span class=cl><span class=c1></span>      <span class=kr>const</span> <span class=nx>users</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>db</span><span class=p>.</span><span class=nx>user</span><span class=p>.</span><span class=nx>findMany</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>             
+</span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=nx>users</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}),</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>监听API</strong></p><p>server/index.ts</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-typescript data-lang=typescript><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>createHTTPServer</span> <span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;@trpc/server/adapters/standalone&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>appRouter</span> <span class=o>=</span> <span class=nx>router</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>server</span> <span class=o>=</span> <span class=nx>createHTTPServer</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>  <span class=nx>router</span>: <span class=kt>appRouter</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>server</span><span class=p>.</span><span class=nx>listen</span><span class=p>(</span><span class=mi>3000</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=客户端>客户端</h2><p><strong>配置客户端</strong></p><ul><li>源码级别，引用服务端Procedure的接口定义。</li><li>配置服务端的host地址。</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-typescript data-lang=typescript><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>createTRPCProxyClient</span><span class=p>,</span> <span class=nx>httpBatchLink</span> <span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;@trpc/client&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=kr>type</span> <span class=p>{</span> <span class=nx>AppRouter</span> <span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;./server&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=c1>//     👆 **type-only** import
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl><span class=c1>// Pass AppRouter as generic here. 👇 This lets the `trpc` object know
+</span></span></span><span class=line><span class=cl><span class=c1>// what procedures are available on the server and their input/output types.
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>const</span> <span class=nx>trpc</span> <span class=o>=</span> <span class=nx>createTRPCProxyClient</span><span class=p>&lt;</span><span class=nt>AppRouter</span><span class=p>&gt;({</span>
+</span></span><span class=line><span class=cl>  <span class=nx>links</span><span class=o>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=nx>httpBatchLink</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>      <span class=nx>url</span><span class=o>:</span> <span class=s1>&#39;http://localhost:3000&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>}),</span>
+</span></span><span class=line><span class=cl>  <span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>调用Procedure</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-typescript data-lang=typescript><span class=line><span class=cl><span class=c1>// Inferred types
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>const</span> <span class=nx>user</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>trpc</span><span class=p>.</span><span class=nx>userById</span><span class=p>.</span><span class=nx>query</span><span class=p>(</span><span class=s1>&#39;1&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://trpc.io/docs/quickstart target=_blank rel=noopener>参考</a></p><h1 id=集成到react>集成到React</h1><p>基于React Query。</p><blockquote><p>建议先了解<a class=link href=https://blog.ververv.com/p/react-query/ target=_blank rel=noopener>React Query的基本使用</a></p></blockquote><h2 id=客户端-1>客户端</h2><p><strong>导入AppRouter，创建tRPC hooks</strong></p><p>utils/trpc.ts</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-typescript data-lang=typescript><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>createTRPCReact</span> <span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;@trpc/react-query&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=kr>type</span> <span class=p>{</span> <span class=nx>AppRouter</span> <span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;../server/router&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>trpc</span> <span class=o>=</span> <span class=nx>createTRPCReact</span><span class=p>&lt;</span><span class=nt>AppRouter</span><span class=p>&gt;();</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>添加tRPC providers</strong></p><p>类似React Query，将整个组件包起来。</p><p>创建<code>QueryClient</code>和<code>trpc.createClient</code>，传入给Provider。</p><p>App.tsx</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>QueryClient</span><span class=p>,</span> <span class=nx>QueryClientProvider</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;@tanstack/react-query&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>httpBatchLink</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;@trpc/client&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>React</span><span class=p>,</span> <span class=p>{</span> <span class=nx>useState</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;react&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>trpc</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;./utils/trpc&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kd>function</span> <span class=nx>App</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=p>[</span><span class=nx>queryClient</span><span class=p>]</span> <span class=o>=</span> <span class=nx>useState</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=k>new</span> <span class=nx>QueryClient</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=p>[</span><span class=nx>trpcClient</span><span class=p>]</span> <span class=o>=</span> <span class=nx>useState</span><span class=p>(()</span> <span class=p>=&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nx>trpc</span><span class=p>.</span><span class=nx>createClient</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>      <span class=nx>links</span><span class=o>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=nx>httpBatchLink</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>          <span class=nx>url</span><span class=o>:</span> <span class=s1>&#39;http://localhost:3000/trpc&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>          <span class=c1>// You can pass any HTTP headers you wish here
+</span></span></span><span class=line><span class=cl><span class=c1></span>          <span class=kr>async</span> <span class=nx>headers</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>              <span class=nx>authorization</span><span class=o>:</span> <span class=nx>getAuthCookie</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>            <span class=p>};</span>
+</span></span><span class=line><span class=cl>          <span class=p>},</span>
+</span></span><span class=line><span class=cl>        <span class=p>}),</span>
+</span></span><span class=line><span class=cl>      <span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>}),</span>
+</span></span><span class=line><span class=cl>  <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>trpc.Provider</span> <span class=na>client</span><span class=o>=</span><span class=p>{</span><span class=nx>trpcClient</span><span class=p>}</span> <span class=na>queryClient</span><span class=o>=</span><span class=p>{</span><span class=nx>queryClient</span><span class=p>}&gt;</span>
+</span></span><span class=line><span class=cl>      <span class=p>&lt;</span><span class=nt>QueryClientProvider</span> <span class=na>client</span><span class=o>=</span><span class=p>{</span><span class=nx>queryClient</span><span class=p>}&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span><span class=cm>/* Your app here */</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>      <span class=p>&lt;/</span><span class=nt>QueryClientProvider</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;/</span><span class=nt>trpc.Provider</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>调用Procedure</strong></p><p>pages/IndexPage.tsx</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>trpc</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;../utils/trpc&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=kd>function</span> <span class=nx>IndexPage</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>userQuery</span> <span class=o>=</span> <span class=nx>trpc</span><span class=p>.</span><span class=nx>getUser</span><span class=p>.</span><span class=nx>useQuery</span><span class=p>({</span> <span class=nx>id</span><span class=o>:</span> <span class=s1>&#39;id_bilbo&#39;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>userCreator</span> <span class=o>=</span> <span class=nx>trpc</span><span class=p>.</span><span class=nx>createUser</span><span class=p>.</span><span class=nx>useMutation</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>      <span class=p>&lt;</span><span class=nt>p</span><span class=p>&gt;{</span><span class=nx>userQuery</span><span class=p>.</span><span class=nx>data</span><span class=o>?</span><span class=p>.</span><span class=nx>name</span><span class=p>}&lt;/</span><span class=nt>p</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>      <span class=p>&lt;</span><span class=nt>button</span> <span class=na>onClick</span><span class=o>=</span><span class=p>{()</span> <span class=p>=&gt;</span> <span class=nx>userCreator</span><span class=p>.</span><span class=nx>mutate</span><span class=p>({</span> <span class=nx>name</span><span class=o>:</span> <span class=s1>&#39;Frodo&#39;</span> <span class=p>})}&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Create</span> <span class=nx>Frodo</span>
+</span></span><span class=line><span class=cl>      <span class=p>&lt;/</span><span class=nt>button</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://trpc.io/docs/client/react/setup target=_blank rel=noopener>参考</a></p><h1 id=nextjs>Next.js</h1><p>参考这篇<a class=link href=https://www.wilchow.com/blog/get-end-to-end-typesafe-apis-with-trpc-and-nextjs-app-router target=_blank rel=noopener>文章</a>，写得非常清晰，也附带<a class=link href=https://github.com/javajunky/nextjs-trpc-demo target=_blank rel=noopener>示例代码</a>。</p><h1 id=标准的trpc代码>标准的tRPC代码</h1><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>initTRPC</span> <span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;@trpc/server&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// You can use any variable name you like.
+</span></span></span><span class=line><span class=cl><span class=c1>// We use t to keep things simple.
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>const</span> <span class=nx>t</span> <span class=o>=</span> <span class=nx>initTRPC</span><span class=p>.</span><span class=nx>create</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>router</span> <span class=o>=</span> <span class=nx>t</span><span class=p>.</span><span class=nx>router</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>publicProcedure</span> <span class=o>=</span> <span class=nx>t</span><span class=p>.</span><span class=nx>procedure</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h1 id=定义apirouter>定义apiRouter</h1><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>publicProcedure</span><span class=p>,</span> <span class=nx>router</span> <span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;./trpc&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>appRouter</span> <span class=o>=</span> <span class=nx>router</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>  <span class=nx>greeting</span>: <span class=kt>publicProcedure.query</span><span class=p>(()</span> <span class=o>=&gt;</span> <span class=s1>&#39;hello tRPC v10!&#39;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// Export only the type of a router!
+</span></span></span><span class=line><span class=cl><span class=c1>// This prevents us from importing server code on the client.
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>export</span> <span class=kr>type</span> <span class=nx>AppRouter</span> <span class=o>=</span> <span class=k>typeof</span> <span class=nx>appRouter</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h1 id=context>Context</h1><p>不同的procedure共享的数据</p><blockquote><p>例如可以放database connections或authentication</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>initTRPC</span> <span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;@trpc/server&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=kr>type</span> <span class=p>{</span> <span class=nx>CreateNextContextOptions</span> <span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;@trpc/server/adapters/next&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>getSession</span> <span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;next-auth/react&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 1、自定义一个Context，返回session
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>export</span> <span class=kr>const</span> <span class=nx>createContext</span> <span class=o>=</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>opts</span>: <span class=kt>CreateNextContextOptions</span><span class=p>)</span> <span class=o>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>session</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>getSession</span><span class=p>({</span> <span class=nx>req</span>: <span class=kt>opts.req</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>session</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// 2、初始化tRPC时，传入自定义的Context
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>const</span> <span class=nx>t1</span> <span class=o>=</span> <span class=nx>initTRPC</span><span class=p>.</span><span class=nx>context</span><span class=p>&lt;</span><span class=nt>typeof</span> <span class=na>createContext</span><span class=p>&gt;().</span><span class=nx>create</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=c1>// 3、在proceures中就可以访问Context中的session                          
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>t1</span><span class=p>.</span><span class=nx>procedure</span><span class=p>.</span><span class=nx>use</span><span class=p>(({</span> <span class=nx>ctx</span> <span class=p>})</span> <span class=o>=&gt;</span> <span class=p>{</span> <span class=p>...</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=c1>// (parameter) ctx: {
+</span></span></span><span class=line><span class=cl><span class=c1>//    session: Session | null;
+</span></span></span><span class=line><span class=cl><span class=c1>// }
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>// 2、初始化tRPC时，传入自定义的Context                             
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>type</span> <span class=nx>Context</span> <span class=o>=</span> <span class=nx>Awaited</span><span class=p>&lt;</span><span class=nt>ReturnType</span><span class=err>&lt;</span><span class=na>typeof</span> <span class=na>createContext</span><span class=p>&gt;</span><span class=o>&gt;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>t2</span> <span class=o>=</span> <span class=nx>initTRPC</span><span class=p>.</span><span class=nx>context</span><span class=p>&lt;</span><span class=nt>Context</span><span class=p>&gt;().</span><span class=nx>create</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=c1>// 3、在proceures中就可以访问Context中的session
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>t2</span><span class=p>.</span><span class=nx>procedure</span><span class=p>.</span><span class=nx>use</span><span class=p>(({</span> <span class=nx>ctx</span> <span class=p>})</span> <span class=o>=&gt;</span> <span class=p>{</span> <span class=p>...</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=c1>// (parameter) ctx: {
+</span></span></span><span class=line><span class=cl><span class=c1>//    session: Session | null;
+</span></span></span><span class=line><span class=cl><span class=c1>// }
+</span></span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://trpc.io/docs/server/context target=_blank rel=noopener>参考</a></p><h1 id=middleware>Middleware</h1><p>定义一个middleware</p><p>在procedure中使用middleware</p><blockquote><p>t.procedure.use()</p></blockquote><p>使用：Auth或Log</p><p><a class=link href=https://trpc.io/docs/server/middlewares#extending-middlewares target=_blank rel=noopener>Middleware官方教程</a></p></section><footer class=article-footer><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><div id=cusdis_thread data-host=https://cusdis.com data-app-id=287ed0fd-6a12-4302-a1ad-d2fd382e1199 data-page-id=646f1707274cdac1ca4dc9b49f654512 data-page-url=https://blog.ververv.com/p/trpc-%E5%85%A5%E9%97%A8/ data-page-title="tRPC 入门"></div><script async defer src=https://cusdis.com/js/cusdis.es.js></script><script>function setCusdisTheme(e){let t=document.querySelector("#cusdis_thread iframe");t&&window.CUSDIS.setTheme(e)}window.addEventListener("onColorSchemeChange",e=>{setCusdisTheme(e.detail)})</script><footer class=site-footer><section class=copyright>&copy;
+2023 -
+2024 量子跳跃者</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.24.2>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

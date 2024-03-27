@@ -1,0 +1,148 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="实例 清晰的指令 增加细节 在查询中包含详细信息以获得更相关的答案。 更 糟 更好 如何在Excel中添加数字？ 如何在Excel中将一行美元金额相加？我想"><title>OpenAI的提示工程：官方指南</title>
+<link rel=canonical href=https://blog.ververv.com/p/openai%E7%9A%84%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%E5%AE%98%E6%96%B9%E6%8C%87%E5%8D%97/><link rel=stylesheet href=/scss/style.min.d8118f156935b64eca93aca758476adca858d2c47354971654d9bd2933a0e45f.css><meta property='og:title' content="OpenAI的提示工程：官方指南"><meta property='og:description' content="实例 清晰的指令 增加细节 在查询中包含详细信息以获得更相关的答案。 更 糟 更好 如何在Excel中添加数字？ 如何在Excel中将一行美元金额相加？我想"><meta property='og:url' content='https://blog.ververv.com/p/openai%E7%9A%84%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%E5%AE%98%E6%96%B9%E6%8C%87%E5%8D%97/'><meta property='og:site_name' content='量子跳跃者'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:published_time' content='2024-01-18T11:33:19+08:00'><meta property='article:modified_time' content='2024-01-18T11:33:19+08:00'><meta name=twitter:title content="OpenAI的提示工程：官方指南"><meta name=twitter:description content="实例 清晰的指令 增加细节 在查询中包含详细信息以获得更相关的答案。 更 糟 更好 如何在Excel中添加数字？ 如何在Excel中将一行美元金额相加？我想"><link rel="shortcut icon" href=/favicon.png><script defer src=https://analytics.ververv.com/pixel/tABAb34VvSTV05V2></script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky compact"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><div class=site-meta><h1 class=site-name><a href=/>量子跳跃者</a></h1><h2 class=site-description></h2></div></header><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/ target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#增加细节>增加细节</a></li><li><a href=#设定角色>设定角色</a></li><li><a href=#添加分隔符>添加分隔符</a></li><li><a href=#分解步骤>分解步骤</a></li><li><a href=#举例说明few-shot>举例说明/few-shot</a></li><li><a href=#限制输出长度>限制输出长度</a></li></ol><ol><li><a href=#指示模型使用参考文本进行回答>指示模型使用参考文本进行回答</a></li><li><a href=#指示模型使用参考文本中的引文进行回答>指示模型使用参考文本中的引文进行回答</a></li></ol><ol><li><a href=#使用意向分类来识别与用户查询最相关的指令>使用意向分类来识别与用户查询最相关的指令</a></li><li><a href=#对于需要很长对话的对话应用程序请总结或筛选上一个对话>对于需要很长对话的对话应用程序，请总结或筛选上一个对话</a></li><li><a href=#重点分段总结长文档递归构建完整摘要>（重点）分段总结长文档，递归构建完整摘要</a></li></ol><ol><li><a href=#在匆忙得出结论之前指示模型制定自己的解决方案>在匆忙得出结论之前，指示模型制定自己的解决方案</a></li><li><a href=#未解决使用内心独白或一系列查询来隐藏模型的推理过程>（未解决）使用内心独白或一系列查询来隐藏模型的推理过程</a></li><li><a href=#询问模型在之前的传递中是否遗漏了任何内容>询问模型在之前的传递中是否遗漏了任何内容</a></li></ol><ol><li><a href=#rag>RAG</a></li><li><a href=#code-interpreter>Code Interpreter</a></li><li><a href=#function-call>Function Call</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/openai%E7%9A%84%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%E5%AE%98%E6%96%B9%E6%8C%87%E5%8D%97/>OpenAI的提示工程：官方指南</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Jan 18, 2024</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 7 分钟</time></div></footer></div></header><section class=article-content><p><img src=https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/image-20240118151238515.png loading=lazy alt=image-20240118151238515></p><h1 id=实例>实例</h1><h1 id=清晰的指令>清晰的指令</h1><h2 id=增加细节>增加细节</h2><p>在查询中包含详细信息以获得更相关的答案。</p><div class=table-wrapper><table><thead><tr><th><strong>更 糟</strong></th><th><strong>更好</strong></th></tr></thead><tbody><tr><td>如何在Excel中添加数字？</td><td>如何在Excel中将一行美元金额相加？我想自动为整张行表执行此操作，所有总数都位于名为“Total”的列的右侧。</td></tr><tr><td>谁是总统？</td><td>谁是 2021 年的墨西哥总统，选举多久举行一次？</td></tr><tr><td>编写代码来计算斐波那契数列</td><td>编写一个 TypeScript 函数来有效地计算斐波那契数列。对代码进行大量注释，以解释每个部分的作用以及为什么这样编写。</td></tr><tr><td>总结会议记录</td><td>用一个段落总结会议记录。然后写一个演讲者和他们每个关键点的降价列表。最后，列出演讲者建议的后续步骤或行动项目（如果有的话）。</td></tr></tbody></table></div><h2 id=设定角色>设定角色</h2><p>要求模型采用角色。</p><p><strong>官方范例</strong></p><blockquote><p>系统消息</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>当我请求帮助写东西时，你会回复一份文档，每个段落中至少包含一个笑话或俏皮的评论。
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>用户消息</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>给我的钢螺栓供应商写一封感谢信，感谢他们在短时间内按时交货。这使我们能够交付一个重要的订单。
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>响应</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>亲爱的[供应商名称]团队，
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>首先，我想说，如果有奥运会金牌颁给最快的螺栓供应，你们肯定会赢得比赛，而且还会打破世界记录！
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>我写这封信是想表达我们公司对你们团队的深深感激。你们在短时间内按时交付的钢螺栓不仅坚固，而且速度快得让光都自愧不如。我们知道，没有你们的超级英雄般的努力，我们是不可能在截止日期前完成我们的订单的。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>你们的团队就像是那个在最后一刻出现的骑士，不仅救了公主，还救了整个王国。我们的客户对我们的及时交付感到非常满意，这在很大程度上要归功于你们的高效和专业。你们的螺栓就像是我们成功的秘密武器，虽然我们不能在产品说明书上这么写，但我们知道真相！
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>我们感激你们的响应速度，就像是有超能力一样，你们总是能够在我们最需要的时候出现。我们的合作关系就像是螺栓和螺母一样紧密，没有你们，我们就散架了！
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>再次感谢你们的出色工作和无与伦比的服务。我们期待着继续这种令人愉快的合作关系，并在未来的项目中再次体验你们的“闪电般”的交付速度。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>最后，如果你们的螺栓能够参加马拉松，我敢打赌，它们会是第一个冲过终点线的，而且还不会出一滴汗！
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>真诚地，
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>[你的名字]
+</span></span><span class=line><span class=cl>[你的职位]
+</span></span><span class=line><span class=cl>[你的公司名称]
+</span></span></code></pre></td></tr></table></div></div><h2 id=添加分隔符>添加分隔符</h2><p>使用分隔符清楚地指示输入的不同部分</p><p>官方实例1：</p><blockquote><p>USER</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Summarize the text delimited by triple quotes with a haiku.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&#34;&#34;&#34;insert text here&#34;&#34;&#34;
+</span></span></code></pre></td></tr></table></div></div><p>官方实例2：</p><blockquote><p>SYSTEM</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>You will be provided with a pair of articles (delimited with XML tags) about the same topic. First summarize the arguments of each article. Then indicate which of them makes a better argument and explain why.
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>USER</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&lt;article&gt; insert first article here &lt;/article&gt;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&lt;article&gt; insert second article here &lt;/article&gt;
+</span></span></code></pre></td></tr></table></div></div><p>官方实例3：</p><blockquote><p>SYSTEM</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>You will be provided with a thesis abstract and a suggested title for it. The thesis title should give the reader a good idea of the topic of the thesis but should also be eye-catching. If the title does not meet these criteria, suggest 5 alternatives.
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>USER</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=err>Abstract:</span> <span class=err>insert</span> <span class=err>abstract</span> <span class=err>here</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=err>Title:</span> <span class=err>insert</span> <span class=err>title</span> <span class=err>here</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=分解步骤>分解步骤</h2><p>指定完成任务所需的步骤</p><blockquote><p>SYSTEM</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>使用以下分步说明来响应用户输入。
+</span></span><span class=line><span class=cl>第 1 步 - 用户将为您提供三引号中的文本。用一句话总结这段文字，前缀是“摘要：”。
+</span></span><span class=line><span class=cl>第 2 步 - 将第 1 步中的摘要翻译成西班牙语，前缀为“翻译：”。
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>USER</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&#34;&#34;&#34;提供适用于所有示例的一般说明通常比通过示例演示任务的所有排列更有效，但在某些情况下，提供示例可能更容易。例如，如果您打算让模型复制响应用户查询的特定样式，这很难显式描述。这被称为“小镜头”提示。&#34;&#34;&#34;
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>输出</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>摘要：通常提供通用说明比展示所有示例更有效，但在某些情况下，如模型需要复制特定样式的响应，提供示例可能更简单，这称为“小镜头”提示。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>翻译：Generalmente, proporcionar instrucciones generales es más efectivo que mostrar todos los ejemplos, pero en algunos casos, como cuando el modelo necesita replicar respuestas de un estilo específico, ofrecer ejemplos puede ser más sencillo, lo que se conoce como &#34;pistas de pequeño alcance&#34;.
+</span></span></code></pre></td></tr></table></div></div><h2 id=举例说明few-shot>举例说明/few-shot</h2><blockquote><p>USER</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>以一致的风格回答。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Q：教我忍耐。
+</span></span><span class=line><span class=cl>A：雕刻最深谷的河流从一汪不起眼的泉水流出<span class=p>;</span>最伟大的交响曲起源于一个音符<span class=p>;</span>最复杂的挂毯始于一根孤独的线。
+</span></span><span class=line><span class=cl>Q：教我关于海洋的知识。
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>响应</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>A：宽阔的海洋藏匿着无尽的秘密，如同藏在古老卷轴里的智慧。它的蓝色深渊孕育着生命之源，正如星辰点缀夜空。海浪的起伏告诉我们自然的律动，如同风在林间吹拂的旋律。每一滴海水都承载着地球的故事，正如每个灵魂都编织着生命的篇章。
+</span></span></code></pre></td></tr></table></div></div><h2 id=限制输出长度>限制输出长度</h2><p>指定所需的输出长度</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Summarize the text delimited by triple quotes in 3 bullet points.
+</span></span><span class=line><span class=cl>Summarize the text delimited by triple quotes in 2 paragraphs.
+</span></span><span class=line><span class=cl>Summarize the text delimited by triple quotes in about 50 words. // 3 个要点
+</span></span></code></pre></td></tr></table></div></div><h1 id=提供参考文本>提供参考文本</h1><h2 id=指示模型使用参考文本进行回答>指示模型使用参考文本进行回答</h2><p>Instruct the model to answer using a reference text</p><blockquote><p>SYSTEM</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>使用提供的文章（用&#34;&#34;&#34;分隔）来回答问题。如果在文章中找不到答案，请写“我找不到答案”。
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>USER</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>提供的文章：三星 Galaxy S 系列一直是安卓阵营的顶级旗舰，其中Ultra型号更是被称为“安卓之光”。在最新的S24 Ultra中，其最明显的变化就是机身采用了钛合金材料，类似于苹果的iPhone <span class=m>15</span> Pro。然而，尽管S24 Ultra采用了更轻的钛合金材质，但它的重量并未减轻，与上一代的S23 Ultra几乎持平，并且比iPhone <span class=m>15</span> Pro Max略重。
+</span></span><span class=line><span class=cl>屏幕方面，S24 Ultra保持了与上一代相同的尺寸和分辨率，但其峰值亮度提高到了2600尼特。此外，S24 Ultra手机放弃了Note系列特有的曲面屏，转而采用了直屏设计。不过，与S24和S24+的完全直边屏幕不同，S24 Ultra的屏幕边缘仍然保留了轻微的弧度。
+</span></span><span class=line><span class=cl>在影像方面，除了潜望式长焦摄像头外，S24 Ultra的其他四个摄像头在硬件上与上一代保持一致。S24 Ultra将上一代的1000万像素10倍光学变焦潜望式镜头进行了改进，换成了更高分辨率5000万像素潜望式长焦，支持五倍光学变焦。通过无损裁切，这个新镜头能够实现10倍的变焦效果。5000万像素潜望式长焦，支持五倍光学变焦
+</span></span><span class=line><span class=cl>尽管三星S24 Ultra不再配备原生10倍光学变焦，但三星称S24 Ultra的10倍变焦图像质量实际上比上一代有所提升，并仍可以实现 <span class=m>100</span> 倍变焦。S24 Ultra从10倍焦段改为5倍焦段，可能是因为5倍焦段在日常摄影中更为常用，且更便于构图。毕竟，一般用户很少需要用到10倍变焦，而且由于物理限制，超长焦潜望式镜头在光圈大小和CMOS传感器方面往往需要做出妥协。这导致了在低光环境下几乎无法使用，成像质量会大幅降低的现象。相比之下，5倍潜望式镜头可以采用更大的光圈和更大的CMOS传感器，在低光环境下的表现将会更佳。
+</span></span><span class=line><span class=cl>AI 功能也是S24系列的一大亮点，三星表示，S24系列集成了几乎所有当前旗舰手机上的AI功能，并且这三款新机型在AI功能上完全一致。功能主要包括：AI驱动的图像和视频编辑工具、AI图像搜索识别、实时通话翻译、文本翻译、语音转文字翻译以及自动格式化笔记等等。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>问题:  三星发布什么产品？
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>响应</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>三星发布了Galaxy S24 Ultra手机。
+</span></span></code></pre></td></tr></table></div></div><h2 id=指示模型使用参考文本中的引文进行回答>指示模型使用参考文本中的引文进行回答</h2><p>Instruct the model to answer with citations from a reference text</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>SYSTEM
+</span></span><span class=line><span class=cl>You will be provided with a document delimited by triple quotes and a question. Your task is to answer the question using only the provided document and to cite the passage(s) of the document used to answer the question. If the document does not contain the information needed to answer this question then simply write: &#34;Insufficient information.&#34; If an answer to the question is provided, it must be annotated with a citation. Use the following format for to cite relevant passages ({&#34;citation&#34;: …}).
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>USER
+</span></span><span class=line><span class=cl>&#34;&#34;&#34;&lt;insert document here&gt;&#34;&#34;&#34;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Question: &lt;insert question here&gt;
+</span></span></code></pre></td></tr></table></div></div><h1 id=拆解成子任务>拆解成子任务</h1><p>Split complex tasks into simpler subtasks</p><p>将复杂的任务拆分为更简单的子任务</p><h2 id=使用意向分类来识别与用户查询最相关的指令>使用意向分类来识别与用户查询最相关的指令</h2><p>Use intent classification to identify the most relevant instructions for a user query</p><h2 id=对于需要很长对话的对话应用程序请总结或筛选上一个对话>对于需要很长对话的对话应用程序，请总结或筛选上一个对话</h2><p>For dialogue applications that require very long conversations, summarize or filter previous dialogue</p><h2 id=重点分段总结长文档递归构建完整摘要>（重点）分段总结长文档，递归构建完整摘要</h2><p>Summarize long documents piecewise and construct a full summary recursively</p><h1 id=给模型留出思考时间>给模型留出思考时间</h1><h2 id=在匆忙得出结论之前指示模型制定自己的解决方案>在匆忙得出结论之前，指示模型制定自己的解决方案</h2><p>Instruct the model to work out its own solution before rushing to a conclusion</p><h2 id=未解决使用内心独白或一系列查询来隐藏模型的推理过程>（未解决）使用内心独白或一系列查询来隐藏模型的推理过程</h2><p>Use inner monologue or a sequence of queries to hide the model&rsquo;s reasoning process</p><h2 id=询问模型在之前的传递中是否遗漏了任何内容>询问模型在之前的传递中是否遗漏了任何内容</h2><p>Ask the model if it missed anything on previous passes</p><h1 id=使用外部工具>使用外部工具</h1><h2 id=rag>RAG</h2><p>使用基于嵌入的搜索实现高效的知识检索</p><p>Use embeddings-based search to implement efficient knowledge retrieval</p><h2 id=code-interpreter>Code Interpreter</h2><p>使用代码执行来执行更准确的计算或调用外部 API</p><p>Use code execution to perform more accurate calculations or call external APIs</p><h2 id=function-call>Function Call</h2><p>Give the model access to specific functions</p><h1 id=系统地测试更改>系统地测试更改</h1><p>Evaluate model outputs with reference to gold-standard answers</p><p>参考黄金标准答案评估模型输出</p><h1 id=参考>参考</h1><p><a class=link href=https://platform.openai.com/docs/guides/prompt-engineering/strategy-test-changes-systematically target=_blank rel=noopener>参考</a></p></section><footer class=article-footer><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><div id=cusdis_thread data-host=https://cusdis.com data-app-id=287ed0fd-6a12-4302-a1ad-d2fd382e1199 data-page-id=3df1a430894d9aba782af28630889a89 data-page-url=https://blog.ververv.com/p/openai%E7%9A%84%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%E5%AE%98%E6%96%B9%E6%8C%87%E5%8D%97/ data-page-title=OpenAI的提示工程：官方指南></div><script async defer src=https://cusdis.com/js/cusdis.es.js></script><script>function setCusdisTheme(e){let t=document.querySelector("#cusdis_thread iframe");t&&window.CUSDIS.setTheme(e)}window.addEventListener("onColorSchemeChange",e=>{setCusdisTheme(e.detail)})</script><footer class=site-footer><section class=copyright>&copy;
+2023 -
+2024 量子跳跃者</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.24.2>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

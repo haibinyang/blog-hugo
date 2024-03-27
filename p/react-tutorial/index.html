@@ -1,0 +1,211 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="React的本质 React只是一个UI前端库 用Javascript来写HTML/CSS代码 语法刚好与HTML/CSS类似。 与Vue/Angu"><title>React Tutorial</title>
+<link rel=canonical href=https://blog.ververv.com/p/react-tutorial/><link rel=stylesheet href=/scss/style.min.d8118f156935b64eca93aca758476adca858d2c47354971654d9bd2933a0e45f.css><meta property='og:title' content="React Tutorial"><meta property='og:description' content="React的本质 React只是一个UI前端库 用Javascript来写HTML/CSS代码 语法刚好与HTML/CSS类似。 与Vue/Angu"><meta property='og:url' content='https://blog.ververv.com/p/react-tutorial/'><meta property='og:site_name' content='量子跳跃者'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:published_time' content='2023-12-02T13:32:18+08:00'><meta property='article:modified_time' content='2023-12-02T13:32:18+08:00'><meta name=twitter:title content="React Tutorial"><meta name=twitter:description content="React的本质 React只是一个UI前端库 用Javascript来写HTML/CSS代码 语法刚好与HTML/CSS类似。 与Vue/Angu"><link rel="shortcut icon" href=/favicon.png><script defer src=https://analytics.ververv.com/pixel/tABAb34VvSTV05V2></script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky compact"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><div class=site-meta><h1 class=site-name><a href=/>量子跳跃者</a></h1><h2 class=site-description></h2></div></header><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/ target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#与vueangular的区别>与Vue/Angular的区别</a></li><li><a href=#思路component>思路：Component</a></li><li><a href=#历史>历史</a></li></ol><ol><li><a href=#vite>Vite</a></li><li><a href=#创建项目>创建项目</a></li></ol><ol><li><a href=#打包多个分段>打包多个分段</a></li></ol><ol><li><a href=#hoc>HOC</a></li><li><a href=#服务端组件>服务端组件</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/react-tutorial/>React Tutorial</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Dec 02, 2023</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 5 分钟</time></div></footer></div></header><section class=article-content><h1 id=react的本质>React的本质</h1><ul><li>React只是一个UI前端库</li><li>用<code>Javascript</code>来写<code>HTML/CSS</code>代码<ul><li>语法刚好与HTML/CSS类似。</li></ul></li></ul><h2 id=与vueangular的区别>与Vue/Angular的区别</h2><ul><li>React只是一个Javascript库<ul><li>它没有路由系统、HTTP请求工具、国际化、表格验证、动画等</li></ul></li><li>但，Vue/Angular是一个框架：集成很多工具，一个解决方案。</li></ul><p><img src=https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/20231216143918.png loading=lazy>
+<img src=https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/20231216143926.png loading=lazy></p><h2 id=思路component>思路：Component</h2><blockquote><p>将页面拆分成Component</p></blockquote><p><img src=https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/20231216141905.png loading=lazy></p><h2 id=历史>历史</h2><div class=table-wrapper><table><thead><tr><th>版本</th><th>时间</th><th>主要特性</th></tr></thead><tbody><tr><td>0.3</td><td>2011</td><td>Facebook 内部首次发布的 React 版本</td></tr><tr><td>0.5</td><td>2011</td><td>首个公开发布在 GitHub 上的 React 版本</td></tr><tr><td>0.8</td><td>2011</td><td>引入虚拟 DOM (Virtual DOM)，显著提升性能</td></tr><tr><td>0.9</td><td>2011</td><td>引入 JSX，允许在 JavaScript 中编写类似 HTML 的代码</td></tr><tr><td>0.10</td><td>2013</td><td>作为开源项目首次发布的 React 版本</td></tr><tr><td>0.11</td><td>2013</td><td>首次在 npm 包管理器上发布</td></tr><tr><td>0.12</td><td>2014</td><td>支持服务器端渲染的首个版本</td></tr><tr><td>0.13</td><td>2014</td><td>引入对 ES6 类语法定义组件的支持</td></tr><tr><td>15</td><td>2016</td><td>引入新的基于纤程 (fiber) 的架构，提升性能并增加新特性，如暂停、中止或重用工作</td></tr><tr><td>16</td><td>2017</td><td>引入了流式渲染（streaming rendering） 支持异步渲染和错误边界，增强应用的弹性和容错能力</td></tr><tr><td>17</td><td>2021</td><td>改进 JSX 转换器，允许不使用 JSX 使用 React</td></tr><tr><td>18</td><td>2022</td><td>服务器组件（Server Components） 并发渲染（Concurrent Rendering） 自动批处理（Automatic Batching） 新的Suspense SSR架构（New Suspense SSR Architecture） 新的Root API Transition API Suspense的流式服务器端渲染（Streaming SSR）</td></tr></tbody></table></div><blockquote><p>最新版本</p><p><a class=link href=https://github.com/facebook/react/releases target=_blank rel=noopener>18.2.0</a></p></blockquote><h1 id=创建第一个react项目>创建第一个React项目</h1><p>两种方法，我们使用Vite</p><ul><li>Create React APP (CRA)。这是React官方团队出品。</li><li>Vite：速度更快，生成的包也更小</li></ul><h2 id=vite>Vite</h2><blockquote><p><a class=link href=https://vitejs.dev/guide/ target=_blank rel=noopener>官网</a></p><p>最新版本：<a class=link href=https://github.com/vitejs/vite/releases target=_blank rel=noopener>5.0</a></p></blockquote><p>历史版本</p><div class=table-wrapper><table><thead><tr><th>Year</th><th>Version</th><th>Event</th></tr></thead><tbody><tr><td>2020</td><td></td><td>⭐ Vite, a new front-end build tool, is created by Evan You.</td></tr><tr><td>2021</td><td>2.0</td><td>⭐ Release of Vite 2.0, introducing a more flexible plugin system and improved configuration.</td></tr><tr><td>2022</td><td>3.0</td><td>⭐ Launch of Vite 3.0, featuring enhanced performance and new features.</td></tr></tbody></table></div><blockquote><p>还是比较新，但是，Github Star已经有50K了。</p></blockquote><h2 id=创建项目>创建项目</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># 创建项目</span>
+</span></span><span class=line><span class=cl>npm create vite
+</span></span><span class=line><span class=cl><span class=c1># 选择React项目</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>cd</span> react-app
+</span></span><span class=line><span class=cl>npm install
+</span></span><span class=line><span class=cl>npm run dev
+</span></span></code></pre></td></tr></table></div></div><h1 id=jsx语法>JSX语法</h1><p>用Javascript来写HTML，以下是一个组件的JSX代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=kd>function</span> <span class=nx>Message</span><span class=p>(){</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=o>&lt;</span><span class=nx>h1</span><span class=o>&gt;</span><span class=nx>Hello</span> <span class=nx>World</span><span class=o>&lt;</span><span class=err>/h1&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=nx>Message</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>它转成javascript代码（<a class=link href=https://babeljs.io/repl target=_blank rel=noopener>转换工具</a>）：</p><p><img src=https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/20231216144829.png loading=lazy></p><h1 id=工作原理>工作原理</h1><p>更新DOM不是由React完成的，而是由它的同伴React DOM完成的。</p><p>查看package.json，发现目前依赖的就是两个库：React和React DOM。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl>  <span class=err>...</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;dependencies&#34;</span><span class=err>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;react&#34;</span><span class=p>:</span> <span class=s2>&#34;^18.2.0&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;react-dom&#34;</span><span class=p>:</span> <span class=s2>&#34;^18.2.0&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span><span class=err>,</span>
+</span></span><span class=line><span class=cl>  <span class=err>...</span>
+</span></span></code></pre></td></tr></table></div></div><p>index.html指向src/main.tsx</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!doctype html&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>html</span> <span class=na>lang</span><span class=o>=</span><span class=s>&#34;en&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>charset</span><span class=o>=</span><span class=s>&#34;UTF-8&#34;</span> <span class=p>/&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>link</span> <span class=na>rel</span><span class=o>=</span><span class=s>&#34;icon&#34;</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;image/svg+xml&#34;</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;/vite.svg&#34;</span> <span class=p>/&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>name</span><span class=o>=</span><span class=s>&#34;viewport&#34;</span> <span class=na>content</span><span class=o>=</span><span class=s>&#34;width=device-width, initial-scale=1.0&#34;</span> <span class=p>/&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>title</span><span class=p>&gt;</span>Vite + React + TS<span class=p>&lt;/</span><span class=nt>title</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>&lt;/</span><span class=nt>head</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>body</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>div</span> <span class=na>id</span><span class=o>=</span><span class=s>&#34;root&#34;</span><span class=p>&gt;&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>script</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;module&#34;</span> <span class=na>src</span><span class=o>=</span><span class=s>&#34;/src/main.tsx&#34;</span><span class=p>&gt;&lt;/</span><span class=nt>script</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>查看main.tsx：ReactDOM负责渲染我们整个组件树。</p><p>根组件 App 包含在另一个叫React.StrictMode的组件里，这个组件不用于显示，而是用于发现一些问题。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=kr>import</span> <span class=nx>React</span> <span class=nx>from</span> <span class=s1>&#39;react&#39;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>ReactDOM</span> <span class=nx>from</span> <span class=s1>&#39;react-dom/client&#39;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>App</span> <span class=nx>from</span> <span class=s1>&#39;./App.tsx&#39;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=s1>&#39;./index.css&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>ReactDOM</span><span class=p>.</span><span class=nx>createRoot</span><span class=p>(</span><span class=nb>document</span><span class=p>.</span><span class=nx>getElementById</span><span class=p>(</span><span class=s1>&#39;root&#39;</span><span class=p>)</span><span class=o>!</span><span class=p>).</span><span class=nx>render</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>React.StrictMode</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>App</span> <span class=p>/&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>&lt;/</span><span class=nt>React.StrictMode</span><span class=p>&gt;,</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>在手机App中，渲染画面使用的是另一个库：ReactNative。</p><p>React没有跟具体平台绑定，它对平台是透明的，React创建的应用可以在Web、手机或桌面上使用。</p><h1 id=创建第一个react组件>创建第一个React组件</h1><p>有两种方法创建组件：</p><ul><li>一种用Javascript类</li><li>另一种则是Javascript函数：这种更流行</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=kd>function</span> <span class=nx>Message</span><span class=p>(){</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>&lt;</span><span class=nt>h1</span><span class=p>&gt;</span><span class=nx>Hello</span> <span class=nx>World</span><span class=p>&lt;/</span><span class=nt>h1</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=nx>Message</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>在VSCode中，键入<code>rfce</code> 可以快速生成React Component的模板代码。</p></blockquote><h2 id=打包多个分段>打包多个分段</h2><p>方法一：Fragment包起来</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=kd>function</span> <span class=nx>ListGroup</span><span class=p>(){</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>Fragment</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;</span><span class=nt>h1</span><span class=p>&gt;</span><span class=nx>List</span><span class=p>&lt;/</span><span class=nt>h1</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;</span><span class=nt>ul</span> <span class=na>className</span><span class=o>=</span><span class=s>&#34;list-group&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>                <span class=p>...</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;/</span><span class=nt>ul</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;/</span><span class=nt>Fragment</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>方法二：空内容的尖括号，React会自动使用Fragment包起来。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>Message</span> <span class=o>=</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;</span><span class=nt>h1</span><span class=p>&gt;</span><span class=nx>title</span><span class=p>&lt;/</span><span class=nt>h1</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;</span><span class=nt>div</span><span class=p>&gt;</span><span class=nx>Message</span><span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;/&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=nx>Message</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>最简洁的做法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>Message</span> <span class=o>=</span> <span class=p>()</span> <span class=p>=&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>div</span><span class=p>&gt;</span><span class=nx>Message</span><span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=nx>Message</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>Message</span> <span class=o>=</span> <span class=p>()</span> <span class=p>=&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>h1</span><span class=p>&gt;</span><span class=nx>title</span><span class=p>&lt;/</span><span class=nt>h1</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>div</span><span class=p>&gt;</span><span class=nx>Message</span><span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;/&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=nx>Message</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h1 id=其它>其它</h1><h2 id=hoc>HOC</h2><p>在React中，高阶组件（Higher-Order Component，简称HOC）是一种高级技术，用于重用组件逻辑。高阶组件是一个函数，它接受一个组件并返回一个新组件。它们通常用于实现跨多个组件的共享行为，比如数据加载、权限管理或表单处理等。</p><p>举个例子，如果你有多个组件需要访问相同的数据或行为，你可以创建一个高阶组件来封装这些共享逻辑，然后将它应用到这些组件上。这样，你可以避免重复代码，并在需要时轻松更新共享逻辑。</p><p>高阶组件的基本模式如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=nx>javascriptCopy</span> <span class=nx>code</span>
+</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>withSharedLogic</span><span class=p>(</span><span class=nx>WrappedComponent</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=kr>class</span> <span class=kr>extends</span> <span class=nx>React</span><span class=p>.</span><span class=nx>Component</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...共享逻辑...
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>        <span class=nx>render</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=c1>// 将共享逻辑和props传递给被包裹的组件
+</span></span></span><span class=line><span class=cl><span class=c1></span>            <span class=k>return</span> <span class=p>&lt;</span><span class=nt>WrappedComponent</span> <span class=p>{</span><span class=na>...this.props</span><span class=p>}</span> <span class=p>{</span><span class=na>...sharedLogic</span><span class=p>}</span> <span class=p>/&gt;;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用高阶组件时，你可以这样做：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=nx>javascriptCopy</span> <span class=nx>code</span>
+</span></span><span class=line><span class=cl><span class=kr>class</span> <span class=nx>MyComponent</span> <span class=kr>extends</span> <span class=nx>React</span><span class=p>.</span><span class=nx>Component</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...组件逻辑...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>EnhancedComponent</span> <span class=o>=</span> <span class=nx>withSharedLogic</span><span class=p>(</span><span class=nx>MyComponent</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>这样，<code>EnhancedComponent</code> 就包含了 <code>MyComponent</code> 的所有功能，加上 <code>withSharedLogic</code> 中定义的共享逻辑。</p><p>高阶组件的一个关键特点是它们应该是纯函数，这意味着它们不应该修改输入组件，而应该创建一个新组件并返回。这样可以保持组件的可预测性和可重用性。</p><p>总之，高阶组件是React中一个非常有用的模式，能够帮助开发者编写更干净、更可维护的代码。</p><h2 id=服务端组件>服务端组件</h2><p>两种类型</p><ul><li>异步组件（Async Components）</li><li>非异步的常规组件（Non-async, Regular Components）<ul><li>不支持在组件内进行异步操作</li></ul></li></ul><p>总的来说，异步组件在处理需要等待数据或执行异步逻辑的场景中更有优势，而非异步的常规组件更适合于那些不依赖于外部数据或异步操作的渲染任务。</p><h1 id=参考>参考</h1><p><a class=link href=https://mp.weixin.qq.com/s/ziTF9AZLOWQGwkxC8RGqxg target=_blank rel=noopener>https://mp.weixin.qq.com/s/ziTF9AZLOWQGwkxC8RGqxg</a></p></section><footer class=article-footer><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><div id=cusdis_thread data-host=https://cusdis.com data-app-id=287ed0fd-6a12-4302-a1ad-d2fd382e1199 data-page-id=38e0c977a5dd8689c3543735e7b0cb9f data-page-url=https://blog.ververv.com/p/react-tutorial/ data-page-title="React Tutorial"></div><script async defer src=https://cusdis.com/js/cusdis.es.js></script><script>function setCusdisTheme(e){let t=document.querySelector("#cusdis_thread iframe");t&&window.CUSDIS.setTheme(e)}window.addEventListener("onColorSchemeChange",e=>{setCusdisTheme(e.detail)})</script><footer class=site-footer><section class=copyright>&copy;
+2023 -
+2024 量子跳跃者</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.24.2>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

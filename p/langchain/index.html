@@ -1,0 +1,532 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="阅读官方文档计划 分类1 分类2 进展 LCEL Interface Streaming How to Route between multiple runnables✅Cancelling requests✅Use RunnableMaps✅A"><title>LangChain</title>
+<link rel=canonical href=https://blog.ververv.com/p/langchain/><link rel=stylesheet href=/scss/style.min.d8118f156935b64eca93aca758476adca858d2c47354971654d9bd2933a0e45f.css><meta property='og:title' content="LangChain"><meta property='og:description' content="阅读官方文档计划 分类1 分类2 进展 LCEL Interface Streaming How to Route between multiple runnables✅Cancelling requests✅Use RunnableMaps✅A"><meta property='og:url' content='https://blog.ververv.com/p/langchain/'><meta property='og:site_name' content='量子跳跃者'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:published_time' content='2024-02-28T11:33:19+08:00'><meta property='article:modified_time' content='2024-02-28T11:33:19+08:00'><meta name=twitter:title content="LangChain"><meta name=twitter:description content="阅读官方文档计划 分类1 分类2 进展 LCEL Interface Streaming How to Route between multiple runnables✅Cancelling requests✅Use RunnableMaps✅A"><link rel="shortcut icon" href=/favicon.png><script defer src=https://analytics.ververv.com/pixel/tABAb34VvSTV05V2></script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky compact"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><div class=site-meta><h1 class=site-name><a href=/>量子跳跃者</a></h1><h2 class=site-description></h2></div></header><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/ target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#llm和chat-model>LLM和Chat Model</a></li></ol><ol><li><a href=#安装>安装</a></li><li><a href=#quick-start>Quick Start</a></li><li><a href=#配置代理>配置（代理）</a></li><li><a href=#function-calltools>Function Call/Tools</a><ol><li><a href=#第一种tools>第一种：tools</a><ol><li><a href=#指定parser>指定Parser</a></li></ol></li><li><a href=#第二种function-call>第二种：function call</a></li><li><a href=#定义api>定义API</a></li></ol></li><li><a href=#model-io>Model I/O</a><ol><li><a href=#loader>Loader</a></li><li><a href=#retriever重要>Retriever（重要）</a><ol><li><a href=#相似度scorethreshold>相似度：ScoreThreshold</a></li></ol></li><li><a href=#supabase>Supabase</a></li><li><a href=#parser>Parser</a></li></ol></li><li><a href=#多个chain>多个Chain</a><ol><li><a href=#串行>串行</a></li><li><a href=#批量和并行>批量和并行</a></li><li><a href=#分支>分支</a></li><li><a href=#中止重试fallback>中止、重试、Fallback</a></li><li><a href=#典型例子串行>典型例子：串行</a></li></ol></li><li><a href=#rag>RAG</a><ol><li><a href=#加载loaderetl>加载/Loader/ETL</a></li><li><a href=#拆分>拆分</a></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/langchain/>LangChain</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Feb 28, 2024</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 5 分钟</time></div></footer></div></header><section class=article-content><h1 id=阅读官方文档计划>阅读官方文档计划</h1><div class=table-wrapper><table><thead><tr><th>分类1</th><th>分类2</th><th>进展</th></tr></thead><tbody><tr><td>LCEL</td><td>Interface</td><td></td></tr><tr><td></td><td>Streaming</td><td></td></tr><tr><td></td><td>How to</td><td>Route between multiple runnables✅<br>Cancelling requests✅<br>Use RunnableMaps✅<br>Add message history (memory)</td></tr><tr><td></td><td>Cookbook</td><td>✅Prompt + LLM<br>✅Multiple chains<br>✅Retrieval augmented generation (RAG)<br>✅Querying a SQL DB<br>Adding memory<br>✅Using tools<br>Agents</td></tr><tr><td>Model I/O</td><td>Quickstart</td><td></td></tr><tr><td></td><td>Concepts</td><td>✅</td></tr><tr><td></td><td>Prompts</td><td>Quick Start<br>Example selectors<br>Few Shot Prompt Templates<br>Partial prompt templates<br>Composition</td></tr><tr><td></td><td>LLMs</td><td>Quick Start<br>Streaming<br>Caching<br>Custom chat models<br>Tracking token usage<br>Cancelling requests<br>Dealing with API Errors<br>Dealing with rate limits<br>OpenAI Function calling<br>Subscribing to events<br>Adding a timeout</td></tr><tr><td></td><td>Chat Models</td><td></td></tr><tr><td></td><td>Output Parsers</td><td>✅</td></tr><tr><td>Retrieval</td><td>首页/概念</td><td></td></tr><tr><td></td><td>Document loaders</td><td></td></tr><tr><td></td><td>Text Splitters</td><td></td></tr><tr><td></td><td>Retrievers</td><td></td></tr><tr><td></td><td>Text embedding models</td><td></td></tr><tr><td></td><td>Vector stores</td><td></td></tr><tr><td></td><td>Indexing</td><td></td></tr><tr><td></td><td>Experimental</td><td></td></tr><tr><td>Chains</td><td></td><td>✅</td></tr><tr><td>Agents</td><td></td><td></td></tr><tr><td>More</td><td></td><td></td></tr><tr><td>Guides</td><td></td><td></td></tr><tr><td>User cases</td><td>SQL</td><td></td></tr><tr><td></td><td>Chatbots</td><td></td></tr><tr><td></td><td>Q&amp;A with RAG</td><td></td></tr><tr><td></td><td>Tool use</td><td></td></tr><tr><td></td><td>Interacting with APIs</td><td></td></tr><tr><td></td><td>Tabular Question Answering</td><td></td></tr><tr><td></td><td>Summarization</td><td></td></tr><tr><td></td><td>Agent Simulations</td><td></td></tr><tr><td></td><td>Autonomous Agents</td><td></td></tr><tr><td></td><td>Code Understanding</td><td></td></tr><tr><td></td><td>Extraction</td><td></td></tr></tbody></table></div><h1 id=langchain生态>LangChain生态</h1><p>优点：支持Javascript，这点比LllamaIndex强很多（llamda虽然支持ts但是文档和API明显比Python版本差很多）</p><p>生态：</p><img src=https://python.langchain.com/assets/images/langchain_stack-f21828069f74484521f38199910007c1.svg alt="Diagram outlining the hierarchical organization of the LangChain framework, displaying the interconnected parts across multiple layers." style=zoom:33%><h1 id=概念>概念</h1><h2 id=llm和chat-model>LLM和Chat Model</h2><p>Models：包含两种类型LLMs和Chat Models。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>OpenAI</span><span class=p>,</span> <span class=nx>ChatOpenAI</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;@langchain/openai&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>llm</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>OpenAI</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>  <span class=nx>modelName</span><span class=o>:</span> <span class=s2>&#34;gpt-3.5-turbo-instruct&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>chatModel</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ChatOpenAI</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>  <span class=nx>modelName</span><span class=o>:</span> <span class=s2>&#34;gpt-3.5-turbo&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>Anthropic 的模型最适合 XML，而 OpenAI 的模型最适合 JSON。</p></blockquote><h1 id=typescript版本>Typescript版本</h1><p><a class=link href=https://www.npmjs.com/package/langchain target=_blank rel=noopener>npm下载地址</a></p><h2 id=安装>安装</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>npm install langchain @langchain/core @langchain/community @langchain/openai langsmith
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>LangChain所有第三方的库：<a class=link href="https://www.npmjs.com/search?ranking=popularity&amp;q=%40langchain" target=_blank rel=noopener>链接</a></p></blockquote><h2 id=quick-start>Quick Start</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>ChatOpenAI</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;@langchain/openai&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>async</span> <span class=kd>function</span> <span class=nx>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>chatModel</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ChatOpenAI</span><span class=p>({});</span>
+</span></span><span class=line><span class=cl>    <span class=kd>let</span> <span class=nx>str</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>chatModel</span><span class=p>.</span><span class=nx>invoke</span><span class=p>(</span><span class=s2>&#34;what is LangSmith?&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>str</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>main</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=配置代理>配置（代理）</h2><p><a class=link href=https://js.langchain.com/docs/integrations/llms/openai target=_blank rel=noopener>文档</a></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-typescript data-lang=typescript><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>OpenAI</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;@langchain/openai&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>model</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>OpenAI</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>    <span class=nx>modelName</span><span class=o>:</span> <span class=s2>&#34;gpt-3.5-turbo&#34;</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>    <span class=nx>temperature</span>: <span class=kt>0.9</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>openAIApiKey</span><span class=o>:</span> <span class=s2>&#34;YOUR-API-KEY&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>configuration</span><span class=o>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>baseURL</span><span class=o>:</span> <span class=s2>&#34;https://your_custom_url.com&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=function-calltools>Function Call/Tools</h2><h3 id=第一种tools>第一种：tools</h3><p><a class=link href=https://js.langchain.com/docs/modules/model_io/output_parsers/types/openai_tools target=_blank rel=noopener>官方文档</a></p><p>使用最新的tools接口</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>const</span> <span class=nx>llm</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ChatOpenAI</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>llmWithTools</span> <span class=o>=</span> <span class=nx>llm</span><span class=p>.</span><span class=nx>bind</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>  <span class=nx>tools</span><span class=o>:</span> <span class=p>[</span><span class=nx>tool</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>  <span class=nx>tool_choice</span><span class=o>:</span> <span class=nx>tool</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>prompt</span> <span class=o>=</span> <span class=nx>ChatPromptTemplate</span><span class=p>.</span><span class=nx>fromMessages</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>  <span class=p>[</span><span class=s2>&#34;system&#34;</span><span class=p>,</span> <span class=s2>&#34;You are the funniest comedian, tell the user a joke about their topic.&#34;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>  <span class=p>[</span><span class=s2>&#34;human&#34;</span><span class=p>,</span> <span class=s2>&#34;Topic: {topic}&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>])</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>chain</span> <span class=o>=</span> <span class=nx>prompt</span><span class=p>.</span><span class=nx>pipe</span><span class=p>(</span><span class=nx>llmWithTools</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>result</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>chain</span><span class=p>.</span><span class=nx>invoke</span><span class=p>({</span> <span class=nx>topic</span><span class=o>:</span> <span class=s2>&#34;Large Language Models&#34;</span> <span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=指定parser>指定Parser</h4><p><a class=link href=https://js.langchain.com/docs/modules/model_io/output_parsers/types/openai_tools#jsonoutputtoolsparser target=_blank rel=noopener>文档</a></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>JsonOutputToolsParser</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;langchain/output_parsers&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>outputParser</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>JsonOutputToolsParser</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=第二种function-call>第二种：function call</h3><blockquote><p><a class=link href=https://js.langchain.com/docs/modules/model_io/chat/function_calling target=_blank rel=noopener>官方文档</a></p></blockquote><p>有两种方式：</p><p><strong>调用时传入函数</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>const</span> <span class=nx>result</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>model</span><span class=p>.</span><span class=nx>invoke</span><span class=p>([</span><span class=k>new</span> <span class=nx>HumanMessage</span><span class=p>(</span><span class=s2>&#34;What a beautiful day!&#34;</span><span class=p>)],</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>functions</span><span class=o>:</span> <span class=p>[</span><span class=nx>extractionFunctionSchema</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>  <span class=nx>function_call</span><span class=o>:</span> <span class=p>{</span> <span class=nx>name</span><span class=o>:</span> <span class=s2>&#34;extractor&#34;</span> <span class=p>},</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>绑定函数到模型</strong></p><p>可以不断复用同一个模型</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>const</span> <span class=nx>model</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ChatOpenAI</span><span class=p>({</span> <span class=nx>modelName</span><span class=o>:</span> <span class=s2>&#34;gpt-4&#34;</span> <span class=p>}).</span><span class=nx>bind</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>  <span class=nx>functions</span><span class=o>:</span> <span class=p>[</span><span class=nx>extractionFunctionSchema</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>  <span class=nx>function_call</span><span class=o>:</span> <span class=p>{</span> <span class=nx>name</span><span class=o>:</span> <span class=s2>&#34;extractor&#34;</span> <span class=p>},</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=定义api>定义API</h3><p>有两种方法</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>const</span> <span class=nx>extractionFunctionSchema</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>name</span><span class=o>:</span> <span class=s2>&#34;extractor&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nx>description</span><span class=o>:</span> <span class=s2>&#34;Extracts fields from the input.&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nx>parameters</span><span class=o>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>type</span><span class=o>:</span> <span class=s2>&#34;object&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>properties</span><span class=o>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>tone</span><span class=o>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>type</span><span class=o>:</span> <span class=s2>&#34;string&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=kr>enum</span><span class=o>:</span> <span class=p>[</span><span class=s2>&#34;positive&#34;</span><span class=p>,</span> <span class=s2>&#34;negative&#34;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>        <span class=nx>description</span><span class=o>:</span> <span class=s2>&#34;The overall tone of the input&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=p>},</span>
+</span></span><span class=line><span class=cl>      <span class=nx>word_count</span><span class=o>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>type</span><span class=o>:</span> <span class=s2>&#34;number&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>description</span><span class=o>:</span> <span class=s2>&#34;The number of words in the input&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=p>},</span>
+</span></span><span class=line><span class=cl>      <span class=nx>chat_response</span><span class=o>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>type</span><span class=o>:</span> <span class=s2>&#34;string&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>description</span><span class=o>:</span> <span class=s2>&#34;A response to the human&#39;s input&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=nx>required</span><span class=o>:</span> <span class=p>[</span><span class=s2>&#34;tone&#34;</span><span class=p>,</span> <span class=s2>&#34;word_count&#34;</span><span class=p>,</span> <span class=s2>&#34;chat_response&#34;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>  <span class=p>},</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>使用Zod</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>ChatOpenAI</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;@langchain/openai&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>z</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;zod&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>zodToJsonSchema</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;zod-to-json-schema&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>HumanMessage</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;@langchain/core/messages&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>extractionFunctionSchema</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>name</span><span class=o>:</span> <span class=s2>&#34;extractor&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nx>description</span><span class=o>:</span> <span class=s2>&#34;Extracts fields from the input.&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nx>parameters</span><span class=o>:</span> <span class=nx>zodToJsonSchema</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=nx>z</span><span class=p>.</span><span class=nx>object</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>      <span class=nx>tone</span><span class=o>:</span> <span class=nx>z</span>
+</span></span><span class=line><span class=cl>        <span class=p>.</span><span class=kr>enum</span><span class=p>([</span><span class=s2>&#34;positive&#34;</span><span class=p>,</span> <span class=s2>&#34;negative&#34;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>        <span class=p>.</span><span class=nx>describe</span><span class=p>(</span><span class=s2>&#34;The overall tone of the input&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>      <span class=nx>entity</span><span class=o>:</span> <span class=nx>z</span><span class=p>.</span><span class=nx>string</span><span class=p>().</span><span class=nx>describe</span><span class=p>(</span><span class=s2>&#34;The entity mentioned in the input&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>      <span class=nx>word_count</span><span class=o>:</span> <span class=nx>z</span><span class=p>.</span><span class=nx>number</span><span class=p>().</span><span class=nx>describe</span><span class=p>(</span><span class=s2>&#34;The number of words in the input&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>      <span class=nx>chat_response</span><span class=o>:</span> <span class=nx>z</span><span class=p>.</span><span class=nx>string</span><span class=p>().</span><span class=nx>describe</span><span class=p>(</span><span class=s2>&#34;A response to the human&#39;s input&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>      <span class=nx>final_punctuation</span><span class=o>:</span> <span class=nx>z</span>
+</span></span><span class=line><span class=cl>        <span class=p>.</span><span class=nx>optional</span><span class=p>(</span><span class=nx>z</span><span class=p>.</span><span class=nx>string</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>        <span class=p>.</span><span class=nx>describe</span><span class=p>(</span><span class=s2>&#34;The final punctuation mark in the input, if any.&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl>  <span class=p>),</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=model-io>Model I/O</h2><h3 id=loader>Loader</h3><p><a class=link href=https://js.langchain.com/docs/integrations/document_loaders/file_loaders/csv target=_blank rel=noopener>CSV-TS</a></p><h3 id=retriever重要>Retriever（重要）</h3><p><a class=link href=https://js.langchain.com/docs/modules/data_connection/retrievers/ target=_blank rel=noopener>官方</a></p><p>分成两类</p><ul><li>自带</li><li><a class=link href=https://js.langchain.com/docs/integrations/retrievers/ target=_blank rel=noopener>第三方集成</a></li></ul><div class=table-wrapper><table><thead><tr><th>Retriever</th><th>说明</th></tr></thead><tbody><tr><td>Knowledge Bases for Amazon Bedrock</td><td></td></tr><tr><td>Chaindesk Retriever</td><td></td></tr><tr><td>ChatGPT Plugin Retriever</td><td></td></tr><tr><td>Dria Retriever</td><td></td></tr><tr><td>Exa Search</td><td></td></tr><tr><td>HyDE Retriever</td><td></td></tr><tr><td>Amazon Kendra Retriever</td><td></td></tr><tr><td>Metal Retriever</td><td></td></tr><tr><td>Supabase Hybrid Search</td><td></td></tr><tr><td>Tavily Search API</td><td></td></tr><tr><td>Time-Weighted Retriever</td><td></td></tr><tr><td>Vector Store</td><td></td></tr><tr><td>Vespa Retriever</td><td></td></tr><tr><td>Zep Retriever</td><td></td></tr></tbody></table></div><h4 id=相似度scorethreshold>相似度：ScoreThreshold</h4><p><a class=link href=https://js.langchain.com/docs/modules/data_connection/retrievers/similarity-score-threshold-retriever target=_blank rel=noopener>文档</a></p><p>ScoreThreshold是一个百分比。</p><ul><li>1.0是完整匹配</li><li>0.95可能差不多</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>MemoryVectorStore</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;langchain/vectorstores/memory&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>OpenAIEmbeddings</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;@langchain/openai&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>ScoreThresholdRetriever</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;langchain/retrievers/score_threshold&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>async</span> <span class=kd>function</span> <span class=nx>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>vectorStore</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>MemoryVectorStore</span><span class=p>.</span><span class=nx>fromTexts</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;Buildings are made out of brick&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;Buildings are made out of wood&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;Buildings are made out of stone&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;Buildings are made out of atoms&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;Buildings are made out of building materials&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;Cars are made out of metal&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;Cars are made out of plastic&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>[{</span> <span class=nx>id</span><span class=o>:</span> <span class=mi>1</span> <span class=p>},</span> <span class=p>{</span> <span class=nx>id</span><span class=o>:</span> <span class=mi>2</span> <span class=p>},</span> <span class=p>{</span> <span class=nx>id</span><span class=o>:</span> <span class=mi>3</span> <span class=p>},</span> <span class=p>{</span> <span class=nx>id</span><span class=o>:</span> <span class=mi>4</span> <span class=p>},</span> <span class=p>{</span> <span class=nx>id</span><span class=o>:</span> <span class=mi>5</span> <span class=p>}],</span>
+</span></span><span class=line><span class=cl>    <span class=k>new</span> <span class=nx>OpenAIEmbeddings</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>retriever</span> <span class=o>=</span> <span class=nx>ScoreThresholdRetriever</span><span class=p>.</span><span class=nx>fromVectorStore</span><span class=p>(</span><span class=nx>vectorStore</span><span class=p>,</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>minSimilarityScore</span><span class=o>:</span> <span class=mf>0.95</span><span class=p>,</span> <span class=c1>// Finds results with at least this similarity score
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>maxK</span><span class=o>:</span> <span class=mi>100</span><span class=p>,</span> <span class=c1>// The maximum K value to use. Use it based to your chunk size to make sure you don&#39;t run out of tokens
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>kIncrement</span><span class=o>:</span> <span class=mi>2</span><span class=p>,</span> <span class=c1>// How much to increase K by each time. It&#39;ll fetch N results, then N + kIncrement, then N + kIncrement * 2, etc.
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>result</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>retriever</span><span class=p>.</span><span class=nx>getRelevantDocuments</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;building is made out of atom&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>result</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>main</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// [
+</span></span></span><span class=line><span class=cl><span class=c1>//   Document {
+</span></span></span><span class=line><span class=cl><span class=c1>//     pageContent: &#39;Buildings are made out of atoms&#39;,
+</span></span></span><span class=line><span class=cl><span class=c1>//     metadata: { id: 4 }
+</span></span></span><span class=line><span class=cl><span class=c1>//   }
+</span></span></span><span class=line><span class=cl><span class=c1>// ]
+</span></span></span></code></pre></td></tr></table></div></div><p><strong>Self-Querying（很不错，适合查询结构化的数据）</strong></p><p><a class=link href=https://js.langchain.com/docs/modules/data_connection/retrievers/self_query/ target=_blank rel=noopener>文档</a></p><h3 id=supabase>Supabase</h3><p><a class=link href=https://js.langchain.com/docs/integrations/vectorstores/supabase target=_blank rel=noopener>Quick Start</a></p><p><a class=link href=https://js.langchain.com/docs/integrations/retrievers/supabase-hybrid target=_blank rel=noopener>混合检索</a></p><p><a class=link href=https://supabase.com/docs/guides/ai/langchain target=_blank rel=noopener>Supabase官方文档</a></p><h3 id=parser>Parser</h3><div class=table-wrapper><table><thead><tr><th></th><th>解析器</th><th>说明</th></tr></thead><tbody><tr><td>常见</td><td>String output parser</td><td></td></tr><tr><td>格式化</td><td>Structured output parser</td><td>方便自定义</td></tr><tr><td></td><td>OpenAI Tools</td><td>常用</td></tr><tr><td>标准格式</td><td>JSON Output Functions Parser</td><td>常用</td></tr><tr><td></td><td>HTTP Response Output Parser</td><td></td></tr><tr><td></td><td>XML output parser</td><td></td></tr><tr><td>列表</td><td>List parser</td><td>常用</td></tr><tr><td></td><td>Custom list parser</td><td>常用</td></tr><tr><td>其它</td><td>Datetime parser</td><td>有用</td></tr><tr><td></td><td>Auto-fixing parser</td><td></td></tr></tbody></table></div><h2 id=多个chain>多个Chain</h2><h3 id=串行>串行</h3><p>两种方式</p><ul><li><code>.pipe</code></li><li><code>RunnableSequence.from([])</code></li></ul><p>使用.pipe</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>const</span> <span class=nx>prompt</span> <span class=o>=</span> <span class=nx>ChatPromptTemplate</span><span class=p>.</span><span class=nx>fromMessages</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>  <span class=p>[</span><span class=s2>&#34;human&#34;</span><span class=p>,</span> <span class=s2>&#34;Tell me a short joke about {topic}&#34;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>model</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ChatOpenAI</span><span class=p>({});</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>outputParser</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>StringOutputParser</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>chain</span> <span class=o>=</span> <span class=nx>prompt</span><span class=p>.</span><span class=nx>pipe</span><span class=p>(</span><span class=nx>model</span><span class=p>).</span><span class=nx>pipe</span><span class=p>(</span><span class=nx>outputParser</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>response</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>chain</span><span class=p>.</span><span class=nx>invoke</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>  <span class=nx>topic</span><span class=o>:</span> <span class=s2>&#34;ice cream&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用RunnableSequence.from</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>const</span> <span class=nx>model</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ChatOpenAI</span><span class=p>({});</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>promptTemplate</span> <span class=o>=</span> <span class=nx>PromptTemplate</span><span class=p>.</span><span class=nx>fromTemplate</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;Tell me a joke about {topic}&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>chain</span> <span class=o>=</span> <span class=nx>RunnableSequence</span><span class=p>.</span><span class=nx>from</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>  <span class=nx>promptTemplate</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>  <span class=nx>model</span>
+</span></span><span class=line><span class=cl><span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>result</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>chain</span><span class=p>.</span><span class=nx>invoke</span><span class=p>({</span> <span class=nx>topic</span><span class=o>:</span> <span class=s2>&#34;bears&#34;</span> <span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=批量和并行>批量和并行</h3><p>LCEL本身支持</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>const</span> <span class=nx>chain</span> <span class=o>=</span> <span class=nx>promptTemplate</span><span class=p>.</span><span class=nx>pipe</span><span class=p>(</span><span class=nx>model</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kr>await</span> <span class=nx>chain</span><span class=p>.</span><span class=nx>batch</span><span class=p>([{</span> <span class=nx>topic</span><span class=o>:</span> <span class=s2>&#34;bears&#34;</span> <span class=p>},</span> <span class=p>{</span> <span class=nx>topic</span><span class=o>:</span> <span class=s2>&#34;cats&#34;</span> <span class=p>}])</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用RunnableMap</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>const</span> <span class=nx>model</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ChatAnthropic</span><span class=p>({});</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>jokeChain</span> <span class=o>=</span> <span class=nx>PromptTemplate</span><span class=p>.</span><span class=nx>fromTemplate</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;Tell me a joke about {topic}&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>).</span><span class=nx>pipe</span><span class=p>(</span><span class=nx>model</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>poemChain</span> <span class=o>=</span> <span class=nx>PromptTemplate</span><span class=p>.</span><span class=nx>fromTemplate</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;write a 2-line poem about {topic}&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>).</span><span class=nx>pipe</span><span class=p>(</span><span class=nx>model</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>mapChain</span> <span class=o>=</span> <span class=nx>RunnableMap</span><span class=p>.</span><span class=nx>from</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>  <span class=nx>joke</span><span class=o>:</span> <span class=nx>jokeChain</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nx>poem</span><span class=o>:</span> <span class=nx>poemChain</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>result</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>mapChain</span><span class=p>.</span><span class=nx>invoke</span><span class=p>({</span> <span class=nx>topic</span><span class=o>:</span> <span class=s2>&#34;bear&#34;</span> <span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=分支>分支</h3><blockquote><p><a class=link href=https://js.langchain.com/docs/expression_language/how_to/routing#using-a-runnablebranch target=_blank rel=noopener>官方文档</a></p></blockquote><p>两种方式</p><ul><li>RunnableBranch</li><li>Custom factory function</li></ul><h3 id=中止重试fallback>中止、重试、Fallback</h3><p>N/A</p><h3 id=典型例子串行>典型例子：串行</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>PromptTemplate</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;@langchain/core/prompts&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>RunnableSequence</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;@langchain/core/runnables&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>StringOutputParser</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;@langchain/core/output_parsers&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>ChatOpenAI</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;@langchain/openai&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>async</span> <span class=kd>function</span> <span class=nx>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>prompt1</span> <span class=o>=</span> <span class=nx>PromptTemplate</span><span class=p>.</span><span class=nx>fromTemplate</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=sb>`What is the city {person} is from? Only respond with the name of the city.`</span>
+</span></span><span class=line><span class=cl>    <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>prompt2</span> <span class=o>=</span> <span class=nx>PromptTemplate</span><span class=p>.</span><span class=nx>fromTemplate</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=sb>`What country is the city {city} in? Respond in {language}.`</span>
+</span></span><span class=line><span class=cl>    <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>model</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ChatOpenAI</span><span class=p>({});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>chain1</span> <span class=o>=</span> <span class=nx>prompt1</span><span class=p>.</span><span class=nx>pipe</span><span class=p>(</span><span class=nx>model</span><span class=p>).</span><span class=nx>pipe</span><span class=p>(</span><span class=k>new</span> <span class=nx>StringOutputParser</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>combinedChain</span> <span class=o>=</span> <span class=nx>RunnableSequence</span><span class=p>.</span><span class=nx>from</span><span class=p>([</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>city</span><span class=o>:</span> <span class=nx>chain1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nx>language</span><span class=o>:</span> <span class=p>(</span><span class=nx>input</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=nx>input</span><span class=p>.</span><span class=nx>language</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>},</span>
+</span></span><span class=line><span class=cl>        <span class=nx>prompt2</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>model</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=nx>StringOutputParser</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>    <span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>result</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>combinedChain</span><span class=p>.</span><span class=nx>invoke</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>        <span class=nx>person</span><span class=o>:</span> <span class=s2>&#34;Obama&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>language</span><span class=o>:</span> <span class=s2>&#34;German&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>result</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>main</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>结果见<a class=link href=https://smith.langchain.com/public/c8c812b2-c707-4da7-a1c5-8280c3d054e9/r target=_blank rel=noopener>这里</a></p><p><img src=https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/image-20240301094802136.png loading=lazy alt=image-20240301094802136></p><p><img src=https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/image-20240301095114942.png loading=lazy alt=image-20240301095114942></p><h2 id=rag>RAG</h2><blockquote><p><a class=link href=https://js.langchain.com/docs/use_cases/question_answering/ target=_blank rel=noopener>官方文档</a></p></blockquote><h3 id=加载loaderetl>加载/Loader/ETL</h3><p><a class=link href=https://js.langchain.com/docs/integrations/document_loaders/file_loaders/unstructured target=_blank rel=noopener>文档</a></p><div class=table-wrapper><table><thead><tr><th>分类</th><th>项目</th><th></th></tr></thead><tbody><tr><td>本地资源</td><td>Folders with multiple files<br>ChatGPT files<br>CSV files<br>Docx files<br>EPUB files<br>JSON files<br>JSONLines files<br>Notion markdown export<br>Open AI Whisper Audio<br>PDF files<br>PPTX files<br>Subtitles<br>Text files<br>Unstructured</td><td></td></tr><tr><td>Web资源</td><td>Cheerio<br>Puppeteer<br>Playwright<br>Apify Dataset<br>AssemblyAI Audio Transcript<br>Azure Blob Storage Container<br>Azure Blob Storage File<br>College Confidential<br>Confluence<br>Couchbase<br>Figma<br>GitBook<br>GitHub<br>Hacker News<br>IMSDB<br>Notion API<br>PDF files<br>Recursive URL Loader<br>S3 File<br>SearchApi Loader<br>SerpAPI Loader<br>Sitemap Loader<br>Sonix Audio<br>Blockchain Data<br>YouTube transcripts</td><td></td></tr></tbody></table></div><p>更通用的ELT工具：<a class=link href=https://unstructured.io/ target=_blank rel=noopener>unstructured</a></p><h3 id=拆分>拆分</h3><p><a class=link href=https://js.langchain.com/docs/modules/data_connection/document_transformers/code_splitter target=_blank rel=noopener>官网</a></p><h1 id=python版本>Python版本</h1><p>安装<a class=link href=https://python.langchain.com/docs/get_started/installation#official-release target=_blank rel=noopener>LangChain</a>全家桶</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pip install langchain langchain-community langchain-core &#34;langserve[all]&#34; langchain-cli langsmith langchain-openai
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>最新版本号：<a class=link href=https://pypi.org/project/langchain/ target=_blank rel=noopener>0.1.9</a>（截止到2024年2月28日）</p></blockquote><h1 id=hub>Hub</h1><p>LangSmith上有一个Hub，类似Github。</p><p>例如<a class=link href="https://smith.langchain.com/hub/rlm?organizationId=c2f9dc8f-529d-57a4-93e4-8c0271b6184e" target=_blank rel=noopener>RLM</a></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>UnstructuredDirectoryLoader</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;langchain/document_loaders/fs/unstructured&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>RecursiveCharacterTextSplitter</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;langchain/text_splitter&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>MemoryVectorStore</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;langchain/vectorstores/memory&#34;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>OpenAIEmbeddings</span><span class=p>,</span> <span class=nx>ChatOpenAI</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;@langchain/openai&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>pull</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;langchain/hub&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>ChatPromptTemplate</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;@langchain/core/prompts&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>StringOutputParser</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;@langchain/core/output_parsers&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>createStuffDocumentsChain</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;langchain/chains/combine_documents&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>async</span> <span class=kd>function</span> <span class=nx>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>options</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>apiUrl</span><span class=o>:</span> <span class=s2>&#34;http://localhost:8000/general/v0/general&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>loader</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>UnstructuredDirectoryLoader</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;sample-docs&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>options</span>
+</span></span><span class=line><span class=cl>    <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>docs</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>loader</span><span class=p>.</span><span class=nx>load</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// console.log(docs);
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>vectorStore</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>MemoryVectorStore</span><span class=p>.</span><span class=nx>fromDocuments</span><span class=p>(</span><span class=nx>docs</span><span class=p>,</span> <span class=k>new</span> <span class=nx>OpenAIEmbeddings</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>retriever</span> <span class=o>=</span> <span class=nx>vectorStore</span><span class=p>.</span><span class=nx>asRetriever</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>prompt</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>pull</span><span class=o>&lt;</span><span class=nx>ChatPromptTemplate</span><span class=o>&gt;</span><span class=p>(</span><span class=s2>&#34;rlm/rag-prompt&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>llm</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ChatOpenAI</span><span class=p>({</span> <span class=nx>modelName</span><span class=o>:</span> <span class=s2>&#34;gpt-3.5-turbo&#34;</span><span class=p>,</span> <span class=nx>temperature</span><span class=o>:</span> <span class=mi>0</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>ragChain</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>createStuffDocumentsChain</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>        <span class=nx>llm</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>prompt</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>outputParser</span><span class=o>:</span> <span class=k>new</span> <span class=nx>StringOutputParser</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>retrievedDocs</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>retriever</span><span class=p>.</span><span class=nx>getRelevantDocuments</span><span class=p>(</span><span class=s2>&#34;what is task decomposition&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>r</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>ragChain</span><span class=p>.</span><span class=nx>invoke</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>        <span class=nx>question</span><span class=o>:</span> <span class=s2>&#34;列出名字和联系方式&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>context</span><span class=o>:</span> <span class=nx>retrievedDocs</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>r</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>main</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><div id=cusdis_thread data-host=https://cusdis.com data-app-id=287ed0fd-6a12-4302-a1ad-d2fd382e1199 data-page-id=41677cc7de72177c0e57b4894c67d4a8 data-page-url=https://blog.ververv.com/p/langchain/ data-page-title=LangChain></div><script async defer src=https://cusdis.com/js/cusdis.es.js></script><script>function setCusdisTheme(e){let t=document.querySelector("#cusdis_thread iframe");t&&window.CUSDIS.setTheme(e)}window.addEventListener("onColorSchemeChange",e=>{setCusdisTheme(e.detail)})</script><footer class=site-footer><section class=copyright>&copy;
+2023 -
+2024 量子跳跃者</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.24.2>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

@@ -1,0 +1,514 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="前言 i18n internationalization中间有18个字母，缩写成i18n BCP-47标准 用于标识人类语言。 这个名字代表“最佳实践建议书"><title>Next.js国际化和next-intl</title>
+<link rel=canonical href=https://blog.ververv.com/p/next.js%E5%9B%BD%E9%99%85%E5%8C%96%E5%92%8Cnext-intl/><link rel=stylesheet href=/scss/style.min.d8118f156935b64eca93aca758476adca858d2c47354971654d9bd2933a0e45f.css><meta property='og:title' content="Next.js国际化和next-intl"><meta property='og:description' content="前言 i18n internationalization中间有18个字母，缩写成i18n BCP-47标准 用于标识人类语言。 这个名字代表“最佳实践建议书"><meta property='og:url' content='https://blog.ververv.com/p/next.js%E5%9B%BD%E9%99%85%E5%8C%96%E5%92%8Cnext-intl/'><meta property='og:site_name' content='量子跳跃者'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:published_time' content='2024-01-04T13:32:18+08:00'><meta property='article:modified_time' content='2024-01-04T13:32:18+08:00'><meta name=twitter:title content="Next.js国际化和next-intl"><meta name=twitter:description content="前言 i18n internationalization中间有18个字母，缩写成i18n BCP-47标准 用于标识人类语言。 这个名字代表“最佳实践建议书"><link rel="shortcut icon" href=/favicon.png><script defer src=https://analytics.ververv.com/pixel/tABAb34VvSTV05V2></script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky compact"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><div class=site-meta><h1 class=site-name><a href=/>量子跳跃者</a></h1><h2 class=site-description></h2></div></header><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/ target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#bcp-47标准>BCP-47标准</a></li><li><a href=#icu>ICU</a></li></ol><ol><li><a href=#1messagesenjson>（1）<code>messages/en.json</code></a></li><li><a href=#2srci18nts>（2）<code>src/i18n.ts</code></a></li><li><a href=#3nextconfigjs>（3）<code>next.config.js</code></a></li><li><a href=#4middlewarets>（4）<code>middleware.ts</code></a></li><li><a href=#5applocalelayouttsx>（5）<code>app/[locale]/layout.tsx</code></a></li><li><a href=#6使用>（6）使用</a></li><li><a href=#范例代码>范例代码</a></li></ol><ol><li><a href=#gettranslations>getTranslations</a></li><li><a href=#usetranslations>useTranslations</a></li></ol><ol><li><a href=#server--client-components>Server & Client Components</a><ol><li><a href=#server-components>Server Components</a><ol><li><a href=#async-components>Async components</a></li><li><a href=#non-async-components>Non-async components</a></li></ol></li><li><a href=#client-components>Client Components</a><ol><li><a href=#方案一>方案一</a></li><li><a href=#方案四提供所有文案>方案四：提供所有文案</a></li></ol></li></ol></li><li><a href=#metadata>Metadata</a></li><li><a href=#route-handlers>Route Handlers</a></li><li><a href=#error-files>error files</a></li></ol><ol><li><a href=#结构化的文案>结构化的文案</a></li><li><a href=#icu格式的文案>ICU格式的文案</a><ol><li><a href=#内嵌变量>内嵌变量</a></li><li><a href=#复数>复数</a></li><li><a href=#多选一>多选一</a></li></ol></li><li><a href=#rich-text>Rich Text</a></li><li><a href=#格式化普通数字>格式化普通数字</a></li><li><a href=#内嵌数字到icu文案>内嵌数字到ICU文案</a></li><li><a href=#格式化时间和日期>格式化时间和日期</a></li><li><a href=#内嵌日期时间到icu文案>内嵌日期/时间到ICU文案</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/next.js%E5%9B%BD%E9%99%85%E5%8C%96%E5%92%8Cnext-intl/>Next.js国际化和next-intl</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Jan 04, 2024</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 5 分钟</time></div></footer></div></header><section class=article-content><h1 id=前言>前言</h1><h1 id=i18n>i18n</h1><blockquote><p><code>internationalization</code>中间有18个字母，缩写成<code>i18n</code></p></blockquote><h2 id=bcp-47标准>BCP-47标准</h2><p>用于标识人类语言。</p><blockquote><p>这个名字代表“最佳实践建议书47”（Best Current Practice 47），是互联网工程任务组（IETF）的一部分。</p></blockquote><p><a class=link href=https://www.rfc-editor.org/rfc/bcp/bcp47.txt target=_blank rel=noopener>BCP 47</a>标签的结构通常包括：</p><ol><li><strong>语言代码</strong>：基于ISO 639-1（两字母代码）或ISO 639-2（三字母代码）的标准，用于表示特定语言。例如，英语是"en"，中文是"zh"。</li><li><strong>地区代码</strong>：基于ISO 3166-1 alpha-2标准的两字母国家或地区代码。例如，美国是"US"，中国是"CN"。</li><li><strong>脚本代码</strong>：基于ISO 15924标准，用四个字母表示特定的书写系统。例如，简体中文的脚本代码是"Hans"，繁体中文是"Hant"。一个语言有多种写法。</li></ol><blockquote><p>例如，&ldquo;zh-Hans-CN"代表中国的简体中文，其中"zh"是语言代码，&ldquo;Hans"表示简体中文脚本，&ldquo;CN"是国家代码。</p></blockquote><h2 id=icu>ICU</h2><blockquote><p>International Components for Unicode</p><p><a class=link href=https://unicode-org.github.io/icu/userguide/format_parse/messages/ target=_blank rel=noopener>ICU</a>是一个成熟、广泛使用的跨平台Unicode库，主要用于C、C++和Java程序。ICU提供了一系列与Unicode相关的功能，包括文本处理、字符集转换、日期和时间格式化、本地化支持等。</p></blockquote><h1 id=nextjs国际化>Next.js国际化</h1><p>待定</p><h1 id=next-intl>next-intl</h1><p>安装库</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl> npm install next-intl
+</span></span></code></pre></td></tr></table></div></div><p>文件目录</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>├── messages (1)
+</span></span><span class=line><span class=cl>│   ├── en.json
+</span></span><span class=line><span class=cl>│   └── ...
+</span></span><span class=line><span class=cl>├── next.config.js (2)
+</span></span><span class=line><span class=cl>└── src
+</span></span><span class=line><span class=cl>    ├── i18n.ts (3)
+</span></span><span class=line><span class=cl>    ├── middleware.ts (4)
+</span></span><span class=line><span class=cl>    └── app
+</span></span><span class=line><span class=cl>        └── [locale]
+</span></span><span class=line><span class=cl>            ├── layout.tsx (5)
+</span></span><span class=line><span class=cl>            └── page.tsx (6)
+</span></span></code></pre></td></tr></table></div></div><h2 id=1messagesenjson>（1）<code>messages/en.json</code></h2><p>定义strings文件</p><blockquote><p>messages/en.json</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;Index&#34;</span><span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;title&#34;</span><span class=p>:</span> <span class=s2>&#34;Hello world!&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=2srci18nts>（2）<code>src/i18n.ts</code></h2><p>新增next-intl的配置文件</p><ul><li>指定messages的路径</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span><span class=nx>notFound</span><span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;next/navigation&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span><span class=nx>getRequestConfig</span><span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;next-intl/server&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1>// Can be imported from a shared config
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>const</span> <span class=nx>locales</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;en&#39;</span><span class=p>,</span> <span class=s1>&#39;de&#39;</span><span class=p>];</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=nx>getRequestConfig</span><span class=p>(</span><span class=kr>async</span> <span class=p>({</span><span class=nx>locale</span><span class=p>})</span> <span class=o>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// Validate that the incoming `locale` parameter is valid
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>locales</span><span class=p>.</span><span class=nx>includes</span><span class=p>(</span><span class=nx>locale</span> <span class=kr>as</span> <span class=kt>any</span><span class=p>))</span> <span class=nx>notFound</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>messages</span><span class=o>:</span> <span class=p>(</span><span class=k>await</span> <span class=kr>import</span><span class=p>(</span><span class=sb>`../messages/</span><span class=si>${</span><span class=nx>locale</span><span class=si>}</span><span class=sb>.json`</span><span class=p>)).</span><span class=k>default</span>
+</span></span><span class=line><span class=cl>  <span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=3nextconfigjs>（3）<code>next.config.js</code></h2><p>指定<code>i18n.ts</code>配置文件的路径</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>const</span> <span class=nx>withNextIntl</span> <span class=o>=</span> <span class=kr>require</span><span class=p>(</span><span class=s1>&#39;next-intl/plugin&#39;</span><span class=p>)(</span><span class=s2>&#34;./src/i18n.ts&#34;</span><span class=p>);</span><span class=c1>// 指定`i18n.ts`配置文件的路径
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=cm>/** @type {import(&#39;next&#39;).NextConfig} */</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>nextConfig</span> <span class=o>=</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>module</span><span class=nx>.exports</span> <span class=o>=</span> <span class=nx>withNextIntl</span><span class=p>(</span><span class=nx>nextConfig</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=4middlewarets>（4）<code>middleware.ts</code></h2><ul><li>指定哪些路径需要使用middleware来处理</li><li>Middleware使用next-intl返回的middleware</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=nx>createMiddleware</span> <span class=kr>from</span> <span class=s1>&#39;next-intl/middleware&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// next-intl来实现middleware
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>export</span> <span class=k>default</span> <span class=nx>createMiddleware</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// A list of all locales that are supported
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>locales</span><span class=o>:</span> <span class=p>[</span><span class=s1>&#39;en&#39;</span><span class=p>,</span> <span class=s1>&#39;de&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// Used when no locale matches
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>defaultLocale</span><span class=o>:</span> <span class=s1>&#39;en&#39;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 指定哪些路径需要使用middleware来处理
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>export</span> <span class=kr>const</span> <span class=nx>config</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// Match only internationalized pathnames
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>matcher</span><span class=o>:</span> <span class=p>[</span><span class=s1>&#39;/&#39;</span><span class=p>,</span> <span class=s1>&#39;/(de|en)/:path*&#39;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>在middleware中有一个配置项：localePrefix</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=nx>createMiddleware</span> <span class=kr>from</span> <span class=s1>&#39;next-intl/middleware&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=nx>createMiddleware</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// ... other config
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl>  <span class=nx>localePrefix</span><span class=o>:</span> <span class=s1>&#39;always&#39;</span> <span class=c1>// 默认值
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=nx>localePrefix</span><span class=o>:</span> <span class=s1>&#39;as-needed&#39;</span> <span class=c1>//  default locale不会重定向到/en/about
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=5applocalelayouttsx>（5）<code>app/[locale]/layout.tsx</code></h2><p>将locale变量放到html中的lang属性</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-tsx data-lang=tsx><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=kd>function</span> <span class=nx>LocaleLayout</span><span class=p>({</span> <span class=nx>children</span><span class=p>,</span> <span class=nx>params</span><span class=o>:</span> <span class=p>{</span> <span class=nx>locale</span> <span class=p>}</span> <span class=p>})</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>html</span> <span class=na>lang</span><span class=o>=</span><span class=p>{</span><span class=nx>locale</span><span class=p>}&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;</span><span class=nt>body</span><span class=p>&gt;{</span><span class=nx>children</span><span class=p>}&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=6使用>（6）使用</h2><p><code>app/[locale]/page.tsx</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-tsx data-lang=tsx><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span><span class=nx>useTranslations</span><span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;next-intl&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=kd>function</span> <span class=nx>Index() {</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>t</span> <span class=o>=</span> <span class=nx>useTranslations</span><span class=p>(</span><span class=s1>&#39;Index&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=p>&lt;</span><span class=nt>h1</span><span class=p>&gt;{</span><span class=nx>t</span><span class=p>(</span><span class=s1>&#39;title&#39;</span><span class=p>)}&lt;/</span><span class=nt>h1</span><span class=p>&gt;;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://next-intl-docs.vercel.app/docs/getting-started/app-router target=_blank rel=noopener>教程</a></p><h2 id=范例代码>范例代码</h2><p>见<a class=link href=https://github.com/yhb-tutorial/next-intl target=_blank rel=noopener>Github</a></p><h1 id=两个重要函数>两个重要函数</h1><h2 id=gettranslations>getTranslations</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=c1>// 只传namespace
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>getTranslations</span><span class=p>(</span><span class=kr>namespace</span><span class=o>?:</span> <span class=nx>NestedKey</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 传locale和namespace
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>getTranslations</span><span class=p>(</span><span class=nx>opts</span><span class=o>?:</span> <span class=p>{</span><span class=nx>locale</span>: <span class=kt>string</span><span class=p>;</span> <span class=kr>namespace</span><span class=o>?:</span> <span class=nx>NestedKey</span><span class=p>;})</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=usetranslations>useTranslations</h2><p>待定</p><h1 id=使用场景>使用场景</h1><h2 id=server--client-components>Server & Client Components</h2><h3 id=server-components>Server Components</h3><h4 id=async-components>Async components</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-tsx data-lang=tsx><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span><span class=nx>getTranslations</span><span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;next-intl/server&#39;</span><span class=p>;</span> <span class=c1>// 1. Server版本
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=kr>async</span> <span class=kd>function</span> <span class=nx>ProfilePage() {</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>user</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>fetchUser</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>t</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>getTranslations</span><span class=p>(</span><span class=s1>&#39;ProfilePage&#39;</span><span class=p>);</span> <span class=c1>// 2. getTranslations()
+</span></span></span><span class=line><span class=cl><span class=c1></span> 
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>PageLayout</span> <span class=na>title</span><span class=o>=</span><span class=p>{</span><span class=nx>t</span><span class=p>(</span><span class=s1>&#39;title&#39;</span><span class=p>,</span> <span class=p>{</span><span class=nx>username</span>: <span class=kt>user.name</span><span class=p>})}&gt;</span>
+</span></span><span class=line><span class=cl>      <span class=p>&lt;</span><span class=nt>UserDetails</span> <span class=na>user</span><span class=o>=</span><span class=p>{</span><span class=nx>user</span><span class=p>}</span> <span class=p>/&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;/</span><span class=nt>PageLayout</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>其它方法</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>const</span> <span class=nx>t</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>getTranslations</span><span class=p>(</span><span class=s1>&#39;ProfilePage&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>format</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>getFormatter</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>now</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>getNow</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>timeZone</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>getTimeZone</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>messages</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>getMessages</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>locale</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>getLocale</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote><h4 id=non-async-components>Non-async components</h4><p>next-intl根据当前组件情况，自动渲染成server或client组件。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-tsx data-lang=tsx><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span><span class=nx>useTranslations</span><span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;next-intl&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=kd>function</span> <span class=nx>UserDetails</span><span class=p>({</span><span class=nx>user</span><span class=p>})</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>t</span> <span class=o>=</span> <span class=nx>useTranslations</span><span class=p>(</span><span class=s1>&#39;UserProfile&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>section</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>      <span class=p>&lt;</span><span class=nt>h2</span><span class=p>&gt;{</span><span class=nx>t</span><span class=p>(</span><span class=s1>&#39;title&#39;</span><span class=p>)}&lt;/</span><span class=nt>h2</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;/</span><span class=nt>section</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>如果您实现的组件符合共享组件的条件，将它们实现为Non-async components可能会很有益。这样可以在服务器或客户端环境中使用这些组件，使它们非常灵活。即使您不打算将某个特定组件运行在客户端，这种兼容性仍然有助于简化测试。</p></blockquote><h3 id=client-components>Client Components</h3><h4 id=方案一>方案一</h4><p>在Server Components渲染，然后传给Client Components</p><blockquote><p>[locale]/faq/page.tsx</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-tsx data-lang=tsx><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span><span class=nx>useTranslations</span><span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;next-intl&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>Expandable</span> <span class=kr>from</span> <span class=s1>&#39;./Expandable&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=kd>function</span> <span class=nx>FAQEntry() {</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// 1、Call `useTranslations` in a Server Component ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kr>const</span> <span class=nx>t</span> <span class=o>=</span> <span class=nx>useTranslations</span><span class=p>(</span><span class=s1>&#39;FAQEntry&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>  <span class=c1>// 2. pass translated content to a Client Component
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=k>return</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>Expandable</span> <span class=na>title</span><span class=o>=</span><span class=p>{</span><span class=nx>t</span><span class=p>(</span><span class=s1>&#39;title&#39;</span><span class=p>)}&gt;</span>
+</span></span><span class=line><span class=cl>			<span class=p>...</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;/</span><span class=nt>Expandable</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>Expandable.tsx</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-tsx data-lang=tsx><span class=line><span class=cl><span class=s1>&#39;use client&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>Expandable</span><span class=p>({</span><span class=nx>title</span><span class=p>,</span> <span class=nx>children</span><span class=p>})</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=p>...</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>      <span class=p>&lt;</span><span class=nt>button</span> <span class=na>onClick</span><span class=o>=</span><span class=p>{</span><span class=nx>onToggle</span><span class=p>}&gt;{</span><span class=nx>title</span><span class=p>}&lt;/</span><span class=nt>button</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=方案四提供所有文案>方案四：提供所有文案</h4><p>如果您正在构建一个高度动态的应用程序，其中大多数组件使用React的交互功能，您可能更倾向于让所有消息都能被客户端组件使用。</p><blockquote><p>app/[locale]/layout.tsx</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-tsx data-lang=tsx><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span><span class=nx>NextIntlClientProvider</span><span class=p>,</span> <span class=nx>useMessages</span><span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;next-intl&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=kd>function</span> <span class=nx>LocaleLayout</span><span class=p>({</span><span class=nx>children</span><span class=p>,</span> <span class=nx>params</span><span class=o>:</span> <span class=p>{</span><span class=nx>locale</span><span class=p>}})</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=c1>// Receive messages provided in `i18n.ts`
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kr>const</span> <span class=nx>messages</span> <span class=o>=</span> <span class=nx>useMessages</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>html</span> <span class=na>lang</span><span class=o>=</span><span class=p>{</span><span class=nx>locale</span><span class=p>}&gt;</span>
+</span></span><span class=line><span class=cl>      <span class=p>&lt;</span><span class=nt>body</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>NextIntlClientProvider</span> <span class=na>locale</span><span class=o>=</span><span class=p>{</span><span class=nx>locale</span><span class=p>}</span> <span class=na>messages</span><span class=o>=</span><span class=p>{</span><span class=nx>messages</span><span class=p>}&gt;</span>
+</span></span><span class=line><span class=cl>          <span class=p>{</span><span class=nx>children</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;/</span><span class=nt>NextIntlClientProvider</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>      <span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://next-intl-docs.vercel.app/docs/environments/server-client-components target=_blank rel=noopener>参考</a></p><h2 id=metadata>Metadata</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-tsx data-lang=tsx><span class=line><span class=cl><span class=c1>// app/[locale]/layout.tsx
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span><span class=nx>getTranslations</span><span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;next-intl/server&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>async</span> <span class=kd>function</span> <span class=nx>generateMetadata</span><span class=p>({</span><span class=nx>params</span><span class=o>:</span> <span class=p>{</span><span class=nx>locale</span><span class=p>}})</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// 从generateMetadata中获取参数locale
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kr>const</span> <span class=nx>t</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>getTranslations</span><span class=p>({</span><span class=nx>locale</span><span class=p>,</span> <span class=kr>namespace</span><span class=o>:</span> <span class=s1>&#39;Metadata&#39;</span><span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>title</span>: <span class=kt>t</span><span class=p>(</span><span class=s1>&#39;title&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=route-handlers>Route Handlers</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-tsx data-lang=tsx><span class=line><span class=cl><span class=c1>// app/api/hello/route.tsx
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span><span class=nx>NextResponse</span><span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;next/server&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span><span class=nx>getTranslations</span><span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;next-intl/server&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>async</span> <span class=kd>function</span> <span class=nx>GET</span><span class=p>(</span><span class=nx>request</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// Example: Receive the `locale` via a search param
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kr>const</span> <span class=p>{</span><span class=nx>searchParams</span><span class=p>}</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>URL</span><span class=p>(</span><span class=nx>request</span><span class=p>.</span><span class=nx>url</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>locale</span> <span class=o>=</span> <span class=nx>searchParams</span><span class=p>.</span><span class=kr>get</span><span class=p>(</span><span class=s1>&#39;locale&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>t</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>getTranslations</span><span class=p>({</span><span class=nx>locale</span><span class=p>,</span> <span class=kr>namespace</span><span class=o>:</span> <span class=s1>&#39;Hello&#39;</span><span class=p>});</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nx>NextResponse</span><span class=p>.</span><span class=nx>json</span><span class=p>({</span><span class=nx>title</span>: <span class=kt>t</span><span class=p>(</span><span class=s1>&#39;title&#39;</span><span class=p>)});</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=error-files>error files</h2><ol><li><code>not-found.js</code></li><li><code>error.js</code></li></ol><p>有时间再来学习：<a class=link href=https://next-intl-docs.vercel.app/docs/environments/error-files#errorjs target=_blank rel=noopener>教程</a></p><h1 id=支持的文案格式>支持的文案格式</h1><h2 id=结构化的文案>结构化的文案</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;About&#34;</span><span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;title&#34;</span><span class=p>:</span> <span class=s2>&#34;About us&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-tsx data-lang=tsx><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span><span class=nx>useTranslations</span><span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;next-intl&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>About() {</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>t</span> <span class=o>=</span> <span class=nx>useTranslations</span><span class=p>(</span><span class=s1>&#39;About&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=p>&lt;</span><span class=nt>h1</span><span class=p>&gt;{</span><span class=nx>t</span><span class=p>(</span><span class=s1>&#39;title&#39;</span><span class=p>)}&lt;/</span><span class=nt>h1</span><span class=p>&gt;;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>或者</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>const</span> <span class=nx>t</span> <span class=o>=</span> <span class=nx>useTranslations</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=nx>t</span><span class=p>(</span><span class=s1>&#39;About.title&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=icu格式的文案>ICU格式的文案</h2><h3 id=内嵌变量>内嵌变量</h3><p>文案：en.json</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;title&#34;</span><span class=p>:</span> <span class=s2>&#34;欢迎, {username}!&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>const</span> <span class=nx>t</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>getTranslations</span><span class=p>(</span><span class=s1>&#39;ProfilePage&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>t</span><span class=p>(</span><span class=s1>&#39;title&#39;</span><span class=p>,</span> <span class=p>{</span><span class=nx>username</span>: <span class=kt>user.name</span><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=复数>复数</h3><blockquote><p>en.json</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=s2>&#34;message&#34;</span><span class=err>:</span> <span class=s2>&#34;You have {count, plural, =0 {no followers yet} =1 {one follower} other {# followers}}.&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-tsx data-lang=tsx><span class=line><span class=cl><span class=nx>t</span><span class=p>(</span><span class=s1>&#39;message&#39;</span><span class=p>,</span> <span class=p>{</span><span class=nx>count</span>: <span class=kt>3580</span><span class=p>});</span> <span class=c1>// &#34;You have 3,580 followers.&#34;
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=多选一>多选一</h3><blockquote><p>en.json</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-tsx data-lang=tsx><span class=line><span class=cl><span class=s2>&#34;message&#34;</span><span class=o>:</span> <span class=s2>&#34;{gender, select, female {She} male {He} other {They}} is online.&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=nx>t</span><span class=p>(</span><span class=s1>&#39;message&#39;</span><span class=p>,</span> <span class=p>{</span><span class=nx>gender</span><span class=o>:</span> <span class=s1>&#39;female&#39;</span><span class=p>});</span> <span class=c1>// &#34;She is online.&#34;
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=rich-text>Rich Text</h2><blockquote><p>en.js</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;message&#34;</span><span class=p>:</span> <span class=s2>&#34;Please refer to &lt;guidelines&gt;the guidelines&lt;/guidelines&gt;.&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-TSX data-lang=TSX><span class=line><span class=cl><span class=c1>// Returns `&lt;&gt;Please refer to &lt;a href=&#34;/guidelines&#34;&gt;the guidelines&lt;/a&gt;.&lt;/&gt;`
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>t</span><span class=p>.</span><span class=nx>rich</span><span class=p>(</span><span class=s1>&#39;message&#39;</span><span class=p>,</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>guidelines</span><span class=o>:</span> <span class=p>(</span><span class=nx>chunks</span><span class=p>)</span> <span class=o>=&gt;</span> <span class=p>&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;/guidelines&#34;</span><span class=p>&gt;{</span><span class=nx>chunks</span><span class=p>}&lt;/</span><span class=nt>a</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=格式化普通数字>格式化普通数字</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span><span class=nx>useFormatter</span><span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;next-intl&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>Component() {</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>format</span> <span class=o>=</span> <span class=nx>useFormatter</span><span class=p>();</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>  <span class=c1>// Renders &#34;$499.90&#34;
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=nx>format</span><span class=p>.</span><span class=kt>number</span><span class=p>(</span><span class=mf>499.9</span><span class=p>,</span> <span class=p>{</span><span class=nx>style</span><span class=o>:</span> <span class=s1>&#39;currency&#39;</span><span class=p>,</span> <span class=nx>currency</span><span class=o>:</span> <span class=s1>&#39;USD&#39;</span><span class=p>});</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=nx>format</span><span class=p>.</span><span class=kt>number</span><span class=p>(</span><span class=mi>3500</span><span class=p>,</span> <span class=p>{</span><span class=nx>style</span><span class=o>:</span> <span class=s1>&#39;decimal&#39;</span><span class=p>});</span> <span class=c1>// &#39;3,500&#39;
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=nx>format</span><span class=p>.</span><span class=kt>number</span><span class=p>(</span><span class=mi>3500</span><span class=p>,</span> <span class=p>{</span><span class=nx>style</span><span class=o>:</span> <span class=s1>&#39;percent&#39;</span><span class=p>});</span> <span class=c1>// &#39;350,000%&#39;
+</span></span></span><span class=line><span class=cl><span class=c1></span>  
+</span></span><span class=line><span class=cl>  <span class=nx>format</span><span class=p>.</span><span class=kt>number</span><span class=p>(</span><span class=mi>50</span> <span class=p>{</span><span class=nx>style</span><span class=o>:</span> <span class=s2>&#34;unit&#34;</span><span class=p>,</span> <span class=nx>nit</span><span class=o>:</span> <span class=s2>&#34;kilometer-per-hour&#34;</span><span class=p>,});</span> <span class=c1>// 50 km/h
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#style target=_blank rel=noopener>style</a>的可选值</p><div class=table-wrapper><table><thead><tr><th>English Term</th><th>Chinese Translation</th><th>可选值</th></tr></thead><tbody><tr><td>decimal</td><td>十进制</td><td></td></tr><tr><td>currency</td><td>货币</td><td></td></tr><tr><td>percent</td><td>百分比</td><td></td></tr><tr><td>unit</td><td>单位</td><td><a class=link href=https://github.com/unicode-org/cldr/blob/main/common/validity/unit.xml target=_blank rel=noopener>链接</a></td></tr></tbody></table></div><h2 id=内嵌数字到icu文案>内嵌数字到ICU文案</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;basic&#34;</span><span class=p>:</span> <span class=s2>&#34;Basic formatting: {value, number}&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;percentage&#34;</span><span class=p>:</span> <span class=s2>&#34;Displayed as a percentage: {value, number, percent}&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;custom&#34;</span><span class=p>:</span> <span class=s2>&#34;At most 2 fraction digits: {value, number, ::.##}&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=格式化时间和日期>格式化时间和日期</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-tsx data-lang=tsx><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span><span class=nx>useFormatter</span><span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;next-intl&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>Component() {</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>format</span> <span class=o>=</span> <span class=nx>useFormatter</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>dateTime</span> <span class=o>=</span> <span class=k>new</span> <span class=nb>Date</span><span class=p>(</span><span class=s1>&#39;2020-11-20T10:36:01.516Z&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>  <span class=c1>// Renders &#34;Nov 20, 2020&#34;
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=nx>format</span><span class=p>.</span><span class=nx>dateTime</span><span class=p>(</span><span class=nx>dateTime</span><span class=p>,</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>year</span><span class=o>:</span> <span class=s1>&#39;numeric&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>month</span><span class=o>:</span> <span class=s1>&#39;short&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>day</span><span class=o>:</span> <span class=s1>&#39;numeric&#39;</span>
+</span></span><span class=line><span class=cl>  <span class=p>});</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>  <span class=c1>// Renders &#34;11:36 AM&#34;
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=nx>format</span><span class=p>.</span><span class=nx>dateTime</span><span class=p>(</span><span class=nx>dateTime</span><span class=p>,</span> <span class=p>{</span><span class=nx>hour</span><span class=o>:</span> <span class=s1>&#39;numeric&#39;</span><span class=p>,</span> <span class=nx>minute</span><span class=o>:</span> <span class=s1>&#39;numeric&#39;</span><span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>详细的举例见<a class=link href="https://www.intl-explorer.com/DateTimeFormat?locale=zh-Hans-CN" target=_blank rel=noopener>这里</a></p><h2 id=内嵌日期时间到icu文案>内嵌日期/时间到ICU文案</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;ordered&#34;</span><span class=p>:</span> <span class=s2>&#34;Ordered on {orderDate, date, medium}&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;ordered&#34;</span><span class=p>:</span> <span class=s2>&#34;Ordered on {orderDate, date, ::yyyyMd}&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://next-intl-docs.vercel.app/docs/usage/dates-times#dates-and-times-within-messages target=_blank rel=noopener>参考</a></p><h1 id=vscode插件i18n-ally>VSCode插件：i18n-ally</h1><p><a class=link href="https://marketplace.visualstudio.com/items?itemName=lokalise.i18n-ally" target=_blank rel=noopener>安装地址</a></p><p>配置语言文件的地址和使用的框架。</p><p><img src=https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/image-20240104142115694.png loading=lazy alt=image-20240104142115694></p></section><footer class=article-footer><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><div id=cusdis_thread data-host=https://cusdis.com data-app-id=287ed0fd-6a12-4302-a1ad-d2fd382e1199 data-page-id=d5343173abbf18b18f6cd3a5b276bde8 data-page-url=https://blog.ververv.com/p/next.js%E5%9B%BD%E9%99%85%E5%8C%96%E5%92%8Cnext-intl/ data-page-title=Next.js国际化和next-intl></div><script async defer src=https://cusdis.com/js/cusdis.es.js></script><script>function setCusdisTheme(e){let t=document.querySelector("#cusdis_thread iframe");t&&window.CUSDIS.setTheme(e)}window.addEventListener("onColorSchemeChange",e=>{setCusdisTheme(e.detail)})</script><footer class=site-footer><section class=copyright>&copy;
+2023 -
+2024 量子跳跃者</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.24.2>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

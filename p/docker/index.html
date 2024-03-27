@@ -1,0 +1,184 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="OS CentOS 7 本文的设定是使用Centos7.4版本，内核是3.10.0。 更新YUM源信息 1 yum makecache Docker CE版本 2018年9月最新版本 18.06.1-ce 见Wiki 添加源 鉴"><title>Docker</title>
+<link rel=canonical href=https://blog.ververv.com/p/docker/><link rel=stylesheet href=/scss/style.min.d8118f156935b64eca93aca758476adca858d2c47354971654d9bd2933a0e45f.css><meta property='og:title' content="Docker"><meta property='og:description' content="OS CentOS 7 本文的设定是使用Centos7.4版本，内核是3.10.0。 更新YUM源信息 1 yum makecache Docker CE版本 2018年9月最新版本 18.06.1-ce 见Wiki 添加源 鉴"><meta property='og:url' content='https://blog.ververv.com/p/docker/'><meta property='og:site_name' content='量子跳跃者'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='docker'><meta property='article:published_time' content='2018-09-05T10:14:14+00:00'><meta property='article:modified_time' content='2018-09-05T10:14:14+00:00'><meta name=twitter:title content="Docker"><meta name=twitter:description content="OS CentOS 7 本文的设定是使用Centos7.4版本，内核是3.10.0。 更新YUM源信息 1 yum makecache Docker CE版本 2018年9月最新版本 18.06.1-ce 见Wiki 添加源 鉴"><link rel="shortcut icon" href=/favicon.png><script defer src=https://analytics.ververv.com/pixel/tABAb34VvSTV05V2></script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky compact"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><div class=site-meta><h1 class=site-name><a href=/>量子跳跃者</a></h1><h2 class=site-description></h2></div></header><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/ target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><ol><li><ol><li><a href=#卸载旧版本docker>卸载旧版本Docker</a></li></ol></li></ol></li></ol><ol><li><a href=#镜像加速>镜像加速</a><ol><li><ol><li><a href=#建立-docker-用户组>建立 docker 用户组</a></li></ol></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/docker/>Docker</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Sep 05, 2018</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 2 分钟</time></div></footer></div></header><section class=article-content><h1 id=os>OS</h1><p>CentOS 7</p><p>本文的设定是使用Centos7.4版本，内核是3.10.0。</p><h1 id=更新yum源信息>更新YUM源信息</h1><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>yum makecache
+</span></span></code></pre></td></tr></table></div></div><p>Docker CE版本</p><p>2018年9月最新版本</p><p>18.06.1-ce</p><p>见<a class=link href=https://en.wikipedia.org/wiki/Docker_%28software%29 target=_blank rel=noopener>Wiki</a></p><p>添加源</p><p>鉴于国内网络问题，强烈建议使用国内源执行下面的命令添加 yum 软件源：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo yum-config-manager \
+</span></span><span class=line><span class=cl>    --add-repo \
+</span></span><span class=line><span class=cl>    https://mirrors.ustc.edu.cn/docker-ce/linux/centos/docker-ce.repo
+</span></span></code></pre></td></tr></table></div></div><h4 id=卸载旧版本docker>卸载旧版本Docker</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo yum remove docker <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>           docker-common <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>           docker-selinux <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>           docker-engine
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>yum install -y yum-utils device-mapper-persistent-data lvm2
+</span></span></code></pre></td></tr></table></div></div><p>关闭防火墙</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>systemctl stop firewalld.service <span class=c1>#停止</span>
+</span></span><span class=line><span class=cl>systemctl disable firewalld.service <span class=c1>#禁用</span>
+</span></span></code></pre></td></tr></table></div></div><h1 id=安装>安装</h1><p>yum install docker-ce</p><h2 id=镜像加速>镜像加速</h2><p>鉴于国内网络问题，后续拉取 Docker 镜像十分缓慢，强烈建议安装 Docker 之后配置 国内镜像加速。</p><p>针对Docker客户端版本大于 1.10.0 的用户</p><p>您可以通过修改daemon配置文件/etc/docker/daemon.json来使用加速器</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo mkdir -p /etc/docker
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>sudo tee /etc/docker/daemon.json <span class=s>&lt;&lt;-&#39;EOF&#39;
+</span></span></span><span class=line><span class=cl><span class=s>{
+</span></span></span><span class=line><span class=cl><span class=s>  &#34;registry-mirrors&#34;: [&#34;https://8z9d5u5v.mirror.aliyuncs.com&#34;]
+</span></span></span><span class=line><span class=cl><span class=s>}
+</span></span></span><span class=line><span class=cl><span class=s>EOF</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>sudo systemctl daemon-reload
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>sudo systemctl restart docker
+</span></span></code></pre></td></tr></table></div></div><h4 id=建立-docker-用户组>建立 docker 用户组</h4><p>默认情况下，<code>docker</code> 命令会使用 <a class=link href="https://link.jianshu.com?t=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FUnix_domain_socket" target=_blank rel=noopener>Unix socket</a> 与 Docker 引擎通讯。而只有 <code>root</code>用户和 <code>docker</code> 组的用户才可以访问 Docker 引擎的 Unix socket。出于安全考虑，一般 Linux 系统上不会直接使用 <code>root</code> 用户。因此，更好地做法是将需要使用 <code>docker</code> 的用户加入 <code>docker</code> 用户组。</p><p>建立 docker 组：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo groupadd docker
+</span></span></code></pre></td></tr></table></div></div><p>将当前用户加入 docker 组：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo usermod -aG docker <span class=nv>$USER</span>
+</span></span></code></pre></td></tr></table></div></div><p>退出当前终端并重新登录，进行如下测试。</p><p><a class=link href=https://my.oschina.net/shyloveliyi/blog/1616025 target=_blank rel=noopener>参考1</a></p><p><a class=link href=http://www.runoob.com/docker/centos-docker-install.html target=_blank rel=noopener>参考2</a></p><p><a class=link href="https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.1a6c199116s32Q" target=_blank rel=noopener>阿里安装教程</a></p><h1 id=yaml文件格式>YAML文件格式</h1><p><a class=link href=https://docs.docker.com/docker-cloud/apps/stack-yaml-reference/ target=_blank rel=noopener>官方</a></p><h1 id=数据卷>数据卷</h1><p>Union File System（联合文件系统）</p><p>Volume的概念</p><p>是一个目录</p><p>内部Volume: /<code>var</code>/<code>lib</code>/<code>docker</code>/<code>volumes</code>/</p><p>自己指定路径</p><p>数据卷是一个可供一个或多个容器使用的特殊目录，它绕过 UFS</p><p>MySQL的<a class=link href=https://github.com/docker-library/mysql/blob/9d1f62552b5dcf25d3102f14eb82b579ce9f4a26/5.7/Dockerfile target=_blank rel=noopener>Dockfile</a>有这样一个命令</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-dockerfile data-lang=dockerfile><span class=line><span class=cl><span class=k>VOLUME</span><span class=s> /var/lib/mysql</span><span class=err>
+</span></span></span></code></pre></td></tr></table></div></div><p>导致使用了内部Volume。</p><p><a class=link href=https://yeasy.gitbooks.io/docker_practice/data_management/volume.html target=_blank rel=noopener>入门</a></p><p>挂载一个主机目录作为数据卷</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo docker run -d -P --name web -v /src/webapp:/opt/webapp training/webapp python app.py
+</span></span></code></pre></td></tr></table></div></div><p>上面的命令加载主机的 <code>/src/webapp</code> 目录到容器的 <code>/opt/webapp</code> 目录。</p><p>MySQL</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-dockerfile data-lang=dockerfile><span class=line><span class=cl>version: <span class=s1>&#39;2&#39;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>networks:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>  default:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    external:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>      name: szrd_bridge<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>services:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    szrd_mysql:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        image: mysql:5.7.17<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        volumes:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        - my-vol:/var/lib/mysql<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        <span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        environment:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        - <span class=nv>MYSQL_ROOT_PASSWORD</span><span class=o>=</span>abc123<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        <span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        restart: always<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        <span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        ports:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        - <span class=s2>&#34;6000:3306&#34;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>volumes:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>  my-vol:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    driver: local<span class=err>
+</span></span></span></code></pre></td></tr></table></div></div><p>my-vol是一个内部Volume。</p><p>从服务器将内部Volume拷贝过来。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-dockerfile data-lang=dockerfile><span class=line><span class=cl>version: <span class=s1>&#39;2&#39;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>networks:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>  default:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    external:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>      name: szrd_bridge<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>services:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    szrd_mysql:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        image: mysql:5.7.17<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        volumes:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        - my-vol:/var/lib/mysql<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        <span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        environment:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        - <span class=nv>MYSQL_ROOT_PASSWORD</span><span class=o>=</span>abc123<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        <span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        restart: always<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        <span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        ports:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        - <span class=s2>&#34;6000:3306&#34;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>  <span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>volumes:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>  my-vol:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    driver: local<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    driver_opts:<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>      o: bind<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>      type: none<span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>      device: /home/yanghaibin/redmine/vol/_data<span class=err>
+</span></span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-tags><a href=/tags/docker/>Docker</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><div id=cusdis_thread data-host=https://cusdis.com data-app-id=287ed0fd-6a12-4302-a1ad-d2fd382e1199 data-page-id=8b987a11764fa95fae8b94d2e5213018 data-page-url=https://blog.ververv.com/p/docker/ data-page-title=Docker></div><script async defer src=https://cusdis.com/js/cusdis.es.js></script><script>function setCusdisTheme(e){let t=document.querySelector("#cusdis_thread iframe");t&&window.CUSDIS.setTheme(e)}window.addEventListener("onColorSchemeChange",e=>{setCusdisTheme(e.detail)})</script><footer class=site-footer><section class=copyright>&copy;
+2023 -
+2024 量子跳跃者</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.24.2>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

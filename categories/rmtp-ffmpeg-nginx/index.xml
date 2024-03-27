@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Rmtp Ffmpeg Nginx on 量子跳跃者</title><link>https://blog.ververv.com/categories/rmtp-ffmpeg-nginx/</link><description>Recent content in Rmtp Ffmpeg Nginx on 量子跳跃者</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 10 Mar 2020 07:58:58 +0800</lastBuildDate><atom:link href="https://blog.ververv.com/categories/rmtp-ffmpeg-nginx/index.xml" rel="self" type="application/rss+xml"/><item><title>搭建直播服务器</title><link>https://blog.ververv.com/p/%E6%90%AD%E5%BB%BA%E7%9B%B4%E6%92%AD%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Tue, 10 Mar 2020 07:58:58 +0800</pubDate><guid>https://blog.ververv.com/p/%E6%90%AD%E5%BB%BA%E7%9B%B4%E6%92%AD%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;h2 id="公开的流">公开的流&lt;/h2>
+&lt;p>SRS测试流迁移到了&lt;a class="link" href="http://r.ossrs.net/" target="_blank" rel="noopener"
+>r.ossrs.net&lt;/a>，包括：&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="http://ossrs.net/players/srs_player.html?app=live&amp;amp;stream=livestream&amp;amp;server=r.ossrs.net&amp;amp;port=1935&amp;amp;autostart=true&amp;amp;vhost=r.ossrs.net" target="_blank" rel="noopener"
+>rtmp://r.ossrs.net/live/livestream&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="http://ossrs.net/players/srs_player.html?app=live&amp;amp;stream=livestream.flv&amp;amp;server=r.ossrs.net&amp;amp;port=8080&amp;amp;autostart=true&amp;amp;vhost=r.ossrs.net&amp;amp;schema=http" target="_blank" rel="noopener"
+>http://r.ossrs.net:8080/live/livestream.flv&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="http://ossrs.net/players/srs_player.html?app=live&amp;amp;stream=livestream.m3u8&amp;amp;server=r.ossrs.net&amp;amp;port=80&amp;amp;autostart=true&amp;amp;vhost=r.ossrs.net&amp;amp;schema=http" target="_blank" rel="noopener"
+>http://r.ossrs.net/live/livestream.m3u8&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="使用srs搭建">使用SRS搭建&lt;/h2>
+&lt;h3 id="srs简介">SRS简介&lt;/h3>
+&lt;p>&lt;code>SRS&lt;/code>（&lt;code>Simple-RTMP-Server&lt;/code>）&lt;/p>
+&lt;p>&lt;code>SRS&lt;/code>是一个开源的直播服务器，它不仅仅是&lt;a class="link" href="http://blog.fpliu.com/it/network/protocol/RTMP" target="_blank" rel="noopener"
+>RTMP&lt;/a>服务器， 还是&lt;a class="link" href="http://blog.fpliu.com/it/network/protocol/HLS" target="_blank" rel="noopener"
+>HLS&lt;/a>服务器，还是&lt;a class="link" href="http://blog.fpliu.com/it/network/protocol/HTTP-FLV" target="_blank" rel="noopener"
+>HTTP-FLV&lt;/a>服务器， 还可以是&lt;a class="link" href="http://blog.fpliu.com/it/network/protocol/HTTP" target="_blank" rel="noopener"
+>HTTP&lt;/a>服务器。&lt;/p>
+&lt;p>&lt;a class="link" href="https://ossrs.net/srs.release/releases/" target="_blank" rel="noopener"
+>官网&lt;/a>&lt;/p>
+&lt;h3 id="搭建rtmp服务器">搭建RTMP服务器&lt;/h3>
+&lt;h4 id="启用服务">启用服务&lt;/h4>
+&lt;p>启动Docker版本的SRS服务（&lt;a class="link" href="https://github.com/ossrs/srs-docker#usage" target="_blank" rel="noopener"
+>教程&lt;/a>）&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;Run SRS 3.0 in docker&amp;#34;&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> docker run -p 1935:1935 -p 1985:1985 -p 8080:8080 -v /Users/yanghaibin/Downloads/IPC/srs/log/yours.log:/usr/local/srs/objs/srs.log ossrs/srs:3
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h5 id="确定推流地址">确定推流地址&lt;/h5>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="cl">&lt;span class="nl">rtmp&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="c1">//127.0.0.1/live/tangqingsong&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h5 id="使用obs推流">使用OBS推流&lt;/h5>
+&lt;p>&lt;img src="https://user-gold-cdn.xitu.io/2019/12/13/16eff205ad5092e2?imageslim"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;p>回到OBS的主界面，点击开始推流按钮。&lt;/p>
+&lt;p>使用VLC来拉流。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">rtmp://127.0.0.1/live/tangqingsong
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;a class="link" href="https://juejin.im/post/5df37c136fb9a0164a10c571#heading-8" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p>
+&lt;h3 id="搭建http-flv-todo">搭建HTTP-FLV-TODO&lt;/h3>
+&lt;p>&lt;a class="link" href="https://github.com/ossrs/srs/wiki/v2_CN_DeliveryHttpStream#about-http-flv" target="_blank" rel="noopener"
+>教程&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://github.com/ossrs/srs/wiki/v1_CN_Home" target="_blank" rel="noopener"
+>https://github.com/ossrs/srs/wiki/v1_CN_Home&lt;/a>&lt;/p>
+&lt;h2 id="在mac上搭建">在Mac上搭建&lt;/h2>
+&lt;p>&lt;a class="link" href="https://www.jianshu.com/p/cf74a34af15d" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p>
+&lt;h3 id="安装">安装&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">brew tap denji/nginx
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">brew install nginx-full --with-rtmp-module
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">nginx
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在浏览器地址栏输入：&lt;a class="link" href="http://localhost:8080/" target="_blank" rel="noopener"
+>http://localhost:8080&lt;/a>&lt;/p>
+&lt;p>基本配置&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>nginx配置文件所在位置 /usr/local/etc/nginx/nginx.conf&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>nginx服务器根目录所在位置 /usr/local/var/www&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="配置">配置&lt;/h3>
+&lt;p>打开配置文件 &lt;code>/usr/local/etc/nginx/nginx.conf&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">http {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ……
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">#在http节点下面(也就是文件的尾部)加上rtmp配置：
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">rtmp {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> server {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> listen 1935;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> application abcs {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> live on;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> record off;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ nginx -s reload
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="通过ffmepg命令进行推流">通过ffmepg命令进行推流&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ffmpeg -re -i /Users/yanghaibin/Downloads/IPC/rtmp/MindGame.mp4 -vcodec copy -f flv rtmp://localhost:1935/abcs/room
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">ffmpeg&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">re&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">i&lt;/span> &lt;span class="o">/&lt;/span>&lt;span class="n">Users&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">xu&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">Desktop&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">bangbangbang&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">mp4&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">vcodec&lt;/span> &lt;span class="n">libx264&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">acodec&lt;/span> &lt;span class="n">aac&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">f&lt;/span> &lt;span class="n">flv&lt;/span> &lt;span class="nl">rtmp&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="c1">//localhost:1935/rtmplive/home
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>acc：RTMP的音频格式&lt;/li>
+&lt;li>flv： RTMP的视频格式&lt;/li>
+&lt;li>r：以本地帧频读数据，主要用于模拟捕获设备。表示ffmpeg将按照帧率发送数据，不会按照最高的效率发送&lt;/li>
+&lt;/ul>
+&lt;h3 id="验证视频">验证视频&lt;/h3>
+&lt;p>使用VLC打开&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-c++" data-lang="c++">&lt;span class="line">&lt;span class="cl">&lt;span class="nl">rtmp&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="c1">//localhost:1935/abcs/room
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>本地地址&lt;/p>
+&lt;p>rtmp://172.16.1.123:1935/abcs/room&lt;/p>
+&lt;h2 id="http-flv服务器">HTTP FLV服务器&lt;/h2>
+&lt;p>&lt;a class="link" href="https://github.com/winshining/nginx-http-flv-module" target="_blank" rel="noopener"
+>nginx-http-flv-module&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://blog.csdn.net/rain_meter/article/details/88127209" target="_blank" rel="noopener"
+>搭建 基于nginx-http-flv-module的服务，通过flv.js进行网页直播&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://blog.csdn.net/rain_meter/article/details/88127209" target="_blank" rel="noopener"
+>https://blog.csdn.net/rain_meter/article/details/88127209&lt;/a>&lt;/p>
+&lt;p>SRS&lt;/p>
+&lt;h2 id="nginx命令">Nginx命令&lt;/h2>
+&lt;p>启动nginx服务
+&lt;code>sudo brew services start nginx&lt;/code>&lt;/p>
+&lt;p>关闭nginx服务
+&lt;code>sudo brew services stop nginx&lt;/code>&lt;/p>
+&lt;p>查看Nginx的版本号：nginx -V&lt;/p>
+&lt;p>启动Nginx：start nginx&lt;/p>
+&lt;p>快速停止或关闭Nginx：nginx -s stop&lt;/p>
+&lt;p>正常停止或关闭Nginx：nginx -s quit&lt;/p>
+&lt;p>配置文件修改重装载命令：nginx -s reload&lt;/p>
+&lt;h2 id="编译nginx">编译Nginx&lt;/h2>
+&lt;p>&lt;a class="link" href="https://aijishu.com/a/1060000000021573" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p>
+&lt;h3 id="依赖">依赖&lt;/h3>
+&lt;ul>
+&lt;li>PCRE——支持正则表达式。 是 Nginx 的核心和重写模块的所需依赖库。&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">wget https://ftp.pcre.org/pub/pcre/pcre-8.43.tar.bz2
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">tar zxf pcre-8.43.tar.bz2
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>zlib——支持标头压缩。是 Nginx 的 Gzip 模块所需。&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">wget http://zlib.net/zlib-1.2.11.tar.gz
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">tar zxf zlib-1.2.11.tar.gz
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>OpenSSL——支持HTTPS协议。是Nginx的SSL模块和其他模块所需。&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">wget http://www.openssl.org/source/openssl-1.1.1c.tar.gz
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">tar zxf openssl-1.1.1c.tar.gz
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="下载源">下载源&lt;/h3>
+&lt;p>到这里选择版本：&lt;/p>
+&lt;p>&lt;a class="link" href="http://nginx.org/download/" target="_blank" rel="noopener"
+>http://nginx.org/download/&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="n">wget&lt;/span> &lt;span class="n">https&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="o">//&lt;/span>&lt;span class="n">nginx&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">org&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">download&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">nginx&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mf">1.17&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="mf">4.&lt;/span>&lt;span class="n">tar&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">gz&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">tar&lt;/span> &lt;span class="n">zxf&lt;/span> &lt;span class="n">nginx&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mf">1.17&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="mf">4.&lt;/span>&lt;span class="n">tar&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">gz&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">cd&lt;/span> &lt;span class="n">nginx&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mf">1.17&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="mi">4&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="配置构建选项">配置构建选项&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="o">./&lt;/span>&lt;span class="n">configure&lt;/span> &lt;span class="o">--&lt;/span>&lt;span class="n">add&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">module&lt;/span>&lt;span class="o">=/&lt;/span>&lt;span class="n">Users&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">yanghaibin&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">Downloads&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">nginx&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">module&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">nginx&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">http&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">flv&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">module&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mf">1.2&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="mi">7&lt;/span> &lt;span class="o">--&lt;/span>&lt;span class="n">with&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">http_ssl_module&lt;/span> &lt;span class="o">--&lt;/span>&lt;span class="n">with&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">pcre&lt;/span>&lt;span class="o">=../&lt;/span>&lt;span class="n">pcre&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mf">8.43&lt;/span> &lt;span class="o">--&lt;/span>&lt;span class="n">with&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">zlib&lt;/span>&lt;span class="o">=../&lt;/span>&lt;span class="n">zlib&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mf">1.2&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="mi">11&lt;/span> &lt;span class="o">--&lt;/span>&lt;span class="n">with&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">openssl&lt;/span>&lt;span class="o">=../&lt;/span>&lt;span class="n">openssl&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mf">1.1&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="n">c&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="编译">编译&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">sudo make &amp;amp;&amp;amp; sudo make install
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>

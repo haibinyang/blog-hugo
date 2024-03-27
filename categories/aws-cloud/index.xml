@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Aws Cloud on 量子跳跃者</title><link>https://blog.ververv.com/categories/aws-cloud/</link><description>Recent content in Aws Cloud on 量子跳跃者</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 18 Mar 2020 07:58:58 +0800</lastBuildDate><atom:link href="https://blog.ververv.com/categories/aws-cloud/index.xml" rel="self" type="application/rss+xml"/><item><title>AWS基础知识</title><link>https://blog.ververv.com/p/aws%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link><pubDate>Wed, 18 Mar 2020 07:58:58 +0800</pubDate><guid>https://blog.ververv.com/p/aws%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid><description>&lt;h2 id="概念">概念&lt;/h2>
+&lt;h3 id="custom-endpoint">Custom endpoint&lt;/h3>
+&lt;p>见“控制台&amp;ndash;&amp;gt;&lt;a class="link" href="https://ap-southeast-1.console.aws.amazon.com/iot/home?region=ap-southeast-1#/settings" target="_blank" rel="noopener"
+>设置&lt;/a>”，形如：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-c++" data-lang="c++">&lt;span class="line">&lt;span class="cl">&lt;span class="n">xxx&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">ats&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">iot&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ap&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">southeast&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mf">1.&lt;/span>&lt;span class="n">amazonaws&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">com&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="endpoints">Endpoints&lt;/h3>
+&lt;p>&lt;a class="link" href="https://docs.aws.amazon.com/general/latest/gr/iot-core.html" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>&lt;strong>Region Name&lt;/strong>&lt;/th>
+&lt;th>&lt;strong>Region&lt;/strong>&lt;/th>
+&lt;th>&lt;strong>Endpoint&lt;/strong>&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Asia Pacific (Singapore)&lt;/td>
+&lt;td>ap-southeast-1&lt;/td>
+&lt;td>iot.ap-southeast-1.amazonaws.com&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="arns">ARNs&lt;/h3>
+&lt;p>Amazon Resource Names (ARNs) uniquely identify AWS resources.&lt;/p>
+&lt;p>格式&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="cl">&lt;span class="nl">arn&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">partition&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">region&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">account&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">resource&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nl">arn&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">partition&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">region&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">account&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">resource&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">type&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">resource&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nl">arn&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">partition&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">region&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">account&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">resource&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">resource&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>分区&lt;/p>
+&lt;p>资源所处的分区。对于标准 AWS 区域，分区是 &lt;code>aws&lt;/code>。如果资源位于其他分区，则分区是 &lt;code>aws-partitionname&lt;/code>。例如，位于 中国（北京） 区域的资源的分区为 &lt;code>aws-cn&lt;/code>。&lt;/p>
+&lt;p>service&lt;/p>
+&lt;p>标识 AWS 产品（例如，Amazon S3、IAM 或 Amazon RDS）的服务命名空间。&lt;/p>
+&lt;p>区域&lt;/p>
+&lt;p>资源所在的区域。一些资源的 ARN 不需要区域，因此，该组成部分可能会被省略。&lt;/p>
+&lt;p>account-id&lt;/p>
+&lt;p>拥有资源的 AWS 账户的 ID（不含连字符）。例如：123456789012。一些资源的 ARN 不需要账号，因此，该组成部分可能会被省略。&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.aws.amazon.com/zh_cn/general/latest/gr/aws-arns-and-namespaces.html" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p></description></item></channel></rss>

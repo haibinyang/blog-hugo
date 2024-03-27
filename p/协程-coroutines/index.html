@@ -1,0 +1,1146 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="历史 并发 一开始大家想要同一时间执行那么三五个程序，大家能一块跑一跑。特别是UI什么的，别一上计算量比较大的玩意就跟死机一样。于是就有了并发，"><title>协程-Coroutines</title>
+<link rel=canonical href=https://blog.ververv.com/p/%E5%8D%8F%E7%A8%8B-coroutines/><link rel=stylesheet href=/scss/style.min.d8118f156935b64eca93aca758476adca858d2c47354971654d9bd2933a0e45f.css><meta property='og:title' content="协程-Coroutines"><meta property='og:description' content="历史 并发 一开始大家想要同一时间执行那么三五个程序，大家能一块跑一跑。特别是UI什么的，别一上计算量比较大的玩意就跟死机一样。于是就有了并发，"><meta property='og:url' content='https://blog.ververv.com/p/%E5%8D%8F%E7%A8%8B-coroutines/'><meta property='og:site_name' content='量子跳跃者'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:published_time' content='2020-02-23T16:57:48+08:00'><meta property='article:modified_time' content='2020-02-23T16:57:48+08:00'><meta name=twitter:title content="协程-Coroutines"><meta name=twitter:description content="历史 并发 一开始大家想要同一时间执行那么三五个程序，大家能一块跑一跑。特别是UI什么的，别一上计算量比较大的玩意就跟死机一样。于是就有了并发，"><link rel="shortcut icon" href=/favicon.png><script defer src=https://analytics.ververv.com/pixel/tABAb34VvSTV05V2></script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky compact"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><div class=site-meta><h1 class=site-name><a href=/>量子跳跃者</a></h1><h2 class=site-description></h2></div></header><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/ target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#历史>历史</a><ol><li><ol><li><a href=#并发>并发</a></li><li><a href=#进程>进程</a></li><li><a href=#内核>内核</a></li><li><a href=#线程>线程</a></li><li><a href=#用户态线程>用户态线程</a></li><li><a href=#协程>协程</a></li></ol></li></ol></li><li><a href=#基础>基础</a><ol><li><a href=#本质>本质</a></li><li><a href=#子程序>子程序</a></li><li><a href=#子程序和协程>子程序和协程</a></li><li><a href=#协程举例>协程举例</a></li><li><a href=#协程比线程的优点>协程比线程的优点</a><ol><li><a href=#调度>调度</a></li><li><a href=#不需要锁>不需要锁</a></li><li><a href=#结合使用>结合使用</a></li></ol></li></ol></li><li><a href=#kotlin>Kotlin</a><ol><li><a href=#学习教程>学习教程</a></li><li><a href=#库>库</a></li><li><a href=#gradle配置>Gradle配置</a></li><li><a href=#概念>概念</a><ol><li><a href=#协程builder>协程Builder</a></li><li><a href=#job>Job</a></li><li><a href=#scope>Scope</a></li><li><a href=#结构化的并发>结构化的并发</a></li><li><a href=#context>Context</a></li><li><a href=#dispatchers和线程>Dispatchers和线程</a></li><li><a href=#等待>等待</a></li><li><a href=#自定义协程的名字>自定义协程的名字</a></li><li><a href=#选择不同的线程>选择不同的线程</a></li><li><a href=#超时-todo>超时-TODO</a></li></ol></li><li><a href=#其它>其它</a><ol><li><a href=#参考>参考</a></li><li><a href=#打开调试模式>打开调试模式</a></li><li><a href=#显示当前的线程和协程>显示当前的线程和协程</a></li><li><a href=#自定义协程名>自定义协程名</a></li></ol></li></ol></li><li><a href=#android中的协程>Android中的协程</a><ol><li><a href=#教程>教程</a></li><li><a href=#activityfragment--coroutines>Activity/Fragment & Coroutines</a></li><li><a href=#viewmodel--coroutines>ViewModel & Coroutines</a></li><li><a href=#lifecyclescope--coroutines>LifecycleScope & Coroutines</a></li><li><a href=#lifecyclescope和viewmodelscope>LifecycleScope和ViewModelScope</a></li><li><a href=#网络数据库--coroutines>网络/数据库 & Coroutines</a><ol><li><a href=#retrofit>Retrofit</a></li><li><a href=#room>Room</a></li><li><a href=#retrofitroom>Retrofit&amp;Room</a></li></ol></li><li><a href=#暂停生命感知的协程>暂停生命感知的协程</a></li><li><a href=#与livedata结合>与LiveData结合</a></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/coroutines-kotlin/>Coroutines Kotlin</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/%E5%8D%8F%E7%A8%8B-coroutines/>协程-Coroutines</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Feb 23, 2020</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 18 分钟</time></div></footer></div></header><section class=article-content><h2 id=历史>历史</h2><h4 id=并发>并发</h4><p>一开始大家想要同一时间执行那么三五个程序，大家能一块跑一跑。特别是UI什么的，别一上计算量比较大的玩意就跟死机一样。于是就有了<strong>并发</strong>，从程序员的角度可以看成是多个独立的逻辑流。内部可以是多cpu并行，也可以是单cpu时间分片，能快速的切换逻辑流，看起来像是大家一块跑的就行。</p><h4 id=进程>进程</h4><p>但是一块跑就有问题了。我计算到一半，刚把多次方程解到最后一步，你突然插进来，我的中间状态咋办，我用来储存的内存被你覆盖了咋办？所以跑在一个cpu里面的并发都需要处理上下文切换的问题。<strong>进程</strong>就是这样抽象出来个一个概念，搭配虚拟内存、进程表之类的东西，用来管理独立的程序运行、切换。</p><p>后来一电脑上有了好几个cpu，好咧，大家都别闲着，一人跑一进程。就是所谓的<strong>并行</strong>。</p><h4 id=内核>内核</h4><p>因为程序的使用涉及大量的计算机资源配置，把这活随意的交给用户程序，非常容易让整个系统分分钟被搞跪，资源分配也很难做到相对的公平。所以核心的操作需要陷入内核(kernel)，切换到操作系统，让老大帮你来做。</p><h4 id=线程>线程</h4><p>有的时候碰着I/O访问，阻塞了后面所有的计算。空着也是空着，老大就直接把CPU切换到其他进程，让人家先用着。当然除了I\O阻塞，还有时钟阻塞等等。一开始大家都这样弄，后来发现不成，太慢了。为啥呀，一切换进程得反复进入内核，置换掉一大堆状态。进程数一高，大部分系统资源就被进程切换给吃掉了。后来搞出<strong>线程</strong>的概念，大致意思就是，这个地方阻塞了，但我还有其他地方的逻辑流可以计算，这些逻辑流是共享一个地址空间的，不用特别麻烦的切换页表、刷新TLB，只要把寄存器刷新一遍就行，能比切换进程开销少点。</p><h4 id=用户态线程>用户态线程</h4><p>如果连时钟阻塞、 线程切换这些功能我们都不需要了，自己在进程里面写一个逻辑流调度的东西。那么我们即可以利用到并发优势，又可以避免反复系统调用，还有进程切换造成的开销，分分钟给你上几千个逻辑流不费力。这就是<strong>用户态线程</strong>。</p><h4 id=协程>协程</h4><p>从上面可以看到，实现一个用户态线程有两个必须要处理的问题：</p><p>一是碰着阻塞式I\O会导致整个进程被挂起；</p><p>二是由于缺乏时钟阻塞，进程需要自己拥有调度线程的能力。如果一种实现使得每个线程需要自己通过调用某个方法，主动交出控制权。那么我们就称这种用户态线程是协作式的，即是<strong>协程</strong>。</p><h2 id=基础>基础</h2><h3 id=本质>本质</h3><ul><li>协程是基于线程的，可以理解为在用户层使用一个线程模拟多线程操作。</li><li>避免了线程间的切换问题，大量节省资源。</li></ul><h3 id=子程序>子程序</h3><p>子程序，或者称为函数，在所有语言中都是层级调用，比如A调用B，B在执行过程中又调用了C，C执行完毕返回，B执行完毕返回，最后是A执行完毕。</p><p>所以子程序调用是通过<code>栈</code>实现的，一个线程就是执行一个子程序。</p><p>子程序调用总是一个入口，一次返回，调用顺序是明确的。</p><p>而协程的调用和子程序不同。</p><h3 id=子程序和协程>子程序和协程</h3><blockquote><p>“子程序就是协程的一种特例。”</p></blockquote><p>协程看上去也是子程序，但执行过程中，在子程序内部可中断，然后转而执行别的子程序，在适当的时候再返回来接着执行。</p><p>注意，在一个子程序中中断，去执行其他子程序，不是函数调用，有点类似CPU的中断。比如子程序A、B：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>def</span> <span class=nf>A</span><span class=p>():</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span> <span class=s1>&#39;1&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span> <span class=s1>&#39;2&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span> <span class=s1>&#39;3&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>B</span><span class=p>():</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span> <span class=s1>&#39;x&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span> <span class=s1>&#39;y&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span> <span class=s1>&#39;z&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><p>假设由协程执行，在执行A的过程中，可以随时中断，去执行B，B也可能在执行过程中中断再去执行A，结果可能是：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=m>1</span>
+</span></span><span class=line><span class=cl><span class=m>2</span>
+</span></span><span class=line><span class=cl>x
+</span></span><span class=line><span class=cl>y
+</span></span><span class=line><span class=cl><span class=m>3</span>
+</span></span><span class=line><span class=cl>z
+</span></span></code></pre></td></tr></table></div></div><p>但是在A中是没有调用B的，所以协程的调用比函数调用理解起来要难一些。</p><p>看起来A、B的执行有点<strong>像多线程</strong>，但协程的特点在于是<strong>一个线程执行</strong>。</p><h3 id=协程举例>协程举例</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl>    <span class=k>suspend</span> <span class=k>fun</span> <span class=nf>fetchDocs</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>val</span> <span class=py>result</span> <span class=p>=</span> <span class=k>get</span><span class=p>(</span><span class=s2>&#34;developer.android.com&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>show</span><span class=p>(</span><span class=n>result</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>suspend</span> <span class=k>fun</span> <span class=nf>get</span><span class=p>(</span><span class=n>url</span><span class=p>:</span> <span class=n>String</span><span class=p>)</span> <span class=p>=</span> <span class=n>withContext</span><span class=p>(</span><span class=nc>Dispatchers</span><span class=p>.</span><span class=n>IO</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=o>..</span><span class=p>.</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://user-gold-cdn.xitu.io/2019/6/20/16b72f0821633f92?imageslim loading=lazy alt=img></p><p><strong>调用栈</strong>：每个线程有一个调用栈(call stack), Kotlin使用它来追踪哪个函数在执行和它的局部变量。</p><p><strong>Suspend函数</strong>：当调用到<code>suspend</code>修饰的函数的时候，Kotlin需要追踪正在运行的协程而不是正在执行的函数。</p><ol><li>绿色线条表示一个<code>suspend</code>的标记，绿色上面的是协程，绿色下面的是一个正常的函数</li><li>Kotlin 像正常函数一样调用<code>fetchDocs()</code> 函数，在调用栈上加一个 entry，这里也存储着<code>fetchDocs()</code>函数的局部变量</li><li>继续往下执行，直到找到另一个<code>suspend</code>函数的调用（这里指的是 <code>get()</code> 函数调用），这时候Kotlin要去实现<code>suspend</code>操作（将函数的状态从堆栈复制到一个地方，以便以后保存，所有<code>suspend</code>的协程都会被放在这里）</li><li>然后调用<code>get()</code>函数，同样新建一个entry，当调用到<code>withContext()</code>（withContext函数被 suspend 修饰）的时候，同样 执行suspend操作（过程和前面一样）。<strong>此时主线程里的所有协程都被 suspend，所以主线程可以做其他事情（执行 onDraw，响应用户输入）</strong></li><li>等待几秒后，网络请求会返回，这时Kotlin会执行resume操作（获取保存状态并复制回来，重新放回到调用栈上），之后会正常往下执行，如果<code>fetchDocs()</code>发成错误，会在这里抛出异常</li></ol><h3 id=协程比线程的优点>协程比线程的优点</h3><h4 id=调度>调度</h4><ul><li>线程在调度上肯定是优胜于协程的，毕竟是内核调度的。</li><li>线程的开销基本上都是MB级别的，协程的开销只是KB级别的。</li><li>多线程比，线程数量越多，协程的性能优势就越明显。</li></ul><h4 id=不需要锁>不需要锁</h4><ul><li>不需要多线程的锁机制。</li><li>因为只有一个线程，也不存在同时写变量冲突，在协程中控制共享资源不加锁，只需要判断状态就好了，所以执行效率比多线程高很多。</li></ul><h4 id=结合使用>结合使用</h4><p>因为协程是一个线程执行，那怎么利用多核CPU呢？</p><p>最简单的方法是多进程+协程，既充分利用多核，又充分发挥协程的高效率，可获得极高的性能。</p><img src=http://5b0988e595225.cdn.sohucs.com/images/20180622/6765e36cc4604fba897976638af03524.jpeg alt=img style=zoom:50%><h2 id=kotlin>Kotlin</h2><h3 id=学习教程>学习教程</h3><p><a class=link href=https://kaixue.io/kotlin-coroutines-1/ target=_blank rel=noopener>由浅入深的教程</a></p><p><a class=link href=https://www.kotlincn.net/docs/reference/coroutines/coroutines-guide.html target=_blank rel=noopener>官方教程</a></p><p><a class=link href=https://juejin.im/post/5d0afe0bf265da1b7152fb00#heading-3 target=_blank rel=noopener>比较形象的教程</a></p><p><a class=link href=https://www.cnblogs.com/mengdd/p/kotlin-coroutines-basics.html target=_blank rel=noopener>总结的教程</a></p><h3 id=库>库</h3><p><code>kotlinx.coroutines</code> 是由 JetBrains 开发的功能丰富的协程库。</p><p>Maven库：<a class=link href=https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-core target=_blank rel=noopener>链接</a></p><p>当前版本：1.3.3</p><p>模块：<a class=link href=https://kotlin.github.io/kotlinx.coroutines/ target=_blank rel=noopener>链接</a></p><h3 id=gradle配置>Gradle配置</h3><p>Add dependencies (you can also add other modules that you need):</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-groovy data-lang=groovy><span class=line><span class=cl><span class=n>dependencies</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>implementation</span> <span class=s1>&#39;org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3&#39;</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>And make sure that you use the latest Kotlin version:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-groovy data-lang=groovy><span class=line><span class=cl><span class=n>buildscript</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>ext</span><span class=o>.</span><span class=na>kotlin_version</span> <span class=o>=</span> <span class=s1>&#39;1.3.61&#39;</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=概念>概念</h3><h4 id=协程builder>协程Builder</h4><p>启动一个新的协程, 常用的主要有以下几种方式:</p><ul><li><code>launch</code></li><li><code>async</code></li><li><code>runBlocking</code></li></ul><p>叫作构建协程的coroutine builder。</p><p>其中， <code>launch</code>, <code>async</code>都是<code>CoroutineScope</code>类型的扩展方法。</p><p>有了CoroutineScope之后，可以通过一系列的<code>Coroutine builders</code>来启动协程。</p><ul><li>launch 启动一个协程，返回一个<code>Job</code>，可用来取消协程；有异常直接抛出。</li><li>async 启动一个带返回结果的协程，可以通过Deferred.await()获取结果；有异常并不会直接抛出，只会在调用 await 的时候抛出。</li><li>withContext 启动一个协程，传入<code>CoroutineContext</code>改变协程运行的上下文。</li></ul><p>当<code>launch</code>, <code>async</code>或<code>runBlocking</code>开启新协程的时候, 它们自动创建相应的scope。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=n>launch</span> <span class=p>{</span> <span class=cm>/* this: CoroutineScope */</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=job>Job</h4><h5 id=launch返回job>launch返回Job</h5><p><code>launch</code>返回<code>Job</code>, 代表一个协程, 我们可以用<code>Job</code>的<code>join()</code>方法来显式地等待这个协程结束:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>=</span> <span class=n>runBlocking</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>job</span> <span class=p>=</span> <span class=nc>GlobalScope</span><span class=p>.</span><span class=n>launch</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// launch a new coroutine and keep a reference to its Job
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>delay</span><span class=p>(</span><span class=m>1000L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>println</span><span class=p>(</span><span class=s2>&#34;World! + </span><span class=si>${Thread.currentThread().name}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=s2>&#34;Hello, + </span><span class=si>${Thread.currentThread().name}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>job</span><span class=p>.</span><span class=n>join</span><span class=p>()</span> <span class=c1>// wait until child coroutine completes
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>Job</code>还有一个重要的用途是<code>cancel()</code>, 用于<strong>取消</strong>不再需要的协程任务。</p><h5 id=deferred>Deferred</h5><p><code>async</code>开启线程, 返回<code>Deferred</code>, <code>Deferred</code>是<code>Job</code>的子类, 有一个<code>await()</code>函数, 可以返回协程的结果.</p><p><code>await()</code>也是suspend函数, 只能在协程之内调用。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>=</span> <span class=n>runBlocking</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// @coroutine#1
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>println</span><span class=p>(</span><span class=nc>Thread</span><span class=p>.</span><span class=n>currentThread</span><span class=p>().</span><span class=n>name</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>deferred</span><span class=p>:</span> <span class=n>Deferred</span><span class=p>&lt;</span><span class=n>Int</span><span class=p>&gt;</span> <span class=p>=</span> <span class=n>async</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// @coroutine#2
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>loadData</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=s2>&#34;waiting...&#34;</span> <span class=p>+</span> <span class=nc>Thread</span><span class=p>.</span><span class=n>currentThread</span><span class=p>().</span><span class=n>name</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>deferred</span><span class=p>.</span><span class=n>await</span><span class=p>())</span> <span class=c1>// suspend @coroutine#1
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>suspend</span> <span class=k>fun</span> <span class=nf>loadData</span><span class=p>():</span> <span class=n>Int</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=s2>&#34;loading...&#34;</span> <span class=p>+</span> <span class=nc>Thread</span><span class=p>.</span><span class=n>currentThread</span><span class=p>().</span><span class=n>name</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>delay</span><span class=p>(</span><span class=m>1000L</span><span class=p>)</span> <span class=c1>// suspend @coroutine#2
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>println</span><span class=p>(</span><span class=s2>&#34;loaded!&#34;</span> <span class=p>+</span> <span class=nc>Thread</span><span class=p>.</span><span class=n>currentThread</span><span class=p>().</span><span class=n>name</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=m>42</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=scope>Scope</h4><p>作用：scope的主要作用就是记录所有的协程, 并且可以取消它们。</p><h5 id=coroutinescope>CoroutineScope</h5><p>CoroutineScope是一个接口。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>public</span> <span class=k>interface</span> <span class=nc>CoroutineScope</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>val</span> <span class=py>coroutineContext</span><span class=p>:</span> <span class=n>CoroutineContext</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h5 id=父子关系>父子关系</h5><p>launch是CoroutineScope的扩展方法，第三个参数是一个Lamda表达式。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>public</span> <span class=k>fun</span> <span class=nf>CoroutineScope</span><span class=p>.</span><span class=n>launch</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>context</span><span class=p>:</span> <span class=n>CoroutineContext</span> <span class=p>=</span> <span class=n>EmptyCoroutineContext</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>start</span><span class=p>:</span> <span class=n>CoroutineStart</span> <span class=p>=</span> <span class=nc>CoroutineStart</span><span class=p>.</span><span class=n>DEFAULT</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>block</span><span class=p>:</span> <span class=k>suspend</span> <span class=nc>CoroutineScope</span><span class=p>.()</span> <span class=o>-&gt;</span> <span class=n>Unit</span>
+</span></span><span class=line><span class=cl><span class=p>):</span> <span class=n>Job</span>
+</span></span></code></pre></td></tr></table></div></div><p>这个Lamda表达式的Receiver是：CoroutineScope</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=n>launch</span> <span class=p>{</span> <span class=cm>/* this: CoroutineScope */</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>例如，</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>=</span> <span class=n>runBlocking</span><span class=p>&lt;</span><span class=n>Unit</span><span class=p>&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>job</span> <span class=p>=</span> <span class=n>launch</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1>// CoroutineScope
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=c1>// 调用CoroutineScope的launcher方法
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=c1>// 继承它的Context
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>val</span> <span class=py>j2</span> <span class=p>=</span> <span class=k>this</span><span class=p>.</span><span class=n>launch</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>delay</span><span class=p>(</span><span class=m>1000L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>println</span><span class=p>(</span><span class=s2>&#34;done&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1>// 不用join
+</span></span></span><span class=line><span class=cl><span class=c1></span>      	<span class=c1>// 这个父Coroutines会等待上面的子Coroutines结束
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>println</span><span class=p>(</span><span class=s2>&#34;start&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>job</span><span class=p>.</span><span class=n>join</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>这样就形成一个父子关系。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>=</span> <span class=n>runBlocking</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* this: CoroutineScope */</span>
+</span></span><span class=line><span class=cl>    <span class=n>launch</span> <span class=p>{</span> <span class=cm>/* ... */</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// the same as:
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>this</span><span class=p>.</span><span class=n>launch</span> <span class=p>{</span> <span class=cm>/* ... */</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>这个例子中<code>launch</code>所启动的协程 是 外部协程(<code>runBlocking</code>启动的协程)的child. 这种"parent-child"的关系通过scope传递: child在parent的scope中启动。</p><p>协程的父子关系有以下两个特性:</p><ul><li>取消：父协程被取消时, 所有的子协程都被取消。</li><li>等待：父协程永远会等待所有的子协程结束。</li></ul><h5 id=创建scope>创建Scope</h5><p>创建scope可以用工厂方法: <code>MainScope()</code>或<code>CoroutineScope()</code>。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>package</span> <span class=nn>top.yhb123.coroutines</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>import</span> <span class=nn>kotlinx.coroutines.*</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>=</span> <span class=n>runBlocking</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// this: CoroutineScope
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>launch</span><span class=p>(</span><span class=n>CoroutineName</span><span class=p>(</span><span class=s2>&#34;C2&#34;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>log</span><span class=p>(</span><span class=s2>&#34;C2: begin&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>delay</span><span class=p>(</span><span class=m>200L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>log</span><span class=p>(</span><span class=s2>&#34;C2: end&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>coroutineScope</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 创建一个协程作用域
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>launch</span><span class=p>(</span><span class=n>CoroutineName</span><span class=p>(</span><span class=s2>&#34;C3&#34;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>log</span><span class=p>(</span><span class=s2>&#34;C3: begin&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>delay</span><span class=p>(</span><span class=m>500L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>log</span><span class=p>(</span><span class=s2>&#34;C3: end&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>log</span><span class=p>(</span><span class=s2>&#34;Custom coroutine scope: begin&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>delay</span><span class=p>(</span><span class=m>100L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>log</span><span class=p>(</span><span class=s2>&#34;Custom coroutine scope: end&#34;</span><span class=p>)</span> <span class=c1>// 这一行会在内嵌 launch 之前输出
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>log</span><span class=p>(</span><span class=s2>&#34;Coroutine scope is over&#34;</span><span class=p>)</span> <span class=c1>// 这一行在内嵌 launch 执行完毕后才输出
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>log</span><span class=p>(</span><span class=n>msg</span><span class=p>:</span> <span class=n>String</span><span class=p>)</span> <span class=p>=</span> <span class=n>println</span><span class=p>(</span><span class=s2>&#34;[</span><span class=si>${Thread.currentThread().name}</span><span class=s2>] </span><span class=si>$msg</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=o>[</span>main @coroutine#1<span class=o>]</span> Custom coroutine scope: begin
+</span></span><span class=line><span class=cl><span class=o>[</span>main @C2#2<span class=o>]</span> C2: begin
+</span></span><span class=line><span class=cl><span class=o>[</span>main @C3#3<span class=o>]</span> C3: begin
+</span></span><span class=line><span class=cl><span class=o>[</span>main @coroutine#1<span class=o>]</span> Custom coroutine scope: end // 只等了100毫秒
+</span></span><span class=line><span class=cl><span class=o>[</span>main @C2#2<span class=o>]</span> C2: end // 只等了200毫秒
+</span></span><span class=line><span class=cl><span class=o>[</span>main @C3#3<span class=o>]</span> C3: end // 只等了500毫秒
+</span></span><span class=line><span class=cl><span class=o>[</span>main @coroutine#1<span class=o>]</span> Coroutine scope is over // 被coroutineScope阻塞
+</span></span></code></pre></td></tr></table></div></div><h6 id=coroutinescope-1>coroutineScope()</h6><p><code>CoroutineScope()</code>创建的Block会阻塞当前的代码，完成后才能执行下一面的代码<code>println("Coroutine scope is over")</code> ，效果类似<code>jion()</code>。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>package</span> <span class=nn>top.yhb123.coroutines6</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>import</span> <span class=nn>kotlinx.coroutines.*</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>=</span> <span class=n>runBlocking</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>launch</span><span class=p>(</span><span class=n>newSingleThreadContext</span><span class=p>(</span><span class=s2>&#34;my-coroutines&#34;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>log</span><span class=p>(</span><span class=s2>&#34;newSingleThreadContext: 1&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>coroutineScope</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>log</span><span class=p>(</span><span class=s2>&#34;Custom coroutine scope: begin&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>delay</span><span class=p>(</span><span class=m>1000L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>log</span><span class=p>(</span><span class=s2>&#34;Custom coroutine scope: end&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1>// 被上面的Scope阻塞
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=c1>// 上面有点像join
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>log</span><span class=p>(</span><span class=s2>&#34;newSingleThreadContext: 2&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 不被上面阻塞
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>log</span><span class=p>(</span><span class=s2>&#34;Coroutine scope is over&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 但会等上面的Scope结束才结束，JVM不会马上结束
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>log</span><span class=p>(</span><span class=n>msg</span><span class=p>:</span> <span class=n>String</span><span class=p>)</span> <span class=p>=</span> <span class=n>println</span><span class=p>(</span><span class=s2>&#34;[</span><span class=si>${Thread.currentThread().name}</span><span class=s2>] </span><span class=si>$msg</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>在相同的协程。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=o>[</span>main @coroutine#1<span class=o>]</span> Coroutine scope is over
+</span></span><span class=line><span class=cl><span class=o>[</span>my-coroutines @coroutine#2<span class=o>]</span> newSingleThreadContext: <span class=m>1</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>my-coroutines @coroutine#2<span class=o>]</span> Custom coroutine scope: begin
+</span></span><span class=line><span class=cl><span class=o>[</span>my-coroutines @coroutine#2<span class=o>]</span> Custom coroutine scope: end
+</span></span><span class=line><span class=cl><span class=o>[</span>my-coroutines @coroutine#2<span class=o>]</span> newSingleThreadContext: <span class=m>2</span>
+</span></span></code></pre></td></tr></table></div></div><h6 id=自定义scope>自定义Scope</h6><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>package</span> <span class=nn>top.yhb123.coroutines6</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>import</span> <span class=nn>kotlinx.coroutines.*</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>viewModelJob</span> <span class=p>=</span> <span class=n>Job</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  	<span class=c1>// 自定义协程的Job，Dispatcher，name
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>val</span> <span class=py>uiScope</span> <span class=p>=</span> <span class=n>CoroutineScope</span><span class=p>(</span><span class=nc>Dispatchers</span><span class=p>.</span><span class=n>IO</span> <span class=p>+</span> <span class=n>viewModelJob</span> <span class=p>+</span> <span class=n>CoroutineName</span><span class=p>(</span><span class=s2>&#34;C1&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>uiScope</span><span class=p>.</span><span class=n>launch</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>log</span><span class=p>(</span><span class=s2>&#34;uiScope.launch: begin&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>delay</span><span class=p>(</span><span class=m>2000L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>log</span><span class=p>(</span><span class=s2>&#34;uiScope.launch: end&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>log</span><span class=p>(</span><span class=s2>&#34;Waiting for coroutines...&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nc>Thread</span><span class=p>.</span><span class=n>sleep</span><span class=p>(</span><span class=m>1000L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>  	<span class=c1>// 取消协程
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>log</span><span class=p>(</span><span class=s2>&#34;cancle coroutines&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>viewModelJob</span><span class=p>.</span><span class=n>cancel</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nc>Thread</span><span class=p>.</span><span class=n>sleep</span><span class=p>(</span><span class=m>2000L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>log</span><span class=p>(</span><span class=s2>&#34;JVM over&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>log</span><span class=p>(</span><span class=n>msg</span><span class=p>:</span> <span class=n>String</span><span class=p>)</span> <span class=p>=</span> <span class=n>println</span><span class=p>(</span><span class=s2>&#34;[</span><span class=si>${Thread.currentThread().name}</span><span class=s2>] </span><span class=si>$msg</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=o>[</span>main<span class=o>]</span> Waiting <span class=k>for</span> coroutines...
+</span></span><span class=line><span class=cl><span class=o>[</span>DefaultDispatcher-worker-1 @C1#1<span class=o>]</span> uiScope.launch: begin
+</span></span><span class=line><span class=cl><span class=o>[</span>main<span class=o>]</span> cancle coroutines
+</span></span><span class=line><span class=cl><span class=o>[</span>main<span class=o>]</span> JVM over
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>top</span><span class=p>.</span><span class=nx>yhb123</span><span class=p>.</span><span class=nx>coroutines6</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nx>kotlinx</span><span class=p>.</span><span class=nx>coroutines</span><span class=p>.</span><span class=o>*</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>val</span> <span class=nx>viewModelJob</span> <span class=p>=</span> <span class=nf>Job</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=nx>val</span> <span class=nx>uiScope</span> <span class=p>=</span> <span class=nf>CoroutineScope</span><span class=p>(</span><span class=nx>Dispatchers</span><span class=p>.</span><span class=nx>IO</span> <span class=o>+</span> <span class=nx>viewModelJob</span> <span class=o>+</span> <span class=nf>CoroutineName</span><span class=p>(</span><span class=s>&#34;C1&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>uiScope</span><span class=p>.</span><span class=nf>launch</span><span class=p>(</span><span class=nx>Dispatchers</span><span class=p>.</span><span class=nx>Default</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nf>log</span><span class=p>(</span><span class=s>&#34;uiScope.launch: begin&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nf>delay</span><span class=p>(</span><span class=mi>2000</span><span class=nx>L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nf>log</span><span class=p>(</span><span class=s>&#34;uiScope.launch: end&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nf>log</span><span class=p>(</span><span class=s>&#34;Waiting for coroutines...&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Thread</span><span class=p>.</span><span class=nf>sleep</span><span class=p>(</span><span class=mi>1000</span><span class=nx>L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nf>log</span><span class=p>(</span><span class=s>&#34;cancle coroutines&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>viewModelJob</span><span class=p>.</span><span class=nf>cancel</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>Thread</span><span class=p>.</span><span class=nf>sleep</span><span class=p>(</span><span class=mi>2000</span><span class=nx>L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nf>log</span><span class=p>(</span><span class=s>&#34;JVM over&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>可以在launch中添加不同的参数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>package</span> <span class=nn>top.yhb123.coroutines6</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>import</span> <span class=nn>kotlinx.coroutines.*</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>viewModelJob</span> <span class=p>=</span> <span class=n>Job</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>uiScope</span> <span class=p>=</span> <span class=n>CoroutineScope</span><span class=p>(</span><span class=nc>Dispatchers</span><span class=p>.</span><span class=n>Default</span> <span class=p>+</span> <span class=n>viewModelJob</span> <span class=p>+</span> <span class=n>CoroutineName</span><span class=p>(</span><span class=s2>&#34;C1&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  	<span class=c1>// launch引进不同的参数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>uiScope</span><span class=p>.</span><span class=n>launch</span><span class=p>(</span><span class=nc>Dispatchers</span><span class=p>.</span><span class=n>IO</span> <span class=p>+</span> <span class=n>CoroutineName</span><span class=p>(</span><span class=s2>&#34;D2&#34;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>log</span><span class=p>(</span><span class=s2>&#34;uiScope.launch: begin&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>delay</span><span class=p>(</span><span class=m>2000L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>log</span><span class=p>(</span><span class=s2>&#34;uiScope.launch: end&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>log</span><span class=p>(</span><span class=s2>&#34;Waiting for coroutines...&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nc>Thread</span><span class=p>.</span><span class=n>sleep</span><span class=p>(</span><span class=m>1000L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>log</span><span class=p>(</span><span class=s2>&#34;cancle coroutines&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>viewModelJob</span><span class=p>.</span><span class=n>cancel</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nc>Thread</span><span class=p>.</span><span class=n>sleep</span><span class=p>(</span><span class=m>2000L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>log</span><span class=p>(</span><span class=s2>&#34;JVM over&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h6 id=supervisorscope>supervisorScope</h6><p>TODO</p><p><code>coroutineScope</code>和<code>supervisorScope</code>可以用来在suspend方法中启动协程. Structured concurrency保证: 当一个suspend函数返回时, 它的所有工作都执行完毕.</p><p>它们两者的区别是: 当子协程发生错误的时候, <code>coroutineScope</code>会取消scope中的所有的子协程, 而<code>supervisorScope</code>不会取消没有发生错误的其他子协程.</p><h6 id=mainscope-todo>MainScope()-TODO</h6><p>CoroutineScope</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>public</span> <span class=k>interface</span> <span class=nc>CoroutineScope</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>val</span> <span class=py>coroutineContext</span><span class=p>:</span> <span class=n>CoroutineContext</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>public</span> <span class=k>fun</span> <span class=nf>MainScope</span><span class=p>():</span> <span class=n>CoroutineScope</span> <span class=p>=</span> <span class=n>ContextScope</span><span class=p>(</span><span class=n>SupervisorJob</span><span class=p>()</span> <span class=p>+</span> <span class=nc>Dispatchers</span><span class=p>.</span><span class=n>Main</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h6 id=globalscope>GlobalScope</h6><p><code>GlobalScope</code>启动的协程都是独立的, 它们的生命只受到application的限制. 即<code>GlobalScope</code>启动的协程没有parent, 和它被启动时所在的外部的scope没有关系.</p><p><code>launch(Dispatchers.Default) { ... }</code>和<code>GlobalScope.launch { ... }</code>用的dispatcher是一样的.</p><p><code>GlobalScope</code>启动的协程并不会保持进程活跃. 它们就像daemon threads(守护线程)一样, 如果JVM发现没有其他一般的线程, 就会关闭。</p><h6 id=runblocking和coroutinescope>runBlocking和coroutineScope</h6><p>相同点：等待其协程体以及所有子协程结束。</p><p>区别：</p><ul><li>runBlocking 方法会阻塞当前线程来等待， 而 coroutineScope 只是挂起，会释放底层线程用于其他用途。</li><li>runBlocking 是<strong>常规函数</strong>，而 coroutineScope 是挂起函数。</li></ul><p>runBlocking 函数不是用来当做普通协程函数使用的，它的设计目的主要是用来<strong>桥接普通阻塞代码和挂起风格</strong>的（suspending style）的非阻塞代码 ， 例如用在 main 函数中 ，或者用于测试用例代码中。</p><h4 id=结构化的并发>结构化的并发</h4><p>如何避免泄漏呢？这其实就是<code>CoroutineScope</code> 的作用。</p><p>通过<code>launch</code>或者<code>async</code>启动一个协程需要指定<code>CoroutineScope</code>，当要取消协程的时候只需要调用<code>CoroutineScope.cancel()</code> ，kotlin 会帮我们自动取消在这个作用域里面启动的协程。</p><p>结构化并发可以保证代码更加安全，避免了协程的泄漏问题：</p><ul><li>当作用域被取消，里面所有的协程被取消，因而可以取消不再需要的任务。</li><li>当<code>suspend</code>函数返回，里面的工作能保证完成，因而可以追踪正在执行的任务。</li><li>当协程出错，调用者或者作用域会收到通知，从而可以进行异常处理。</li></ul><blockquote><p>这种利用scope将协程结构化组织起来的机制, 被称为"structured concurrency"。</p></blockquote><h4 id=context>Context</h4><p>协程总是在一个<code>context</code>下运行, 类型是接口<code>CoroutineContext</code>。</p><p>协程的<code>context</code>是一个索引集合, 其中包含各种元素, 重要元素就有<code>Job</code>和<code>dispatcher</code>。</p><p><code>Job</code>代表了这个协程。</p><h4 id=dispatchers和线程>Dispatchers和线程</h4><blockquote><p>A dispatcher controls which thread runs a coroutine.</p></blockquote><p><code>CoroutineContext</code>由一组协程的配置参数组成，可以指定协程的名称，协程运行所在线程，异常处理等。</p><ul><li><code>CoroutineName</code>(指定协程名称)</li><li><code>Job</code>（协程的生命周期，用于取消协程）</li><li><code>CoroutineDispatcher</code>，可以指定协程运行的线程；如果不明确指定dispatcher, 协程将会继承它被启动的那个scope的context(其中包含了dispatcher)。</li></ul><h5 id=新建协程>新建协程</h5><p><code>newSingleThreadContext</code>创建了一个线程来跑协程，返回<code>ExecutorCoroutineDispatcher</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>newSingleThreadContext</span><span class=p>(</span><span class=n>name</span><span class=p>:</span> <span class=n>String</span><span class=p>):</span> <span class=n>ExecutorCoroutineDispatcher</span> <span class=p>=</span>
+</span></span><span class=line><span class=cl>    <span class=n>newFixedThreadPoolContext</span><span class=p>(</span><span class=m>1</span><span class=p>,</span> <span class=n>name</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h5 id=各种dispatcher的区别>各种Dispatcher的区别</h5><div class=table-wrapper><table><thead><tr><th><strong>Dispatchers</strong></th><th><strong>用途</strong></th><th><strong>使用场景</strong></th></tr></thead><tbody><tr><td>Dispatchers.Main</td><td>主线程、UI交互、执行轻量任务</td><td>Call suspend functions, Call UI functions, Update LiveData</td></tr><tr><td>Dispatchers.IO</td><td>网络请求、文件访问</td><td>Database, Reading/writing files, Networking</td></tr><tr><td>Dispatchers.Default</td><td>CPU密集型任务</td><td>Sorting a list, Parsing JSON, DiffUtils</td></tr><tr><td>Dispatchers.Unconfined</td><td>不限制任何指定线程</td><td>限制恢复后的线程</td></tr></tbody></table></div><h4 id=等待>等待</h4><h5 id=方式一>方式一</h5><p>新启一个协程, 然后用<code>join</code>明确地挂起等待。</p><h5 id=方式二>方式二</h5><p>如果不是GlobalScope产生的协程，父协程会等待。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>=</span> <span class=n>runBlocking</span><span class=p>&lt;</span><span class=n>Unit</span><span class=p>&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// start main coroutine
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nc>GlobalScope</span><span class=p>.</span><span class=n>launch</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>delay</span><span class=p>(</span><span class=m>1000L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>println</span><span class=p>(</span><span class=s2>&#34;World! + </span><span class=si>${Thread.currentThread().name}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 不会等待
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>会等待。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>=</span> <span class=n>runBlocking</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// this: CoroutineScope
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>launch</span><span class=p>(</span><span class=n>CoroutineName</span><span class=p>(</span><span class=s2>&#34;C2&#34;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>log</span><span class=p>(</span><span class=s2>&#34;C2: begin&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>delay</span><span class=p>(</span><span class=m>2000L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>log</span><span class=p>(</span><span class=s2>&#34;C2: end&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>log</span><span class=p>(</span><span class=s2>&#34;Coroutine scope is over&#34;</span><span class=p>)</span> <span class=c1>// 这一行在内嵌 launch 执行完毕后才输出
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>log</span><span class=p>(</span><span class=n>msg</span><span class=p>:</span> <span class=n>String</span><span class=p>)</span> <span class=p>=</span> <span class=n>println</span><span class=p>(</span><span class=s2>&#34;[</span><span class=si>${Thread.currentThread().name}</span><span class=s2>] </span><span class=si>$msg</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h5 id=方式三>方式三</h5><p>切换线程还可以用<code>withContext</code>, 可以在指定的协程context下运行代码, 挂起直到它结束, 返回结果。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>package</span> <span class=nn>top.yhb123.coroutines5</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>import</span> <span class=nn>kotlinx.coroutines.*</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>=</span> <span class=n>runBlocking</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>log</span><span class=p>(</span><span class=s2>&#34;1&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>withContext</span><span class=p>(</span><span class=nc>Dispatchers</span><span class=p>.</span><span class=n>IO</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>log</span><span class=p>(</span><span class=s2>&#34;2&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>delay</span><span class=p>(</span><span class=m>1000</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>log</span><span class=p>(</span><span class=s2>&#34;3&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=c1>// 阻塞，此Block完成后才会执行下面的代码
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=n>log</span><span class=p>(</span><span class=s2>&#34;5&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=o>[</span>main @coroutine#1<span class=o>]</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>DefaultDispatcher-worker-1 @coroutine#1<span class=o>]</span> <span class=m>2</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>DefaultDispatcher-worker-1 @coroutine#1<span class=o>]</span> <span class=m>3</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>main @coroutine#1<span class=o>]</span> <span class=m>5</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=自定义协程的名字>自定义协程的名字</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=n>launch</span><span class=p>(</span><span class=n>CoroutineName</span><span class=p>(</span><span class=s2>&#34;C2&#34;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>log</span><span class=p>(</span><span class=s2>&#34;C2: begin&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>delay</span><span class=p>(</span><span class=m>200L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>log</span><span class=p>(</span><span class=s2>&#34;C2: end&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=选择不同的线程>选择不同的线程</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>fun main() = runBlocking&lt;Unit&gt; {
+</span></span><span class=line><span class=cl>    launch {
+</span></span><span class=line><span class=cl>        // context of the parent, main runBlocking coroutine
+</span></span><span class=line><span class=cl>        println(&#34;main runBlocking      : I&#39;m working in thread ${Thread.currentThread().name}&#34;)
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>    launch(Dispatchers.Unconfined) {
+</span></span><span class=line><span class=cl>        // not confined -- will work with main thread
+</span></span><span class=line><span class=cl>        println(&#34;Unconfined            : I&#39;m working in thread ${Thread.currentThread().name}&#34;)
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>    launch(Dispatchers.Default) {
+</span></span><span class=line><span class=cl>        // will get dispatched to DefaultDispatcher
+</span></span><span class=line><span class=cl>        println(&#34;Default               : I&#39;m working in thread ${Thread.currentThread().name}&#34;)
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>    launch(newSingleThreadContext(&#34;MyOwnThread&#34;)) {
+</span></span><span class=line><span class=cl>        // will get its own new thread
+</span></span><span class=line><span class=cl>        println(&#34;newSingleThreadContext: I&#39;m working in thread ${Thread.currentThread().name}&#34;)
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><h5 id=android实践>Android实践</h5><p>在Android这种UI应用中, 比较常见的做法是, 顶部协程用<code>CoroutineDispatchers.Main</code>, 当需要在别的线程上做一些事情的时候, 再明确指定一个不同的dispatcher。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=n>launch</span><span class=p>(</span><span class=nc>Dispachers</span><span class=p>.</span><span class=n>Main</span><span class=p>)</span> <span class=p>{</span>              <span class=c1>// 👈 在 UI 线程开始
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>val</span> <span class=py>image</span> <span class=p>=</span> <span class=n>getImage</span><span class=p>(</span><span class=n>imageId</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>avatarIv</span><span class=p>.</span><span class=n>setImageBitmap</span><span class=p>(</span><span class=n>image</span><span class=p>)</span>     <span class=c1>// 👈 执行结束后，自动切换回 UI 线程
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=c1>//                               👇
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>fun</span> <span class=nf>getImage</span><span class=p>(</span><span class=n>imageId</span><span class=p>:</span> <span class=n>Int</span><span class=p>)</span> <span class=p>=</span> <span class=n>withContext</span><span class=p>(</span><span class=nc>Dispatchers</span><span class=p>.</span><span class=n>IO</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=o>..</span><span class=p>.</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=超时-todo>超时-TODO</h4><p><a class=link href=https://www.kotlincn.net/docs/reference/coroutines/cancellation-and-timeouts.html target=_blank rel=noopener>参考</a></p><h3 id=其它>其它</h3><h4 id=参考>参考</h4><p><a class=link href=https://www.liaoxuefeng.com/wiki/897692888725344/923057403198272 target=_blank rel=noopener>参考1</a></p><p><a class=link href=https://blog.csdn.net/zheng199172/article/details/88800275 target=_blank rel=noopener>不错的入门教程</a></p><p><a class=link href=https://www.zhihu.com/question/20511233 target=_blank rel=noopener>参考2</a></p><p><a class=link href=https://juejin.im/post/5bd9b881f265da393e6c4b5b target=_blank rel=noopener>https://juejin.im/post/5bd9b881f265da393e6c4b5b</a></p><p><a class=link href=https://juejin.im/post/5d0afe0bf265da1b7152fb00#heading-3 target=_blank rel=noopener>https://juejin.im/post/5d0afe0bf265da1b7152fb00#heading-3</a></p><p><a class=link href=https://kaixue.io/kotlin-coroutines-1/ target=_blank rel=noopener>https://kaixue.io/kotlin-coroutines-1/</a></p><p><a class=link href=https://www.cnblogs.com/mengdd/p/kotlin-coroutines-basics.html target=_blank rel=noopener>https://www.cnblogs.com/mengdd/p/kotlin-coroutines-basics.html</a></p><p><a class=link href=https://www.kotlincn.net/docs/reference/coroutines/coroutine-context-and-dispatchers.html target=_blank rel=noopener>https://www.kotlincn.net/docs/reference/coroutines/coroutine-context-and-dispatchers.html</a></p><h4 id=打开调试模式>打开调试模式</h4><p>程序执行使用了 -Dkotlinx.coroutines.debug 的JVM 参数，输出如下所示：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=o>[</span>main @main#1<span class=o>]</span> Started main coroutine
+</span></span><span class=line><span class=cl><span class=o>[</span>main @v1coroutine#2<span class=o>]</span> Computing v1
+</span></span><span class=line><span class=cl><span class=o>[</span>main @v2coroutine#3<span class=o>]</span> Computing v2
+</span></span><span class=line><span class=cl><span class=o>[</span>main @main#1<span class=o>]</span> The answer <span class=k>for</span> v1 / <span class=nv>v2</span> <span class=o>=</span> <span class=m>42</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=显示当前的线程和协程>显示当前的线程和协程</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>log</span><span class=p>(</span><span class=n>msg</span><span class=p>:</span> <span class=n>String</span><span class=p>)</span> <span class=p>=</span> <span class=n>println</span><span class=p>(</span><span class=s2>&#34;[</span><span class=si>${Thread.currentThread().name}</span><span class=s2>] </span><span class=si>$msg</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>打开调度模式，格式如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=o>[</span>main @coroutine#1<span class=o>]</span> Hello,
+</span></span><span class=line><span class=cl><span class=o>[</span>DefaultDispatcher-worker-1 @coroutine#2<span class=o>]</span> World!
+</span></span></code></pre></td></tr></table></div></div><p>[线程名 @协程名#编号]</p><h4 id=自定义协程名>自定义协程名</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>import</span> <span class=nn>kotlinx.coroutines.*</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>=</span> <span class=n>runBlocking</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// this: CoroutineScope
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>launch</span><span class=p>(</span><span class=n>CoroutineName</span><span class=p>(</span><span class=s2>&#34;自定义协程名字&#34;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 在 runBlocking 作用域中启动一个新协程
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>delay</span><span class=p>(</span><span class=m>1000L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>log</span><span class=p>(</span><span class=s2>&#34;World!&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>log</span><span class=p>(</span><span class=s2>&#34;Hello,&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=o>[</span>main @coroutine#1<span class=o>]</span> Hello,
+</span></span><span class=line><span class=cl><span class=o>[</span>main @自定义协程名字#2<span class=o>]</span> World!
+</span></span></code></pre></td></tr></table></div></div><h2 id=android中的协程>Android中的协程</h2><p>@UiThread的作用？</p><p>Since <code>viewModelScope</code> has a default dispatcher of <code>Dispatchers.Main</code>,</p><p>Room使用自己的dispatcher来确定查询运行在后台线程.
+所以你的代码不应该使用<code>withContext(Dispatchers.IO)</code>, 会让代码变得复杂并且查询变慢.</p><p>更多内容可见: <a class=link href=https://medium.com/androiddevelopers/room-coroutines-422b786dc4c5 target=_blank rel=noopener>Room 🔗 Coroutines</a>.</p><h3 id=教程>教程</h3><p><a class=link href=https://www.cnblogs.com/mengdd/p/kotlin-coroutines-basics.html target=_blank rel=noopener>Coroutines 协程</a></p><p><a class=link href=https://www.cnblogs.com/mengdd/p/kotlin-coroutines-in-Android.html target=_blank rel=noopener>Coroutines在Android中的实践</a>-非常不错的中文文章</p><p>官方文章：</p><p><a class=link href=https://developer.android.com/topic/libraries/architecture/coroutines#livedata target=_blank rel=noopener>将 Kotlin 协程与架构组件一起使用</a></p><p><a class=link href=https://developer.android.com/kotlin/coroutines target=_blank rel=noopener>利用 Kotlin 协程提升应用性能</a></p><p>协程的<a class=link href=https://codelabs.developers.google.com/codelabs/kotlin-coroutines/#8 target=_blank rel=noopener>CodeLab</a>，但感觉没什么用</p><p><a class=link href=https://github.com/android/architecture-components-samples/tree/master/LiveDataSample target=_blank rel=noopener>官方Sample</a>-TODO</p><p><a class=link href=https://medium.com/androiddevelopers/coroutines-on-android-part-iii-real-work-2ba8a2ec2f45 target=_blank rel=noopener>Coroutines On Android (part III): Real work</a>- TODO</p><p><a class=link href=https://medium.com/androiddevelopers/easy-coroutines-in-android-viewmodelscope-25bffb605471 target=_blank rel=noopener>Easy Coroutines in Android: viewModelScope</a> - TODO</p><h3 id=activityfragment--coroutines>Activity/Fragment & Coroutines</h3><p>方法1: 持有scope引用:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>Activity</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>val</span> <span class=py>mainScope</span> <span class=p>=</span> <span class=n>MainScope</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>destroy</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>mainScope</span><span class=p>.</span><span class=n>cancel</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>   
+</span></span></code></pre></td></tr></table></div></div><p>方法2: 实现接口:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>Activity</span> <span class=p>:</span> <span class=n>CoroutineScope</span> <span class=k>by</span> <span class=n>CoroutineScope</span><span class=p>(</span><span class=nc>Dispatchers</span><span class=p>.</span><span class=n>Default</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>destroy</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>cancel</span><span class=p>()</span> <span class=c1>// Extension on CoroutineScope
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=viewmodel--coroutines>ViewModel & Coroutines</h3><p>方法1: 自己创建scope</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>private</span> <span class=k>val</span> <span class=py>viewModelJob</span> <span class=p>=</span> <span class=n>Job</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>private</span> <span class=k>val</span> <span class=py>uiScope</span> <span class=p>=</span> <span class=n>CoroutineScope</span><span class=p>(</span><span class=nc>Dispatchers</span><span class=p>.</span><span class=n>Main</span> <span class=p>+</span> <span class=n>viewModelJob</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>在ViewModel被销毁的时候:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>override</span> <span class=k>fun</span> <span class=nf>onCleared</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>super</span><span class=p>.</span><span class=n>onCleared</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=n>viewModelJob</span><span class=p>.</span><span class=n>cancel</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>方法二：利用<code>viewModelScope</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>MainViewModel</span> <span class=p>:</span> <span class=n>ViewModel</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// Make a network request without blocking the UI thread
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>private</span> <span class=k>fun</span> <span class=nf>makeNetworkRequest</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      
+</span></span><span class=line><span class=cl>       <span class=c1>// launch a coroutine in viewModelScope 
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>viewModelScope</span><span class=p>.</span><span class=n>launch</span><span class=p>(</span><span class=nc>Dispatchers</span><span class=p>.</span><span class=n>IO</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=c1>// slowFetch()
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>      
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// No need to override onCleared()
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=lifecyclescope--coroutines>LifecycleScope & Coroutines</h3><p>每一个<a class=link href=https://developer.android.com/topic/libraries/architecture/lifecycle target=_blank rel=noopener>Lifecycle</a>对象都有一个<code>LifecycleScope</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=n>activity</span><span class=p>.</span><span class=n>lifecycleScope</span><span class=p>.</span><span class=n>launch</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl><span class=n>fragment</span><span class=p>.</span><span class=n>lifecycleScope</span><span class=p>.</span><span class=n>launch</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl><span class=n>fragment</span><span class=p>.</span><span class=n>viewLifecycleOwner</span><span class=p>.</span><span class=n>launch</span> <span class=p>{}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=lifecyclescope和viewmodelscope>LifecycleScope和ViewModelScope</h3><p>但是LifecycleScope启动的协程却不适合调用repository的方法. 因为它的生命周期和Activity/Fragment是一致的, 太碎片化了, 容易被取消, 造成浪费.</p><p>设备旋转时, Activity会被重建, 如果取消请求再重新开始, 会造成一种浪费。</p><p>可以把请求放在ViewModel中, UI层重新注册获取结果. <code>viewModelScope</code>和<code>lifecycleScope</code>可以结合起来使用.</p><p>举例: ViewModel这样写:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>NoteViewModel</span><span class=p>:</span> <span class=n>ViewModel</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>noteDeferred</span> <span class=p>=</span> <span class=n>CompletableDeferred</span><span class=p>&lt;</span><span class=n>Note</span><span class=p>&gt;()</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=n>viewModelScope</span><span class=p>.</span><span class=n>launch</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>val</span> <span class=py>note</span> <span class=p>=</span> <span class=n>repository</span><span class=p>.</span><span class=n>loadNote</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=n>noteDeferred</span><span class=p>.</span><span class=n>complete</span><span class=p>(</span><span class=n>note</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>suspend</span> <span class=k>fun</span> <span class=nf>loadNote</span><span class=p>():</span> <span class=n>Note</span> <span class=p>=</span> <span class=n>noteDeferred</span><span class=p>.</span><span class=n>await</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>而我们的UI中:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>onCreate</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>lifecycleScope</span><span class=p>.</span><span class=n>launch</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>val</span> <span class=py>note</span> <span class=p>=</span> <span class=n>userViewModel</span><span class=p>.</span><span class=n>loadNote</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=n>updateUI</span><span class=p>(</span><span class=n>note</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>这样做之后的好处:</p><ul><li>ViewModel保证了数据请求没有浪费, 屏幕旋转不会重新发起请求.</li><li>lifecycleScope保证了view没有leak.</li></ul><p>以下是实例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>MainActivity</span> <span class=p>:</span> <span class=n>AppCompatActivity</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>userViewModel</span><span class=p>:</span> <span class=n>NoteViewModel</span> <span class=k>by</span> <span class=n>lazy</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nc>ViewModelProviders</span><span class=p>.</span><span class=n>of</span><span class=p>(</span><span class=k>this</span><span class=p>).</span><span class=k>get</span><span class=p>(</span><span class=n>NoteViewModel</span><span class=o>::</span><span class=k>class</span><span class=p>.</span><span class=n>java</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>override</span> <span class=k>fun</span> <span class=nf>onCreate</span><span class=p>(</span><span class=n>savedInstanceState</span><span class=p>:</span> <span class=n>Bundle</span><span class=p>?)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>super</span><span class=p>.</span><span class=n>onCreate</span><span class=p>(</span><span class=n>savedInstanceState</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>setContentView</span><span class=p>(</span><span class=nc>R</span><span class=p>.</span><span class=n>layout</span><span class=p>.</span><span class=n>activity_main</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nc>System</span><span class=p>.</span><span class=n>setProperty</span><span class=p>(</span><span class=s2>&#34;kotlinx.coroutines.debug&#34;</span><span class=p>,</span> <span class=s2>&#34;on&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;onCreate()&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>lifecycleScope</span><span class=p>.</span><span class=n>launch</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;lifecycleScope.launch: start&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>val</span> <span class=py>note</span> <span class=p>=</span> <span class=n>userViewModel</span><span class=p>.</span><span class=n>loadNote</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;lifecycleScope.launch: end &#34;</span> <span class=p>+</span> <span class=n>note</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>override</span> <span class=k>fun</span> <span class=nf>onStop</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>super</span><span class=p>.</span><span class=n>onStop</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;onStop()&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>override</span> <span class=k>fun</span> <span class=nf>onDestroy</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>super</span><span class=p>.</span><span class=n>onDestroy</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;onDestroy()&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>logg</span><span class=p>(</span><span class=n>msg</span><span class=p>:</span> <span class=n>String</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nc>Log</span><span class=p>.</span><span class=n>d</span><span class=p>(</span><span class=s2>&#34;HB&#34;</span><span class=p>,</span> <span class=nc>Thread</span><span class=p>.</span><span class=n>currentThread</span><span class=p>().</span><span class=n>name</span> <span class=p>+</span> <span class=s2>&#34; &#34;</span> <span class=p>+</span> <span class=n>msg</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>NoteViewModel</span> <span class=p>:</span> <span class=n>ViewModel</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>noteDeferred</span> <span class=p>=</span> <span class=n>CompletableDeferred</span><span class=p>&lt;</span><span class=n>String</span><span class=p>&gt;()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>init</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>viewModelScope</span><span class=p>.</span><span class=n>launch</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;viewModelScope.launch: 1&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>val</span> <span class=py>note</span> <span class=p>=</span> <span class=n>repositoryLoadNote</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;viewModelScope.launch: 2&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=n>noteDeferred</span><span class=p>.</span><span class=n>complete</span><span class=p>(</span><span class=n>note</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;viewModelScope.launch: 3&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>suspend</span> <span class=k>fun</span> <span class=nf>loadNote</span><span class=p>():</span> <span class=n>String</span> <span class=p>=</span> <span class=n>noteDeferred</span><span class=p>.</span><span class=n>await</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>suspend</span> <span class=k>fun</span> <span class=nf>repositoryLoadNote</span><span class=p>():</span> <span class=n>String</span> <span class=p>=</span> <span class=n>withContext</span><span class=p>(</span><span class=nc>Dispatchers</span><span class=p>.</span><span class=n>IO</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;repositoryLoadNote: Start&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>delay</span><span class=p>(</span><span class=m>10</span><span class=n>_000L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;repositoryLoadNote: end&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;hello&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>logg</span><span class=p>(</span><span class=n>msg</span><span class=p>:</span> <span class=n>String</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nc>Log</span><span class=p>.</span><span class=n>d</span><span class=p>(</span><span class=s2>&#34;HB&#34;</span><span class=p>,</span> <span class=nc>Thread</span><span class=p>.</span><span class=n>currentThread</span><span class=p>().</span><span class=n>name</span> <span class=p>+</span> <span class=s2>&#34; &#34;</span> <span class=p>+</span> <span class=n>msg</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>输出</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>03-08 21:14:08.075 20307-20307/? D/HB: main onCreate<span class=o>()</span>
+</span></span><span class=line><span class=cl>03-08 21:14:08.105 20307-20307/? D/HB: main @coroutine#2 lifecycleScope.launch: <span class=m>1</span>
+</span></span><span class=line><span class=cl>03-08 21:14:08.105 20307-20307/? D/HB: main @coroutine#3 viewModelScope.launch: <span class=m>1</span>
+</span></span><span class=line><span class=cl>03-08 21:14:08.115 20307-20429/? D/HB: DefaultDispatcher-worker-1 @coroutine#3 repositoryLoadNote: Start
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// 旋转屏幕
+</span></span><span class=line><span class=cl>03-08 21:14:14.865 20307-20307/? D/HB: main onStop<span class=o>()</span>
+</span></span><span class=line><span class=cl>03-08 21:14:14.905 20307-20307/? D/HB: main onDestroy<span class=o>()</span>
+</span></span><span class=line><span class=cl>03-08 21:14:14.955 20307-20307/? D/HB: main onCreate<span class=o>()</span>
+</span></span><span class=line><span class=cl>03-08 21:14:14.955 20307-20307/? D/HB: main @coroutine#5 lifecycleScope.launch: <span class=m>1</span>
+</span></span><span class=line><span class=cl>03-08 21:14:18.115 20307-20429/? D/HB: DefaultDispatcher-worker-1 @coroutine#3 repositoryLoadNote: end
+</span></span><span class=line><span class=cl>03-08 21:14:18.115 20307-20307/? D/HB: main @coroutine#3 viewModelScope.launch: <span class=m>2</span>
+</span></span><span class=line><span class=cl>03-08 21:14:18.115 20307-20307/? D/HB: main @coroutine#5 lifecycleScope.launch: <span class=m>2</span>
+</span></span><span class=line><span class=cl>03-08 21:14:18.115 20307-20307/? D/HB: main @coroutine#3 viewModelScope.launch: <span class=m>3</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=网络数据库--coroutines>网络/数据库 & Coroutines</h3><p>根据Architecture Components的构建模式:</p><ul><li>ViewModel负责在主线程启动协程, 清理时取消协程, 收到数据时用<code>LiveData</code>传给UI.</li><li>Repository暴露<code>suspend</code>方法, 确保方法main-safe.</li><li>数据库和网络暴露<code>suspend</code>方法, 确保方法main-safe. Room和Retrofit都是符合这个pattern的.</li></ul><p>Repository暴露<code>suspend</code>方法, 是主线程safe的, 如果要对结果做一些heavy的处理, 比如转换计算, 需要用<code>withContext</code>自行确定主线程不被阻塞.</p><h4 id=retrofit>Retrofit</h4><p>Retrofit从2.6.0开始提供了对协程的支持.</p><p>定义方法的时候加上<code>suspend</code>关键字。</p><h4 id=room>Room</h4><p>Room从2.1.0版本开始提供对协程的支持. 具体就是DAO方法可以是<code>suspend</code>的.</p><p>Room使用自己的dispatcher来确定查询运行在后台线程.
+所以你的代码不应该使用<code>withContext(Dispatchers.IO)</code>, 会让代码变得复杂并且查询变慢.</p><p>更多内容可见: <a class=link href=https://medium.com/androiddevelopers/room-coroutines-422b786dc4c5 target=_blank rel=noopener>Room 🔗 Coroutines</a>.</p><h4 id=retrofitroom>Retrofit&amp;Room</h4><p>直接从 <code>Dispatchers.Main</code>调用Retrofit或Romm的suspend方法就行；</p><p>他们都有自己定义的Dispatcher，不用额外使用<code>withContext(Dispatchers.IO)</code>。</p><blockquote><p>Both Room and Retrofit make suspending functions <strong>main-safe</strong>.</p><p>It&rsquo;s safe to call these suspend funs from <code>Dispatchers.Main</code>, even though they fetch from the network and write to the database.</p></blockquote><blockquote><p>Both Room and Retrofit use a custom dispatcher and <strong>do not use <code>Dispatchers.IO</code>.</strong></p><p>Room will run coroutines using the default <a class=link href=https://developer.android.com/reference/androidx/room/RoomDatabase.Builder.html#setQueryExecutor%28java.util.concurrent.Executor%29 target=_blank rel=noopener>query</a> and <a class=link href=https://developer.android.com/reference/androidx/room/RoomDatabase.Builder.html#setTransactionExecutor%28java.util.concurrent.Executor%29 target=_blank rel=noopener>transaction</a> <code>Executor</code> that&rsquo;s configured.</p><p>Retrofit will create a new <code>Call</code> object under the hood, and call <a class=link href=https://square.github.io/retrofit/2.x/retrofit/retrofit2/Call.html#enqueue-retrofit2.Callback- target=_blank rel=noopener>enqueue</a> on it to send the request asynchronously.</p></blockquote><h3 id=暂停生命感知的协程>暂停生命感知的协程</h3><p><a class=link href=https://developer.android.com/topic/libraries/architecture/coroutines#suspend target=_blank rel=noopener>参考</a></p><p>依赖</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>    implementation &#34;org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.4&#34;
+</span></span><span class=line><span class=cl>    implementation &#34;org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.4&#34;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    implementation &#39;androidx.lifecycle:lifecycle-runtime-ktx:2.2.0&#39;
+</span></span></code></pre></td></tr></table></div></div><p>kotlinx-coroutines-core: <a class=link href=https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-core target=_blank rel=noopener>1.3.4</a></p><p>kotlinx-coroutines-android：<a class=link href=https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-android target=_blank rel=noopener>1.3.4</a></p><p>lifecycle-runtime-ktx：<a class=link href=https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-runtime-ktx target=_blank rel=noopener>2.2.0</a></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>MainActivity</span> <span class=p>:</span> <span class=n>AppCompatActivity</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>init</span> <span class=p>{</span> <span class=c1>// Notice that we can safely launch in the constructor of the Fragment.
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>lifecycleScope</span><span class=p>.</span><span class=n>launch</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=n>whenStarted</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;whenStarted： 1&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=c1>// The block inside will run only when Lifecycle is at least STARTED.
+</span></span></span><span class=line><span class=cl><span class=c1></span>                <span class=c1>// It will start executing when fragment is started and
+</span></span></span><span class=line><span class=cl><span class=c1></span>                <span class=c1>// can call other suspend methods.
+</span></span></span><span class=line><span class=cl><span class=c1></span>                <span class=k>val</span> <span class=py>canAccess</span> <span class=p>=</span> <span class=n>withContext</span><span class=p>(</span><span class=nc>Dispatchers</span><span class=p>.</span><span class=n>IO</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                    <span class=n>checkUserAccess</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>                <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                <span class=c1>// When checkUserAccess returns, the next line is automatically
+</span></span></span><span class=line><span class=cl><span class=c1></span>                <span class=c1>// suspended if the Lifecycle is not *at least* STARTED.
+</span></span></span><span class=line><span class=cl><span class=c1></span>                <span class=c1>// We could safely run fragment transactions because we know the
+</span></span></span><span class=line><span class=cl><span class=c1></span>                <span class=c1>// code won&#39;t run unless the lifecycle is at least STARTED.
+</span></span></span><span class=line><span class=cl><span class=c1></span>                <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;whenStarted： 2&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1>// This line runs only after the whenStarted block above has completed.
+</span></span></span><span class=line><span class=cl><span class=c1></span>            <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;lifecycleScope.launch： done&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>suspend</span> <span class=k>fun</span> <span class=nf>checkUserAccess</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;checkUserAccess: start&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>delay</span><span class=p>(</span><span class=m>10</span><span class=n>_000L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;checkUserAccess: end&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>override</span> <span class=k>fun</span> <span class=nf>onCreate</span><span class=p>(</span><span class=n>savedInstanceState</span><span class=p>:</span> <span class=n>Bundle</span><span class=p>?)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>super</span><span class=p>.</span><span class=n>onCreate</span><span class=p>(</span><span class=n>savedInstanceState</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>setContentView</span><span class=p>(</span><span class=nc>R</span><span class=p>.</span><span class=n>layout</span><span class=p>.</span><span class=n>activity_main</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nc>System</span><span class=p>.</span><span class=n>setProperty</span><span class=p>(</span><span class=s2>&#34;kotlinx.coroutines.debug&#34;</span><span class=p>,</span> <span class=s2>&#34;on&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;onCreate()&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>override</span> <span class=k>fun</span> <span class=nf>onStart</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>super</span><span class=p>.</span><span class=n>onStart</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;onStart()&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>override</span> <span class=k>fun</span> <span class=nf>onStop</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>super</span><span class=p>.</span><span class=n>onStop</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;onStop()&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>logg</span><span class=p>(</span><span class=n>msg</span><span class=p>:</span> <span class=n>String</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nc>Log</span><span class=p>.</span><span class=n>d</span><span class=p>(</span><span class=s2>&#34;HB&#34;</span><span class=p>,</span> <span class=nc>Thread</span><span class=p>.</span><span class=n>currentThread</span><span class=p>().</span><span class=n>name</span> <span class=p>+</span> <span class=s2>&#34; &#34;</span> <span class=p>+</span> <span class=n>msg</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>03-08 20:27:03.475 8653-8653/? D/HB: main onCreate<span class=o>()</span>
+</span></span><span class=line><span class=cl>03-08 20:27:03.475 8653-8653/? D/HB: main onStart<span class=o>()</span>
+</span></span><span class=line><span class=cl>03-08 20:27:03.475 8653-8653/? D/HB: main whenStarted： <span class=m>1</span>
+</span></span><span class=line><span class=cl>03-08 20:27:03.485 8653-8719/? D/HB: DefaultDispatcher-worker-1 checkUserAccess: start
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// 将App放到后台
+</span></span><span class=line><span class=cl>03-08 20:27:06.195 8653-8653/? D/HB: main onStop<span class=o>()</span>
+</span></span><span class=line><span class=cl>03-08 20:27:13.485 8653-8740/? D/HB: DefaultDispatcher-worker-3 checkUserAccess: end
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// App回到前台
+</span></span><span class=line><span class=cl>03-08 20:27:41.555 8653-8653/? D/HB: main onStart<span class=o>()</span>
+</span></span><span class=line><span class=cl>03-08 20:27:41.555 8653-8653/? D/HB: main whenStarted： <span class=m>2</span>
+</span></span><span class=line><span class=cl>03-08 20:27:41.555 8653-8653/? D/HB: main lifecycleScope.launch： <span class=k>done</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=与livedata结合>与LiveData结合</h3><p><a class=link href=https://developer.android.com/topic/libraries/architecture/coroutines#livedata target=_blank rel=noopener>参考</a></p><p>添加依赖</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-groovy data-lang=groovy><span class=line><span class=cl><span class=n>implementation</span> <span class=s1>&#39;androidx.lifecycle:lifecycle-livedata-ktx:2.2.0&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>MainActivity</span> <span class=p>:</span> <span class=n>AppCompatActivity</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>user</span><span class=p>:</span> <span class=n>LiveData</span><span class=p>&lt;</span><span class=n>String</span><span class=p>&gt;</span> <span class=p>=</span> <span class=n>liveData</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>val</span> <span class=py>data</span> <span class=p>=</span> <span class=n>databaseLoadUser</span><span class=p>()</span> <span class=c1>// loadUser is a suspend function.
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>emit</span><span class=p>(</span><span class=k>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>suspend</span> <span class=k>fun</span> <span class=nf>databaseLoadUser</span><span class=p>():</span> <span class=n>String</span> <span class=p>=</span> <span class=n>withContext</span><span class=p>(</span><span class=nc>Dispatchers</span><span class=p>.</span><span class=n>IO</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;databaseLoadUser: Start&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>delay</span><span class=p>(</span><span class=m>10</span><span class=n>_000L</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;databaseLoadUser: end&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;hello&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>override</span> <span class=k>fun</span> <span class=nf>onCreate</span><span class=p>(</span><span class=n>savedInstanceState</span><span class=p>:</span> <span class=n>Bundle</span><span class=p>?)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>super</span><span class=p>.</span><span class=n>onCreate</span><span class=p>(</span><span class=n>savedInstanceState</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>setContentView</span><span class=p>(</span><span class=nc>R</span><span class=p>.</span><span class=n>layout</span><span class=p>.</span><span class=n>activity_main</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nc>System</span><span class=p>.</span><span class=n>setProperty</span><span class=p>(</span><span class=s2>&#34;kotlinx.coroutines.debug&#34;</span><span class=p>,</span> <span class=s2>&#34;on&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;onCreate()&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>user</span><span class=p>.</span><span class=n>observe</span><span class=p>(</span><span class=k>this</span><span class=p>,</span> <span class=n>Observer</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>logg</span><span class=p>(</span><span class=s2>&#34;Observer: &#34;</span> <span class=p>+</span> <span class=k>it</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>})</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>logg</span><span class=p>(</span><span class=n>msg</span><span class=p>:</span> <span class=n>String</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nc>Log</span><span class=p>.</span><span class=n>d</span><span class=p>(</span><span class=s2>&#34;HB&#34;</span><span class=p>,</span> <span class=nc>Thread</span><span class=p>.</span><span class=n>currentThread</span><span class=p>().</span><span class=n>name</span> <span class=p>+</span> <span class=s2>&#34; &#34;</span> <span class=p>+</span> <span class=n>msg</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><div id=cusdis_thread data-host=https://cusdis.com data-app-id=287ed0fd-6a12-4302-a1ad-d2fd382e1199 data-page-id=2fdaa3058872b91c6be4614f2bc8b9f6 data-page-url=https://blog.ververv.com/p/%E5%8D%8F%E7%A8%8B-coroutines/ data-page-title=协程-Coroutines></div><script async defer src=https://cusdis.com/js/cusdis.es.js></script><script>function setCusdisTheme(e){let t=document.querySelector("#cusdis_thread iframe");t&&window.CUSDIS.setTheme(e)}window.addEventListener("onColorSchemeChange",e=>{setCusdisTheme(e.detail)})</script><footer class=site-footer><section class=copyright>&copy;
+2023 -
+2024 量子跳跃者</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.24.2>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

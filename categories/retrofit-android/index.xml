@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Retrofit Android on 量子跳跃者</title><link>https://blog.ververv.com/categories/retrofit-android/</link><description>Recent content in Retrofit Android on 量子跳跃者</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 06 Mar 2020 07:58:58 +0800</lastBuildDate><atom:link href="https://blog.ververv.com/categories/retrofit-android/index.xml" rel="self" type="application/rss+xml"/><item><title>Retrofit</title><link>https://blog.ververv.com/p/retrofit/</link><pubDate>Fri, 06 Mar 2020 07:58:58 +0800</pubDate><guid>https://blog.ververv.com/p/retrofit/</guid><description>&lt;h2 id="retrofit">Retrofit&lt;/h2>
+&lt;h3 id="版本">版本&lt;/h3>
+&lt;p>版本：&lt;a class="link" href="https://mvnrepository.com/artifact/com.squareup.retrofit2/retrofit" target="_blank" rel="noopener"
+>2.7.2&lt;/a>&lt;/p>
+&lt;h4 id="converter-gson">Converter: Gson&lt;/h4>
+&lt;p>当前最新版本：&lt;a class="link" href="https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-gson" target="_blank" rel="noopener"
+>2.7.2&lt;/a>&lt;/p>
+&lt;h4 id="okhttp">OkHttp&lt;/h4>
+&lt;p>最新版本是&lt;a class="link" href="https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp" target="_blank" rel="noopener"
+>4.4.0&lt;/a>，但不用在依赖文件中添加OkHttp。&lt;/p>
+&lt;h4 id="okhttp-logging-interceptor">OkHttp Logging Interceptor&lt;/h4>
+&lt;p>当前最新版本&lt;a class="link" href="https://mvnrepository.com/artifact/com.squareup.okhttp3/logging-interceptor" target="_blank" rel="noopener"
+>4.4.0&lt;/a>&lt;/p>
+&lt;h3 id="jvm版本">JVM版本&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-groovy" data-lang="groovy">&lt;span class="line">&lt;span class="cl">&lt;span class="n">compileOptions&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">sourceCompatibility&lt;/span> &lt;span class="n">JavaVersion&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">VERSION_1_8&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">targetCompatibility&lt;/span> &lt;span class="n">JavaVersion&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">VERSION_1_8&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="user-permision">User-Permision&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-xml" data-lang="xml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">&amp;lt;uses-permission&lt;/span> &lt;span class="na">android:name=&lt;/span>&lt;span class="s">&amp;#34;android.permission.INTERNET&amp;#34;&lt;/span>&lt;span class="nt">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="使用协程">使用协程&lt;/h2>
+&lt;h2 id="遇到的问题">遇到的问题&lt;/h2>
+&lt;h3 id="error-invoke-customs-are-only-supported-starting-with-android-o---min-api-26">Error: Invoke-customs are only supported starting with Android O (&amp;ndash;min-api 26)&lt;/h3>
+&lt;p>解决办法：build.gradle 添加：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">compileOptions {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> sourceCompatibility JavaVersion.VERSION_1_8
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> targetCompatibility JavaVersion.VERSION_1_8
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>

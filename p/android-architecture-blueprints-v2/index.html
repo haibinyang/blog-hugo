@@ -1,0 +1,504 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="工程说明 官网 需求说明 工程解析 TasksActivity解析 NavigationDrawer NavController Fragment 自动切换 文件结构 不好，建议参考Github Sample的文件结构。 UI CoordinatorLayout-TODO 链接 顶"><title>Android Architecture Blueprints v2</title>
+<link rel=canonical href=https://blog.ververv.com/p/android-architecture-blueprints-v2/><link rel=stylesheet href=/scss/style.min.d8118f156935b64eca93aca758476adca858d2c47354971654d9bd2933a0e45f.css><meta property='og:title' content="Android Architecture Blueprints v2"><meta property='og:description' content="工程说明 官网 需求说明 工程解析 TasksActivity解析 NavigationDrawer NavController Fragment 自动切换 文件结构 不好，建议参考Github Sample的文件结构。 UI CoordinatorLayout-TODO 链接 顶"><meta property='og:url' content='https://blog.ververv.com/p/android-architecture-blueprints-v2/'><meta property='og:site_name' content='量子跳跃者'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:published_time' content='2020-03-05T16:57:48+08:00'><meta property='article:modified_time' content='2020-03-05T16:57:48+08:00'><meta name=twitter:title content="Android Architecture Blueprints v2"><meta name=twitter:description content="工程说明 官网 需求说明 工程解析 TasksActivity解析 NavigationDrawer NavController Fragment 自动切换 文件结构 不好，建议参考Github Sample的文件结构。 UI CoordinatorLayout-TODO 链接 顶"><link rel="shortcut icon" href=/favicon.png><script defer src=https://analytics.ververv.com/pixel/tABAb34VvSTV05V2></script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky compact"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><div class=site-meta><h1 class=site-name><a href=/>量子跳跃者</a></h1><h2 class=site-description></h2></div></header><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/ target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#工程说明>工程说明</a></li><li><a href=#工程解析>工程解析</a><ol><li><a href=#文件结构>文件结构</a></li></ol></li><li><a href=#ui>UI</a><ol><li><a href=#coordinatorlayout-todo>CoordinatorLayout-TODO</a></li><li><a href=#swiperefreshlayout>SwipeRefreshLayout</a></li><li><a href=#floatingactionbutton>FloatingActionButton</a></li></ol></li><li><a href=#基本配置>基本配置</a><ol><li><a href=#基本>基本</a></li><li><a href=#kotlin>Kotlin</a></li><li><a href=#navigationversion-todo>navigationVersion-TODO</a></li><li><a href=#使用-java-8-语言功能>使用 Java 8 语言功能</a></li></ol></li><li><a href=#第三方库>第三方库</a><ol><li><a href=#自动检测代码规范-todo>自动检测代码规范-TODO</a></li><li><a href=#日志timber>日志：Timber</a><ol><li><a href=#自定义输出格式>自定义输出格式</a></li></ol></li></ol></li><li><a href=#项目代码分析>项目代码分析</a><ol><li><a href=#线程执行器>线程执行器</a></li><li><a href=#获取viewmodels>获取ViewModels</a><ol><li><a href=#vm的工厂方法>VM的工厂方法</a></li></ol></li><li><a href=#repository>Repository</a><ol><li><a href=#application>Application</a></li><li><a href=#servicelocator>ServiceLocator</a></li><li><a href=#datasource>DataSource</a></li><li><a href=#repository-1>Repository</a></li><li><a href=#datasource-1>DataSource</a></li></ol></li><li><a href=#从ui到datasource>从UI到DataSource</a><ol><li><a href=#数据绑定>数据绑定</a></li><li><a href=#从ui到repo到datasource>从UI到Repo到DataSource</a></li><li><a href=#event>Event</a></li></ol></li><li><a href=#其它>其它</a></li><li><a href=#两个角度了解>两个角度了解</a></li></ol></li><li><a href=#不明白>不明白</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/android/>Android</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/android-architecture-blueprints-v2/>Android Architecture Blueprints v2</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Mar 05, 2020</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 5 分钟</time></div></footer></div></header><section class=article-content><h2 id=工程说明>工程说明</h2><p><a class=link href=https://github.com/android/architecture-samples target=_blank rel=noopener>官网</a></p><p><a class=link href=https://github.com/android/architecture-samples/wiki/To-do-app-specification target=_blank rel=noopener>需求说明</a></p><h2 id=工程解析>工程解析</h2><p>TasksActivity解析</p><p>NavigationDrawer</p><p>NavController</p><p>Fragment</p><p>自动切换</p><h3 id=文件结构>文件结构</h3><p>不好，建议参考Github Sample的文件结构。</p><h2 id=ui>UI</h2><h3 id=coordinatorlayout-todo>CoordinatorLayout-TODO</h3><p><a class=link href=https://www.jianshu.com/p/640f4ef05fb2 target=_blank rel=noopener>链接</a></p><p>顶层的布局</p><h3 id=swiperefreshlayout>SwipeRefreshLayout</h3><p>Google官方下拉刷新控件</p><h3 id=floatingactionbutton>FloatingActionButton</h3><h2 id=基本配置>基本配置</h2><h3 id=基本>基本</h3><p>Android Gradle Plugin：3.5.2</p><p>Gradle：5.4.1</p><p>最新版本是：<a class=link href=https://gradle.org/install/ target=_blank rel=noopener>6.2.2</a></p><h3 id=kotlin>Kotlin</h3><p>当前最新版本：<a class=link href=https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib-jdk7 target=_blank rel=noopener>1.3.70</a></p><p>BP使用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-groovy data-lang=groovy><span class=line><span class=cl><span class=n>buildscript</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>ext</span><span class=o>.</span><span class=na>kotlinVersion</span> <span class=o>=</span> <span class=s1>&#39;1.3.61&#39;</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-groovy data-lang=groovy><span class=line><span class=cl>  <span class=c1>// Kotlin
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>implementation</span> <span class=s2>&#34;org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=navigationversion-todo>navigationVersion-TODO</h3><h3 id=使用-java-8-语言功能>使用 Java 8 语言功能</h3><p><a class=link href="https://developer.android.com/studio/write/java8-support?hl=zh-cn" target=_blank rel=noopener>链接</a></p><h2 id=第三方库>第三方库</h2><h3 id=自动检测代码规范-todo>自动检测代码规范-TODO</h3><p><a class=link href=https://github.com/diffplug/spotless target=_blank rel=noopener>Spotless</a></p><p><a class=link href=https://blog.csdn.net/HinstenyHisoka/article/details/95165157 target=_blank rel=noopener>使用</a></p><h3 id=日志timber>日志：Timber</h3><p>版本：4.7.1</p><p><a class=link href=https://github.com/JakeWharton/timber target=_blank rel=noopener>官网</a></p><p>教程：见<a class=link href=https://www.jianshu.com/p/4f54fcba3ad3 target=_blank rel=noopener>链接</a></p><h4 id=自定义输出格式>自定义输出格式</h4><ul><li>当前线程。</li><li>当前行号。</li></ul><p>见<a class=link href=https://stackoverflow.com/questions/38689399/log-method-name-and-line-number-in-timber target=_blank rel=noopener>链接</a></p><p><a class=link href=https://www.jianshu.com/p/d4fb5d0fa26e target=_blank rel=noopener>可能有用</a></p><p>打印Crash信息-TODO</p><p><a class=link href=https://github.com/JakeWharton/timber/blob/master/timber-sample/src/main/java/com/example/timber/ExampleApp.java target=_blank rel=noopener>https://github.com/JakeWharton/timber/blob/master/timber-sample/src/main/java/com/example/timber/ExampleApp.java</a></p><h2 id=项目代码分析>项目代码分析</h2><h3 id=线程执行器>线程执行器</h3><p>建议参考Github，放到一个统一的类中。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>DefaultTasksRepository</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>val</span> <span class=py>tasksRemoteDataSource</span><span class=p>:</span> <span class=n>TasksDataSource</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>val</span> <span class=py>tasksLocalDataSource</span><span class=p>:</span> <span class=n>TasksDataSource</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>val</span> <span class=py>ioDispatcher</span><span class=p>:</span> <span class=n>CoroutineDispatcher</span> <span class=p>=</span> <span class=nc>Dispatchers</span><span class=p>.</span><span class=n>IO</span>
+</span></span><span class=line><span class=cl><span class=p>)</span> 
+</span></span></code></pre></td></tr></table></div></div><h3 id=获取viewmodels>获取ViewModels</h3><p>值得借鉴。</p><p>在Fragment中获取VM，需要指定泛型的类型<addedittaskviewmodel>。</p><p>这样就解耦Fragment和VM工厂方法。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>private</span> <span class=k>val</span> <span class=py>viewModel</span> <span class=k>by</span> <span class=n>viewModels</span><span class=p>&lt;</span><span class=n>AddEditTaskViewModel</span><span class=p>&gt;</span> <span class=p>{</span> <span class=n>getViewModelFactory</span><span class=p>()</span> <span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>ViewModel 有依赖项，需要自定义工厂进行创建。</p><p><a class=link href=https://juejin.im/post/5d80920bf265da03b638e0bd target=_blank rel=noopener>参考</a></p><h4 id=vm的工厂方法>VM的工厂方法</h4><p>在Fragment的扩展方法，放在utils包下，用来创建对应的ViewModel，很方便。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>Fragment</span><span class=p>.</span><span class=n>getViewModelFactory</span><span class=p>():</span> <span class=n>ViewModelFactory</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>repository</span> <span class=p>=</span> <span class=p>(</span><span class=n>requireContext</span><span class=p>().</span><span class=n>applicationContext</span> <span class=k>as</span> <span class=n>TodoApplication</span><span class=p>).</span><span class=n>taskRepository</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>ViewModelFactory</span><span class=p>(</span><span class=n>repository</span><span class=p>,</span> <span class=k>this</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用一个辅助类：ViewModelFactory，生成不同的ViewModels工厂类。</p><p>根据泛型类型AddEditTaskViewModel，生成不同的ViewModels工厂类。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>ViewModelFactory</span> <span class=k>constructor</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=k>private</span> <span class=k>val</span> <span class=py>tasksRepository</span><span class=p>:</span> <span class=n>TasksRepository</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>owner</span><span class=p>:</span> <span class=n>SavedStateRegistryOwner</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>defaultArgs</span><span class=p>:</span> <span class=n>Bundle</span><span class=p>?</span> <span class=p>=</span> <span class=k>null</span>
+</span></span><span class=line><span class=cl><span class=p>)</span> <span class=p>:</span> <span class=n>AbstractSavedStateViewModelFactory</span><span class=p>(</span><span class=n>owner</span><span class=p>,</span> <span class=n>defaultArgs</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>override</span> <span class=k>fun</span> <span class=p>&lt;</span><span class=nc>T</span> <span class=p>:</span> <span class=nc>ViewModel</span><span class=p>&gt;</span> <span class=nf>create</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=n>key</span><span class=p>:</span> <span class=n>String</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=n>modelClass</span><span class=p>:</span> <span class=n>Class</span><span class=p>&lt;</span><span class=n>T</span><span class=p>&gt;,</span>
+</span></span><span class=line><span class=cl>            <span class=n>handle</span><span class=p>:</span> <span class=n>SavedStateHandle</span>
+</span></span><span class=line><span class=cl>      <span class=c1>// 关键点
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>)</span> <span class=p>=</span> <span class=n>with</span><span class=p>(</span><span class=n>modelClass</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>when</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>isAssignableFrom</span><span class=p>(</span><span class=n>StatisticsViewModel</span><span class=o>::</span><span class=k>class</span><span class=p>.</span><span class=n>java</span><span class=p>)</span> <span class=o>-&gt;</span>
+</span></span><span class=line><span class=cl>                <span class=n>StatisticsViewModel</span><span class=p>(</span><span class=n>tasksRepository</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl>            <span class=n>isAssignableFrom</span><span class=p>(</span><span class=n>TaskDetailViewModel</span><span class=o>::</span><span class=k>class</span><span class=p>.</span><span class=n>java</span><span class=p>)</span> <span class=o>-&gt;</span>
+</span></span><span class=line><span class=cl>                <span class=n>TaskDetailViewModel</span><span class=p>(</span><span class=n>tasksRepository</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>            <span class=k>else</span> <span class=o>-&gt;</span>
+</span></span><span class=line><span class=cl>                <span class=k>throw</span> <span class=n>IllegalArgumentException</span><span class=p>(</span><span class=s2>&#34;Unknown ViewModel class: </span><span class=si>${modelClass.name}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>as</span> <span class=n>T</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>下面说下Reposition的生命周期。</p><h3 id=repository>Repository</h3><h4 id=application>Application</h4><p>将Repository放在Application中。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>TodoApplication</span> <span class=p>:</span> <span class=n>Application</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// Depends on the flavor,
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>val</span> <span class=py>taskRepository</span><span class=p>:</span> <span class=n>TasksRepository</span>
+</span></span><span class=line><span class=cl>        <span class=k>get</span><span class=p>()</span> <span class=p>=</span> <span class=nc>ServiceLocator</span><span class=p>.</span><span class=n>provideTasksRepository</span><span class=p>(</span><span class=k>this</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>Application从ServiceLocator中获取。</p><h4 id=servicelocator>ServiceLocator</h4><p>两个不同的Flavor</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-groovy data-lang=groovy><span class=line><span class=cl><span class=n>productFlavors</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>mock</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>dimension</span> <span class=s2>&#34;default&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=n>applicationIdSuffix</span> <span class=o>=</span> <span class=s2>&#34;.mock&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>prod</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>dimension</span> <span class=s2>&#34;default&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>每个Flavor对应一个ServiceLocator。</p><h5 id=prod>prod</h5><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>object</span> <span class=nc>ServiceLocator</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>var</span> <span class=py>tasksRepository</span><span class=p>:</span> <span class=n>TasksRepository</span><span class=p>?</span> <span class=p>=</span> <span class=k>null</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>provideTasksRepository</span><span class=p>(</span><span class=n>context</span><span class=p>:</span> <span class=n>Context</span><span class=p>):</span> <span class=n>TasksRepository</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>synchronized</span><span class=p>(</span><span class=k>this</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>tasksRepository</span> <span class=o>?:</span> <span class=n>tasksRepository</span> <span class=o>?:</span> <span class=n>createTasksRepository</span><span class=p>(</span><span class=n>context</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=datasource>DataSource</h4><p>定义接口：TasksDataSource</p><p>表示不同的数据来源：远程（Retrofit）、本地持久化（Room）和本地缓存（Memory）。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>interface</span> <span class=nc>TasksDataSource</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>suspend</span> <span class=k>fun</span> <span class=nf>saveTask</span><span class=p>(</span><span class=n>task</span><span class=p>:</span> <span class=n>Task</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=repository-1>Repository</h4><p>定义一个Reop接口：TasksRepository</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>interface</span> <span class=nc>TasksRepository</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>suspend</span> <span class=k>fun</span> <span class=nf>saveTask</span><span class=p>(</span><span class=n>task</span><span class=p>:</span> <span class=n>Task</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>ServiceLocator创建基于TasksRepository的<strong>DefaultTasksRepository</strong>。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>DefaultTasksRepository</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>val</span> <span class=py>tasksRemoteDataSource</span><span class=p>:</span> <span class=n>TasksDataSource</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>val</span> <span class=py>tasksLocalDataSource</span><span class=p>:</span> <span class=n>TasksDataSource</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>val</span> <span class=py>ioDispatcher</span><span class=p>:</span> <span class=n>CoroutineDispatcher</span> <span class=p>=</span> <span class=nc>Dispatchers</span><span class=p>.</span><span class=n>IO</span>
+</span></span><span class=line><span class=cl><span class=p>)</span> <span class=p>:</span> <span class=n>TasksRepository</span>
+</span></span></code></pre></td></tr></table></div></div><p>不同的ServiceLocator传入不同的参数：tasksRemoteDataSource 和 tasksLocalDataSource。</p><p>例如，Prod：</p><p>Tasks<strong>Remote</strong>DataSource：指网络，这个项目是模拟网络请求。</p><p>tasks<strong>Local</strong>DataSource指：Room</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>private</span> <span class=k>fun</span> <span class=nf>createTasksRepository</span><span class=p>(</span><span class=n>context</span><span class=p>:</span> <span class=n>Context</span><span class=p>):</span> <span class=n>TasksRepository</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>newRepo</span> <span class=p>=</span>
+</span></span><span class=line><span class=cl>        <span class=n>DefaultTasksRepository</span><span class=p>(</span><span class=n>TasksRemoteDataSource</span><span class=p>,</span> <span class=n>createTaskLocalDataSource</span><span class=p>(</span><span class=n>context</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=n>tasksRepository</span> <span class=p>=</span> <span class=n>newRepo</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>newRepo</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>Remote：放在Prod的Flavor中。类包是：TasksRemoteDataSource</p><p>Local：放在主项目的local包中。类名是：Tasks<strong>Local</strong>DataSource</p><p>DefaultTasksRepository调用的其实是DataSource接口。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=n>DefaultTasksRepository</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>override</span> <span class=k>suspend</span> <span class=k>fun</span> <span class=nf>saveTask</span><span class=p>(</span><span class=n>task</span><span class=p>:</span> <span class=n>Task</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=n>coroutineScope</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=n>launch</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>              <span class=n>tasksRemoteDataSource</span><span class=p>.</span><span class=n>saveTask</span><span class=p>(</span><span class=n>task</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>          <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>          <span class=n>launch</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>              <span class=n>tasksLocalDataSource</span><span class=p>.</span><span class=n>saveTask</span><span class=p>(</span><span class=n>task</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>          <span class=p>}</span>
+</span></span><span class=line><span class=cl>      <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=datasource-1>DataSource</h4><h5 id=taskslocaldatasource>TasksLocalDataSource</h5><p>Tasks<strong>Local</strong>DataSource需要DB的DAO接口，也需要Dispatcher。</p><p>这里使用了协程。</p><p>使用的是taskDao接口。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>TasksLocalDataSource</span> <span class=k>internal</span> <span class=k>constructor</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>val</span> <span class=py>tasksDao</span><span class=p>:</span> <span class=n>TasksDao</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>val</span> <span class=py>ioDispatcher</span><span class=p>:</span> <span class=n>CoroutineDispatcher</span> <span class=p>=</span> <span class=nc>Dispatchers</span><span class=p>.</span><span class=n>IO</span>
+</span></span><span class=line><span class=cl><span class=p>)</span> <span class=p>:</span> <span class=n>TasksDataSource</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>    <span class=k>override</span> <span class=k>suspend</span> <span class=k>fun</span> <span class=nf>saveTask</span><span class=p>(</span><span class=n>task</span><span class=p>:</span> <span class=n>Task</span><span class=p>)</span> <span class=p>=</span> <span class=n>withContext</span><span class=p>(</span><span class=n>ioDispatcher</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>tasksDao</span><span class=p>.</span><span class=n>insertTask</span><span class=p>(</span><span class=n>task</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h5 id=tasksremotedatasource>TasksRemoteDataSource</h5><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl>    <span class=k>override</span> <span class=k>suspend</span> <span class=k>fun</span> <span class=nf>saveTask</span><span class=p>(</span><span class=n>task</span><span class=p>:</span> <span class=n>Task</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>TASKS_SERVICE_DATA</span><span class=p>[</span><span class=n>task</span><span class=p>.</span><span class=n>id</span><span class=p>]</span> <span class=p>=</span> <span class=n>task</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=从ui到datasource>从UI到DataSource</h3><h4 id=数据绑定>数据绑定</h4><p>Activity</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>override</span> <span class=k>fun</span> <span class=nf>onCreateView</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>inflater</span><span class=p>:</span> <span class=n>LayoutInflater</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>container</span><span class=p>:</span> <span class=n>ViewGroup</span><span class=p>?,</span>
+</span></span><span class=line><span class=cl>    <span class=n>savedInstanceState</span><span class=p>:</span> <span class=n>Bundle</span><span class=p>?</span>
+</span></span><span class=line><span class=cl><span class=p>):</span> <span class=n>View</span><span class=p>?</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>root</span> <span class=p>=</span> <span class=n>inflater</span><span class=p>.</span><span class=n>inflate</span><span class=p>(</span><span class=nc>R</span><span class=p>.</span><span class=n>layout</span><span class=p>.</span><span class=n>addtask_frag</span><span class=p>,</span> <span class=n>container</span><span class=p>,</span> <span class=k>false</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=c1>// 创建数据绑定
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>viewDataBinding</span> <span class=p>=</span> <span class=nc>AddtaskFragBinding</span><span class=p>.</span><span class=n>bind</span><span class=p>(</span><span class=n>root</span><span class=p>).</span><span class=n>apply</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=c1>// Layout中的数据传入
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>this</span><span class=p>.</span><span class=n>viewmodel</span> <span class=p>=</span> <span class=n>viewModel</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>viewDataBinding</span><span class=p>.</span><span class=n>root</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>addtask_frag.xml文件</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;layout&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;data&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=nt>&lt;variable</span>
+</span></span><span class=line><span class=cl>            <span class=na>name=</span><span class=s>&#34;viewmodel&#34;</span> <span class=na>type=</span><span class=s>&#34;com.example.AddEditTaskViewModel&#34;</span> <span class=nt>/&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;/data&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用viewmodel.dataLoading控制显示与否。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;com.example.android.architecture.blueprints.todoapp.ScrollChildSwipeRefreshLayout</span>
+</span></span><span class=line><span class=cl>    <span class=na>app:enabled=</span><span class=s>&#34;@{viewmodel.dataLoading}&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=na>app:refreshing=</span><span class=s>&#34;@{viewmodel.dataLoading}&#34;</span><span class=nt>&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;ScrollView</span>
+</span></span><span class=line><span class=cl>    <span class=na>android:layout_width=</span><span class=s>&#34;match_parent&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=na>android:layout_height=</span><span class=s>&#34;match_parent&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;LinearLayout</span>
+</span></span><span class=line><span class=cl>        <span class=na>android:visibility=</span><span class=s>&#34;@{viewmodel.dataLoading ? View.GONE : View.VISIBLE}&#34;</span><span class=nt>&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>双向绑定</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;EditText</span>
+</span></span><span class=line><span class=cl>    <span class=na>android:id=</span><span class=s>&#34;@+id/add_task_title_edit_text&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=na>android:text=</span><span class=s>&#34;@={viewmodel.title}&#34;</span><span class=nt>/&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nt>&lt;EditText</span>
+</span></span><span class=line><span class=cl>    <span class=na>android:text=</span><span class=s>&#34;@={viewmodel.description}&#34;</span> <span class=nt>/&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>响应点击事件</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;com.google.android.material.floatingactionbutton.FloatingActionButton</span>
+</span></span><span class=line><span class=cl>    <span class=na>android:onClick=</span><span class=s>&#34;@{() -&gt; viewmodel.saveTask()}&#34;</span> <span class=nt>/&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>Layout &ndash;> ViewModel &ndash;> Reopository接口 &ndash;> DefaultTasksRepository &ndash;></p><h4 id=从ui到repo到datasource>从UI到Repo到DataSource</h4><p>定义一个实体类: Task</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=nd>@Entity</span><span class=p>(</span><span class=n>tableName</span> <span class=p>=</span> <span class=s2>&#34;tasks&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>data</span> <span class=k>class</span> <span class=nc>Task</span> <span class=nd>@JvmOverloads</span> <span class=k>constructor</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@ColumnInfo</span><span class=p>(</span><span class=n>name</span> <span class=p>=</span> <span class=s2>&#34;title&#34;</span><span class=p>)</span> <span class=k>var</span> <span class=py>title</span><span class=p>:</span> <span class=n>String</span> <span class=p>=</span> <span class=s2>&#34;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@ColumnInfo</span><span class=p>(</span><span class=n>name</span> <span class=p>=</span> <span class=s2>&#34;description&#34;</span><span class=p>)</span> <span class=k>var</span> <span class=py>description</span><span class=p>:</span> <span class=n>String</span> <span class=p>=</span> <span class=s2>&#34;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@ColumnInfo</span><span class=p>(</span><span class=n>name</span> <span class=p>=</span> <span class=s2>&#34;completed&#34;</span><span class=p>)</span> <span class=k>var</span> <span class=py>isCompleted</span><span class=p>:</span> <span class=n>Boolean</span> <span class=p>=</span> <span class=k>false</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nd>@PrimaryKey</span> <span class=nd>@ColumnInfo</span><span class=p>(</span><span class=n>name</span> <span class=p>=</span> <span class=s2>&#34;entryid&#34;</span><span class=p>)</span> <span class=k>var</span> <span class=py>id</span><span class=p>:</span> <span class=n>String</span> <span class=p>=</span> <span class=nc>UUID</span><span class=p>.</span><span class=n>randomUUID</span><span class=p>().</span><span class=n>toString</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>定义一个Result类，封装：正常数据，异常和Loading状态。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>sealed</span> <span class=k>class</span> <span class=nc>Result</span><span class=p>&lt;</span><span class=k>out</span> <span class=n>R</span><span class=p>&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>data</span> <span class=k>class</span> <span class=nc>Success</span><span class=p>&lt;</span><span class=k>out</span> <span class=n>T</span><span class=p>&gt;(</span><span class=k>val</span> <span class=py>data</span><span class=p>:</span> <span class=n>T</span><span class=p>)</span> <span class=p>:</span> <span class=n>Result</span><span class=p>&lt;</span><span class=n>T</span><span class=p>&gt;()</span>
+</span></span><span class=line><span class=cl>    <span class=k>data</span> <span class=k>class</span> <span class=nc>Error</span><span class=p>(</span><span class=k>val</span> <span class=py>exception</span><span class=p>:</span> <span class=n>Exception</span><span class=p>)</span> <span class=p>:</span> <span class=n>Result</span><span class=p>&lt;</span><span class=n>Nothing</span><span class=p>&gt;()</span>
+</span></span><span class=line><span class=cl>    <span class=k>object</span> <span class=nc>Loading</span> <span class=p>:</span> <span class=n>Result</span><span class=p>&lt;</span><span class=n>Nothing</span><span class=p>&gt;()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>override</span> <span class=k>fun</span> <span class=nf>toString</span><span class=p>():</span> <span class=n>String</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>when</span> <span class=p>(</span><span class=k>this</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>is</span> <span class=n>Success</span><span class=p>&lt;*&gt;</span> <span class=o>-&gt;</span> <span class=s2>&#34;Success[data=</span><span class=si>$data</span><span class=s2>]&#34;</span>
+</span></span><span class=line><span class=cl>            <span class=k>is</span> <span class=n>Error</span> <span class=o>-&gt;</span> <span class=s2>&#34;Error[exception=</span><span class=si>$exception</span><span class=s2>]&#34;</span>
+</span></span><span class=line><span class=cl>            <span class=n>Loading</span> <span class=o>-&gt;</span> <span class=s2>&#34;Loading&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>开始，</p><p>在ViewModel中调用Repo，“同步”直接取结果。</p><p>tasksRepository返回的是一个密封类的Result，包含状态和数据。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=n>viewModelScope</span><span class=p>.</span><span class=n>launch</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>tasksRepository</span><span class=p>.</span><span class=n>getTask</span><span class=p>(</span><span class=n>taskId</span><span class=p>).</span><span class=n>let</span> <span class=p>{</span> <span class=n>result</span> <span class=o>-&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 判断成功与否                                
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>if</span> <span class=p>(</span><span class=n>result</span> <span class=k>is</span> <span class=n>Success</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=c1>// 取出数据
+</span></span></span><span class=line><span class=cl><span class=c1></span>            <span class=n>onTaskLoaded</span><span class=p>(</span><span class=n>result</span><span class=p>.</span><span class=k>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>onDataNotAvailable</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>根据Result显示界面。</p><p>ViewModel相当于在控制UI界面。从这个角度看，VM承担了界面显示的职责。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=c1>// ViewModel
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>private</span> <span class=k>fun</span> <span class=nf>onTaskLoaded</span><span class=p>(</span><span class=n>task</span><span class=p>:</span> <span class=n>Task</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>title</span><span class=p>.</span><span class=k>value</span> <span class=p>=</span> <span class=n>task</span><span class=p>.</span><span class=n>title</span>
+</span></span><span class=line><span class=cl>    <span class=n>description</span><span class=p>.</span><span class=k>value</span> <span class=p>=</span> <span class=n>task</span><span class=p>.</span><span class=n>description</span>
+</span></span><span class=line><span class=cl>    <span class=n>taskCompleted</span> <span class=p>=</span> <span class=n>task</span><span class=p>.</span><span class=n>isCompleted</span>
+</span></span><span class=line><span class=cl>    <span class=n>_dataLoading</span><span class=p>.</span><span class=k>value</span> <span class=p>=</span> <span class=k>false</span>
+</span></span><span class=line><span class=cl>    <span class=n>isDataLoaded</span> <span class=p>=</span> <span class=k>true</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>private</span> <span class=k>fun</span> <span class=nf>onDataNotAvailable</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>_dataLoading</span><span class=p>.</span><span class=k>value</span> <span class=p>=</span> <span class=k>false</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><hr><p>Repo从DS中取结果</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=c1>// Repo
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>override</span> <span class=k>suspend</span> <span class=k>fun</span> <span class=nf>getTask</span><span class=p>(</span><span class=n>taskId</span><span class=p>:</span> <span class=n>String</span><span class=p>,</span> <span class=n>forceUpdate</span><span class=p>:</span> <span class=n>Boolean</span><span class=p>):</span> <span class=n>Result</span><span class=p>&lt;</span><span class=n>Task</span><span class=p>&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>tasksLocalDataSource</span><span class=p>.</span><span class=n>getTask</span><span class=p>(</span><span class=n>taskId</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>DS获取数据，封装在Result的子类，返回结果。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=c1>// DS: Room
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>override</span> <span class=k>suspend</span> <span class=k>fun</span> <span class=nf>getTask</span><span class=p>(</span><span class=n>taskId</span><span class=p>:</span> <span class=n>String</span><span class=p>):</span> <span class=n>Result</span><span class=p>&lt;</span><span class=n>Task</span><span class=p>&gt;</span> <span class=p>=</span> <span class=n>withContext</span><span class=p>(</span><span class=n>ioDispatcher</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>val</span> <span class=py>task</span> <span class=p>=</span> <span class=n>tasksDao</span><span class=p>.</span><span class=n>getTaskById</span><span class=p>(</span><span class=n>taskId</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>task</span> <span class=o>!=</span> <span class=k>null</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span><span class=nd>@withContext</span> <span class=n>Success</span><span class=p>(</span><span class=n>task</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span><span class=nd>@withContext</span> <span class=n>Error</span><span class=p>(</span><span class=n>Exception</span><span class=p>(</span><span class=s2>&#34;Task not found!&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=n>e</span><span class=p>:</span> <span class=n>Exception</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=nd>@withContext</span> <span class=n>Error</span><span class=p>(</span><span class=n>e</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=event>Event</h4><p>自定义Event</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>open</span> <span class=k>class</span> <span class=nc>Event</span><span class=p>&lt;</span><span class=k>out</span> <span class=n>T</span><span class=p>&gt;(</span><span class=k>private</span> <span class=k>val</span> <span class=py>content</span><span class=p>:</span> <span class=n>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>自定义Observer</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>EventObserver</span><span class=p>&lt;</span><span class=n>T</span><span class=p>&gt;(</span><span class=k>private</span> <span class=k>val</span> <span class=py>onEventUnhandledContent</span><span class=p>:</span> <span class=p>(</span><span class=n>T</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=n>Unit</span><span class=p>)</span> <span class=p>:</span> <span class=n>Observer</span><span class=p>&lt;</span><span class=n>Event</span><span class=p>&lt;</span><span class=n>T</span><span class=p>&gt;&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>override</span> <span class=k>fun</span> <span class=nf>onChanged</span><span class=p>(</span><span class=n>event</span><span class=p>:</span> <span class=n>Event</span><span class=p>&lt;</span><span class=n>T</span><span class=p>&gt;?)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>event</span><span class=o>?.</span><span class=n>getContentIfNotHandled</span><span class=p>()</span><span class=o>?.</span><span class=n>let</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>onEventUnhandledContent</span><span class=p>(</span><span class=k>it</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在ViewModel添加属性</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl>    <span class=k>private</span> <span class=k>val</span> <span class=py>_taskUpdatedEvent</span> <span class=p>=</span> <span class=n>MutableLiveData</span><span class=p>&lt;</span><span class=n>Event</span><span class=p>&lt;</span><span class=n>Unit</span><span class=p>&gt;&gt;()</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>taskUpdatedEvent</span><span class=p>:</span> <span class=n>LiveData</span><span class=p>&lt;</span><span class=n>Event</span><span class=p>&lt;</span><span class=n>Unit</span><span class=p>&gt;&gt;</span> <span class=p>=</span> <span class=n>_taskUpdatedEvent</span>
+</span></span></code></pre></td></tr></table></div></div><p>在Fragment添加观察者</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=n>viewModel</span><span class=p>.</span><span class=n>taskUpdatedEvent</span><span class=p>.</span><span class=n>observe</span><span class=p>(</span><span class=k>this</span><span class=p>,</span> <span class=n>EventObserver</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>action</span> <span class=p>=</span> <span class=n>AddEditTaskFragmentDirections</span>
+</span></span><span class=line><span class=cl>        <span class=p>.</span><span class=n>actionAddEditTaskFragmentToTasksFragment</span><span class=p>(</span><span class=n>ADD_EDIT_RESULT_OK</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>findNavController</span><span class=p>().</span><span class=n>navigate</span><span class=p>(</span><span class=n>action</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><p>在ViewModel中广播事件</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=n>_taskUpdatedEvent</span><span class=p>.</span><span class=k>value</span> <span class=p>=</span> <span class=n>Event</span><span class=p>(</span><span class=n>Unit</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>第二个实例</p><p>定义属性</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>private</span> <span class=k>val</span> <span class=py>_snackbarText</span> <span class=p>=</span> <span class=n>MutableLiveData</span><span class=p>&lt;</span><span class=n>Event</span><span class=p>&lt;</span><span class=n>Int</span><span class=p>&gt;&gt;()</span>
+</span></span><span class=line><span class=cl><span class=k>val</span> <span class=py>snackbarText</span><span class=p>:</span> <span class=n>LiveData</span><span class=p>&lt;</span><span class=n>Event</span><span class=p>&lt;</span><span class=n>Int</span><span class=p>&gt;&gt;</span> <span class=p>=</span> <span class=n>_snackbarText</span>
+</span></span></code></pre></td></tr></table></div></div><p>添加观察者</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>View</span><span class=p>.</span><span class=n>setupSnackbar</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>lifecycleOwner</span><span class=p>:</span> <span class=n>LifecycleOwner</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>snackbarEvent</span><span class=p>:</span> <span class=n>LiveData</span><span class=p>&lt;</span><span class=n>Event</span><span class=p>&lt;</span><span class=n>Int</span><span class=p>&gt;&gt;,</span>
+</span></span><span class=line><span class=cl>    <span class=n>timeLength</span><span class=p>:</span> <span class=n>Int</span>
+</span></span><span class=line><span class=cl><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>snackbarEvent</span><span class=p>.</span><span class=n>observe</span><span class=p>(</span><span class=n>lifecycleOwner</span><span class=p>,</span> <span class=n>Observer</span> <span class=p>{</span> <span class=n>event</span> <span class=o>-&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=n>event</span><span class=p>.</span><span class=n>getContentIfNotHandled</span><span class=p>()</span><span class=o>?.</span><span class=n>let</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>showSnackbar</span><span class=p>(</span><span class=n>context</span><span class=p>.</span><span class=n>getString</span><span class=p>(</span><span class=k>it</span><span class=p>),</span> <span class=n>timeLength</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=n>view</span><span class=o>?.</span><span class=n>setupSnackbar</span><span class=p>(</span><span class=k>this</span><span class=p>,</span> <span class=n>viewModel</span><span class=p>.</span><span class=n>snackbarText</span><span class=p>,</span> <span class=nc>Snackbar</span><span class=p>.</span><span class=n>LENGTH_SHORT</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>广播消息</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=n>_snackbarText</span><span class=p>.</span><span class=k>value</span> <span class=p>=</span> <span class=n>Event</span><span class=p>(</span><span class=nc>R</span><span class=p>.</span><span class=n>string</span><span class=p>.</span><span class=n>empty_task_message</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=其它>其它</h3><h3 id=两个角度了解>两个角度了解</h3><p>添加数据</p><p>获取数据</p><h2 id=不明白>不明白</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>private val args: AddEditTaskFragmentArgs by navArgs()
+</span></span></code></pre></td></tr></table></div></div><p>会自动生成：AddEditTaskFragmentArgs</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>args.taskId
+</span></span></code></pre></td></tr></table></div></div><p>如何定义里面的参数。</p></section><footer class=article-footer><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/android%E8%AE%B0%E5%BD%95/><div class=article-details><h2 class=article-title>Android记录</h2></div></a></article><article><a href=/p/github-browser-sample%E8%A7%A3%E6%9E%90/><div class=article-details><h2 class=article-title>Github Browser Sample解析</h2></div></a></article></div></div></aside><div id=cusdis_thread data-host=https://cusdis.com data-app-id=287ed0fd-6a12-4302-a1ad-d2fd382e1199 data-page-id=1ff3a6b5110b901eac779a6536886d40 data-page-url=https://blog.ververv.com/p/android-architecture-blueprints-v2/ data-page-title="Android Architecture Blueprints v2"></div><script async defer src=https://cusdis.com/js/cusdis.es.js></script><script>function setCusdisTheme(e){let t=document.querySelector("#cusdis_thread iframe");t&&window.CUSDIS.setTheme(e)}window.addEventListener("onColorSchemeChange",e=>{setCusdisTheme(e.detail)})</script><footer class=site-footer><section class=copyright>&copy;
+2023 -
+2024 量子跳跃者</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.24.2>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

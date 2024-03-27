@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Android Media Player on 量子跳跃者</title><link>https://blog.ververv.com/categories/android-media-player/</link><description>Recent content in Android Media Player on 量子跳跃者</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 11 Mar 2020 07:58:58 +0800</lastBuildDate><atom:link href="https://blog.ververv.com/categories/android-media-player/index.xml" rel="self" type="application/rss+xml"/><item><title>Android媒体播放器</title><link>https://blog.ververv.com/p/android%E5%AA%92%E4%BD%93%E6%92%AD%E6%94%BE%E5%99%A8/</link><pubDate>Wed, 11 Mar 2020 07:58:58 +0800</pubDate><guid>https://blog.ververv.com/p/android%E5%AA%92%E4%BD%93%E6%92%AD%E6%94%BE%E5%99%A8/</guid><description>&lt;h2 id="总体">总体&lt;/h2>
+&lt;p>先学习框架&lt;/p>
+&lt;p>从最简单的MediaPlayer入门，做一个框架，&lt;/p>
+&lt;p>不不，直接从ExoPlayer入门，做一个基本框架，本地的视频播放器！！&lt;/p>
+&lt;h2 id="exoplayer">ExoPlayer&lt;/h2>
+&lt;h3 id="介绍">介绍&lt;/h3>
+&lt;p>Youtube也使用这个组件。&lt;/p>
+&lt;h3 id="版本和官网">版本和官网&lt;/h3>
+&lt;ul>
+&lt;li>
+&lt;p>版本：&lt;a class="link" href="https://github.com/google/ExoPlayer/blob/release-v2/RELEASENOTES.md" target="_blank" rel="noopener"
+>2.11.3&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://exoplayer.dev/" target="_blank" rel="noopener"
+>官方网站&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="模组">模组&lt;/h3>
+&lt;ul>
+&lt;li>&lt;code>exoplayer-core&lt;/code>: Core functionality (required).&lt;/li>
+&lt;li>&lt;code>exoplayer-dash&lt;/code>: Support for DASH content.&lt;/li>
+&lt;li>&lt;code>exoplayer-hls&lt;/code>: Support for HLS content.&lt;/li>
+&lt;li>&lt;code>exoplayer-smoothstreaming&lt;/code>: Support for SmoothStreaming content.&lt;/li>
+&lt;li>&lt;code>exoplayer-ui&lt;/code>: UI components and resources for use with ExoPlayer.&lt;/li>
+&lt;/ul>
+&lt;p>还有一些&lt;a class="link" href="https://github.com/google/ExoPlayer/tree/release-v2/extensions/" target="_blank" rel="noopener"
+>扩展&lt;/a>：&lt;/p>
+&lt;h3 id="媒体类型-todo">媒体类型-TODO&lt;/h3>
+&lt;ul>
+&lt;li>DASH&lt;/li>
+&lt;li>HLS&lt;/li>
+&lt;li>SmoothStreaming&lt;/li>
+&lt;li>Progressive&lt;/li>
+&lt;/ul>
+&lt;h3 id="简介">简介&lt;/h3>
+&lt;p>application level&lt;/p>
+&lt;h3 id="入门">入门&lt;/h3>
+&lt;p>&lt;a class="link" href="https://codelabs.developers.google.com/codelabs/exoplayer-intro/?hl=zh-cn#2" target="_blank" rel="noopener"
+>CodeLab&lt;/a>：推荐&lt;/p>
+&lt;h3 id="播放rtmp">播放RTMP&lt;/h3>
+&lt;p>添加依赖&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-groovy" data-lang="groovy">&lt;span class="line">&lt;span class="cl">&lt;span class="n">compile&lt;/span> &lt;span class="s1">&amp;#39;com.google.android.exoplayer:extension-rtmp:2.7.3&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>使用RTMP的MediaSource&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="cl">&lt;span class="n">RtmpDataSourceFactory&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">rtmpDataSourceFactory&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">new&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">RtmpDataSourceFactory&lt;/span>&lt;span class="p">();&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="n">MediaSource&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">videoSource&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">new&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">ExtractorMediaSource&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">Factory&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">rtmpDataSourceFactory&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">createMediaSource&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Uri&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">parse&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;rtmp://172.16.1.123:1935/abcs/room&amp;#34;&lt;/span>&lt;span class="p">));&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;a class="link" href="https://medium.com/@KarthikPonnam/rtmp-player-android-using-exo-media-player-ac7a012b7a25" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p>
+&lt;p>分析&lt;/p>
+&lt;p>使用了&lt;a class="link" href="https://github.com/google/ExoPlayer/tree/release-v2/extensions/rtmp" target="_blank" rel="noopener"
+>RTMP扩展&lt;/a>&lt;/p>
+&lt;p>这个扩展其实使用的是Ant Media公司的&lt;a class="link" href="https://github.com/ant-media/LibRtmp-Client-for-Android" target="_blank" rel="noopener"
+>Librtmp库&lt;/a>&lt;/p>
+&lt;h4 id="librtmp">Librtmp&lt;/h4>
+&lt;p>Librtmp是2019年5月发布的3.1.0的版本。&lt;/p>
+&lt;p>It compiles librtmp library without ssl.&lt;/p>
+&lt;h2 id="扩展">扩展&lt;/h2>
+&lt;p>Exoplayer支持扩展，支持ffmpeg来decode。&lt;/p>
+&lt;p>&lt;a class="link" href="https://exoplayer.dev/supported-formats.html" target="_blank" rel="noopener"
+>https://exoplayer.dev/supported-formats.html&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://github.com/google/ExoPlayer/tree/release-v2/extensions/ffmpeg" target="_blank" rel="noopener"
+>https://github.com/google/ExoPlayer/tree/release-v2/extensions/ffmpeg&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://exoplayer.dev/demo-application.html" target="_blank" rel="noopener"
+>https://exoplayer.dev/demo-application.html&lt;/a>&lt;/p>
+&lt;h2 id="g711">G.711&lt;/h2>
+&lt;p>暂时没找到支持的地方&lt;/p>
+&lt;p>&lt;a class="link" href="https://exoplayer.dev/doc/reference/com/google/android/exoplayer2/audio/WavUtil.html" target="_blank" rel="noopener"
+>https://exoplayer.dev/doc/reference/com/google/android/exoplayer2/audio/WavUtil.html&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://sourcegraph.com/github.com/google/ExoPlayer/-/blob/RELEASENOTES.md" target="_blank" rel="noopener"
+>https://sourcegraph.com/github.com/google/ExoPlayer/-/blob/RELEASENOTES.md&lt;/a>&lt;/p>
+&lt;p>自己做了一个&lt;/p>
+&lt;p>output_g711.mp4&lt;/p>
+&lt;p>没播放出声音。&lt;/p>
+&lt;h3 id="其它">其它·&lt;/h3>
+&lt;p>学习曲线比较陡峭。&lt;/p></description></item></channel></rss>

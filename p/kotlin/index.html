@@ -1,0 +1,1018 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="其它 运算符 参考 链接 ? 操作符 ? 将类型标记为可空 as? 用于安全类型转换 . 执行安全调用（如果接收者非空，就调用一个方法或访问一个属性） ?: 如果左侧的值为"><title>Kotlin</title>
+<link rel=canonical href=https://blog.ververv.com/p/kotlin/><link rel=stylesheet href=/scss/style.min.d8118f156935b64eca93aca758476adca858d2c47354971654d9bd2933a0e45f.css><meta property='og:title' content="Kotlin"><meta property='og:description' content="其它 运算符 参考 链接 ? 操作符 ? 将类型标记为可空 as? 用于安全类型转换 . 执行安全调用（如果接收者非空，就调用一个方法或访问一个属性） ?: 如果左侧的值为"><meta property='og:url' content='https://blog.ververv.com/p/kotlin/'><meta property='og:site_name' content='量子跳跃者'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:published_time' content='2020-02-16T16:57:48+08:00'><meta property='article:modified_time' content='2020-02-16T16:57:48+08:00'><meta name=twitter:title content="Kotlin"><meta name=twitter:description content="其它 运算符 参考 链接 ? 操作符 ? 将类型标记为可空 as? 用于安全类型转换 . 执行安全调用（如果接收者非空，就调用一个方法或访问一个属性） ?: 如果左侧的值为"><link rel="shortcut icon" href=/favicon.png><script defer src=https://analytics.ververv.com/pixel/tABAb34VvSTV05V2></script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky compact"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><div class=site-meta><h1 class=site-name><a href=/>量子跳跃者</a></h1><h2 class=site-description></h2></div></header><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/ target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#其它>其它</a><ol><li><a href=#运算符>运算符</a><ol><li><a href=#参考>参考</a></li><li><a href=#-操作符>? 操作符</a></li></ol></li><li><a href=#打印当前的时间>打印当前的时间</a></li></ol></li><li><a href=#函数式编程>函数式编程</a><ol><li><a href=#函数类型>函数类型</a></li><li><a href=#函数类型实例化>函数类型实例化</a></li><li><a href=#高阶函数>高阶函数</a></li><li><a href=#匿名函数>匿名函数</a></li><li><a href=#lambda表达式>Lambda表达式</a><ol><li><a href=#范例>范例</a></li><li><a href=#传递末尾的-lambda-表达式>传递末尾的 lambda 表达式</a></li><li><a href=#柯里化的-sum-函数>柯里化的 sum 函数</a></li></ol></li><li><a href=#闭包>闭包</a></li><li><a href=#内联函数-todo>内联函数-TODO</a></li><li><a href=#作用域函数>作用域函数</a><ol><li><a href=#区别>区别</a></li><li><a href=#上下文对象this-还是-it>上下文对象：<code>this</code> 还是 <code>it</code></a></li><li><a href=#返回值>返回值</a></li><li><a href=#函数选择>函数选择</a></li><li><a href=#this>this</a></li><li><a href=#also>also</a></li><li><a href=#let>let</a></li></ol></li></ol></li><li><a href=#类>类</a></li><li><a href=#对象>对象</a><ol><li><a href=#object对象>object对象</a></li><li><a href=#匿名object>匿名object</a></li><li><a href=#object表达式>object表达式</a><ol><li><a href=#对比lamda表达式>对比lamda表达式</a></li><li><a href=#用途重要>用途（重要）</a></li></ol></li><li><a href=#静态方法>静态方法</a></li><li><a href=#const关键字>const关键字</a></li><li><a href=#伴生对象>伴生对象</a><ol><li><a href=#有返回类型>有返回类型</a></li></ol></li><li><a href=#扩展>扩展</a><ol><li><a href=#扩展函数>扩展函数</a></li></ol></li></ol></li><li><a href=#委托>委托</a><ol><li><a href=#类的委托>类的委托</a></li><li><a href=#委托属性>委托属性</a><ol><li><a href=#延迟>延迟</a></li><li><a href=#可观察>可观察</a></li><li><a href=#属性映射>属性映射</a></li></ol></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/kotlin-language/>Kotlin Language</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/kotlin/>Kotlin</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Feb 16, 2020</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 9 分钟</time></div></footer></div></header><section class=article-content><h2 id=其它>其它</h2><h3 id=运算符>运算符</h3><h4 id=参考>参考</h4><p><a class=link href>链接</a></p><h4 id=-操作符>? 操作符</h4><ul><li><p><code>?</code> 将类型标记为<a class=link href=https://www.kotlincn.net/docs/reference/null-safety.html#%e5%8f%af%e7%a9%ba%e7%b1%bb%e5%9e%8b%e4%b8%8e%e9%9d%9e%e7%a9%ba%e7%b1%bb%e5%9e%8b target=_blank rel=noopener>可空</a></p></li><li><p><code>as?</code> 用于<a class=link href=https://www.kotlincn.net/docs/reference/typecasts.html#%e5%ae%89%e5%85%a8%e7%9a%84%e5%8f%af%e7%a9%ba%e8%bd%ac%e6%8d%a2%e6%93%8d%e4%bd%9c%e7%ac%a6 target=_blank rel=noopener>安全类型转换</a></p></li><li><p><code>.</code> 执行<a class=link href=https://www.kotlincn.net/docs/reference/null-safety.html#%e5%ae%89%e5%85%a8%e7%9a%84%e8%b0%83%e7%94%a8 target=_blank rel=noopener>安全调用</a>（如果接收者非空，就调用一个方法或访问一个属性）</p></li><li><p><code>?:</code> 如果左侧的值为空，就取右侧的值（<a class=link href=https://www.kotlincn.net/docs/reference/null-safety.html#elvis-%e6%93%8d%e4%bd%9c%e7%ac%a6 target=_blank rel=noopener>elvis 操作符</a>）</p></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>val database = database ?: createDataBase(context)
+</span></span></code></pre></td></tr></table></div></div><h3 id=打印当前的时间>打印当前的时间</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=nc>DateTimeFormatter</span><span class=p>.</span><span class=nc>ISO_INSTANT</span><span class=p>.</span><span class=n>format</span><span class=p>(</span><span class=nc>Instant</span><span class=p>.</span><span class=n>now</span><span class=p>())</span>
+</span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://stackoverflow.com/questions/49862357/how-do-i-get-the-current-time-as-a-timestamp-in-kotlin/56330765 target=_blank rel=noopener>参考</a></p><h2 id=函数式编程>函数式编程</h2><h3 id=函数类型>函数类型</h3><p>见<a class=link href=https://www.kotlincn.net/docs/reference/lambdas.html#%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B target=_blank rel=noopener>链接</a></p><h3 id=函数类型实例化>函数类型实例化</h3><ul><li><p>使用函数字面值的代码块，采用以下形式之一：</p><ul><li><a class=link href=https://www.kotlincn.net/docs/reference/lambdas.html#lambda-%e8%a1%a8%e8%be%be%e5%bc%8f%e4%b8%8e%e5%8c%bf%e5%90%8d%e5%87%bd%e6%95%b0 target=_blank rel=noopener>lambda 表达式</a>: <code>{ a, b -> a + b }</code>,</li><li><a class=link href=https://www.kotlincn.net/docs/reference/lambdas.html#%e5%8c%bf%e5%90%8d%e5%87%bd%e6%95%b0 target=_blank rel=noopener>匿名函数</a>: <code>fun(s: String): Int { return s.toIntOrNull() ?: 0 }</code></li></ul></li><li><p>使用已有声明的可调用引用：</p><ul><li>顶层、局部、成员、扩展<a class=link href=https://www.kotlincn.net/docs/reference/reflection.html#%e5%87%bd%e6%95%b0%e5%bc%95%e7%94%a8 target=_blank rel=noopener>函数</a>：<code>::isOdd</code>、 <code>String::toInt</code>，</li><li><a class=link href=https://www.kotlincn.net/docs/reference/reflection.html#%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0%e5%bc%95%e7%94%a8 target=_blank rel=noopener>构造函数</a>：<code>::Regex</code></li></ul></li></ul><h3 id=高阶函数>高阶函数</h3><p>高阶函数：将函数用作 参数或返回值 的函数。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>isOdd</span><span class=p>(</span><span class=n>x</span><span class=p>:</span> <span class=n>Int</span><span class=p>):</span> <span class=n>Boolean</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>x</span> <span class=p>%</span> <span class=m>2</span> <span class=o>==</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>list</span> <span class=p>=</span> <span class=n>listOf</span><span class=p>(</span><span class=m>1</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>3</span><span class=p>,</span> <span class=m>4</span><span class=p>,</span> <span class=m>5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>list</span><span class=p>.</span><span class=n>filter</span><span class=p>(</span><span class=o>::</span><span class=n>isOdd</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=匿名函数>匿名函数</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>list</span> <span class=p>=</span> <span class=n>listOf</span><span class=p>(</span><span class=m>1</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>3</span><span class=p>,</span> <span class=m>4</span><span class=p>,</span> <span class=m>5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>list</span><span class=p>.</span><span class=n>filter</span><span class=p>(</span><span class=k>fun</span><span class=p>(</span><span class=n>x</span><span class=p>:</span> <span class=n>Int</span><span class=p>):</span> <span class=n>Boolean</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>x</span> <span class=p>%</span> <span class=m>2</span> <span class=o>==</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl>    <span class=p>}))</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=lambda表达式>Lambda表达式</h3><blockquote><p>发音：[&rsquo;læmdə]</p></blockquote><p><code>lambda表达式</code>总是被大括号｛｝括着 。</p><p><code>Lambda表达式</code>本质上是<code>匿名函数</code>。</p><h4 id=范例>范例</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>list</span> <span class=p>=</span> <span class=n>listOf</span><span class=p>(</span><span class=m>1</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>3</span><span class=p>,</span> <span class=m>4</span><span class=p>,</span> <span class=m>5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>list</span><span class=p>.</span><span class=n>filter</span><span class=p>(</span><span class=o>::</span><span class=n>isOdd</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  	<span class=c1>// 匿名函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>println</span><span class=p>(</span><span class=n>list</span><span class=p>.</span><span class=n>filter</span><span class=p>(</span><span class=k>fun</span><span class=p>(</span><span class=n>x</span><span class=p>:</span> <span class=n>Int</span><span class=p>):</span> <span class=n>Boolean</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>x</span> <span class=p>%</span> <span class=m>2</span> <span class=o>==</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl>    <span class=p>}))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  	<span class=c1>// Lambda
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>println</span><span class=p>(</span><span class=n>list</span><span class=p>.</span><span class=n>filter</span><span class=p>({</span> <span class=n>x</span> <span class=o>-&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=n>x</span> <span class=p>%</span> <span class=m>2</span> <span class=o>==</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl>    <span class=p>}))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  	<span class=c1>// 拖尾Lambda: 完整格式
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>println</span><span class=p>(</span><span class=n>list</span><span class=p>.</span><span class=n>filter</span> <span class=p>{</span> <span class=n>x</span> <span class=o>-&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=n>x</span> <span class=p>%</span> <span class=m>2</span> <span class=o>==</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  	<span class=c1>// 如果只有一个参数，可以省略
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>println</span><span class=p>(</span><span class=n>list</span><span class=p>.</span><span class=n>filter</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>it</span> <span class=p>%</span> <span class=m>2</span> <span class=o>==</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=传递末尾的-lambda-表达式>传递末尾的 lambda 表达式</h4><p>在 Kotlin 中有一个约定：如果函数的最后一个参数是函数，那么作为相应参数传入的 lambda 表达式可以放在圆括号之外：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>f1</span><span class=p>(</span><span class=n>p</span><span class=p>:</span> <span class=n>Int</span><span class=p>,</span> <span class=n>f</span><span class=p>:</span> <span class=p>(</span><span class=n>p</span><span class=p>:</span> <span class=n>Int</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=n>Unit</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>p</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>f</span><span class=p>(</span><span class=n>p</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>f1</span><span class=p>(</span><span class=m>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>println</span><span class=p>(</span><span class=s2>&#34;Lamada: </span><span class=si>$it</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>这种语法也称为<em>拖尾 lambda 表达式</em>。</p><p>如果该 lambda 表达式是调用时唯一的参数，那么圆括号可以完全省略：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>f2</span><span class=p>(</span><span class=n>ff</span><span class=p>:</span> <span class=p>(</span><span class=n>p</span><span class=p>:</span> <span class=n>Int</span><span class=p>,</span> <span class=n>q</span><span class=p>:</span> <span class=n>Int</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=n>Unit</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=s2>&#34;f2()&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>ff</span><span class=p>(</span><span class=m>3</span><span class=p>,</span><span class=m>5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>f2</span> <span class=p>{</span> <span class=n>p</span><span class=p>,</span> <span class=n>q</span> <span class=o>-&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=n>println</span><span class=p>(</span><span class=s2>&#34;Lamdad: </span><span class=si>$p</span><span class=s2> </span><span class=si>$q</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=柯里化的-sum-函数>柯里化的 sum 函数</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>sum</span> <span class=p>=</span> <span class=p>{</span> <span class=n>x</span><span class=p>:</span> <span class=n>Int</span> <span class=o>-&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span> <span class=n>y</span><span class=p>:</span> <span class=n>Int</span> <span class=o>-&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=n>x</span> <span class=p>+</span> <span class=n>y</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>sum</span><span class=p>(</span><span class=m>1</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=闭包>闭包</h3><p>各种专业文献上的"闭包"（closure）定义非常抽象，很难看懂。我的理解是，闭包就是能够读取其他函数内部变量的函数。</p><p>由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成"定义在一个函数内部的函数"。</p><p>所以，在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。</p><p><a class=link href=https://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html target=_blank rel=noopener>参考</a></p><p>范例如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>sum</span><span class=p>(</span><span class=n>items</span><span class=p>:</span> <span class=n>Iterable</span><span class=p>&lt;</span><span class=n>Int</span><span class=p>&gt;):</span> <span class=n>Int</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>var</span> <span class=py>s</span> <span class=p>=</span> <span class=m>0</span>
+</span></span><span class=line><span class=cl>    <span class=n>items</span><span class=p>.</span><span class=n>filter</span> <span class=p>{</span> <span class=k>it</span> <span class=p>&gt;</span> <span class=m>3</span> <span class=p>}.</span><span class=n>forEach</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      	<span class=c1>// 可以访问Lambda表达式外面的 s 变量
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>s</span> <span class=o>+=</span> <span class=k>it</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>s</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>sum</span><span class=p>(</span><span class=n>listOf</span><span class=p>(</span><span class=m>1</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>3</span><span class=p>,</span> <span class=m>4</span><span class=p>,</span> <span class=m>5</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=内联函数-todo>内联函数-TODO</h3><p><a class=link href=https://www.jianshu.com/p/be78824ce1c2 target=_blank rel=noopener>白话kotlin：内联函数助你提升运行效率</a></p><h3 id=作用域函数>作用域函数</h3><p><a class=link href=https://www.kotlincn.net/docs/reference/scope-functions.html#apply target=_blank rel=noopener>官网</a></p><p>共有以下五种：<code>let</code>、<code>run</code>、<code>with</code>、<code>apply</code> 以及 <code>also</code>。</p><h4 id=区别>区别</h4><p>由于作用域函数本质上都非常相似，因此了解它们之间的区别很重要。每个作用域函数之间有两个主要区别：</p><ul><li>引用上下文对象的方式</li><li>返回值</li></ul><h4 id=上下文对象this-还是-it>上下文对象：<code>this</code> 还是 <code>it</code></h4><p>如果是想使用它里面的方法，就使用：this</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>str</span> <span class=p>=</span> <span class=s2>&#34;Hello&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// this
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>str</span><span class=p>.</span><span class=n>run</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>println</span><span class=p>(</span><span class=s2>&#34;The receiver string length: </span><span class=si>$length</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=c1>//println(&#34;The receiver string length: ${this.length}&#34;) // 和上句效果相同
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// it
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>str</span><span class=p>.</span><span class=n>let</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>println</span><span class=p>(</span><span class=s2>&#34;The receiver string&#39;s length is </span><span class=si>${it.length}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果是想将它当作参数，就使用it</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>getRandomInt</span><span class=p>():</span> <span class=n>Int</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nc>Random</span><span class=p>.</span><span class=n>nextInt</span><span class=p>(</span><span class=m>100</span><span class=p>).</span><span class=n>also</span> <span class=p>{</span> <span class=k>value</span> <span class=o>-&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=n>writeToLog</span><span class=p>(</span><span class=s2>&#34;getRandomInt() generated value </span><span class=si>$value</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>val</span> <span class=py>i</span> <span class=p>=</span> <span class=n>getRandomInt</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=返回值>返回值</h4><p>根据返回结果，作用域函数可以分为以下两类：</p><ul><li><code>apply</code> 及 <code>also</code> 返回上下文对象。</li><li><code>let</code>、<code>run</code> 及 <code>with</code> 返回 lambda 表达式结果.</li></ul><h5 id=apply和also>apply和also</h5><p>应用场景一：调用链</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=nc>Retrofit</span><span class=p>.</span><span class=n>Builder</span><span class=p>().</span><span class=n>apply</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>client</span><span class=p>(</span><span class=n>client</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>addConverterFactory</span><span class=p>(</span><span class=nc>GsonConverterFactory</span><span class=p>.</span><span class=n>create</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>            <span class=n>baseUrl</span><span class=p>(</span><span class=s2>&#34;https://okfood.vip/&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}.</span><span class=n>build</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><h5 id=return-语句>return 语句</h5><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>getRandomInt</span><span class=p>():</span> <span class=n>Int</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nc>Random</span><span class=p>.</span><span class=n>nextInt</span><span class=p>(</span><span class=m>100</span><span class=p>).</span><span class=n>also</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>writeToLog</span><span class=p>(</span><span class=s2>&#34;getRandomInt() generated value </span><span class=si>$it</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>val</span> <span class=py>i</span> <span class=p>=</span> <span class=n>getRandomInt</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><h5 id=lambda-表达式结果>Lambda 表达式结果</h5><p>在需要使用其结果给一个变量赋值，或者在需要对其结果进行链式操作等情况下，可以使用它们。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>val</span> <span class=py>numbers</span> <span class=p>=</span> <span class=n>mutableListOf</span><span class=p>(</span><span class=s2>&#34;one&#34;</span><span class=p>,</span> <span class=s2>&#34;two&#34;</span><span class=p>,</span> <span class=s2>&#34;three&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>val</span> <span class=py>countEndsWithE</span> <span class=p>=</span> <span class=n>numbers</span><span class=p>.</span><span class=n>run</span> <span class=p>{</span> 
+</span></span><span class=line><span class=cl>    <span class=n>add</span><span class=p>(</span><span class=s2>&#34;four&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>add</span><span class=p>(</span><span class=s2>&#34;five&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>count</span> <span class=p>{</span> <span class=k>it</span><span class=p>.</span><span class=n>endsWith</span><span class=p>(</span><span class=s2>&#34;e&#34;</span><span class=p>)</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>println</span><span class=p>(</span><span class=s2>&#34;There are </span><span class=si>$countEndsWithE</span><span class=s2> elements that end with e.&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=函数选择>函数选择</h4><p>如何记忆：</p><p>apply和also，返回值是上下文对象，其它是Lamda表达式结果。</p><p>其中，apply的上下文件对象是this，用来调用其中的方法，而also是it，用来当参数。</p><div class=table-wrapper><table><thead><tr><th style=text-align:left>函数</th><th style=text-align:left>对象引用</th><th style=text-align:left>返回值</th><th style=text-align:left>是否是扩展函数</th></tr></thead><tbody><tr><td style=text-align:left><code>let</code></td><td style=text-align:left><code>it</code></td><td style=text-align:left>Lambda 表达式结果</td><td style=text-align:left>是</td></tr><tr><td style=text-align:left><code>run</code></td><td style=text-align:left><code>this</code></td><td style=text-align:left>Lambda 表达式结果</td><td style=text-align:left>是</td></tr><tr><td style=text-align:left><code>run</code></td><td style=text-align:left>-</td><td style=text-align:left>Lambda 表达式结果</td><td style=text-align:left>不是：调用无需上下文对象</td></tr><tr><td style=text-align:left><code>with</code></td><td style=text-align:left><code>this</code></td><td style=text-align:left>Lambda 表达式结果</td><td style=text-align:left>不是：把上下文对象当做参数</td></tr><tr><td style=text-align:left><code>apply</code></td><td style=text-align:left><code>this</code></td><td style=text-align:left>上下文对象</td><td style=text-align:left>是</td></tr><tr><td style=text-align:left><code>also</code></td><td style=text-align:left><code>it</code></td><td style=text-align:left>上下文对象</td><td style=text-align:left>是</td></tr></tbody></table></div><h4 id=this>this</h4><p>链式调用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>retrofit = Retrofit.Builder().apply {
+</span></span><span class=line><span class=cl>    client(client)
+</span></span><span class=line><span class=cl>    addConverterFactory(GsonConverterFactory.create())
+</span></span><span class=line><span class=cl>    baseUrl(&#34;https://okfood.vip/&#34;)
+</span></span><span class=line><span class=cl>}.build()
+</span></span></code></pre></td></tr></table></div></div><p>对象配置。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>val adam = Person(&#34;Adam&#34;).apply {
+</span></span><span class=line><span class=cl>    age = 32
+</span></span><span class=line><span class=cl>    city = &#34;London&#34;        
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>println(adam)
+</span></span></code></pre></td></tr></table></div></div><h4 id=also>also</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>val numbers = mutableListOf(&#34;one&#34;, &#34;two&#34;, &#34;three&#34;)
+</span></span><span class=line><span class=cl>numbers
+</span></span><span class=line><span class=cl>    .also { println(&#34;The list elements before adding new one: $it&#34;) }
+</span></span><span class=line><span class=cl>    .add(&#34;four&#34;)
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>fun getRandomInt(): Int {
+</span></span><span class=line><span class=cl>    return Random.nextInt(100).also {
+</span></span><span class=line><span class=cl>        writeToLog(&#34;getRandomInt() generated value $it&#34;)
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>val i = getRandomInt()
+</span></span></code></pre></td></tr></table></div></div><h4 id=let>let</h4><p><code>let</code> 可用于在调用链的结果上调用一个或多个函数。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>val</span> <span class=py>numbers</span> <span class=p>=</span> <span class=n>mutableListOf</span><span class=p>(</span><span class=s2>&#34;one&#34;</span><span class=p>,</span> <span class=s2>&#34;two&#34;</span><span class=p>,</span> <span class=s2>&#34;three&#34;</span><span class=p>,</span> <span class=s2>&#34;four&#34;</span><span class=p>,</span> <span class=s2>&#34;five&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>val</span> <span class=py>resultList</span> <span class=p>=</span> <span class=n>numbers</span><span class=p>.</span><span class=n>map</span> <span class=p>{</span> <span class=k>it</span><span class=p>.</span><span class=n>length</span> <span class=p>}.</span><span class=n>filter</span> <span class=p>{</span> <span class=k>it</span> <span class=p>&gt;</span> <span class=m>3</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>println</span><span class=p>(</span><span class=n>resultList</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用let</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>val</span> <span class=py>numbers</span> <span class=p>=</span> <span class=n>mutableListOf</span><span class=p>(</span><span class=s2>&#34;one&#34;</span><span class=p>,</span> <span class=s2>&#34;two&#34;</span><span class=p>,</span> <span class=s2>&#34;three&#34;</span><span class=p>,</span> <span class=s2>&#34;four&#34;</span><span class=p>,</span> <span class=s2>&#34;five&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>numbers</span><span class=p>.</span><span class=n>map</span> <span class=p>{</span> <span class=k>it</span><span class=p>.</span><span class=n>length</span> <span class=p>}.</span><span class=n>filter</span> <span class=p>{</span> <span class=k>it</span> <span class=p>&gt;</span> <span class=m>3</span> <span class=p>}.</span><span class=n>let</span> <span class=p>{</span> 
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=k>it</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 如果需要可以调用更多函数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span> 
+</span></span></code></pre></td></tr></table></div></div><p>若代码块仅包含以 <code>it</code> 作为参数的单个函数，则可以使用方法引用(<code>::</code>)代替 lambda 表达式：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>val</span> <span class=py>numbers</span> <span class=p>=</span> <span class=n>mutableListOf</span><span class=p>(</span><span class=s2>&#34;one&#34;</span><span class=p>,</span> <span class=s2>&#34;two&#34;</span><span class=p>,</span> <span class=s2>&#34;three&#34;</span><span class=p>,</span> <span class=s2>&#34;four&#34;</span><span class=p>,</span> <span class=s2>&#34;five&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>numbers</span><span class=p>.</span><span class=n>map</span> <span class=p>{</span> <span class=k>it</span><span class=p>.</span><span class=n>length</span> <span class=p>}.</span><span class=n>filter</span> <span class=p>{</span> <span class=k>it</span> <span class=p>&gt;</span> <span class=m>3</span> <span class=p>}.</span><span class=n>let</span><span class=p>(</span><span class=o>::</span><span class=n>println</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用技巧：安全调用符<code>?.</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>val</span> <span class=py>str</span><span class=p>:</span> <span class=n>String</span><span class=p>?</span> <span class=p>=</span> <span class=s2>&#34;Hello&#34;</span> 
+</span></span><span class=line><span class=cl><span class=c1>//processNonNullString(str)       // 编译错误：str 可能为空
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>val</span> <span class=py>length</span> <span class=p>=</span> <span class=n>str</span><span class=o>?.</span><span class=n>let</span> <span class=p>{</span> 
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=s2>&#34;let() called on </span><span class=si>$it</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>processNonNullString</span><span class=p>(</span><span class=k>it</span><span class=p>)</span>      <span class=c1>// 编译通过：&#39;it&#39; 在 &#39;?.let { }&#39; 中必不为空
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>it</span><span class=p>.</span><span class=n>length</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=类>类</h2><p>密封类</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>sealed</span> <span class=k>class</span> <span class=nc>Expr</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>data</span> <span class=k>class</span> <span class=nc>Const</span><span class=p>(</span><span class=k>val</span> <span class=py>number</span><span class=p>:</span> <span class=n>Double</span><span class=p>)</span> <span class=p>:</span> <span class=n>Expr</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=k>data</span> <span class=k>class</span> <span class=nc>Sum</span><span class=p>(</span><span class=k>val</span> <span class=py>e1</span><span class=p>:</span> <span class=n>Expr</span><span class=p>,</span> <span class=k>val</span> <span class=py>e2</span><span class=p>:</span> <span class=n>Expr</span><span class=p>)</span> <span class=p>:</span> <span class=n>Expr</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=k>object</span> <span class=nc>NotANumber</span> <span class=p>:</span> <span class=n>Expr</span><span class=p>()</span> <span class=c1>// 这个是object
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>eval</span><span class=p>(</span><span class=n>expr</span><span class=p>:</span> <span class=n>Expr</span><span class=p>):</span> <span class=n>Double</span> <span class=p>=</span> <span class=k>when</span><span class=p>(</span><span class=n>expr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>is</span> <span class=n>Const</span> <span class=o>-&gt;</span> <span class=n>expr</span><span class=p>.</span><span class=n>number</span>
+</span></span><span class=line><span class=cl>    <span class=k>is</span> <span class=n>Sum</span> <span class=o>-&gt;</span> <span class=n>eval</span><span class=p>(</span><span class=n>expr</span><span class=p>.</span><span class=n>e1</span><span class=p>)</span> <span class=p>+</span> <span class=n>eval</span><span class=p>(</span><span class=n>expr</span><span class=p>.</span><span class=n>e2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>NotANumber</span> <span class=o>-&gt;</span> <span class=nc>Double</span><span class=p>.</span><span class=n>NaN</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 不再需要 `else` 子句，因为我们已经覆盖了所有的情况
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>eval</span><span class=p>(</span><span class=n>Const</span><span class=p>(</span><span class=m>1.0</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=n>eval</span><span class=p>(</span><span class=n>Sum</span><span class=p>(</span><span class=n>Const</span><span class=p>(</span><span class=m>1.0</span><span class=p>),</span> <span class=n>Const</span><span class=p>(</span><span class=m>2.0</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>    <span class=n>eval</span><span class=p>(</span><span class=n>NotANumber</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://www.kotlincn.net/docs/reference/sealed-classes.html target=_blank rel=noopener>参考</a></p><p>第二个实例</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>package</span> <span class=nn>top.yhb123.`class`.sealed</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>import</span> <span class=nn>top.yhb123.coroutines2.doSomethingUsefulTwo</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>sealed</span> <span class=k>class</span> <span class=nc>Result</span><span class=p>&lt;</span><span class=k>out</span> <span class=n>R</span><span class=p>&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>data</span> <span class=k>class</span> <span class=nc>Success</span><span class=p>&lt;</span><span class=k>out</span> <span class=n>T</span><span class=p>&gt;(</span><span class=k>val</span> <span class=py>data</span><span class=p>:</span> <span class=n>T</span><span class=p>)</span> <span class=p>:</span> <span class=n>Result</span><span class=p>&lt;</span><span class=n>T</span><span class=p>&gt;()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>data</span> <span class=k>class</span> <span class=nc>Error</span><span class=p>(</span><span class=k>val</span> <span class=py>exception</span><span class=p>:</span> <span class=n>Exception</span><span class=p>)</span> <span class=p>:</span> <span class=n>Result</span><span class=p>&lt;</span><span class=n>Nothing</span><span class=p>&gt;()</span>
+</span></span><span class=line><span class=cl>    <span class=k>object</span> <span class=nc>Loading</span> <span class=p>:</span> <span class=n>Result</span><span class=p>&lt;</span><span class=n>Nothing</span><span class=p>&gt;()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>override</span> <span class=k>fun</span> <span class=nf>toString</span><span class=p>():</span> <span class=n>String</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>when</span> <span class=p>(</span><span class=k>this</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>is</span> <span class=n>Success</span><span class=p>&lt;*&gt;</span> <span class=o>-&gt;</span> <span class=s2>&#34;Success222[data=</span><span class=si>$data</span><span class=s2>]&#34;</span>
+</span></span><span class=line><span class=cl>            <span class=k>is</span> <span class=n>Error</span> <span class=o>-&gt;</span> <span class=s2>&#34;Error[exception=</span><span class=si>$exception</span><span class=s2>]&#34;</span>
+</span></span><span class=line><span class=cl>            <span class=n>Loading</span> <span class=o>-&gt;</span> <span class=s2>&#34;Loading222&#34;</span> <span class=c1>// 只有这个生效
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=p>}.</span><span class=n>also</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>println</span><span class=p>(</span><span class=s2>&#34;111&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>a</span> <span class=p>=</span> <span class=nc>Result</span><span class=p>.</span><span class=n>Success</span><span class=p>&lt;</span><span class=n>String</span><span class=p>&gt;(</span><span class=s2>&#34;ok&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>a</span><span class=p>.</span><span class=n>javaClass</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>a</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>a</span><span class=p>.</span><span class=n>toString</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>a</span><span class=p>.</span><span class=k>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>b</span> <span class=p>=</span> <span class=nc>Result</span><span class=p>.</span><span class=n>Error</span><span class=p>(</span><span class=n>Exception</span><span class=p>(</span><span class=s2>&#34;e1&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>b</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>b</span><span class=p>.</span><span class=n>toString</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>c</span> <span class=p>=</span> <span class=nc>Result</span><span class=p>.</span><span class=n>Loading</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>c</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>d</span><span class=p>:</span> <span class=n>Result</span><span class=p>&lt;*&gt;</span> <span class=p>=</span> <span class=n>b</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>d</span> <span class=k>is</span> <span class=nc>Result</span><span class=p>.</span><span class=n>Success</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>println</span><span class=p>(</span><span class=s2>&#34;d is Result.Success&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>d</span> <span class=k>is</span> <span class=nc>Result</span><span class=p>.</span><span class=n>Error</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>println</span><span class=p>(</span><span class=s2>&#34;d is Result.Error&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=对象>对象</h2><h3 id=object对象>object对象</h3><p>类似static，直接引用类中的成员和方法。</p><p>用途：单例，例如Utils方法</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>object</span> <span class=nc>UiUtils</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>dp2px</span><span class=p>(</span><span class=n>context</span><span class=p>:</span> <span class=n>Context</span><span class=p>,</span> <span class=n>dpValue</span><span class=p>:</span> <span class=n>Float</span><span class=p>):</span> <span class=n>Int</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>val</span> <span class=py>scale</span> <span class=p>=</span> <span class=n>context</span><span class=p>.</span><span class=n>resources</span><span class=p>.</span><span class=n>displayMetrics</span><span class=p>.</span><span class=n>density</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=p>(</span><span class=n>dpValue</span> <span class=p>*</span> <span class=n>scale</span> <span class=p>+</span> <span class=m>0.5f</span><span class=p>).</span><span class=n>toInt</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=匿名object>匿名object</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>point</span> <span class=p>=</span> <span class=k>object</span> <span class=err>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>val</span> <span class=py>x</span> <span class=p>=</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl>        <span class=k>val</span> <span class=py>y</span> <span class=p>=</span> <span class=m>2</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>point</span><span class=p>.</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=object表达式>object表达式</h3><p>有点像匿名object，但是，继承接口，并覆盖实现。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>val</span> <span class=py>comparator0</span> <span class=p>=</span> <span class=k>object</span> <span class=err>: </span><span class=nc>Comparator</span><span class=p>&lt;</span><span class=n>String</span><span class=p>&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>    <span class=k>override</span> <span class=k>fun</span> <span class=nf>compare</span><span class=p>(</span><span class=n>s1</span><span class=p>:</span> <span class=n>String</span><span class=p>?,</span> <span class=n>s2</span><span class=p>:</span> <span class=n>String</span><span class=p>?):</span> <span class=n>Int</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>s1</span> <span class=o>==</span> <span class=k>null</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=p>-</span><span class=m>1</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>s2</span> <span class=o>==</span> <span class=k>null</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>s1</span><span class=p>.</span><span class=n>compareTo</span><span class=p>(</span><span class=n>s2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>package</span> <span class=nn>top.yhb123.lamda</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Button</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>interface</span> <span class=nc>OnClickListener</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>fun</span> <span class=nf>onClick</span><span class=p>(</span><span class=n>view</span><span class=p>:</span> <span class=n>String</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>a</span> <span class=p>=</span> <span class=k>object</span> <span class=err>: </span><span class=nc>Button</span><span class=p>.</span><span class=n>OnClickListener</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>override</span> <span class=k>fun</span> <span class=nf>onClick</span><span class=p>(</span><span class=n>view</span><span class=p>:</span> <span class=n>String</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>println</span><span class=p>(</span><span class=n>view</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>    <span class=n>a</span><span class=p>.</span><span class=n>onClick</span><span class=p>(</span><span class=s2>&#34;abc&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=对比lamda表达式>对比lamda表达式</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>val</span> <span class=py>comparator1</span> <span class=p>=</span> <span class=n>Comparator</span><span class=p>&lt;</span><span class=n>String</span><span class=p>&gt;</span> <span class=p>{</span> <span class=n>s1</span><span class=p>,</span> <span class=n>s2</span> <span class=o>-&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>s1</span> <span class=o>==</span> <span class=k>null</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=nd>@Comparator</span> <span class=p>-</span><span class=m>1</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>s2</span> <span class=o>==</span> <span class=k>null</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=nd>@Comparator</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl>    <span class=n>s1</span><span class=p>.</span><span class=n>compareTo</span><span class=p>(</span><span class=n>s2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=用途重要>用途（重要）</h4><p>有些时候我们定义一个类，可能只是为了实现一个接口(interface没有方法的实现)或者派生自一个类，而实际上我们只需要使用这个类的对象一次，例如Android开发中的Listener。那么我们完全没有必要大费周章去为这一个对象定义一个类，我们可以使用匿名类这个简单的语法。</p><p>看一个例子：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>Button</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>interface</span> <span class=nc>OnClickListener</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>fun</span> <span class=nf>onClick</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>var</span> <span class=py>mListener</span><span class=p>:</span> <span class=n>OnClickListener</span><span class=p>?</span> <span class=p>=</span> <span class=k>null</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>setOnClickListener</span><span class=p>(</span><span class=n>listener</span><span class=p>:</span> <span class=n>OnClickListener</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>mListener</span> <span class=p>=</span> <span class=n>listener</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>click</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>mListener</span><span class=o>?.</span><span class=n>onClick</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>var</span> <span class=py>btn</span> <span class=p>=</span> <span class=n>Button</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 使用了 object表达式
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>btn</span><span class=p>.</span><span class=n>setOnClickListener</span><span class=p>(</span><span class=k>object</span> <span class=err>: </span><span class=nc>Button</span><span class=p>.</span><span class=n>OnClickListener</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>override</span> <span class=k>fun</span> <span class=nf>onClick</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>println</span><span class=p>(</span><span class=s2>&#34;onclick&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>btn</span><span class=p>.</span><span class=n>click</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=静态方法>静态方法</h3><p></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>ConsoleUtils</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>companion</span> <span class=k>object</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nd>@JvmStatic</span>
+</span></span><span class=line><span class=cl>        <span class=k>fun</span> <span class=nf>debug</span><span class=p>(</span><span class=n>debugMessage</span> <span class=p>:</span> <span class=n>String</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>println</span><span class=p>(</span><span class=s2>&#34;[DEBUG] </span><span class=si>$debugMessage</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=const关键字>const关键字</h3><p><strong>Test.kt</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>const</span> <span class=k>val</span> <span class=py>topConstValue</span> <span class=p>=</span> <span class=s2>&#34;topConstValue&#34;</span>
+</span></span><span class=line><span class=cl><span class=k>val</span> <span class=py>topValue</span> <span class=p>=</span> <span class=s2>&#34;topValue&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Test</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// const val cc = &#34;cc&#34;  不可在类中声明
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>companion</span> <span class=k>object</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>const</span> <span class=k>val</span> <span class=py>compObjConstValue</span> <span class=p>=</span> <span class=s2>&#34;compObjConstValue&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=k>val</span> <span class=py>compObjValue</span> <span class=p>=</span> <span class=s2>&#34;compObjValue&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>object</span> <span class=nc>obj</span><span class=p>:</span> <span class=n>A</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>const</span> <span class=k>val</span> <span class=py>objConstValue</span> <span class=p>=</span> <span class=s2>&#34;objConstValue&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=k>val</span> <span class=py>objValue</span> <span class=p>=</span> <span class=s2>&#34;objValue&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>上面的代码展示了const使用的场景，作为对比还写了不使用const的变量，下面将展示在其他文件（包括Java和Kotlin）中对这些变量进行访问。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kn>import</span><span class=w> </span><span class=nn>com.whx.ktapplication.data.TestKt</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>JavaTest</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>method</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>println</span><span class=p>(</span><span class=n>TestKt</span><span class=p>.</span><span class=na>topConstValue</span><span class=p>);</span><span class=w>              </span><span class=c1>// 1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>println</span><span class=p>(</span><span class=n>TestKt</span><span class=p>.</span><span class=na>getTopValue</span><span class=p>());</span><span class=w>              </span><span class=c1>// 2</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>println</span><span class=p>(</span><span class=n>Test</span><span class=p>.</span><span class=na>compObjConstValue</span><span class=p>);</span><span class=w>            </span><span class=c1>// 3</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>println</span><span class=p>(</span><span class=n>Test</span><span class=p>.</span><span class=na>Companion</span><span class=p>.</span><span class=na>getCompObjValue</span><span class=p>());</span><span class=w>  </span><span class=c1>// 4</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>println</span><span class=p>(</span><span class=n>Test</span><span class=p>.</span><span class=na>obj</span><span class=p>.</span><span class=na>objConstValue</span><span class=p>);</span><span class=w>            </span><span class=c1>// 5</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>println</span><span class=p>(</span><span class=n>Test</span><span class=p>.</span><span class=na>obj</span><span class=p>.</span><span class=na>INSTANCE</span><span class=p>.</span><span class=na>getObjValue</span><span class=p>());</span><span class=w>   </span><span class=c1>// 6</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>可以看出，1、2处Test.kt 文件实际被编译成了TestKt这个类，在访问const修饰的变量时，可以像访问static变量那样直接使用“类名.变量名”的形式，而没有const修饰的变量则需要调用get方法。</p><p>Test类中有companion object，这个的用法<a class=link href=https://www.jianshu.com/p/a8d1877143b2 target=_blank rel=noopener>在这里</a>，相当于static的作用，和上面一样，有const修饰的变量可以直接访问，没有const修饰的则通过Test类自动生成的Companion类的get方法访问。</p><p><a class=link href=https://www.jianshu.com/p/d610ec44a7fe target=_blank rel=noopener>其它参考</a></p><h3 id=伴生对象>伴生对象</h3><p>使用关键字<code>companion object</code></p><p>用途：将所有的静态常量和静态方法放在同一个地方。</p><p>例如，</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>package</span> <span class=nn>top.yhb123.`object`</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Prize0</span><span class=p>(</span><span class=k>val</span> <span class=py>name</span><span class=p>:</span> <span class=n>String</span><span class=p>,</span> <span class=k>val</span> <span class=py>count</span><span class=p>:</span> <span class=n>Int</span><span class=p>,</span> <span class=k>val</span> <span class=py>type</span><span class=p>:</span> <span class=n>Int</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>companion</span> <span class=k>object</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>val</span> <span class=py>TYPE</span><span class=n>_REDPACK</span> <span class=p>=</span> <span class=m>0</span>
+</span></span><span class=line><span class=cl>        <span class=k>val</span> <span class=py>TYPE</span><span class=n>_COUPON</span> <span class=p>=</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>fun</span> <span class=nf>isRedpack</span><span class=p>(</span><span class=n>prize</span><span class=p>:</span> <span class=n>Prize0</span><span class=p>):</span> <span class=n>Boolean</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>prize</span><span class=p>.</span><span class=n>type</span> <span class=o>==</span> <span class=n>TYPE_REDPACK</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>prize</span> <span class=p>=</span> <span class=n>Prize0</span><span class=p>(</span><span class=s2>&#34;红包&#34;</span><span class=p>,</span> <span class=m>10</span><span class=p>,</span> <span class=n>Prize0</span><span class=p>.</span><span class=n>TYPE_REDPACK</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>print</span><span class=p>(</span><span class=n>Prize0</span><span class=p>.</span><span class=n>isRedpack</span><span class=p>(</span><span class=n>prize</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>引用方式：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass1</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>companion</span> <span class=k>object</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>val</span> <span class=py>TYPE</span><span class=n>_NET</span> <span class=p>=</span> <span class=s2>&#34;MyClass1&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass2</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>companion</span> <span class=k>object</span> <span class=n>Named</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>val</span> <span class=py>TYPE</span><span class=n>_NET</span> <span class=p>=</span> <span class=s2>&#34;MyClass2: named&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 默认名称是：Companion
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>val</span> <span class=py>a</span> <span class=p>=</span> <span class=n>MyClass1</span><span class=p>.</span><span class=nc>Companion</span><span class=p>.</span><span class=n>TYPE_NET</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>b</span> <span class=p>=</span> <span class=n>MyClass2</span><span class=p>.</span><span class=n>Companion</span> <span class=c1>// 错误
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>val</span> <span class=py>c</span> <span class=p>=</span> <span class=n>MyClass2</span><span class=p>.</span><span class=nc>Named</span><span class=p>.</span><span class=n>TYPE_NET</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 也可以忽略 Companion
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>val</span> <span class=py>d</span> <span class=p>=</span> <span class=n>MyClass1</span><span class=p>.</span><span class=n>TYPE_NET</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>e</span> <span class=p>=</span> <span class=n>MyClass2</span><span class=p>.</span><span class=n>TYPE_NET</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=有返回类型>有返回类型</h4><p>这个实例，不懂</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>package</span> <span class=nn>top.yhb123.`object`</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>interface</span> <span class=nc>Factory</span><span class=p>&lt;</span><span class=n>T</span><span class=p>&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>create</span><span class=p>():</span> <span class=n>T</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClassA</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>companion</span> <span class=k>object</span> <span class=n>C1</span> <span class=p>:</span> <span class=n>Factory</span><span class=p>&lt;</span><span class=n>MyClassA</span><span class=p>&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>override</span> <span class=k>fun</span> <span class=nf>create</span><span class=p>():</span> <span class=n>MyClassA</span> <span class=p>=</span> <span class=n>MyClassA</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>g</span><span class=p>:</span> <span class=n>Factory</span><span class=p>&lt;</span><span class=n>MyClassA</span><span class=p>&gt;</span> <span class=p>=</span> <span class=nc>MyClassA</span><span class=p>.</span><span class=n>C1</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>h</span><span class=p>:</span> <span class=n>Factory</span><span class=p>&lt;</span><span class=n>MyClassA</span><span class=p>&gt;</span> <span class=p>=</span> <span class=n>MyClassA</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>i</span> <span class=p>=</span> <span class=n>MyClassA</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://www.kotlincn.net/docs/reference/object-declarations.html target=_blank rel=noopener>官网</a></p><h3 id=扩展>扩展</h3><h4 id=扩展函数>扩展函数</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>package</span> <span class=nn>top.yhb123.extensions</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>MutableList</span><span class=p>&lt;</span><span class=n>Int</span><span class=p>&gt;.</span><span class=n>swap</span><span class=p>(</span><span class=n>index1</span><span class=p>:</span> <span class=n>Int</span><span class=p>,</span> <span class=n>index2</span><span class=p>:</span> <span class=n>Int</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>tmp</span> <span class=p>=</span> <span class=k>this</span><span class=p>[</span><span class=n>index1</span><span class=p>]</span> <span class=c1>// “this”对应该列表
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>this</span><span class=p>[</span><span class=n>index1</span><span class=p>]</span> <span class=p>=</span> <span class=k>this</span><span class=p>[</span><span class=n>index2</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=k>this</span><span class=p>[</span><span class=n>index2</span><span class=p>]</span> <span class=p>=</span> <span class=n>tmp</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>package</span> <span class=nn>top.yhb123.extensions</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>list</span> <span class=p>=</span> <span class=n>mutableListOf</span><span class=p>(</span><span class=m>1</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>3</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>list</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>list</span><span class=p>.</span><span class=n>swap</span><span class=p>(</span><span class=m>0</span><span class=p>,</span> <span class=m>2</span><span class=p>)</span> <span class=c1>// “swap()”内部的“this”会保存“list”的值
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>println</span><span class=p>(</span><span class=n>list</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://www.kotlincn.net/docs/reference/extensions.html target=_blank rel=noopener>参考</a></p><h2 id=委托>委托</h2><h3 id=类的委托>类的委托</h3><p>实例-Java</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=w> </span><span class=kd>interface</span> <span class=nc>I</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=kt>void</span><span class=w> </span><span class=nf>f</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=kt>void</span><span class=w> </span><span class=nf>g</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> 
+</span></span></span><span class=line><span class=cl><span class=w> </span><span class=kd>class</span> <span class=nc>A</span><span class=w> </span><span class=kd>implements</span><span class=w> </span><span class=n>I</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>f</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w> </span><span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&#34;A: doing f()&#34;</span><span class=p>);</span><span class=w> </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>g</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w> </span><span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&#34;A: doing g()&#34;</span><span class=p>);</span><span class=w> </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> 
+</span></span></span><span class=line><span class=cl><span class=w> </span><span class=kd>class</span> <span class=nc>B</span><span class=w> </span><span class=kd>implements</span><span class=w> </span><span class=n>I</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>f</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w> </span><span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&#34;B: doing f()&#34;</span><span class=p>);</span><span class=w> </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>g</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w> </span><span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&#34;B: doing g()&#34;</span><span class=p>);</span><span class=w> </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> 
+</span></span></span><span class=line><span class=cl><span class=w> </span><span class=kd>class</span> <span class=nc>C</span><span class=w> </span><span class=kd>implements</span><span class=w> </span><span class=n>I</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=c1>// delegation</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=n>I</span><span class=w> </span><span class=n>i</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>A</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> 
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>f</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w> </span><span class=n>i</span><span class=p>.</span><span class=na>f</span><span class=p>();</span><span class=w> </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>g</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w> </span><span class=n>i</span><span class=p>.</span><span class=na>g</span><span class=p>();</span><span class=w> </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> 
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=c1>// normal attributes</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>toA</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w> </span><span class=n>i</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>A</span><span class=p>();</span><span class=w> </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>toB</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w> </span><span class=n>i</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>B</span><span class=p>();</span><span class=w> </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> 
+</span></span></span><span class=line><span class=cl><span class=w> 
+</span></span></span><span class=line><span class=cl><span class=w> </span><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>Main</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=kd>public</span><span class=w> </span><span class=kd>static</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span><span class=w> </span><span class=n>args</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>         </span><span class=n>C</span><span class=w> </span><span class=n>c</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>C</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>         </span><span class=n>c</span><span class=p>.</span><span class=na>f</span><span class=p>();</span><span class=w>     </span><span class=c1>// output: A: doing f()</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>         </span><span class=n>c</span><span class=p>.</span><span class=na>g</span><span class=p>();</span><span class=w>     </span><span class=c1>// output: A: doing g()</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>         </span><span class=n>c</span><span class=p>.</span><span class=na>toB</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>         </span><span class=n>c</span><span class=p>.</span><span class=na>f</span><span class=p>();</span><span class=w>     </span><span class=c1>// output: B: doing f()</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>         </span><span class=n>c</span><span class=p>.</span><span class=na>g</span><span class=p>();</span><span class=w>     </span><span class=c1>// output: B: doing g()</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w> </span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://www.runoob.com/w3cnote/delegate-mode.html target=_blank rel=noopener>参考</a></p><p>Kotlin的实例和使用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>interface</span> <span class=nc>Base</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>fun</span> <span class=nf>print</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>BaseImpl</span><span class=p>(</span><span class=k>val</span> <span class=py>x</span><span class=p>:</span> <span class=n>Int</span><span class=p>)</span> <span class=p>:</span> <span class=n>Base</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>override</span> <span class=k>fun</span> <span class=nf>print</span><span class=p>()</span> <span class=p>{</span> <span class=n>print</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Derived</span><span class=p>(</span><span class=n>b</span><span class=p>:</span> <span class=n>Base</span><span class=p>)</span> <span class=p>:</span> <span class=n>Base</span> <span class=k>by</span> <span class=n>b</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>b</span> <span class=p>=</span> <span class=n>BaseImpl</span><span class=p>(</span><span class=m>10</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>Derived</span><span class=p>(</span><span class=n>b</span><span class=p>).</span><span class=n>print</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>输出：10</p><p><a class=link href=https://www.kotlincn.net/docs/reference/delegation.html target=_blank rel=noopener>参考</a></p><h3 id=委托属性>委托属性</h3><ul><li>延迟属性（lazy properties）: 其值只在首次访问时计算；</li><li>可观察属性（observable properties）: 监听器会收到有关此属性变更的通知；</li><li>把多个属性储存在一个映射（map）中，而不是每个存在单独的字段中。</li></ul><p><a class=link href=https://www.kotlincn.net/docs/reference/delegated-properties.html target=_blank rel=noopener>官网</a></p><h4 id=延迟>延迟</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>val</span> <span class=py>lazyValue</span><span class=p>:</span> <span class=n>String</span> <span class=k>by</span> <span class=n>lazy</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=s2>&#34;computed!&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;Hello&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>lazyValue</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>lazyValue</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=可观察>可观察</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>import</span> <span class=nn>kotlin.properties.Delegates</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>User</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>var</span> <span class=py>name</span><span class=p>:</span> <span class=n>String</span> <span class=k>by</span> <span class=nc>Delegates</span><span class=p>.</span><span class=n>observable</span><span class=p>(</span><span class=s2>&#34;&lt;no name&gt;&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>prop</span><span class=p>,</span> <span class=n>old</span><span class=p>,</span> <span class=n>new</span> <span class=o>-&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=n>println</span><span class=p>(</span><span class=s2>&#34;</span><span class=si>$old</span><span class=s2> -&gt; </span><span class=si>$new</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>user</span> <span class=p>=</span> <span class=n>User</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=n>user</span><span class=p>.</span><span class=n>name</span> <span class=p>=</span> <span class=s2>&#34;first&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>user</span><span class=p>.</span><span class=n>name</span> <span class=p>=</span> <span class=s2>&#34;second&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>输出</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&lt;no name&gt; -&gt; first
+</span></span><span class=line><span class=cl>first -&gt; second
+</span></span></code></pre></td></tr></table></div></div><h4 id=属性映射>属性映射</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-kotlin data-lang=kotlin><span class=line><span class=cl><span class=k>class</span> <span class=nc>User</span><span class=p>(</span><span class=k>val</span> <span class=py>map</span><span class=p>:</span> <span class=n>Map</span><span class=p>&lt;</span><span class=n>String</span><span class=p>,</span> <span class=n>Any</span><span class=p>?&gt;)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>name</span><span class=p>:</span> <span class=n>String</span> <span class=k>by</span> <span class=n>map</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>age</span><span class=p>:</span> <span class=n>Int</span>     <span class=k>by</span> <span class=n>map</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>fun</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>val</span> <span class=py>user</span> <span class=p>=</span> <span class=n>User</span><span class=p>(</span><span class=n>mapOf</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;name&#34;</span> <span class=n>to</span> <span class=s2>&#34;John Doe&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;age&#34;</span>  <span class=n>to</span> <span class=m>25</span>
+</span></span><span class=line><span class=cl>    <span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=n>println</span><span class=p>(</span><span class=n>user</span><span class=p>.</span><span class=n>name</span><span class=p>)</span> <span class=c1>// Prints &#34;John Doe&#34;
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>println</span><span class=p>(</span><span class=n>user</span><span class=p>.</span><span class=n>age</span><span class=p>)</span>  <span class=c1>// Prints 25
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><div id=cusdis_thread data-host=https://cusdis.com data-app-id=287ed0fd-6a12-4302-a1ad-d2fd382e1199 data-page-id=cba38bbca42c1fd6ecdc087fa4c520a5 data-page-url=https://blog.ververv.com/p/kotlin/ data-page-title=Kotlin></div><script async defer src=https://cusdis.com/js/cusdis.es.js></script><script>function setCusdisTheme(e){let t=document.querySelector("#cusdis_thread iframe");t&&window.CUSDIS.setTheme(e)}window.addEventListener("onColorSchemeChange",e=>{setCusdisTheme(e.detail)})</script><footer class=site-footer><section class=copyright>&copy;
+2023 -
+2024 量子跳跃者</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.24.2>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

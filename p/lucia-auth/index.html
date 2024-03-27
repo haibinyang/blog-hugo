@@ -1,0 +1,694 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content='标准 安装 1 npm i lucia 初始化 1 2 3 4 5 6 7 8 9 // lucia.ts import { lucia } from "lucia"; // expect error (see next section) export const auth = lucia({ env: "DEV" // "PROD" if deployed to HTTPS }); export type Auth = typeof auth; Middleware 1 2 3 4 5 6 7 import { lucia } from "lucia"; import {'><title>Lucia Auth</title>
+<link rel=canonical href=https://blog.ververv.com/p/lucia-auth/><link rel=stylesheet href=/scss/style.min.d8118f156935b64eca93aca758476adca858d2c47354971654d9bd2933a0e45f.css><meta property='og:title' content="Lucia Auth"><meta property='og:description' content='标准 安装 1 npm i lucia 初始化 1 2 3 4 5 6 7 8 9 // lucia.ts import { lucia } from "lucia"; // expect error (see next section) export const auth = lucia({ env: "DEV" // "PROD" if deployed to HTTPS }); export type Auth = typeof auth; Middleware 1 2 3 4 5 6 7 import { lucia } from "lucia"; import {'><meta property='og:url' content='https://blog.ververv.com/p/lucia-auth/'><meta property='og:site_name' content='量子跳跃者'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:published_time' content='2023-12-27T22:05:24+08:00'><meta property='article:modified_time' content='2023-12-27T22:05:24+08:00'><meta name=twitter:title content="Lucia Auth"><meta name=twitter:description content='标准 安装 1 npm i lucia 初始化 1 2 3 4 5 6 7 8 9 // lucia.ts import { lucia } from "lucia"; // expect error (see next section) export const auth = lucia({ env: "DEV" // "PROD" if deployed to HTTPS }); export type Auth = typeof auth; Middleware 1 2 3 4 5 6 7 import { lucia } from "lucia"; import {'><link rel="shortcut icon" href=/favicon.png><script defer src=https://analytics.ververv.com/pixel/tABAb34VvSTV05V2></script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky compact"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><div class=site-meta><h1 class=site-name><a href=/>量子跳跃者</a></h1><h2 class=site-description></h2></div></header><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/ target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#配置appdts>配置app.d.ts</a></li><li><a href=#配置lucia>配置Lucia</a></li><li><a href=#注册>注册</a></li><li><a href=#登陆>登陆</a></li><li><a href=#登出>登出</a></li><li><a href=#参考代码>参考代码</a></li></ol><ol><li><a href=#数据库表>数据库表</a></li><li><a href=#用户>用户</a></li><li><a href=#密钥>密钥</a><ol><li><a href=#验证帐号和密码>验证帐号和密码</a></li><li><a href=#验证oauth>验证OAuth</a></li><li><a href=#修改密码>修改密码</a></li></ol></li><li><a href=#会话>会话</a><ol><li><a href=#会话的状态>会话的状态</a></li><li><a href=#数据表>数据表</a></li><li><a href=#逻辑>逻辑</a></li><li><a href=#创建会话>创建会话</a></li><li><a href=#使会话失效>使会话失效</a></li></ol></li><li><a href=#handle-requests>Handle requests</a><ol><li><a href=#netxtjs>Netxt.js</a></li></ol></li><li><a href=#使用cookies>使用Cookies</a><ol><li><a href=#cookie-expiration>Cookie expiration</a></li><li><a href=#heading></a></li><li><a href=#创建cookie>创建Cookie</a></li><li><a href=#验证cookie>验证Cookie</a><ol><li><a href=#缓存>缓存</a></li></ol></li><li><a href=#删除cookie>删除Cookie</a></li><li><a href=#设置session>设置Session</a></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/lucia-auth/>Lucia Auth</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Dec 27, 2023</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 7 分钟</time></div></footer></div></header><section class=article-content><h1 id=标准>标准</h1><p>安装</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>npm i lucia
+</span></span></code></pre></td></tr></table></div></div><p>初始化</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=c1>// lucia.ts
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>import</span> <span class=p>{</span> <span class=nx>lucia</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;lucia&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// expect error (see next section)
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>export</span> <span class=kr>const</span> <span class=nx>auth</span> <span class=o>=</span> <span class=nx>lucia</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>	<span class=nx>env</span><span class=o>:</span> <span class=s2>&#34;DEV&#34;</span> <span class=c1>// &#34;PROD&#34; if deployed to HTTPS
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>type</span> <span class=nx>Auth</span> <span class=o>=</span> <span class=k>typeof</span> <span class=nx>auth</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>Middleware</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>lucia</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;lucia&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>node</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;lucia/middleware&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>auth</span> <span class=o>=</span> <span class=nx>lucia</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>	<span class=nx>env</span><span class=o>:</span> <span class=s2>&#34;DEV&#34;</span><span class=p>,</span> <span class=c1>// &#34;PROD&#34; if deployed to HTTPS
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>middleware</span>: <span class=kt>node</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>配置数据库</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>lucia</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;lucia&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>prisma</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;@lucia-auth/adapter-prisma&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>PrismaClient</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;@prisma/client&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>client</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>PrismaClient</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>auth</span> <span class=o>=</span> <span class=nx>lucia</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>	<span class=nx>env</span><span class=o>:</span> <span class=s2>&#34;DEV&#34;</span><span class=p>,</span> <span class=c1>// &#34;PROD&#34; if deployed to HTTPS
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>adapter</span>: <span class=kt>prisma</span><span class=p>(</span><span class=nx>client</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h1 id=集成到nextjs>集成到Next.js</h1><p><a class=link href=https://lucia-auth.com/guidebook/sign-in-with-username-and-password/nextjs-app/ target=_blank rel=noopener>参考</a></p><h2 id=配置appdts>配置app.d.ts</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=c1>// app.d.ts
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>/// &lt;reference types=&#34;lucia&#34; /&gt;
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>declare</span> <span class=kr>namespace</span> <span class=nx>Lucia</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kr>type</span> <span class=nx>Auth</span> <span class=o>=</span> <span class=kr>import</span><span class=p>(</span><span class=s2>&#34;./lucia.js&#34;</span><span class=p>).</span><span class=nx>Auth</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kr>type</span> <span class=nx>DatabaseUserAttributes</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>username</span>: <span class=kt>string</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>};</span>
+</span></span><span class=line><span class=cl>	<span class=kr>type</span> <span class=nx>DatabaseSessionAttributes</span> <span class=o>=</span> <span class=p>{};</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=配置lucia>配置Lucia</h2><ul><li>expires: false：we can’t update the session cookie when validating them.</li><li>expose the user’s username to the <code>User</code> object by defining <a class=link href=https://lucia-auth.com/basics/configuration#getuserattributes target=_blank rel=noopener><code>getUserAttributes</code></a>.</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=c1>// auth/lucia.ts
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>import</span> <span class=p>{</span> <span class=nx>lucia</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;lucia&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>nextjs_future</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;lucia/middleware&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>auth</span> <span class=o>=</span> <span class=nx>lucia</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>	<span class=nx>adapter</span>: <span class=kt>ADAPTER</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=nx>env</span>: <span class=kt>process.env.NODE_ENV</span> <span class=o>===</span> <span class=s2>&#34;development&#34;</span> <span class=o>?</span> <span class=s2>&#34;DEV&#34;</span> <span class=o>:</span> <span class=s2>&#34;PROD&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=nx>middleware</span>: <span class=kt>nextjs_future</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>	<span class=nx>sessionCookie</span><span class=o>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>expires</span>: <span class=kt>false</span>
+</span></span><span class=line><span class=cl>	<span class=p>},</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>getUserAttributes</span><span class=o>:</span> <span class=p>(</span><span class=nx>data</span><span class=p>)</span> <span class=o>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>username</span>: <span class=kt>data.username</span>
+</span></span><span class=line><span class=cl>		<span class=p>};</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>type</span> <span class=nx>Auth</span> <span class=o>=</span> <span class=k>typeof</span> <span class=nx>auth</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=注册>注册</h2><ol><li>创建用户：<code>auth.createUser</code></li><li>创建session：<code>auth.createSession</code></li><li>创建authRequest：<code>auth.handleRequest(req.method, context);</code></li><li>设置cookie：<code>authRequest.setSession(session);</code></li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>auth</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;../../auth/lucia&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=o>*</span> <span class=kr>as</span> <span class=nx>context</span> <span class=kr>from</span> <span class=s2>&#34;next/headers&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>NextRequest</span><span class=p>,</span> <span class=nx>NextResponse</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;next/server&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>POST</span> <span class=o>=</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>req</span>: <span class=kt>NextRequest</span><span class=p>)</span> <span class=o>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>data</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>req</span><span class=p>.</span><span class=nx>json</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=p>{</span> <span class=nx>email</span><span class=p>,</span> <span class=nx>password</span><span class=p>,</span> <span class=nx>name</span><span class=p>,</span> <span class=nx>role</span> <span class=p>}</span> <span class=o>=</span> <span class=nx>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>user</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>createUser</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>            <span class=nx>key</span><span class=o>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>providerId</span><span class=o>:</span> <span class=s2>&#34;email&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nx>providerUserId</span>: <span class=kt>email</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nx>password</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=p>},</span>
+</span></span><span class=line><span class=cl>            <span class=nx>attributes</span><span class=o>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>email</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nx>name</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nx>role</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=p>},</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>session</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>createSession</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>            <span class=nx>userId</span>: <span class=kt>user.userId</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nx>attributes</span><span class=o>:</span> <span class=p>{},</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>authRequest</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>handleRequest</span><span class=p>(</span><span class=nx>req</span><span class=p>.</span><span class=nx>method</span><span class=p>,</span> <span class=nx>context</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=nx>authRequest</span><span class=p>.</span><span class=nx>setSession</span><span class=p>(</span><span class=nx>session</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>new</span> <span class=nx>Response</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=nx>JSON</span><span class=p>.</span><span class=nx>stringify</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>                <span class=nx>message</span><span class=o>:</span> <span class=s2>&#34;User created&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=p>}),</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>status</span>: <span class=kt>201</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>e</span>: <span class=kt>any</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>NextResponse</span><span class=p>.</span><span class=nx>json</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>error</span><span class=o>:</span> <span class=s2>&#34;An unknown error occurred&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=p>},</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>status</span>: <span class=kt>500</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=登陆>登陆</h2><ol><li><p>验证帐号密码：auth.useKey()</p><blockquote><p>捕获Error，判断是否密码错误。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=nx>e</span> <span class=k>instanceof</span> <span class=nx>LuciaError</span> <span class=o>&amp;&amp;</span>
+</span></span><span class=line><span class=cl>            <span class=p>(</span><span class=nx>e</span><span class=p>.</span><span class=nx>message</span> <span class=o>===</span> <span class=s2>&#34;AUTH_INVALID_KEY_ID&#34;</span> 
+</span></span><span class=line><span class=cl>             <span class=o>||</span> <span class=nx>e</span><span class=p>.</span><span class=nx>message</span> <span class=o>===</span> <span class=s2>&#34;AUTH_INVALID_PASSWORD&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote></li><li><p>创建session：auth.createSession()</p></li><li><p>创建authRequest：<code>auth.handleRequest(req.method, context);</code></p></li><li><p>设置cookie：<code>authRequest.setSession(session);</code></p></li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>auth</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;../../auth/lucia&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=o>*</span> <span class=kr>as</span> <span class=nx>context</span> <span class=kr>from</span> <span class=s2>&#34;next/headers&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>NextRequest</span><span class=p>,</span> <span class=nx>NextResponse</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;next/server&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>LuciaError</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;lucia&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>POST</span> <span class=o>=</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>req</span>: <span class=kt>NextRequest</span><span class=p>)</span> <span class=o>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>data</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>req</span><span class=p>.</span><span class=nx>json</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=p>{</span> <span class=nx>email</span><span class=p>,</span> <span class=nx>password</span> <span class=p>}</span> <span class=o>=</span> <span class=nx>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>key</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>useKey</span><span class=p>(</span><span class=s2>&#34;email&#34;</span><span class=p>,</span> <span class=nx>email</span><span class=p>.</span><span class=nx>toLowerCase</span><span class=p>(),</span> <span class=nx>password</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>session</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>createSession</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>            <span class=nx>userId</span>: <span class=kt>key.userId</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nx>attributes</span><span class=o>:</span> <span class=p>{},</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>authRequest</span> <span class=o>=</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>handleRequest</span><span class=p>(</span><span class=nx>req</span><span class=p>.</span><span class=nx>method</span><span class=p>,</span> <span class=nx>context</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=nx>authRequest</span><span class=p>.</span><span class=nx>setSession</span><span class=p>(</span><span class=nx>session</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>new</span> <span class=nx>Response</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=nx>JSON</span><span class=p>.</span><span class=nx>stringify</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>                <span class=nx>message</span><span class=o>:</span> <span class=s2>&#34;User logged in&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=p>}),</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>status</span>: <span class=kt>200</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>e</span>: <span class=kt>any</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nx>e</span> <span class=k>instanceof</span> <span class=nx>LuciaError</span> <span class=o>&amp;&amp;</span>
+</span></span><span class=line><span class=cl>            <span class=p>(</span><span class=nx>e</span><span class=p>.</span><span class=nx>message</span> <span class=o>===</span> <span class=s2>&#34;AUTH_INVALID_KEY_ID&#34;</span> <span class=o>||</span> <span class=nx>e</span><span class=p>.</span><span class=nx>message</span> <span class=o>===</span> <span class=s2>&#34;AUTH_INVALID_PASSWORD&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>console</span><span class=p>.</span><span class=nx>error</span><span class=p>(</span><span class=nx>e</span><span class=p>.</span><span class=nx>message</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=c1>// user does not exist or invalid password
+</span></span></span><span class=line><span class=cl><span class=c1></span>            <span class=k>return</span> <span class=nx>NextResponse</span><span class=p>.</span><span class=nx>json</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>                <span class=p>{</span>
+</span></span><span class=line><span class=cl>                    <span class=nx>error</span><span class=o>:</span> <span class=s2>&#34;Incorrect username or password&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=p>},</span>
+</span></span><span class=line><span class=cl>                <span class=p>{</span>
+</span></span><span class=line><span class=cl>                    <span class=nx>status</span>: <span class=kt>400</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>NextResponse</span><span class=p>.</span><span class=nx>json</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>error</span><span class=o>:</span> <span class=s2>&#34;An unknown error occurred&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=p>},</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>status</span>: <span class=kt>500</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>登陆请求返回一个<code>Set-Cookie</code>HTTP Header</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=err>auth_session=uceupxiddx</span><span class=mi>2</span><span class=err>jwveob</span><span class=mi>1</span><span class=err>c</span><span class=mi>2</span><span class=err>fjffgiz</span><span class=mi>1</span><span class=err>df</span><span class=mi>6</span><span class=err>rytqu</span><span class=mi>032</span><span class=err>e;</span> <span class=err>Path=/;</span> <span class=err>Expires=Wed,</span> <span class=mi>01</span> <span class=err>Jan</span> <span class=mi>2025</span> <span class=mi>07</span><span class=err>:</span><span class=mi>26</span><span class=err>:</span><span class=mi>20</span> <span class=err>GMT;</span> <span class=err>HttpOnly;</span> <span class=err>SameSite=lax</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><ol><li><code>HttpOnly</code>：这个属性是一个安全措施，表示该Cookie只能通过HTTP请求被访问，而不能通过客户端脚本（如JavaScript）直接访问。这有助于防止跨站脚本（XSS）攻击。</li><li><code>SameSite=lax</code>：这个属性用于防止跨站请求伪造（CSRF）攻击。<code>SameSite=lax</code>意味着Cookie在跨站请求中不会被发送，但在导航到目标网站的顶级请求（如链接点击）时会被发送。这是一个相对宽松的设置，适用于大多数网站。</li></ol></blockquote><p><img src=https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/20240102152845.png loading=lazy></p><p>最终存在这里。</p><p><img src=https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/20240102153705.png loading=lazy></p><h2 id=登出>登出</h2><ol><li>创建authRequest：<code>auth.handleRequest(req.method, context);</code></li><li>尝试获取合法的session：<code>authRequest.validate();</code></li><li>将session设置为失效：<code>auth.invalidateSession(session.sessionId);</code></li><li>删除session cookie：<code>authRequest.setSession(null);</code></li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>auth</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;../../auth/lucia&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=o>*</span> <span class=kr>as</span> <span class=nx>context</span> <span class=kr>from</span> <span class=s2>&#34;next/headers&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=kr>type</span> <span class=p>{</span> <span class=nx>NextRequest</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;next/server&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>POST</span> <span class=o>=</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>request</span>: <span class=kt>NextRequest</span><span class=p>)</span> <span class=o>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>authRequest</span> <span class=o>=</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>handleRequest</span><span class=p>(</span><span class=nx>request</span><span class=p>.</span><span class=nx>method</span><span class=p>,</span> <span class=nx>context</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// check if user is authenticated
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kr>const</span> <span class=nx>session</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>authRequest</span><span class=p>.</span><span class=nx>validate</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>session</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>new</span> <span class=nx>Response</span><span class=p>(</span><span class=kc>null</span><span class=p>,</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>status</span>: <span class=kt>401</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// make sure to invalidate the current session!
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>await</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>invalidateSession</span><span class=p>(</span><span class=nx>session</span><span class=p>.</span><span class=nx>sessionId</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// delete session cookie
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>authRequest</span><span class=p>.</span><span class=nx>setSession</span><span class=p>(</span><span class=kc>null</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=k>new</span> <span class=nx>Response</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=nx>JSON</span><span class=p>.</span><span class=nx>stringify</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>            <span class=nx>message</span><span class=o>:</span> <span class=s2>&#34;User logged out&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>}),</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>status</span>: <span class=kt>302</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>logout的响应的HTTP Header:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Set-Cookie:
+</span></span><span class=line><span class=cl>auth_session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=lax
+</span></span></code></pre></td></tr></table></div></div><p><img src=https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/20240102153806.png loading=lazy></p><p>Cookies中的<code>auth_session</code>不见了。</p><p><img src=https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/20240102153904.png loading=lazy></p><h2 id=参考代码>参考代码</h2><p>见<a class=link href=https://github.com/yhb-tutorial/lucia-auth-next.js target=_blank rel=noopener>Github</a></p><h1 id=基本>基本</h1><h2 id=数据库表>数据库表</h2><p>用户表</p><div class=table-wrapper><table><thead><tr><th>name 名字</th><th>type 类型</th><th>primary key 主键</th><th>description 描述</th></tr></thead><tbody><tr><td>id</td><td><code>string</code></td><td>✓</td><td>User id 用户 ID</td></tr></tbody></table></div><p>会话表</p><div class=table-wrapper><table><thead><tr><th>name 名字</th><th>type 类型</th><th>primary key 主键</th><th>references 引用</th><th>description 描述</th></tr></thead><tbody><tr><td>id</td><td><code>string</code></td><td>✓</td><td></td><td></td></tr><tr><td>user_id</td><td><code>string</code></td><td></td><td><code>user(id)</code></td><td></td></tr><tr><td>active_expires</td><td><code>number</code> (int8) <code>number</code> （int8）</td><td></td><td></td><td>The expiration time (unix) of the session (active) 会话的过期时间 （unix）（活动）</td></tr><tr><td>idle_expires</td><td><code>number</code> (int8) <code>number</code> （int8）</td><td></td><td></td><td>The expiration time (unix) for the idle period 空闲期的过期时间 （unix）</td></tr></tbody></table></div><blockquote><p>Active sessions are your access tokens, and idle sessions are your refresh tokens.</p></blockquote><p>密钥表</p><div class=table-wrapper><table><thead><tr><th>name 名字</th><th>type 类型</th><th>primary key 主键</th><th>references 引用</th><th>description 描述</th></tr></thead><tbody><tr><td>id</td><td><code>string</code></td><td>✓</td><td></td><td>Key id in the form of: <code>${providerId}:${providerUserId}</code> 密钥 ID，格式为： <code>${providerId}:${providerUserId}</code></td></tr><tr><td>user_id</td><td><code>string</code></td><td></td><td><code>user(id)</code></td><td></td></tr><tr><td>hashed_password</td><td>`string</td><td>null`</td><td></td><td></td></tr></tbody></table></div><h2 id=用户>用户</h2><p>创建用户</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>auth</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;./lucia.js&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>LuciaError</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;lucia&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kr>const</span> <span class=nx>user</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>createUser</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>		<span class=nx>key</span><span class=o>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>providerId</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=nx>providerUserId</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=nx>password</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=nx>attributes</span><span class=o>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>username</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span> <span class=c1>// expects `Lucia.DatabaseUserAttributes`
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nx>e</span> <span class=k>instanceof</span> <span class=nx>LuciaError</span> <span class=o>&amp;&amp;</span> <span class=nx>e</span><span class=p>.</span><span class=nx>message</span> <span class=o>===</span> <span class=sb>`AUTH_DUPLICATE_KEY_ID`</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// key already exists
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// provided user attributes violates database rules (e.g. unique constraint)
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// or unexpected database errors
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=密钥>密钥</h2><h3 id=验证帐号和密码>验证帐号和密码</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>auth</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;./lucia.js&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>key</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>useKey</span><span class=p>(</span><span class=s2>&#34;email&#34;</span><span class=p>,</span> <span class=s2>&#34;user@example.com&#34;</span><span class=p>,</span> <span class=s2>&#34;123456&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>user</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>getUser</span><span class=p>(</span><span class=nx>key</span><span class=p>.</span><span class=nx>userId</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=验证oauth>验证OAuth</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>auth</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;./lucia.js&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>githubUser</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>authenticateWithGithub</span><span class=p>();</span> <span class=c1>// example - exact API not provided by Lucia
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>const</span> <span class=nx>key</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>useKey</span><span class=p>(</span><span class=s2>&#34;github&#34;</span><span class=p>,</span> <span class=nx>githubUser</span><span class=p>.</span><span class=nx>userId</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=修改密码>修改密码</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>auth</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;./lucia.js&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kr>const</span> <span class=nx>key</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>updateKeyPassword</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>		<span class=nx>providerId</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>providerUserId</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>newPassword</span>
+</span></span><span class=line><span class=cl>	<span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nx>e</span> <span class=k>instanceof</span> <span class=nx>LuciaError</span> <span class=o>&amp;&amp;</span> <span class=nx>e</span><span class=p>.</span><span class=nx>message</span> <span class=o>===</span> <span class=s2>&#34;AUTH_INVALID_KEY_ID&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// invalid key
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// unexpected database error
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=k>await</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>updateKeyPassword</span><span class=p>(</span><span class=s2>&#34;email&#34;</span><span class=p>,</span> <span class=s2>&#34;user@example.com&#34;</span><span class=p>,</span> <span class=s2>&#34;654321&#34;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=会话>会话</h2><blockquote><p>会话ID：长度为 40 个字符。</p></blockquote><p>会话 ID 可以存储在 cookie 中，也可以放在token。</p><h3 id=会话的状态>会话的状态</h3><p>会话可以处于以下 3 种状态之一：</p><ul><li>活动的：有效的会话。一段时间后进入“空闲的”。</li><li>空闲的: 有效的会话，但 Lucia 将重置过期时间。如果不使用会话，则变为“死的”。</li><li>死的：无效会话。用户必须重新登录。</li></ul><h3 id=数据表>数据表</h3><div class=table-wrapper><table><thead><tr><th>name 名字</th><th>type 类型</th><th>description 描述</th></tr></thead><tbody><tr><td>id</td><td><code>string</code></td><td></td></tr><tr><td>user_id</td><td><code>string</code></td><td></td></tr><tr><td>active_expires</td><td><code>number</code> (int8)</td><td>The expiration time (unix) of the session (active)</td></tr><tr><td>idle_expires</td><td><code>number</code> (int8)</td><td>The expiration time (unix) for the idle period</td></tr></tbody></table></div><h3 id=逻辑>逻辑</h3><p>通过延长过期时间来重置会话；不会使空闲会话失效并创建新会话。</p><p>如果您使用了访问令牌和刷新令牌，则 Lucia 的会话是两者的组合。</p><p>Active sessions are your access tokens, and idle sessions are your refresh tokens.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>auth</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;./lucia.js&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>LuciaError</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;lucia&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// This will reset the session if its idle.
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=kr>const</span> <span class=nx>session</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>validateSession</span><span class=p>(</span><span class=nx>sessionId</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nx>session</span><span class=p>.</span><span class=nx>fresh</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// You can check if the returned session was just reset with the Session.fresh property. 
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=c1>// 延长过期时间
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=kr>const</span> <span class=nx>sessionCookie</span> <span class=o>=</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>createSessionCookie</span><span class=p>(</span><span class=nx>session</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=nx>setSessionCookie</span><span class=p>(</span><span class=nx>session</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// 如果session是dead的，抛出AUTH_INVALID_SESSION_ID错误
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>if</span> <span class=p>(</span><span class=nx>e</span> <span class=k>instanceof</span> <span class=nx>LuciaError</span> <span class=o>&amp;&amp;</span> <span class=nx>e</span><span class=p>.</span><span class=nx>message</span> <span class=o>===</span> <span class=sb>`AUTH_INVALID_SESSION_ID`</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// invalid session
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>deleteSessionCookie</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// unexpected database errors
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://lucia-auth.com/basics/sessions/ target=_blank rel=noopener>参考</a></p><h3 id=创建会话>创建会话</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>auth</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;./lucia.js&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>LuciaError</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;lucia&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kr>const</span> <span class=nx>session</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>createSession</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>		<span class=nx>userId</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>attributes</span><span class=o>:</span> <span class=p>{}</span> <span class=c1>// expects `Lucia.DatabaseSessionAttributes`
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=p>});</span>
+</span></span><span class=line><span class=cl>	<span class=kr>const</span> <span class=nx>sessionCookie</span> <span class=o>=</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>createSessionCookie</span><span class=p>(</span><span class=nx>session</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=nx>setSessionCookie</span><span class=p>(</span><span class=nx>session</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nx>e</span> <span class=k>instanceof</span> <span class=nx>LuciaError</span> <span class=o>&amp;&amp;</span> <span class=nx>e</span><span class=p>.</span><span class=nx>message</span> <span class=o>===</span> <span class=sb>`AUTH_INVALID_USER_ID`</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 如果用户 ID 无效，则会抛出 AUTH_INVALID_USER_ID .
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// unexpected database errors
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=使会话失效>使会话失效</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>auth</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;./lucia.js&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>await</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>invalidateSession</span><span class=p>(</span><span class=nx>sessionId</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>使所有某一用户的所有会话失效</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>auth</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;./lucia.js&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>await</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>invalidateAllUserSessions</span><span class=p>(</span><span class=nx>userId</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=handle-requests>Handle requests</h2><p>读取和解析请求标头、验证会话以及为每个受保护的终结点设置适当的响应标头有点繁琐。</p><p>为了解决这个问题，Lucia 提供了一个 <code>Auth.handleRequest()</code> 创建新 <code>AuthRequest</code> 实例的方法。</p><p>这提供了一些方法，可以更轻松地使用会话 Cookie 和持有者令牌。</p><p>但是，每个框架和运行时都有自己的传入请求和传出响应的表示形式。Lucia通过中间件解决。</p><h3 id=netxtjs>Netxt.js</h3><p>有两个中间件</p><ul><li><a class=link href=https://lucia-auth.com/reference/lucia/modules/middleware/#nextjs target=_blank rel=noopener>nextjs()</a></li><li>nextjs_future()</li></ul><p><strong>使用方法</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>node</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;lucia/middleware&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>lucia</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>middleware</span>: <span class=kt>nextjs_future</span><span class=p>()</span> <span class=c1>// pass Web middleware
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// `Auth.handleRequest()` now accepts `Request`
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>const</span> <span class=nx>authRequest</span> <span class=o>=</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>handleRequest</span><span class=p>(</span><span class=k>new</span> <span class=nx>Request</span><span class=p>());</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=c1>// app/routes.ts
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>import</span> <span class=o>*</span> <span class=kr>as</span> <span class=nx>context</span> <span class=kr>from</span> <span class=s2>&#34;next/headers&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>POST</span> <span class=o>=</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>request</span>: <span class=kt>NextRequest</span><span class=p>)</span> <span class=o>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kr>const</span> <span class=nx>authRequest</span> <span class=o>=</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>handleRequest</span><span class=p>(</span><span class=nx>request</span><span class=p>.</span><span class=nx>method</span><span class=p>,</span> <span class=nx>context</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=c1>// middleware.ts
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>export</span> <span class=kr>const</span> <span class=nx>middleware</span> <span class=o>=</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>request</span>: <span class=kt>NextRequest</span><span class=p>)</span> <span class=o>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// `AuthRequest.setSession()` is not supported when only `NextRequest` is passed
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=kr>const</span> <span class=nx>authRequest</span> <span class=o>=</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>handleRequest</span><span class=p>(</span><span class=nx>request</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=kr>const</span> <span class=nx>session</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>createSession</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=p>});</span>
+</span></span><span class=line><span class=cl>	<span class=kr>const</span> <span class=nx>sessionCookie</span> <span class=o>=</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>createSessionCookie</span><span class=p>(</span><span class=nx>session</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kr>const</span> <span class=nx>response</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Response</span><span class=p>(</span><span class=kc>null</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=nx>response</span><span class=p>.</span><span class=nx>headers</span><span class=p>.</span><span class=nx>append</span><span class=p>(</span><span class=s2>&#34;Set-Cookie&#34;</span><span class=p>,</span> <span class=nx>sessionCookie</span><span class=p>.</span><span class=nx>serialize</span><span class=p>());</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>支持的函数</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=nx>auth</span><span class=p>.</span><span class=nx>handleRequest</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>	<span class=nx>req</span>: <span class=kt>req</span> <span class=kr>as</span> <span class=nx>IncomingMessage</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=nx>res</span>: <span class=kt>res</span> <span class=kr>as</span> <span class=nx>OutgoingMessage</span> <span class=o>|</span> <span class=kc>undefined</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>auth</span><span class=p>.</span><span class=nx>handleRequest</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>	<span class=nx>request</span>: <span class=kt>request</span> <span class=kr>as</span> <span class=nx>NextRequest</span> <span class=o>|</span> <span class=kc>null</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=nx>cookies</span>: <span class=kt>cookies</span> <span class=kr>as</span> <span class=nx>Cookies</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=使用cookies>使用Cookies</h2><h3 id=cookie-expiration>Cookie expiration</h3><ul><li>默认情况下，会话 Cookie 设置为在会话过期时过期。</li><li>如果在延长会话过期时间后无法始终设置 cookie，则此行为可能更不可取。</li><li>您可以通过将 configuration 设置为 <code>sessionCookie.expires</code> <code>false</code> 来将会话 cookie 设置为无限期持续。启用此选项不会更改会话过期时间，而只会更改 cookie。</li></ul><h3 id=heading></h3><h3 id=创建cookie>创建Cookie</h3><p>您可以使用 创建一个新的 <code>Cookie</code> <code>Auth.createSessionCookie()</code> ，它接受 <code>Session</code> . <code>Cookie.serialize()</code> 可用于生成新的 <code>Set-Cookie</code> 响应标头值。您还可以访问 Cookie 名称、值和属性（例如 和 <code>httpOnly</code> <code>maxAge</code> ）。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>auth</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;./lucia.js&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>...</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>sessionCookie</span> <span class=o>=</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>createSessionCookie</span><span class=p>(</span><span class=nx>session</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>setResponseHeaders</span><span class=p>(</span><span class=s2>&#34;Set-Cookie&#34;</span><span class=p>,</span> <span class=nx>sessionCookie</span><span class=p>.</span><span class=nx>serialize</span><span class=p>());</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=验证cookie>验证Cookie</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>auth</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;./lucia.js&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>authRequest</span> <span class=o>=</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>handleRequest</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>session</span> <span class=o>=</span> <span class=k>await</span> <span class=nx>authRequest</span><span class=p>.</span><span class=nx>validate</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=nx>session</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// valid request
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li><a class=link href=https://lucia-auth.com/reference/lucia/interfaces/authrequest#validate target=_blank rel=noopener><code>AuthRequest.validate()</code></a> validates the request origin and the session cookie stored</li><li>Reset sessions if they’re idle.</li></ul><h4 id=缓存>缓存</h4><p><code>AuthRequest.validate()</code> 缓存请求，因此无论您调用多少次，它都只会运行一次。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=k>await</span> <span class=nx>authRequest</span><span class=p>.</span><span class=nx>validate</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=k>await</span> <span class=nx>authRequest</span><span class=p>.</span><span class=nx>validate</span><span class=p>();</span> <span class=c1>// uses cache from previous call
+</span></span></span></code></pre></td></tr></table></div></div><blockquote><p>每当调用缓存时 <code>AuthRequest.setSession()</code> ，缓存都会失效。</p></blockquote><h3 id=删除cookie>删除Cookie</h3><p>您可以传递 <code>null</code> 删除会话 Cookie。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>auth</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;./lucia.js&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>authRequest</span> <span class=o>=</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>handleRequest</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=nx>authRequest</span><span class=p>.</span><span class=nx>setSession</span><span class=p>(</span><span class=kc>null</span><span class=p>);</span> <span class=c1>// delete session cookie
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=设置session>设置Session</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>auth</span> <span class=p>}</span> <span class=kr>from</span> <span class=s2>&#34;./lucia.js&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>authRequest</span> <span class=o>=</span> <span class=nx>auth</span><span class=p>.</span><span class=nx>handleRequest</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=nx>authRequest</span><span class=p>.</span><span class=nx>setSession</span><span class=p>(</span><span class=kc>null</span><span class=p>);</span> <span class=c1>// delete session cookie
+</span></span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://lucia-auth.com/basics/sessions/ target=_blank rel=noopener>参考</a></p><h1 id=oauth>OAuth</h1></section><footer class=article-footer><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><div id=cusdis_thread data-host=https://cusdis.com data-app-id=287ed0fd-6a12-4302-a1ad-d2fd382e1199 data-page-id=cc8a44ce3fe2ca0e4388af90a9610c09 data-page-url=https://blog.ververv.com/p/lucia-auth/ data-page-title="Lucia Auth"></div><script async defer src=https://cusdis.com/js/cusdis.es.js></script><script>function setCusdisTheme(e){let t=document.querySelector("#cusdis_thread iframe");t&&window.CUSDIS.setTheme(e)}window.addEventListener("onColorSchemeChange",e=>{setCusdisTheme(e.detail)})</script><footer class=site-footer><section class=copyright>&copy;
+2023 -
+2024 量子跳跃者</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.24.2>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

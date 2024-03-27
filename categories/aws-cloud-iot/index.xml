@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Aws Cloud Iot on 量子跳跃者</title><link>https://blog.ververv.com/categories/aws-cloud-iot/</link><description>Recent content in Aws Cloud Iot on 量子跳跃者</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 18 Mar 2020 07:58:58 +0800</lastBuildDate><atom:link href="https://blog.ververv.com/categories/aws-cloud-iot/index.xml" rel="self" type="application/rss+xml"/><item><title>AWS IoT</title><link>https://blog.ververv.com/p/aws-iot/</link><pubDate>Wed, 18 Mar 2020 07:58:58 +0800</pubDate><guid>https://blog.ververv.com/p/aws-iot/</guid><description>&lt;h2 id="总体介绍">总体介绍&lt;/h2>
+&lt;p>&lt;a class="link" href="https://amazonaws-china.com/cn/about-aws/events/webinar/iot-solutions-based-on-aws-iot-platform06062017/" target="_blank" rel="noopener"
+>教程&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.youtube.com/watch?v=I8HvkeEDZhc" target="_blank" rel="noopener"
+>视频&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://s3.cn-north-1.amazonaws.com.cn/sides-share/%e5%9f%ba%e4%ba%8eAWS%2BIoT%e5%b9%b3%e5%8f%b0%e7%9a%84%e7%89%a9%e8%81%94%e7%bd%91%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88.pdf" target="_blank" rel="noopener"
+>PDF&lt;/a>&lt;/p>
+&lt;h2 id="架构">架构&lt;/h2>
+&lt;img src="https://docs.amazonaws.cn/iot/latest/developerguide/images/aws_iot_data_services.png" alt=" AWS IoT 的简要视图 " style="zoom:75%;" />
+&lt;h2 id="aws-iot入门">AWS IoT入门&lt;/h2>
+&lt;p>使用新加坡的节点，进入管理后台&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="cl">&lt;span class="nl">https&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="c1">//ap-southeast-1.console.aws.amazon.com/iot/home&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>进入“入门培训”&amp;ndash;&amp;gt;“登记设备”&amp;ndash;&amp;gt;“入门”&lt;/li>
+&lt;li>选择&amp;quot;Linux&amp;quot;和“Node.js”&lt;/li>
+&lt;li>填写名称“C3”&lt;/li>
+&lt;li>下载工具包&lt;/li>
+&lt;li>解压，添加执行权限，运行&lt;/li>
+&lt;li>如果连接成功，会在页面看到设备发来的信息&lt;/li>
+&lt;li>在当前页面向设备发信息&lt;/li>
+&lt;/ol>
+&lt;h3 id="示例应用程序">示例应用程序&lt;/h3>
+&lt;p>位置： &lt;code>aws-iot-device-sdk-js/examples&lt;/code> 目录&lt;/p>
+&lt;p>程序：device-example.js&lt;/p>
+&lt;p>功能：此示例在两种模式下运行。在模式 1 中，它订阅 MQTT 主题 &lt;code>topic_1&lt;/code>，并且每 4 秒在 &lt;code>topic_2&lt;/code> 上发布一条消息。在模式 2 中，它订阅 &lt;code>topic_2&lt;/code>，并在 &lt;code>topic_1&lt;/code> 上每 4 秒发布一条消息。&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.amazonaws.cn/iot/latest/developerguide/iot-device-sdk-node.html" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p>
+&lt;h3 id="程序分析">程序分析&lt;/h3>
+&lt;p>下载AWS的根证书，将pem格式转成crt格式。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">curl https://www.amazontrust.com/repository/AmazonRootCA1.pem &amp;gt; root-CA.crt
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>下载依赖：aws-iot的SDK&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">npm install aws-iot-device-sdk
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>依赖中有范例代码&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">node_modules/aws-iot-device-sdk/examples/device-example.js
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>执行代码&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">node device-example.js
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>输入不同的参数：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">--host-name&lt;span class="o">=&lt;/span>a2x3l15ka37s9p-ats.iot.ap-southeast-1.amazonaws.com
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">--private-key&lt;span class="o">=&lt;/span>C2.private.key // 私有密钥
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">--client-certificate&lt;span class="o">=&lt;/span>C2.cert.pem // 设备证书
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">--ca-certificate&lt;span class="o">=&lt;/span>root-CA.crt // Amazon根证书
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">--client-id&lt;span class="o">=&lt;/span>sdk-nodejs-468d3313-04b6-4188-ae76-34a3fce9ce3b
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>device-example&lt;/p>
+&lt;p>两个设备，不同的Client-id&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">node node_modules/aws-iot-device-sdk/examples/device-example.js --host-name=a2x3l15ka37s9p-ats.iot.ap-southeast-1.amazonaws.com --private-key=G1.private.key --client-certificate=G1.cert.pem --ca-certificate=root-CA.crt --client-id=sdk-nodejs-2452e30a-4c30-42d3-9a4a-c23fe244c715 --debug=true --test-mode=2 --thingName=G2
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">node node_modules/aws-iot-device-sdk/examples/device-example.js --host-name=a2x3l15ka37s9p-ats.iot.ap-southeast-1.amazonaws.com --private-key=G1.private.key --client-certificate=G1.cert.pem --ca-certificate=root-CA.crt --client-id=sdk-nodejs-2452e30a-4c30-42d3-9a4a-c23fe244c716 --debug=true --test-mode=1 --thingName=G2
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="连接设备安全-认证">连接设备安全-认证&lt;/h2>
+&lt;h3 id="双向证书认证">双向证书认证&lt;/h3>
+&lt;p>通过使用 X.509 证书可保护您的设备与 AWS IoT 之间的通信。&lt;/p>
+&lt;h3 id="签发方式">签发方式&lt;/h3>
+&lt;p>有两种：&lt;/p>
+&lt;ol>
+&lt;li>AWS IoT签发证书：AWS IoT 可为您生成一个证书，适合量少的情况，例如开发测试。&lt;/li>
+&lt;li>用户自签证书 （在AWS IoT上即时注册设备证书）&lt;/li>
+&lt;/ol>
+&lt;p>无论哪种情况，都必须通过 AWS IoT 注册并激活证书，然后再复制到您的设备上。&lt;/p>
+&lt;p>当您的设备与 AWS IoT 进行通信时，它会将证书作为凭证提供给 AWS IoT。&lt;/p>
+&lt;p>TODO：第二种是怎样的？&lt;/p>
+&lt;h3 id="证书和密钥">证书和密钥&lt;/h3>
+&lt;p>• 私钥 (authenticate the device)&lt;/p>
+&lt;p>• 设备证书(register the device with IoT)&lt;/p>
+&lt;p>• 根CA (authenticate IoT)&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">--private-key&lt;span class="o">=&lt;/span>C2.private.key // 私有密钥
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">--client-certificate&lt;span class="o">=&lt;/span>C2.cert.pem // 设备证书
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">--ca-certificate&lt;span class="o">=&lt;/span>root-CA.crt // Amazon根证书
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="策略">策略&lt;/h3>
+&lt;p>控制物联网设备允许的操作权限: 连接, 发布, 订阅, 接收,影子操作。&lt;/p>
+&lt;p>Connect中有&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">&amp;#34;arn:aws:iot:ap-southeast-1:935656290774:client/sdk-nodejs-*&amp;#34;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>里面有sdk-nodejs-*，可能是指client-id。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;Version&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2012-10-17&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;Statement&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;Effect&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Allow&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;Action&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;iot:Publish&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;iot:Receive&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;Resource&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;arn:aws:iot:ap-southeast-1:935656290774:topic/sdk/test/java&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;arn:aws:iot:ap-southeast-1:935656290774:topic/sdk/test/Python&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;arn:aws:iot:ap-southeast-1:935656290774:topic/topic_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;arn:aws:iot:ap-southeast-1:935656290774:topic/topic_2&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;Effect&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Allow&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;Action&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;iot:Subscribe&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;Resource&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;arn:aws:iot:ap-southeast-1:935656290774:topicfilter/sdk/test/java&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;arn:aws:iot:ap-southeast-1:935656290774:topicfilter/sdk/test/Python&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;arn:aws:iot:ap-southeast-1:935656290774:topicfilter/topic_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;arn:aws:iot:ap-southeast-1:935656290774:topicfilter/topic_2&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;Effect&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Allow&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;Action&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;iot:Connect&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;Resource&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="err">on&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;arn:aws:iot:ap-southeast-1:935656290774:client/sdk-java&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;arn:aws:iot:ap-southeast-1:935656290774:client/basicPubSub&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;arn:aws:iot:ap-southeast-1:935656290774:client/sdk-nodejs-*&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="设备端">设备端&lt;/h2>
+&lt;h3 id="js-sdk">JS SDK&lt;/h3>
+&lt;p>&lt;a class="link" href="https://github.com/aws/aws-iot-device-sdk-js" target="_blank" rel="noopener"
+>链接&lt;/a>&lt;/p>
+&lt;h3 id="java-sdk">Java SDK&lt;/h3></description></item></channel></rss>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ffmpeg Media on 量子跳跃者</title><link>https://blog.ververv.com/categories/ffmpeg-media/</link><description>Recent content in Ffmpeg Media on 量子跳跃者</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 10 Mar 2020 07:58:58 +0800</lastBuildDate><atom:link href="https://blog.ververv.com/categories/ffmpeg-media/index.xml" rel="self" type="application/rss+xml"/><item><title>FFMPEG</title><link>https://blog.ververv.com/p/ffmpeg/</link><pubDate>Tue, 10 Mar 2020 07:58:58 +0800</pubDate><guid>https://blog.ververv.com/p/ffmpeg/</guid><description>&lt;h2 id="安装">安装&lt;/h2>
+&lt;p>可以通过如下三种方式安装ffmpeg&lt;/p>
+&lt;ul>
+&lt;li>终端安装 (借助&lt;a class="link" href="https://brew.sh/" target="_blank" rel="noopener"
+>homebrew&lt;/a>): 此方式ffmpeg会保持自动更新.&lt;/li>
+&lt;li>下载ffmpeg&lt;a class="link" href="https://ffmpeg.org/download.html" target="_blank" rel="noopener"
+>静态库&lt;/a>: 即不用手动编译,我们只需要直接运行下载得到的二进制文件即可.静态生成的一个缺点是必须手动执行更新。此外, 它们可能不包含所需的所有编码器或筛选器。&lt;/li>
+&lt;li>手动编译: 下载源码, 然后使用所需的标志(可以指定开启需要的功能)运行&lt;code>./configure&lt;/code>, 最后使用&lt;code>make&lt;/code>或&lt;code>make install&lt;/code>。但是, 必须手动设置配置选项, 并且您需要自己安装第三方库。&lt;/li>
+&lt;/ul>
+&lt;h3 id="在mac安装">在Mac安装&lt;/h3>
+&lt;h4 id="使用brew">使用Brew&lt;/h4>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/90099862" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://juejin.im/post/5cefe31a6fb9a07ea4206298#heading-2" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">brew install ffmpeg
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">brew tap homebrew-ffmpeg/ffmpeg
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">// 这一步提示失败
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">brew install homebrew-ffmpeg/ffmpeg/ffmpeg
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">brew update &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> brew upgrade ffmpeg
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>但不影响使用。&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.ffmpeg.org/download.html" target="_blank" rel="noopener"
+>官网&lt;/a>&lt;/p>
+&lt;h2 id="sample-video">Sample Video&lt;/h2>
+&lt;p>&lt;a class="link" href="https://standaloneinstaller.com/blog/big-list-of-sample-videos-for-testers-124.html" target="_blank" rel="noopener"
+>链接&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://media.w3.org/2010/05/sintel/trailer.mp4" target="_blank" rel="noopener"
+>https://media.w3.org/2010/05/sintel/trailer.mp4&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="http://www.w3school.com.cn/example/html5/mov_bbb.mp4" target="_blank" rel="noopener"
+>http://www.w3school.com.cn/example/html5/mov_bbb.mp4&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.w3schools.com/html/movie.mp4" target="_blank" rel="noopener"
+>https://www.w3schools.com/html/movie.mp4&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" target="_blank" rel="noopener"
+>http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8" target="_blank" rel="noopener"
+>http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8&lt;/a>&lt;/p>
+&lt;p>通过又拍云来上传视频&lt;/p>
+&lt;p>&lt;a class="link" href="https://console.upyun.com/services/common1/filemanage/" target="_blank" rel="noopener"
+>https://console.upyun.com/services/common1/filemanage/&lt;/a>&lt;/p>
+&lt;h2 id="命令">命令&lt;/h2>
+&lt;h3 id="教程">教程&lt;/h3>
+&lt;p>&lt;a class="link" href="http://www.ruanyifeng.com/blog/2020/01/ffmpeg.html" target="_blank" rel="noopener"
+>FFmpeg 视频处理入门教程&lt;/a>&lt;/p>
+&lt;h3 id="查看文件信息">查看文件信息&lt;/h3>
+&lt;p>查看视频文件的元信息，比如编码格式和比特率。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ ffmpeg -i input.mp4 -hide_banner
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="隐藏冗余信息">隐藏冗余信息&lt;/h3>
+&lt;p>命令会输出很多冗余信息，加上&lt;code>-hide_banner&lt;/code>参数，可以只显示元信息。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ ffmpeg -i input.mp4 -hide_banner
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="ffmpeg">ffmpeg&lt;/h2>
+&lt;h3 id="删除音轨">删除音轨&lt;/h3>
+&lt;p>查看所有轨道&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ffmpeg -i file.mp4
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">Stream &lt;span class="c1">#0:0(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p, 560x320 [SAR 1:1 DAR 7:4], q=2-31, 178 kb/s, 30 fps, 30 tbr, 15360 tbn, 15360 tbc (default)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Stream &lt;span class="c1">#0:1: Audio: vorbis (mp4a / 0x6134706D), 8000 Hz, stereo, fltp, 45 kb/s&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>留下视频&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ffmpeg -i small.mp4 -map 0:0 -vcodec copy only_video.mp4
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="合并音轨">合并音轨&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ffmpeg -i only_video.mp4 -i g711_alaw_64p0k.ogg -c copy output_g711.mp4
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="ffprobe">ffprobe&lt;/h2>
+&lt;p>查看音视频文件的封装格式&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">ffprobe -show_format inputFile
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>查看音视频文件的流信息&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">ffprobe -show_streams inputFile
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;a class="link" href="https://juejin.im/post/5d5cbb9af265da03f564e757" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p>
+&lt;h2 id="ffplay">ffplay&lt;/h2>
+&lt;p>范例&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ffplay -f rawvideo -video_size 510x510 output.yuv
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>
+&lt;p>-f rawvideo ： 经笔者测试这个选项可加可不加&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>yuv文件不包涵宽高数据，所以必须用-video_size指定宽和高，格式为：widthxheight&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>output.yuv可以是一帧（图片）或者多帧（视频）数据&lt;/p>
+&lt;/li>
+&lt;/ul></description></item></channel></rss>

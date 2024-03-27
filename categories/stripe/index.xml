@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Stripe on 量子跳跃者</title><link>https://blog.ververv.com/categories/stripe/</link><description>Recent content in Stripe on 量子跳跃者</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 30 Nov 2023 11:07:30 +0800</lastBuildDate><atom:link href="https://blog.ververv.com/categories/stripe/index.xml" rel="self" type="application/rss+xml"/><item><title>Lemonsqueezy教程：Stripe的最好替代品</title><link>https://blog.ververv.com/p/lemonsqueezy%E6%95%99%E7%A8%8Bstripe%E7%9A%84%E6%9C%80%E5%A5%BD%E6%9B%BF%E4%BB%A3%E5%93%81/</link><pubDate>Thu, 30 Nov 2023 11:07:30 +0800</pubDate><guid>https://blog.ververv.com/p/lemonsqueezy%E6%95%99%E7%A8%8Bstripe%E7%9A%84%E6%9C%80%E5%A5%BD%E6%9B%BF%E4%BB%A3%E5%93%81/</guid><description>&lt;img src="https://blog.ververv.com/cover.png" alt="Featured image of post Lemonsqueezy教程：Stripe的最好替代品" />&lt;h1 id="lemonsqueezy优点">Lemonsqueezy优点&lt;/h1>
+&lt;ul>
+&lt;li>
+&lt;p>申请门槛低：国内用户也可以申请，不需要公司资质&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>支付微信支付和支付宝：详情见&lt;a class="link" href="https://docs.lemonsqueezy.com/help/checkout/payment-methods" target="_blank" rel="noopener"
+>这里&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>支持试用&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>有佣金系统&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>有折扣码系统&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="对比支付网关">对比支付网关&lt;/h1>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>服务名称&lt;/th>
+&lt;th>费率&lt;/th>
+&lt;th>支持的支付方式&lt;/th>
+&lt;th>支持的国家和货币&lt;/th>
+&lt;th>安全性&lt;/th>
+&lt;th>客户服务和支持&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>PayPay&lt;/td>
+&lt;td>2.9% + 0.30美元&lt;/td>
+&lt;td>信用卡、借记卡、银行转账、PayPal余额等&lt;/td>
+&lt;td>覆盖多国和货币，支持多种语言&lt;/td>
+&lt;td>金融交易保护&lt;/td>
+&lt;td>可能提供24/7支持&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Stripe&lt;/td>
+&lt;td>2.9% + 30美分&lt;/td>
+&lt;td>信用卡、借记卡、银行转账、PayPal余额等&lt;/td>
+&lt;td>覆盖多国和货币，支持多种语言&lt;/td>
+&lt;td>提供保障&lt;/td>
+&lt;td>可能提供24/7支持&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Paddle&lt;/td>
+&lt;td>1.5% + 20p&lt;/td>
+&lt;td>只支持信用卡和PayPal付款&lt;/td>
+&lt;td>覆盖范围较小，但支持多种货币和语言&lt;/td>
+&lt;td>提供保障&lt;/td>
+&lt;td>可能只在工作日提供帮助&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>LemonSqueezy&lt;/td>
+&lt;td>5%-7%&lt;/td>
+&lt;td>只接受信用卡付款&lt;/td>
+&lt;td>覆盖范围较小，但支持多种货币和语言&lt;/td>
+&lt;td>缺乏顶级安全标准&lt;/td>
+&lt;td>可能只在工作日提供帮助&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>LemonSqueezy的费率还是比较高，可靠性也不如Stripe，但从后台管理系统来看，很专业的团队。&lt;/p>
+&lt;h1 id="使用教程">使用教程&lt;/h1>
+&lt;h3 id="申请帐号">申请帐号&lt;/h3>
+&lt;p>点击&lt;a class="link" href="https://lemonsqueezy.io." target="_blank" rel="noopener"
+>这里&lt;/a>申请&lt;/p>
+&lt;h3 id="创建store">创建Store&lt;/h3>
+&lt;p>商店里面可以建立多款产品(Products)、每个产品的购买可以生成对应的License，后续包括产品订单(Orders)、订阅(Subscriptions)、客户(Customers)、折扣(Discounts)。这里面最重要的是产品的建立(Products).&lt;/p>
+&lt;h4 id="storeid">StoreId&lt;/h4>
+&lt;p>查询&lt;a class="link" href="https://app.lemonsqueezy.com/settings/stores" target="_blank" rel="noopener"
+>这里&lt;/a>查看所有Store，每个Store后面有一个#开头的数字。&lt;/p>
+&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/20231129175647.png"
+loading="lazy"
+>&lt;/p>
+&lt;h4 id="激活商店">激活商店&lt;/h4>
+&lt;p>会要求你填写商店的用途，需要你认真填写。&lt;/p>
+&lt;h4 id="货币">货币&lt;/h4>
+&lt;p>Lemonsqueezy 仅支持每家商店一种货币。&lt;/p>
+&lt;h3 id="创建product">创建Product&lt;/h3>
+&lt;blockquote>
+&lt;p>SaaS产品举例&lt;/p>
+&lt;/blockquote>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>&lt;/th>
+&lt;th>月&lt;/th>
+&lt;th>年&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Free&lt;/td>
+&lt;td>不用创建&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Standare&lt;/td>
+&lt;td>创建第一个Product&lt;/td>
+&lt;td>在第一个Product的基础上创建2个&lt;code>variants&lt;/code>：按月** &lt;strong>和 按年&lt;/strong>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Pro&lt;/td>
+&lt;td>创建第二个Product&lt;/td>
+&lt;td>同上&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>两个Product&lt;/p>
+&lt;img src="https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/20231129174003.png" style="zoom: 67%;" />
+&lt;img src="https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/20231129174139.png" style="zoom:67%;" />
+&lt;h4 id="预览支付界面">预览支付界面&lt;/h4>
+&lt;img src="https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/20231129174534.png" style="zoom:67%;" />
+&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/haibinyang/img@main/picgo/20231129175244.png"
+loading="lazy"
+>&lt;/p>
+&lt;h4 id="免费试用">免费试用&lt;/h4>
+&lt;p>若要提供免费试用，可以将“试用期”设置为要提供试用的天数。&lt;/p>
+&lt;p>&lt;img src="https://docs.supastarter.dev/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flemonsqueezy-trial.d4b8085d.png&amp;amp;w=3840&amp;amp;q=75"
+loading="lazy"
+>&lt;/p>
+&lt;h3 id="test-mode">Test Mode&lt;/h3>
+&lt;p>打开左下角的&lt;code>test mode&lt;/code>按钮，你可以自己测试。&lt;/p>
+&lt;img src="https://docs.lemonsqueezy.com/_next/image?url=%2Fimages%2FDocs-02-Test-Mode.png&amp;w=1920&amp;q=75" alt="img" style="zoom: 25%;" />
+&lt;h4 id="测试数据">测试数据&lt;/h4>
+&lt;p>可以使用以下的模拟数据来测试&lt;/p>
+&lt;ul>
+&lt;li>Visa: &lt;code>4242 4242 4242 4242&lt;/code>
+&lt;ul>
+&lt;li>有效日期（例如 12/25）&lt;/li>
+&lt;li>任何三位数的 CVC（例如 123）&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Insufficient funds: &lt;code>4000 0000 0000 9995&lt;/code>&lt;/li>
+&lt;li>Expired card: &lt;code>4000 0000 0000 0069&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>更多见&lt;a class="link" href="https://docs.lemonsqueezy.com/help/getting-started/test-mode" target="_blank" rel="noopener"
+>官方文档&lt;/a>&lt;/p>
+&lt;h4 id="测试完成后可以复制到生产环境">测试完成后可以复制到生产环境&lt;/h4>
+&lt;img src="https://docs.lemonsqueezy.com/_next/image?url=%2Fimages%2FDocs-03-Test-Mode-Copy-to-Live.png&amp;w=1920&amp;q=75" alt="img" style="zoom: 25%;" />
+&lt;h3 id="api接入">API接入&lt;/h3>
+&lt;h4 id="创建-api-密钥">创建 API 密钥&lt;/h4>
+&lt;p>点击&lt;a class="link" href="https://app.lemonsqueezy.com/settings/api" target="_blank" rel="noopener"
+>这里&lt;/a>创建API密钥&lt;/p>
+&lt;p>在设置中，然后单击加号按钮。您需要为您的 API 密钥命名，然后单击“创建”按钮。创建 API 密钥后，您需要复制 API 密钥，以便在运行 CLI 时在集成设置中使用它。&lt;/p>
+&lt;h5 id="test-mode-1">Test mode&lt;/h5>
+&lt;p>在Test mode创建的API Key可以获取Test mode下的数据，这样可以方便开发和测试。&lt;/p>
+&lt;h4 id="使用curl测试api-key">使用curl测试API Key&lt;/h4>
+&lt;p>你开发的系统，通过RESTful API与LemonSqueezy交互，具体见&lt;a class="link" href="https://docs.lemonsqueezy.com/api/products#list-all-products" target="_blank" rel="noopener"
+>API说明文档&lt;/a>&lt;/p>
+&lt;blockquote>
+&lt;p>例如，可以查询所有的产品&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-http" data-lang="http">&lt;span class="line">&lt;span class="cl">&lt;span class="err">curl &amp;#34;https://api.lemonsqueezy.com/v1/products&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err"> -H &amp;#39;Accept: application/vnd.api+json&amp;#39;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err"> -H &amp;#39;Content-Type: application/vnd.api+json&amp;#39;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err"> -H &amp;#39;Authorization: Bearer {api_key}&amp;#39;
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="回调webhook">回调(Webhook)&lt;/h4>
+&lt;p>若要将当前订阅状态和其他信息同步到数据库，需要设置 Webhook。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>点击&lt;a class="link" href="https://app.lemonsqueezy.com/settings/webhooks" target="_blank" rel="noopener"
+>这里&lt;/a>创建Webhook，点击右上角的&lt;code>+&lt;/code>号&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>您必须输入签名密钥，您可以通过在终端中运行以下命令来获取该密钥：&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl"> openssl rand -base64 &lt;span class="m">40&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>
+&lt;p>复制生成的字符串并将其粘贴到 Signing secret 字段中。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>然后选择所有事件&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>回调函数：根据你的系统来填写&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>单击“保存 webhook”按钮。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;img src="https://docs.supastarter.dev/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flemonsqueezy-webhook.ec4bd4a5.png&amp;w=3840&amp;q=75" alt="Create a webhook" style="zoom: 50%;" />
+&lt;h4 id="本地开发">本地开发&lt;/h4>
+&lt;h5 id="使用ngrok中转">使用ngrok中转&lt;/h5>
+&lt;p>基本原理：使用ngrok中转Lemonsqueezy的callback回调&lt;/p>
+&lt;p>安装Ngrok：具体见&lt;a class="link" href="https://ngrok.com/docs/getting-started/" target="_blank" rel="noopener"
+>官网文档&lt;/a>&lt;/p>
+&lt;p>启用Ngrok&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ngrok http &lt;span class="m">3000&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://docs.supastarter.dev/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fngrok.d63fbbd2.png&amp;amp;w=3840&amp;amp;q=75"
+loading="lazy"
+alt="ngrok"
+>&lt;/p>
+&lt;p>分配一个转发的URL给你。&lt;/p>
+&lt;p>在test mode下，修改Webhook的URL中的主机地址为Ngrok提供给你的URL。&lt;/p>
+&lt;h5 id="在nodejs项目中集成ngrok工具">在Node.js项目中集成Ngrok工具&lt;/h5>
+&lt;p>将以下命令添加到 &lt;code>package.json&lt;/code> 文件中：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34;ngrok&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;npx ngrok http 3000&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">您可以使用以下命令运行它：
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">npm run ngrok
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="参考">参考&lt;/h2>
+&lt;p>&lt;a class="link" href="https://juejin.cn/post/7218916901593415736" target="_blank" rel="noopener"
+>https://juejin.cn/post/7218916901593415736&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://makerkit.dev/docs/next-supabase/lemon-squeezy#step-4-configure-lemon-squeezy-plans-in-the-makerkit-configuration" target="_blank" rel="noopener"
+>Makerkit&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.supastarter.dev/2.0/nextjs/billing/lemonsqueezy#create-webhook" target="_blank" rel="noopener"
+>Supastarter&lt;/a>&lt;/p>
+&lt;p>做得比较好的产品的付费设计&lt;/p>
+&lt;p>&lt;a class="link" href="https://podwise.xyz/dashboard/billing" target="_blank" rel="noopener"
+>https://podwise.xyz/dashboard/billing&lt;/a>&lt;/p></description></item></channel></rss>

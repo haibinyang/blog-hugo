@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Java on 量子跳跃者</title><link>https://blog.ververv.com/tags/java/</link><description>Recent content in Java on 量子跳跃者</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 20 Sep 2018 16:57:48 +0000</lastBuildDate><atom:link href="https://blog.ververv.com/tags/java/index.xml" rel="self" type="application/rss+xml"/><item><title>Java</title><link>https://blog.ververv.com/p/java/</link><pubDate>Thu, 20 Sep 2018 16:57:48 +0000</pubDate><guid>https://blog.ververv.com/p/java/</guid><description>&lt;h1 id="自增自减">自增自减&lt;/h1>
+&lt;h2 id="表示式返回值">表示式返回值&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="cl">&lt;span class="n">j&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">0&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="o">++&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>
+&lt;p>变量j先递增：j = j +1; // 1&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>表达式返回：新值1&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="cl">&lt;span class="n">j&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">0&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="o">--&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>
+&lt;p>变量j先递减j = j - 1; // -1&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>表达式返回：旧值0&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>以前的理解：基本是正确的，但是，有一点失误。&lt;/p>
+&lt;p>j&amp;ndash;是先运算的，产生新值，但是，表达式返回值是旧值。&lt;/p>
+&lt;/blockquote>
+&lt;p>题目1：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="cl">&lt;span class="n">j&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">0&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="o">++&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">out&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c1">// 0&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>相当于&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="cl">&lt;span class="n">j&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">0&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">// 开始&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">1&lt;/span>&lt;span class="err">；&lt;/span>&lt;span class="c1">// j为1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">表达式返回旧值&lt;/span>&lt;span class="err">（&lt;/span>&lt;span class="n">0&lt;/span>&lt;span class="err">）&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c1">// j为0&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">// 结束&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>题目2：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">int j = 0;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">j = ++j + j++ + j++ + j++;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">System.out.println(j); // 7
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;a class="link" href="https://www.zhihu.com/question/25151746" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://blog.csdn.net/u011033906/article/details/53931998" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p>
+&lt;h1 id="简单数据类型">简单数据类型&lt;/h1>
+&lt;p>简单数据类型&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>&lt;/th>
+&lt;th>数值&lt;/th>
+&lt;th>&lt;/th>
+&lt;th>&lt;/th>
+&lt;th>&lt;/th>
+&lt;th>&lt;/th>
+&lt;th>&lt;/th>
+&lt;th>字符&lt;/th>
+&lt;th>布尔&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&lt;/td>
+&lt;td>整型&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>浮点&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;/td>
+&lt;td>byte&lt;/td>
+&lt;td>short&lt;/td>
+&lt;td>int（默认）&lt;/td>
+&lt;td>long&lt;/td>
+&lt;td>float&lt;/td>
+&lt;td>double（默认）&lt;/td>
+&lt;td>char&lt;/td>
+&lt;td>boolean&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>字节数&lt;/td>
+&lt;td>1&lt;/td>
+&lt;td>2&lt;/td>
+&lt;td>4&lt;/td>
+&lt;td>8&lt;/td>
+&lt;td>4&lt;/td>
+&lt;td>8(双精度)&lt;/td>
+&lt;td>2（注意）&lt;/td>
+&lt;td>-&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>后缀&lt;/td>
+&lt;td>?&lt;/td>
+&lt;td>?&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>L&lt;/td>
+&lt;td>F&lt;/td>
+&lt;td>D&lt;/td>
+&lt;td>?&lt;/td>
+&lt;td>-&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>包装器&lt;/td>
+&lt;td>Byte&lt;/td>
+&lt;td>Short&lt;/td>
+&lt;td>Integer&lt;/td>
+&lt;td>Long&lt;/td>
+&lt;td>Float&lt;/td>
+&lt;td>Double&lt;/td>
+&lt;td>Character&lt;/td>
+&lt;td>Boolean&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>byte和Short的后缀见：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="cl">&lt;span class="kt">byte&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">foo&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">byte&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="n">0&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="kt">short&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">bar&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">short&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="n">0&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="转换">转换&lt;/h2>
+&lt;p>从低精度到高精度：自动类型转换&lt;/p>
+&lt;p>从高精度到低精度：强制类型转换&lt;/p>
+&lt;p>更详细的见&lt;a class="link" href="https://en.wikibooks.org/wiki/Java_Programming/Primitive_Types" target="_blank" rel="noopener"
+>这里&lt;/a>&lt;/p>
+&lt;h2 id="包装器">包装器&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="cl">&lt;span class="n">Integer&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">new&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">Integer&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">100&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">out&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">toString&lt;/span>&lt;span class="p">());&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="简单数据类型与string对象的转换">简单数据类型与String对象的转换&lt;/h2>
+&lt;p>简单数据类型 &amp;ndash;&amp;gt; String&lt;/p>
+&lt;p>方法一：变成相应的包装器类，再调用toString()方法&lt;/p>
+&lt;p>方法二：直接调用&lt;code>String.valueOf(100)&lt;/code>方法&lt;/p>
+&lt;p>String &amp;ndash;&amp;gt; 简单数据类型&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="cl">&lt;span class="n">String&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">myString&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;1234&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="kt">int&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">foo&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">Integer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">parseInt&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">myString&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="查询变量的类型">查询变量的类型&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="n">Object&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">o&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">out&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">o&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getClass&lt;/span>&lt;span class="p">());&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c1">// java.lang.Integer&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="bigdecimal">BigDecimal&lt;/h2>
+&lt;p>精确计算需要的。&lt;/p>
+&lt;h2 id="参考">参考&lt;/h2>
+&lt;p>《Java面试宝典》P38&lt;/p>
+&lt;p>《Java核心技术》P32&lt;/p>
+&lt;p>《Java编程思想》P23&lt;/p>
+&lt;h1 id="字符">字符&lt;/h1>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>术语&lt;/th>
+&lt;th>英文&lt;/th>
+&lt;th>说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>字符&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>字库表&lt;/td>
+&lt;td>character repertoire&lt;/td>
+&lt;td>一个相当于所有可读或者可显示字符的数据库&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>码点&lt;/td>
+&lt;td>Code Point&lt;/td>
+&lt;td>一个编码表中的某个字符对应的代码值&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>编码字符集&lt;/td>
+&lt;td>coded character set&lt;/td>
+&lt;td>用一个编码值code point来表示一个字符在字库中的位置&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>字符编码&lt;/td>
+&lt;td>character encoding&lt;/td>
+&lt;td>将编码字符集和实际存储数值之间的转换关系&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>常见编码字符集&lt;/p>
+&lt;ul>
+&lt;li>ASCII&lt;/li>
+&lt;li>ISO8859_1（扩展ASCII）&lt;/li>
+&lt;li>BIG5（繁体）&lt;/li>
+&lt;li>GB2312（简体）&lt;/li>
+&lt;li>GBK/GB13000（简体中文、繁体中文、日文、韩文等）&lt;/li>
+&lt;li>GB18030&lt;/li>
+&lt;li>Unicode&lt;/li>
+&lt;li>Java中的字符编码&lt;/li>
+&lt;/ul>
+&lt;p>Unicode&lt;/p>
+&lt;p>码点采用16进制表示，例如&lt;code>U+0041&lt;/code>表示A，其中&lt;code>U+&lt;/code>是前缀。&lt;/p>
+&lt;p>Unicode的几种编码方案&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>UTF-32&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>UTF-16&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>UTF-8&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Java Modified UTF8&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>Unicode遇到的问题：&lt;/p>
+&lt;p>1、对于一段二进制数，计算机怎么判断这段二进制数表示的是一个多字节的符号 还是 多个单子节的符号？&lt;/p>
+&lt;p>2、对于英文字母，一个字节表示就行了，如果为了将所有的字符全包含进来，而统一规定每个符号必须要用3或4个字节来表示，那对于英文字母来说，前面的2或3个字节都是0，这样存储时会极大的浪费内存。&lt;/p>
+&lt;p>UTF-8编码规则&lt;/p>
+&lt;ul>
+&lt;li>对于单子节的符号，第一位设为0，后面7位为这个符号的unicode码，所以，对于英文字母，utf-8编码与ascii码相同。&lt;/li>
+&lt;li>对于n字节的符号（n&amp;gt;1),第一个字节的前n位都设为1），第n+1位设为0，后面字节的前两位一律设为10，这n个字节的其余空位填充该字符unicode码，高位用0补足。&lt;/li>
+&lt;/ul>
+&lt;p>Java中Char类型&lt;/p>
+&lt;p>相当于UTF-16中的一个代码单元（Code Unit）。&lt;/p>
+&lt;p>程序禁止使用Char类型。&lt;/p>
+&lt;p>Byte Order Mark (BOM)&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Big-endian，高位在后&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Little-endian，低位在后&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a class="link" href="http://cenalulu.github.io/linux/character-encoding/" target="_blank" rel="noopener"
+>参考1&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.jianshu.com/p/3a1b374dfc8e" target="_blank" rel="noopener"
+>参考2&lt;/a>&lt;/p>
+&lt;h1 id="字符串">字符串&lt;/h1>
+&lt;p>Java I/O&lt;/p>
+&lt;h1 id="intellij">IntelliJ&lt;/h1>
+&lt;p>Console提示错误Class JavaLaunchHelper is implemented in two places&lt;/p>
+&lt;p>解决办法见&lt;a class="link" href="https://stackoverflow.com/questions/43003012" target="_blank" rel="noopener"
+>这里&lt;/a>&lt;/p>
+&lt;p>快捷键&lt;/p>
+&lt;p>type &lt;code>sout&lt;/code> and press Tab to generate &lt;code>System.out.println&lt;/code>&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.mkyong.com/intellij/intellij-idea-system-out-println-shortcut/" target="_blank" rel="noopener"
+>参考&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://stackoverflow.com/questions/38992114/system-out-println-shortcut-on-intellij-idea" target="_blank" rel="noopener"
+>参考2&lt;/a>&lt;/p></description></item></channel></rss>
